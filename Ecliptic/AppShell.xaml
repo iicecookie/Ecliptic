@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:controls="clr-namespace:Ecliptic.Controls"
+       xmlns:views="clr-namespace:Ecliptic.Views"
+
+       xmlns:room="clr-namespace:Ecliptic.Views.RoomInform"
+       xmlns:user="clr-namespace:Ecliptic.Views.UserInteraction"
+       FlyoutBackgroundColor="Gray"
+       FlyoutBackgroundImageAspect="AspectFill"
+       FlyoutHeaderBehavior="CollapseOnScroll"
+       Navigating="OnNavigating"
+       Navigated="OnNavigated"
+       x:Class="Ecliptic.AppShell">
+
+    <Shell.Resources>
+        <Style x:Key="BaseStyle"
+               TargetType="Element">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#455A64" />
+            <Setter Property="Shell.ForegroundColor"
+                    Value="White" />
+            <Setter Property="Shell.TitleColor"
+                    Value="White" />
+            <Setter Property="Shell.DisabledColor"
+                    Value="#B4FFFFFF" />
+            <Setter Property="Shell.UnselectedColor"
+                    Value="#95FFFFFF" />
+        </Style>
+
+
+        <Style TargetType="ShellItem"
+               BasedOn="{StaticResource BaseStyle}" />
+
+        <Style x:Key="HomeShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                              Value="Black" />
+        </Style>
+       
+
+        <Style x:Key="DomesticShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#039BE6" />
+        </Style>
+
+        <Style x:Key="MonkeysShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#689F39" />
+        </Style>
+
+        <Style x:Key="ElephantsShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#ED3B3B" />
+        </Style>
+        <Style x:Key="BearsShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#546DFE" />
+        </Style>
+        <Style x:Key="AboutShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="Black" />
+        </Style>
+    </Shell.Resources>
+
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+
+    <FlyoutItem Route="animals"
+                Title="Animals"
+                FlyoutDisplayOptions="AsMultipleItems">
+
+        <ShellContent Route="Home"
+                      Style= "{StaticResource HomeShell}"
+                      Title="Home"
+                      Icon="paw.png"
+                      ContentTemplate="{DataTemplate views:TouchManipulationPage}" />
+        <ShellContent Route="Rooms"
+                      Style= "{StaticResource HomeShell}"
+                      Title="Rooms"
+                      Icon="cat.png"
+                      ContentTemplate="{DataTemplate views:RoomsPage}" />
+        <Tab Title="Domestic"
+             Route="domestic"
+             Icon="paw.png">
+            <ShellContent Route="cats"
+                          Style="{StaticResource DomesticShell}"
+                          Title="Cats"
+                          Icon="cat.png"
+                          ContentTemplate="{DataTemplate views:CatsPage}" />
+            <ShellContent Route="dogs"
+                          Style="{StaticResource DomesticShell}"
+                          Title="Dogs"
+                          Icon="dog.png"
+                          ContentTemplate="{DataTemplate views:DogsPage}" />
+        </Tab>
+        <ShellContent Route="monkeys"
+                      Style="{StaticResource MonkeysShell}"
+                      Title="Monkeys"
+                      Icon="monkey.png"
+                      ContentTemplate="{DataTemplate views:MonkeysPage}" />
+        <ShellContent Route="elephants"
+                      Style="{StaticResource ElephantsShell}"
+                      Title="Elephants"
+                      Icon="elephant.png"
+                      ContentTemplate="{DataTemplate views:ElephantsPage}" />
+        <ShellContent Route="bears"
+                      Style="{StaticResource BearsShell}"
+                      Title="Bears"
+                      Icon="bear.png"
+                      ContentTemplate="{DataTemplate views:BearsPage}" />
+    </FlyoutItem>
+
+    <ShellContent Route="Войти в учтеную запись"
+                  x:Name="userpage"
+                  Style="{StaticResource AboutShell}"
+                  Title="Authorization"
+                  Icon="info.png"
+                  ContentTemplate="{DataTemplate user:Authorization  }" />
+
+
+    <ShellContent Route="Сканировать"
+                  x:Name="qrpage"
+                  Style="{StaticResource AboutShell}"
+                  Title="QrScan"
+                  Icon="info.png"
+                  ContentTemplate="{DataTemplate room:QrScan  }" />
+
+    <ShellContent 
+
+                  Route="about"
+                  Style="{StaticResource AboutShell}"
+                  Title="About"
+                  Icon="info.png"
+                  ContentTemplate="{DataTemplate views:AboutPage}" />
+
+    <ShellContent Route="ono"
+                  Style="{StaticResource AboutShell}"
+                  Title="matrix"
+                  Icon="info.png"
+                  ContentTemplate="{DataTemplate views:TouchManipulationPage  }" />
+
+
+
+    <MenuItem Text="Random"
+              IconImageSource="random.png"
+              Command="{Binding RandomPageCommand}" />
+    <MenuItem Text="Help"
+              IconImageSource="help.png"
+              Command="{Binding HelpCommand}"
+              CommandParameter="https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell" />
+
+</Shell>

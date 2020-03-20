@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Ecliptic.Controls.FlyoutHeader"
+             HeightRequest="200">
+    <Grid BackgroundColor="Black">
+        <Image Aspect="AspectFill" 
+               Source="slpash_icon.png" 
+               Opacity="0.6" />
+        <Label Text="Ecliptic" 
+               TextColor="White" 
+               FontAttributes="Bold" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" />
+    </Grid>
+</ContentView>

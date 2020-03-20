@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Ecliptic.Controls"
+             xmlns:local="clr-namespace:Ecliptic"
+             x:Class="Ecliptic.Views.BearsPage"
+             Title="Bears">
+
+    <Shell.SearchHandler>
+        <controls:RoomSearchHandler Placeholder="Enter search room"
+                                    
+                                    ShowsResults="true">
+            <controls:RoomSearchHandler.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="15" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0"
+                               Grid.Row="0"
+                               Text="{Binding Name}"
+                               FontAttributes="Bold" />
+
+                        <Label Grid.Column="1"
+                               Grid.Row="0"
+                               Text="Этаж:"
+                               FontAttributes="Bold" />
+
+                        <Label Grid.Column="2"
+                               Grid.Row="0"
+                               Text="{Binding Floor}"
+                               FontAttributes="Bold" />
+
+                        <Label Grid.Column="0"
+                               Grid.Row="1"
+                               Text="{Binding Location}"
+                               Grid.ColumnSpan="4"
+                               FontAttributes="Bold" />
+
+                        <Label Grid.Column="0"
+                               Grid.Row="2"
+                               Text="‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+                               Grid.ColumnSpan="4" />
+                    </Grid>
+
+                </DataTemplate>
+            </controls:RoomSearchHandler.ItemTemplate>
+        </controls:RoomSearchHandler>
+    </Shell.SearchHandler>
+<!--
+    <ContentPage.Content>
+
+        <ListView  x:Name="GroupedView"
+                   GroupDisplayBinding  ="{Binding Title}"
+                   GroupShortNameBinding="{Binding ShortName}"
+                   BackgroundColor="Snow"
+                   SeparatorColor="Black"
+                   RowHeight="70"
+                   ItemTapped="OnCollectionViewSelectionChanged"
+                   IsGroupingEnabled="true">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell Text  ="{Binding Name}"
+                               Detail="{Binding Location}"
+                               ImageSource="{Binding Icon}"
+                               Height="75"
+                               TextColor="#005569"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+             Detail="{Binding Description}"
+            
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" 
+                                     
+                                     Padding="5,5,5,5" 
+                                     BackgroundColor="Snow">
+                            
+                            <Button Image="{Binding StateIcon}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="Transparent"
+                                    BorderWidth="0"
+                                    TextColor="Black"
+                                    Clicked="HeaderTapped" 
+                                    CommandParameter="{Binding .}"/>
+
+                            <Button Text="{Binding TitleWithItemCount}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="Transparent"
+                                    
+                                    TextColor="Black"
+                                    Clicked="HeaderTapped" 
+                                    CommandParameter="{Binding .}"/>
+
+                            <Button 
+                                    WidthRequest="250" 
+                                    BackgroundColor="Transparent"
+                                    BorderColor="Transparent"
+                                    TextColor="WhiteSmoke"
+                                    Clicked="HeaderTapped" 
+                                    CommandParameter="{Binding .}"/>
+
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            
+        </ListView>
+    </ContentPage.Content>
+    -->
+</ContentPage>
