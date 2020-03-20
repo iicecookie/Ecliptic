@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests
 {
     [TestClass]
-    public class UnitTest12
+    public class Allpick
     {
         [TestMethod]
         public void TestMethod1()
