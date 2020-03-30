@@ -78,9 +78,7 @@ namespace Ecliptic.Views.RoomInform
 		}
 	}
 	*/
-
-
-		/*
+	/*
 	public partial class QrScan : ContentPage
 	{
 		ZXingScannerView scanPage;
@@ -121,7 +119,7 @@ namespace Ecliptic.Views.RoomInform
 
 	public partial class QrScan : ContentPage
 	{
-		ZXingScannerView zxing;
+		ZXingScannerView    zxing;
 		ZXingDefaultOverlay overlay;
 
 		public QrScan()
@@ -191,7 +189,7 @@ namespace Ecliptic.Views.RoomInform
 			Content = contentHolder;
 		}
 
-		protected override void OnDisappearing()
+		protected override void OnDisappearing	()
 		{
 		//	zxing.IsScanning = false;
 

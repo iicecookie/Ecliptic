@@ -233,6 +233,7 @@ namespace Ecliptic.Views
 
             await Navigation.PushAsync(new WorkerDetailPage(words));
         }
+
         // Star click
         async void OnfaviriteClicked(object sender, EventArgs args)
         {
@@ -257,6 +258,7 @@ namespace Ecliptic.Views
         //        await DisplayAlert("Alert", "You have been favoritr " + Current.Favorite, "OK");
             }
         }
+
         // Toolbar
         async void OnButton1Clicked(object sender, EventArgs args)
         {

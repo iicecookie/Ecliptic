@@ -7,30 +7,26 @@ namespace Ecliptic.Models
     public struct Note
     {
         public string Id { get; set; }
+
         public string Text { get; set; }
 
         public string Date { get; private set; }
 
         public string Room { get; private set; }
 
-        public bool isPublic { get; set; }// общая ли заметтка или нет
+        public string Building { get; private set; }
 
-        public Note(string text)
+        public bool isPublic { get; set; } // общая ли заметтка или нет
+
+        public Note(User user, int id, string text, 
+                    string room, string building, bool acsess)
         {
-            Id = User.CurrentUser.Login;
+            Id = User.CurrentUser.Notes.Count.ToString();
             Text = text;
-            Room = "";
             Date = new DateTime().ToString();
-            isPublic = false;
-        }
-
-        public Note(string id, string text, string room)
-        {
-            Id = User.CurrentUser.Login + id;
-            Text = text;
             Room = room;
-            Date = new DateTime().ToString();
-            isPublic = false;
+            Building = building;
+            isPublic = acsess;
         }
     }
 }

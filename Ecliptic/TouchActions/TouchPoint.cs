@@ -17,9 +17,7 @@ namespace Ecliptic
         long touchId;
         SKPoint previousPoint;
 
-        public TouchPoint()
-        {
-        }
+        public TouchPoint() {}
 
         public TouchPoint(float x, float y)
         {

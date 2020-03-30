@@ -38,7 +38,6 @@
             <Setter Property="Shell.BackgroundColor"
                               Value="Black" />
         </Style>
-       
 
         <Style x:Key="DomesticShell"
                TargetType="Element"
@@ -60,17 +59,19 @@
             <Setter Property="Shell.BackgroundColor"
                     Value="#ED3B3B" />
         </Style>
+        
         <Style x:Key="BearsShell"
                TargetType="Element"
                BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Shell.BackgroundColor"
                     Value="#546DFE" />
         </Style>
+        
         <Style x:Key="AboutShell"
                TargetType="Element"
                BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Shell.BackgroundColor"
-                    Value="Black" />
+                    Value="ForestGreen" />
         </Style>
     </Shell.Resources>
 
@@ -93,6 +94,7 @@
                       Title="Rooms"
                       Icon="cat.png"
                       ContentTemplate="{DataTemplate views:RoomsPage}" />
+        
         <Tab Title="Domestic"
              Route="domestic"
              Icon="paw.png">
@@ -122,12 +124,13 @@
                       Title="Bears"
                       Icon="bear.png"
                       ContentTemplate="{DataTemplate views:BearsPage}" />
+       
     </FlyoutItem>
 
     <ShellContent Route="Войти в учтеную запись"
                   x:Name="userpage"
                   Style="{StaticResource AboutShell}"
-                  Title="Authorization"
+                  Title="Учетная запись"
                   Icon="info.png"
                   ContentTemplate="{DataTemplate user:Authorization  }" />
 

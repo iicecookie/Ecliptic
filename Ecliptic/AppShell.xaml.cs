@@ -29,11 +29,11 @@ namespace Ecliptic
 
         void RegisterRoutes()
         {
-            routes.Add("monkeydetails", typeof(MonkeyDetailPage));
-            routes.Add("beardetails",   typeof(BearDetailPage));
-            routes.Add("catdetails",    typeof(CatDetailPage));
-            routes.Add("dogdetails",    typeof(DogDetailPage));
-            routes.Add("elephantdetails", typeof(ElephantDetailPage));
+           // routes.Add("monkeydetails", typeof(MonkeyDetailPage));
+           // routes.Add("beardetails",   typeof(BearDetailPage));
+           // routes.Add("catdetails",    typeof(CatDetailPage));
+           // routes.Add("dogdetails",    typeof(DogDetailPage));
+           // routes.Add("elephantdetails", typeof(ElephantDetailPage));
             routes.Add("roomdetails",     typeof(RoomDetailPage));
 
             foreach (var item in routes)
@@ -45,7 +45,7 @@ namespace Ecliptic
         async Task NavigateToRandomPageAsync()
         {
                string destinationRoute = routes.ElementAt(rand.Next(0, routes.Count)).Key;
-               string animalName = null;
+            //   string animalName = null;
             //
             //   switch (destinationRoute)
             //   {

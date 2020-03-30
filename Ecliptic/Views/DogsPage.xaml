@@ -24,13 +24,6 @@
         </Style>
     </ContentPage.Resources>
  
-    <Shell.SearchHandler>
-        <controls:AnimalSearchHandler Placeholder="Enter search term"
-                                      ShowsResults="true"
-                                      ItemTemplate="{StaticResource AnimalSearchTemplate}"
-                                      Animals="{x:Static data:DogData.Dogs}"
-                                      SelectedItemNavigationTarget="{x:Type views:DogDetailPage}" />
-    </Shell.SearchHandler>
     
     <CollectionView Margin="20"
                     ItemsSource="{x:Static data:DogData.Dogs}"

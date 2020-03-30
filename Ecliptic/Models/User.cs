@@ -7,35 +7,14 @@ namespace Ecliptic.Models
 {
     public class User
     {
-        public static User CurrentUser;
+        public static User CurrentUser { get; private set; }
 
-        public string Name
-        {
-            get;// private 
-            set;
-        }
+        #region Params
+        public string Name { get; private set; }
         public string Login { get; private set; }
         public string Password { get; private set; }
+
         public List<Note> Notes { get; set; }
-
-        public static string DeleteNote(string id)
-        {
-            for (int i = 0; i < CurrentUser.Notes.Count; i++)
-            {
-                if (CurrentUser.Notes[i].Id == id)
-                {
-                    if (!CurrentUser.Notes.Remove(CurrentUser.Notes[i]))
-                    {
-                        return "Не получилось";
-                    }
-                    return "deleted";
-                }
-            }
-            return "not this note";
-        }
-
-
-
 
         public static bool isNull
         {
@@ -46,7 +25,9 @@ namespace Ecliptic.Models
                 return false;
             }
         }
+        #endregion
 
+        #region Constructors
         private User()
         {
             Notes = new List<Note>();
@@ -61,13 +42,13 @@ namespace Ecliptic.Models
             this.Login = login;
             this.Password = pass;
         }
-
-
+        #endregion
 
         public static User getInstance()
         {
             return CurrentUser;
         }
+
         public static void setInstance(string name, string login, string pass)
         {
             CurrentUser = new User(name, login, pass);
@@ -95,14 +76,34 @@ namespace Ecliptic.Models
             // foreach
             // NoteData.AddNote(note);
 
-            User.CurrentUser.Notes.Add(new Note("1", "заметка1", "409"));
-            User.CurrentUser.Notes.Add(new Note("2", "заметка2", "213"));
-            User.CurrentUser.Notes.Add(new Note("3", "заметка3", "200"));
-            User.CurrentUser.Notes.Add(new Note("4", "заметка4", "200"));
-            User.CurrentUser.Notes.Add(new Note("5", "заметка5", "202"));
-            User.CurrentUser.Notes.Add(new Note("6", "заметка6", "202"));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, 1, "заметка1", "409", "KGU", true));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, 2, "заметка2", "213", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, 3, "заметка3", "200", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, 4, "заметка4", "200", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, 5, "заметка5", "202", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, 6, "заметка6", "202", "KGU", false));
 
             // RoomData.AddNotes();
+        }
+        public static void LoginOut()
+        {
+            CurrentUser = null;
+        }
+
+        public static string DeleteNote(string id)
+        {
+            for (int i = 0; i < CurrentUser.Notes.Count; i++)
+            {
+                if (CurrentUser.Notes[i].Id == id)
+                {
+                    if (!CurrentUser.Notes.Remove(CurrentUser.Notes[i]))
+                    {
+                        return "Не получилось";
+                    }
+                    return "deleted";
+                }
+            }
+            return "not this note";
         }
     }
 }

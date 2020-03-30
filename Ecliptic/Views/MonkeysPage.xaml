@@ -31,9 +31,9 @@
     </Shell.SearchHandler>
 -->
     <Shell.SearchHandler>
-        <controls:MonkeySearchHandler Placeholder="Enter search term"
+        <controls:RoomSearchHandler Placeholder="Enter search term"
                                       ShowsResults="true">
-            <controls:MonkeySearchHandler.ItemTemplate>
+            <controls:RoomSearchHandler.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
                         <Grid.ColumnDefinitions>
@@ -53,8 +53,8 @@
 
                     </Grid>
                 </DataTemplate>
-            </controls:MonkeySearchHandler.ItemTemplate>
-        </controls:MonkeySearchHandler>
+            </controls:RoomSearchHandler.ItemTemplate>
+        </controls:RoomSearchHandler>
     </Shell.SearchHandler>
 
     <CollectionView Margin="20"

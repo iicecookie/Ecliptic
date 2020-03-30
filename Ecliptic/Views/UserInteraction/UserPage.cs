@@ -3,6 +3,7 @@ using Ecliptic.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xamarin.Forms;
 
 namespace Ecliptic.Views.UserInteraction
@@ -15,120 +16,157 @@ namespace Ecliptic.Views.UserInteraction
             static public Label Login { get; set; }
             static public Label Pass { get; set; }
             static public Button LoginOutBtn { get; set; }
+            static public List<Editor> Editors { get; set; }
+            static public List<Frame> Frames { get; set; }
         }
-
-        List<Editor> Editors = new List<Editor>();
 
         public void GetUserPage()
         {
-            Title = "Данные" + User.CurrentUser.Name;
+            Title = "Профиль " + User.CurrentUser.Name;
 
-            StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;
-
+            #region CreateControls
             UserControls.labelMessage = new Label
             {
                 Text = User.CurrentUser.Name,
                 Style = Device.Styles.TitleStyle,
                 HorizontalOptions = LayoutOptions.Center
             };
-            UserControls.Login = new Label
+            UserControls.Login        = new Label
             {
                 Text = User.CurrentUser.Login,
                 Style = Device.Styles.TitleStyle,
                 HorizontalOptions = LayoutOptions.Center
             };
-            UserControls.Pass = new Label
+            UserControls.Pass         = new Label
             {
                 Text = User.CurrentUser.Password,
                 Style = Device.Styles.TitleStyle,
                 HorizontalOptions = LayoutOptions.Center
             };
-            UserControls.LoginOutBtn = new Button
+            UserControls.LoginOutBtn  = new Button
             {
                 Text = "Login Out",
             };
+            UserControls.Editors      = new List<Editor>();
+            UserControls.Frames       = new List<Frame>();
             UserControls.LoginOutBtn.Clicked += GoLoginPage;
+            #endregion
+
+            StackLayout stackLayout = new StackLayout();
+            stackLayout.Margin = 20;
 
             stackLayout.Children.Add(UserControls.labelMessage);
             stackLayout.Children.Add(UserControls.Login);
             stackLayout.Children.Add(UserControls.Pass);
-            if (User.CurrentUser != null)
+
+            foreach (var i in User.CurrentUser.Notes)
             {
-                foreach (var i in User.CurrentUser.Notes)
+                Grid grid = new Grid
                 {
-                    Grid grid = new Grid
-                    {
-                        RowDefinitions = {
+                    RowDefinitions = {
                                      new RowDefinition { Height = new GridLength(30) },
                                      new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
                         },
-                        ColumnDefinitions = {
-                                     new ColumnDefinition { Width = new GridLength(150) },
-                                     new ColumnDefinition { Width = new GridLength(100) },
+                    ColumnDefinitions = {
+                                     new ColumnDefinition { Width = new GridLength(160) },
+                                     new ColumnDefinition { Width = new GridLength(50) },
                                      new ColumnDefinition { Width = new GridLength(30) },
                                      new ColumnDefinition { Width = new GridLength(30) }
                         }
-                    };
 
-                    Switch switche = new Switch
-                    {
-                        HorizontalOptions = LayoutOptions.End,
-                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                };
+                grid.ColumnSpacing = 10;
+                grid.RowSpacing    = 10;
 
+                Switch switche = new Switch
+                {
+                    IsToggled = i.isPublic,
+                    HorizontalOptions = LayoutOptions.End,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                };
+                Label  noteLab = new Label
+                {
+                    Text = i.Room.ToString() + " Аудитория ",
+                    FontSize = 14,
+                    Style = Device.Styles.TitleStyle,
+                };
+                Editor noteEnt = new Editor
+                {
+                    AutoSize = EditorAutoSizeOption.TextChanges,
+                    Text = i.Text.ToString() ?? "wot",
+                    FontSize = 12,
+                    Style = Device.Styles.BodyStyle,
+                    AutomationId = i.Id
+                }; 
+                ImageButton SaveBtn = new ImageButton
+                {
+                    Source = "save.png",
+                    AutomationId = i.Id
+                }; 
+                ImageButton DeleBtn = new ImageButton
+                {
+                    Source = "delete.png",
+                    AutomationId = i.Id,
+                }; 
 
-                    };
-                    Label noteLab = new Label
-                    {
-                        Text = i.Room.ToString() + " Аудитория ",
-                        FontSize = 14,
-                        Style = Device.Styles.TitleStyle,
-                    };
-                    Editor noteEnt = new Editor
-                    {
-                        AutoSize = EditorAutoSizeOption.TextChanges,
-                        Text = i.Text.ToString() ?? "wot",
-                        FontSize = 12,
-                        Style = Device.Styles.BodyStyle,
-                        AutomationId = i.Id
-                    }; Editors.Add(noteEnt);
-                    ImageButton SaveBtn = new ImageButton
-                    {
-                        Source = "icon.png",
-                        AutomationId = i.Id
-                    };
-                    ImageButton DeleBtn = new ImageButton
-                    {
-                        Source = "icon.png",
-                        AutomationId = i.Id
-                    };
+                UserControls.Editors.Add(noteEnt);
+                SaveBtn.Clicked += OnButtonSaveClicked;
+                DeleBtn.Clicked += OnButtonDeleteClicked;
 
-                    //  DisplayAlert("Alert", SaveBtn.AutomationId?.ToString(), "OK");
-                    SaveBtn.Clicked += OnButtonSaveClicked;
-                    DeleBtn.Clicked += OnButtonDeleteClicked;
+                grid.Children.Add(noteLab, 0, 0);
+                grid.Children.Add(switche, 1, 0);
+                grid.Children.Add(SaveBtn, 2, 0);
+                grid.Children.Add(DeleBtn, 3, 0);
+                grid.Children.Add(noteEnt, 0, 1);
 
-                    grid.Children.Add(noteLab, 0, 0);
-                    grid.Children.Add(switche, 1, 0);
-                    grid.Children.Add(SaveBtn, 2, 0);
-                    grid.Children.Add(DeleBtn, 3, 0);
-                    grid.Children.Add(noteEnt, 0, 1);
+                Grid.SetColumnSpan(noteEnt, 4);   // растягиваем на 4 столбца
 
-                    Grid.SetColumnSpan(noteEnt, 4);   // растягиваем на 4 столбца
+                Frame frame = new Frame()
+                {
+                    BorderColor = Color.ForestGreen,
+                    AutomationId = i.Id
+                };
 
-                    stackLayout.Children.Add(grid);
-                }
+                frame.Content = grid;
+                UserControls.Frames.Add(frame);
+
+                stackLayout.Children.Add(frame);
             }
+
             stackLayout.Children.Add(UserControls.LoginOutBtn);
 
             ScrollView scrollView = new ScrollView();
             scrollView.Content = stackLayout;
 
             this.Content = scrollView;
+
+            #region ToolBarItems
+            ToolbarItem NewNote = new ToolbarItem
+            {
+                Text = "Новая заметка",
+                Order = ToolbarItemOrder.Secondary,
+                Priority = 0,
+            };
+            ToolbarItem LogOut  = new ToolbarItem
+            {
+                Text = "Выйти",
+                Order = ToolbarItemOrder.Secondary,
+                Priority = 1,
+            };
+            NewNote.Clicked += OnNewNoteClicked;
+            LogOut.Clicked += GoLoginPage;
+            this.ToolbarItems.Add(NewNote);
+            this.ToolbarItems.Add(LogOut);
+            #endregion
         }
         void GoLoginPage(object sender, EventArgs args)
         {
+            this.ToolbarItems.Clear();
+
             if (User.CurrentUser != null)
-                User.CurrentUser = null;
+            {
+                User.LoginOut();
+            }
 
             foreach (var i in RoomData.Roooms)
             {
@@ -157,9 +195,9 @@ namespace Ecliptic.Views.UserInteraction
                 }
             }
 
-            foreach (var editor in Editors)
+            foreach (var editor in UserControls.Editors)
             {
-
+                    
                 if (editor.AutomationId == btn.AutomationId)
                 {
                     temp.Text = editor.Text;
@@ -183,6 +221,12 @@ namespace Ecliptic.Views.UserInteraction
             User.DeleteNote(btn.AutomationId);
 
             GetUserPage();
+        }
+
+        // Toolbar
+        async void OnNewNoteClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new NewNotePage("",""));
         }
     }
 }

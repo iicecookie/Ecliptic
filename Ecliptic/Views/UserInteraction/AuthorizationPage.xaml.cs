@@ -20,8 +20,14 @@ namespace Ecliptic.Views.UserInteraction
 
         protected async override void OnAppearing()
         {
-            GetLoginPage();
+            if (User.CurrentUser == null)
+            {
+                GetLoginPage();
+            }
+            else
+            {
+                GetUserPage();
+            }
         }
-
     }
 }

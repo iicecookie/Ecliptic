@@ -24,14 +24,6 @@
         </Style>
     </ContentPage.Resources>
     
-    <Shell.SearchHandler>
-        <controls:AnimalSearchHandler Placeholder="Enter search term"
-                                      ShowsResults="true"
-                                      ItemTemplate="{StaticResource AnimalSearchTemplate}"
-                                      Animals="{x:Static data:ElephantData.Elephants}"
-                                      SelectedItemNavigationTarget="{x:Type views:ElephantDetailPage}" />
-    </Shell.SearchHandler>
-    
     <CollectionView Margin="20"
                     ItemsSource="{x:Static data:ElephantData.Elephants}"
                     ItemTemplate="{StaticResource AnimalTemplate}"

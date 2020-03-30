@@ -4,13 +4,19 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             BackgroundColor="Silver"
+             
+             BackgroundColor="#FFDAFFCD"
              x:Class="Ecliptic.Views.UserInteraction.Authorization"
              Title="Войти как пользователь">
 
+    
+    <ContentPage.ToolbarItems>
+
+
+    </ContentPage.ToolbarItems>
+    
     <ScrollView>
         <StackLayout Margin="20">
-
 
             <Label 
                    x:Name="label"
