@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ecliptic.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,8 +19,10 @@ namespace Ecliptic.Models
 
         public bool isPublic { get; set; } // общая ли заметтка или нет
 
-        public Note(User user, int id, string text, 
-                    string room, string building, bool acsess)
+        public string Owner { get; set; }
+
+        // добавление заметок пользователя
+        public Note(User user, string text, string room, string building, bool acsess)
         {
             Id = User.CurrentUser.Notes.Count.ToString();
             Text = text;
@@ -27,6 +30,19 @@ namespace Ecliptic.Models
             Room = room;
             Building = building;
             isPublic = acsess;
+            Owner = user.Name;
+        }
+
+        // добавление общих заметок в NoteData
+        public Note(string text, string room, string building, bool acsess)
+        {
+            Id = NoteData.Notes.Count.ToString();
+            Text = text;
+            Date = new DateTime().ToString();
+            Room = room;
+            Building = building;
+            isPublic = acsess;
+            Owner = "Вася";
         }
     }
 }

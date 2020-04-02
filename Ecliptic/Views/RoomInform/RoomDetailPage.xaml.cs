@@ -27,6 +27,10 @@ namespace Ecliptic.Views
                 Label label5 = null;
                 Label label6 = null;
 
+                //-------------
+                User.LoadUser("das","asda");
+                //-------------
+
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
 
@@ -65,7 +69,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label3);
                 }
-                if (Current == null)
+                if (Current             == null)
                 {
                     label4 = new Label
                     {
@@ -75,7 +79,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label4);
                 }
-                if (Current.Phone != null)
+                if (Current.Phone       != null)
                 {
                     button1 = new Button
                     {
@@ -85,7 +89,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(button1);
                 }
-                if (Current.Site  != null)
+                if (Current.Site        != null)
                 {
                     button2 = new Button
                     {
@@ -95,7 +99,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(button2);
                 }
-                if (Current.Timetable != null)
+                if (Current.Timetable   != null)
                 {
                     label5 = new Label
                     {
@@ -106,7 +110,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label5);
                 }
-                if (Current.Staff     != null)
+                if (Current.Staff       != null)
                 {
                     Label labeq = new Label
                     {
@@ -132,28 +136,141 @@ namespace Ecliptic.Views
                     }
                 }
 
-
+                // персональные заметки (только приватные)
                 if (!User.isNull)
                 {
+
+                    Label labelN = new Label
+                    {
+                        Text = "Заметки " + User.CurrentUser.Name,
+                        Style = Device.Styles.BodyStyle,
+                        HorizontalOptions = LayoutOptions.Center
+                    };
+                    stackLayout.Children.Add(labelN);
+
                     foreach (var i in User.CurrentUser.Notes)
+                    {
+                        if (i.Room == Current.Name)// && i.isPublic == false)
+                        {
+                            Grid grid = new Grid
+                            {
+                                RowDefinitions =  {
+                                     new RowDefinition { Height = new GridLength(30) },
+                                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                                                       },
+                                ColumnDefinitions =  {
+                                     new ColumnDefinition { Width = new GridLength(160) },
+                                     new ColumnDefinition { Width = new GridLength(50) },
+                                     new ColumnDefinition { Width = new GridLength(30) },
+                                     new ColumnDefinition { Width = new GridLength(30) }
+                                                         }
+                            };
+                            grid.ColumnSpacing = 10;
+                            grid.RowSpacing = 10;
+
+                            Label noteLab = new Label
+                            {
+                                Text = i.Room.ToString() + " Аудитория ",
+                                FontSize = 14,
+                                Style = Device.Styles.TitleStyle,
+                            };
+                            Editor noteEnt = new Editor
+                            {
+                                AutoSize = EditorAutoSizeOption.TextChanges,
+                                Text = i.Text.ToString() ?? "wot",
+                                FontSize = 12,
+                                Style = Device.Styles.BodyStyle,
+                                AutomationId = i.Id
+                            };
+
+                            grid.Children.Add(noteLab, 0, 0);
+                            grid.Children.Add(noteEnt, 0, 1);
+
+                            Grid.SetColumnSpan(noteEnt, 4);
+
+                            Frame frame = new Frame()
+                            {
+                                BorderColor = Color.ForestGreen,
+                                AutomationId = i.Id
+                            };
+
+                            frame.Content = grid;
+
+                            stackLayout.Children.Add(frame);
+                        }
+                    }
+
+                    ToolbarItem item = new ToolbarItem();
+                    item.Clicked += OnfaviriteClicked;
+                    item.Order = ToolbarItemOrder.Default;
+                    item.Priority = 1;
+
+                    this.ToolbarItems.Add(item);
+
+                }
+                // публичные заметки
+                if (NoteData.Notes.Count != 0)
+                {
+                    Label labelON = new Label
+                    {
+                        Text = "Общие заметки ",
+                        Style = Device.Styles.BodyStyle,
+                        HorizontalOptions = LayoutOptions.Center
+                    };
+                    stackLayout.Children.Add(labelON);
+
+                    foreach (var i in NoteData.Notes)
                     {
                         if (i.Room == Current.Name)
                         {
-                            Label notelab = new Label
+                            Grid grid = new Grid
                             {
-                                Text = i.Text.ToString() ?? "wot",
-                                FontSize = 12,
+                                RowDefinitions =  {
+                                                         new RowDefinition { Height = new GridLength(30) },
+                                                         new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                                                                           },
+                                ColumnDefinitions =  {
+                                                         new ColumnDefinition { Width = new GridLength(160) },
+                                                         new ColumnDefinition { Width = new GridLength(50) },
+                                                         new ColumnDefinition { Width = new GridLength(30) },
+                                                         new ColumnDefinition { Width = new GridLength(30) }
+                                                                             }
+                            };
+                            grid.ColumnSpacing = 10;
+                            grid.RowSpacing = 10;
+
+                            Label noteLab = new Label
+                            {
+                                Text = i.Room.ToString() + " Аудитория ",
+                                FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
+                            Editor noteEnt = new Editor
+                            {
+                                AutoSize = EditorAutoSizeOption.TextChanges,
+                                Text = i.Text.ToString() ?? "wot",
+                                FontSize = 12,
+                                Style = Device.Styles.BodyStyle,
+                                AutomationId = i.Id
+                            };
 
-                            stackLayout.Children.Add(notelab);
+                            grid.Children.Add(noteLab, 0, 0);
+                            grid.Children.Add(noteEnt, 0, 1);
+
+                            Grid.SetColumnSpan(noteEnt, 4);
+
+                            Frame frame = new Frame()
+                            {
+                                BorderColor = Color.ForestGreen,
+                                AutomationId = i.Id
+                            };
+
+                            frame.Content = grid;
+
+                            stackLayout.Children.Add(frame);
                         }
                     }
                 }
-                // cюда ещще загрузка публичных заметок отдельно
-
-
-
 
                 ScrollView scrollView = new ScrollView();
                 scrollView.Content = stackLayout;
@@ -163,7 +280,7 @@ namespace Ecliptic.Views
                 BindingContext = RoomData.Roooms.FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
             }
         }
-        // DisplayAlert("Alert", "и заново" + Current.Favorite, "OK");
+
         public Room Current { get; set; }
 
         public RoomDetailPage()
@@ -174,24 +291,19 @@ namespace Ecliptic.Views
         // On open page
         protected override void OnAppearing()
         {
-            // DisplayAlert("Alert", "You have been oritr", "OK");
-            ToolbarItem item = star;
-            if (Current.Favorite == true)
-            {
-                item.IconImageSource = "@drawable/stared.png";
-                ToolbarItems.Remove(item);
-                ToolbarItems.Add(item);
-                //      DisplayAlert("Alert", "You have been favoritr on app " + Current.Favorite, "OK");
-            }
-            else
-            {
-                item.IconImageSource = "@drawable/unstared.png";
-                ToolbarItems.Remove(item);
-                ToolbarItems.Add(item);
-                //    DisplayAlert("Alert", "You have been unfavoritr on app" + Current.Favorite, "OK");
-            }
+            ToolbarItem item = ToolbarItems.Last();
 
+            item.IconImageSource = "@drawable/unstared.png";
+
+            foreach (var i in User.CurrentUser.Favorites)
+            {
+                if (i.Name == Current.Name)
+                {
+                    item.IconImageSource = "@drawable/stared.png";
+                }
+            }
         }
+
         // Buttons on page
         async void clickphone(object sender, EventArgs args)
         {
@@ -237,25 +349,28 @@ namespace Ecliptic.Views
         // Star click
         async void OnfaviriteClicked(object sender, EventArgs args)
         {
-            ToolbarItem item = (ToolbarItem)sender;
+            if (User.getInstance() != null)
+            {
+                ToolbarItem item = (ToolbarItem)sender;
 
-            if (Current.Favorite == true)
-            {
-                //star.IconImageSource = "@drawable/unstared.png";
-                item.IconImageSource = "@drawable/unstared.png";
-                ToolbarItems.Remove(item);
-                ToolbarItems.Add(item);
-                Current.Favorite = false;
-           //     await DisplayAlert("Alert", "You have been unfavoritr " + Current.Favorite, "OK");
-            }
-            else
-            {
-                //star.IconImageSource = "@drawable/stared.png";
-                item.IconImageSource = "@drawable/stared.png";
-                ToolbarItems.Remove(item);
-                ToolbarItems.Add(item);
-                Current.Favorite = true;
-        //        await DisplayAlert("Alert", "You have been favoritr " + Current.Favorite, "OK");
+                bool isThat = User.isRoomFavoit(Current);
+
+                if (isThat)
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                    // ToolbarItems.Remove(item);
+                    // ToolbarItems.Add(item);
+
+                    User.CurrentUser.Favorites.Remove(Current);
+                }
+                else
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+                    //ToolbarItems.Remove(item);
+                    //ToolbarItems.Add(item);
+
+                    User.CurrentUser.Favorites.Add(Current);
+                }
             }
         }
 

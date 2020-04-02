@@ -26,6 +26,9 @@
     <Compile Update="Views\UserInteraction\AuthorizationPage.xaml.cs">
       <DependentUpon>AuthorizationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\UserInteraction\FavRooms.xaml.cs">
+      <DependentUpon>FavRooms.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\UserInteraction\NewNotePage.xaml.cs">
       <DependentUpon>NewNotePage.xaml</DependentUpon>
     </Compile>

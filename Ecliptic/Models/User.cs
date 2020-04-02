@@ -16,6 +16,8 @@ namespace Ecliptic.Models
 
         public List<Note> Notes { get; set; }
 
+        public List<Room> Favorites { get; set; }
+
         public static bool isNull
         {
             get
@@ -31,10 +33,7 @@ namespace Ecliptic.Models
         private User()
         {
             Notes = new List<Note>();
-        }
-        private User(string Name) : this()
-        {
-            this.Name = Name;
+            Favorites = new List<Room>();
         }
         private User(string Name, string login, string pass) : this()
         {
@@ -76,22 +75,36 @@ namespace Ecliptic.Models
             // foreach
             // NoteData.AddNote(note);
 
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, 1, "заметка1", "409", "KGU", true));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, 2, "заметка2", "213", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, 3, "заметка3", "200", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, 4, "заметка4", "200", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, 5, "заметка5", "202", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, 6, "заметка6", "202", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка1", "409", "KGU", true));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка2", "213", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка3", "200", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка4", "200", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка5", "202", "KGU", false));
+            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка6", "202", "KGU", false));
 
-            // RoomData.AddNotes();
+            CurrentUser.Favorites.Add(RoomData.Roooms[0]);
+            CurrentUser.Favorites.Add(RoomData.Roooms[1]);
+            CurrentUser.Favorites.Add(RoomData.Roooms[2]);
+            CurrentUser.Favorites.Add(RoomData.Roooms[3]);
+            CurrentUser.Favorites.Add(RoomData.Roooms[4]);
+
         }
         public static void LoginOut()
         {
             CurrentUser = null;
         }
 
+        // TODO with server part
+        public static void AddNote(Note note)
+        {
+            CurrentUser.Notes.Add(note);
+            // если note ispublic == true -> отправить на сервер
+        }
+
+        // TODO with server part
         public static string DeleteNote(string id)
         {
+            // удалить с сервера если общая
             for (int i = 0; i < CurrentUser.Notes.Count; i++)
             {
                 if (CurrentUser.Notes[i].Id == id)
@@ -104,6 +117,22 @@ namespace Ecliptic.Models
                 }
             }
             return "not this note";
+        }
+
+        // Мысль - обсудить с Ураевой, возможно все заметки хранить на сервере
+        // но те, что общие, добавлять именно к аудитории
+
+
+        public static bool isRoomFavoit(Room room)
+        {
+            foreach(var fav in CurrentUser.Favorites)
+            {
+                if (fav.Name == room.Name && fav.Description == room.Description)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

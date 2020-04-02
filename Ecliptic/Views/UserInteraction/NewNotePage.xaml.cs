@@ -31,7 +31,7 @@ namespace Ecliptic.Views.UserInteraction
             NoteControls.Text = new Editor
             {
                 AutoSize = EditorAutoSizeOption.TextChanges,
-                FontSize = 12,
+                // FontSize = 12,
                 Style = Device.Styles.BodyStyle,
             };
             NoteControls.Room = new Entry
@@ -49,13 +49,13 @@ namespace Ecliptic.Views.UserInteraction
                 Style = Device.Styles.TitleStyle,
             };
 
-            Label Ltext     = new Label
+            Label Ltext = new Label
             {
                 Text = "Текст заметки ",
                 FontSize = 14,
                 Style = Device.Styles.TitleStyle,
             };
-            Label Lroom     = new Label
+            Label Lroom = new Label
             {
                 Text = "О каком помещении",
                 FontSize = 14,
@@ -67,7 +67,7 @@ namespace Ecliptic.Views.UserInteraction
                 FontSize = 14,
                 Style = Device.Styles.TitleStyle,
             };
-            Label Lpublic   = new Label
+            Label Lpublic = new Label
             {
                 Text = "Общедоступная?",
                 FontSize = 14,
@@ -90,35 +90,24 @@ namespace Ecliptic.Views.UserInteraction
             stackLayout.Children.Add(NoteControls.Room);
             stackLayout.Children.Add(Lbuilding);
             stackLayout.Children.Add(NoteControls.Building);
-            stackLayout.Children.Add(Lpublic);
-            stackLayout.Children.Add(NoteControls.isPublic);
+            // stackLayout.Children.Add(Lpublic);
+            // stackLayout.Children.Add(NoteControls.isPublic);
             stackLayout.Children.Add(SaveBtn);
-
+            
             ScrollView scrollView = new ScrollView();
             scrollView.Content = stackLayout;
 
             this.Content = scrollView;
         }
 
-        void OnButtonSaveClicked(object sender, EventArgs args)
+        async void OnButtonSaveClicked(object sender, EventArgs args)
         {
-            ImageButton btn = (ImageButton)sender;
-
-            // сохранить в пользователе 
-            Note temp = new Note();
-            int i = 0;
-            for (; i < User.CurrentUser.Notes.Count; i++)
-            {
-                if (User.CurrentUser.Notes[i].Id == btn.AutomationId)
-                {
-                    temp = User.CurrentUser.Notes[i];
-                    break;
-                }
-            }
-
-           
-            User.CurrentUser.Notes[i] = temp;
-            // отправить на сервер
+            User.AddNote(new Note(User.getInstance(),
+                                  NoteControls.Text.Text,
+                                  NoteControls.Room.Text,
+                                  NoteControls.Building.Text,false));
+            
+            await Navigation.PopAsync ();
         }
     }
 

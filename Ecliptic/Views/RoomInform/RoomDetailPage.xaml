@@ -31,14 +31,14 @@
                      Priority="1" />
 
 
-
+<!--
         <ToolbarItem Text="Добавить в избранное"
                      x:Name="star"
                     
                      Clicked="OnfaviriteClicked"
                      Order="Default"
                      Priority="1" />
-
+-->
 
     </ContentPage.ToolbarItems>
     

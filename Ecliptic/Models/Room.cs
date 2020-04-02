@@ -13,7 +13,7 @@ namespace Ecliptic.Models
         public string Timetable { get; set; } // расписание
         public string Phone { get; set; } // телефон
         public string Site { get; set; } // сайт
-        public bool Favorite { get; set; } // избранность
+        // public bool Favorite { get; set; } // избранность
 
         public List<Note> Notes = new List<Note>();  //заметки
 
@@ -35,9 +35,21 @@ namespace Ecliptic.Models
                 Timetable = this.Timetable,
                 Phone = this.Phone,
                 Site = this.Site,
-                Favorite = this.Favorite,
+                // Favorite = this.Favorite,
             };
             //return this.MemberwiseClone();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Room room &&
+                   Name == room.Name &&
+                   Floor == room.Floor &&
+                   Details == room.Details &&
+                   Description == room.Description &&
+                   Timetable == room.Timetable &&
+                   Phone == room.Phone &&
+                   Site == room.Site;
         }
     }
 

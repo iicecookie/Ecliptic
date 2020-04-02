@@ -17,7 +17,7 @@ namespace Ecliptic.Views.UserInteraction
             static public Label Pass { get; set; }
             static public Button LoginOutBtn { get; set; }
             static public List<Editor> Editors { get; set; }
-            static public List<Frame> Frames { get; set; }
+            static public List<Switch> Switches { get; set; }
         }
 
         public void GetUserPage()
@@ -25,6 +25,7 @@ namespace Ecliptic.Views.UserInteraction
             Title = "Профиль " + User.CurrentUser.Name;
 
             #region CreateControls
+            this.ToolbarItems.Clear();
             UserControls.labelMessage = new Label
             {
                 Text = User.CurrentUser.Name,
@@ -48,7 +49,7 @@ namespace Ecliptic.Views.UserInteraction
                 Text = "Login Out",
             };
             UserControls.Editors      = new List<Editor>();
-            UserControls.Frames       = new List<Frame>();
+            UserControls.Switches     = new List<Switch>();
             UserControls.LoginOutBtn.Clicked += GoLoginPage;
             #endregion
 
@@ -65,6 +66,7 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     RowDefinitions = {
                                      new RowDefinition { Height = new GridLength(30) },
+                                     new RowDefinition { Height = new GridLength(20) },
                                      new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
                         },
                     ColumnDefinitions = {
@@ -83,10 +85,17 @@ namespace Ecliptic.Views.UserInteraction
                     IsToggled = i.isPublic,
                     HorizontalOptions = LayoutOptions.End,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
+                    AutomationId = i.Id
                 };
                 Label  noteLab = new Label
                 {
                     Text = i.Room.ToString() + " Аудитория ",
+                    FontSize = 14,
+                    Style = Device.Styles.TitleStyle,
+                };
+                Label  noteBui = new Label
+                {
+                    Text = "Здание "  + i.Building.ToString(),
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
@@ -110,6 +119,7 @@ namespace Ecliptic.Views.UserInteraction
                 }; 
 
                 UserControls.Editors.Add(noteEnt);
+                UserControls.Switches.Add(switche);
                 SaveBtn.Clicked += OnButtonSaveClicked;
                 DeleBtn.Clicked += OnButtonDeleteClicked;
 
@@ -117,7 +127,8 @@ namespace Ecliptic.Views.UserInteraction
                 grid.Children.Add(switche, 1, 0);
                 grid.Children.Add(SaveBtn, 2, 0);
                 grid.Children.Add(DeleBtn, 3, 0);
-                grid.Children.Add(noteEnt, 0, 1);
+                grid.Children.Add(noteBui, 0, 1);
+                grid.Children.Add(noteEnt, 0, 2);
 
                 Grid.SetColumnSpan(noteEnt, 4);   // растягиваем на 4 столбца
 
@@ -128,7 +139,6 @@ namespace Ecliptic.Views.UserInteraction
                 };
 
                 frame.Content = grid;
-                UserControls.Frames.Add(frame);
 
                 stackLayout.Children.Add(frame);
             }
@@ -147,6 +157,12 @@ namespace Ecliptic.Views.UserInteraction
                 Order = ToolbarItemOrder.Secondary,
                 Priority = 0,
             };
+            ToolbarItem FavRoom = new ToolbarItem
+            {
+                Text = "Избранное",
+                Order = ToolbarItemOrder.Secondary,
+                Priority = 1,
+            };
             ToolbarItem LogOut  = new ToolbarItem
             {
                 Text = "Выйти",
@@ -154,8 +170,10 @@ namespace Ecliptic.Views.UserInteraction
                 Priority = 1,
             };
             NewNote.Clicked += OnNewNoteClicked;
+            FavRoom.Clicked += OnFavRoomsClicked;
             LogOut.Clicked += GoLoginPage;
             this.ToolbarItems.Add(NewNote);
+            this.ToolbarItems.Add(FavRoom);
             this.ToolbarItems.Add(LogOut);
             #endregion
         }
@@ -185,6 +203,7 @@ namespace Ecliptic.Views.UserInteraction
 
             // сохранить в пользователе 
             Note temp = new Note();
+
             int i = 0;
             for (; i < User.CurrentUser.Notes.Count; i++)
             {
@@ -197,14 +216,23 @@ namespace Ecliptic.Views.UserInteraction
 
             foreach (var editor in UserControls.Editors)
             {
-                    
                 if (editor.AutomationId == btn.AutomationId)
                 {
                     temp.Text = editor.Text;
                     break;
                 }
             }
+            foreach (var Cswitch in UserControls.Switches)
+            {
+                if (Cswitch.AutomationId == btn.AutomationId)
+                {
+                    temp.isPublic = Cswitch.IsToggled;
+                    break;
+                }
+            }
+
             User.CurrentUser.Notes[i] = temp;
+
             // отправить на сервер
             SendToDatabase(btn.AutomationId);
         }
@@ -227,6 +255,10 @@ namespace Ecliptic.Views.UserInteraction
         async void OnNewNoteClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new NewNotePage("",""));
+        }
+        async void OnFavRoomsClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new FavRoomsPage());
         }
     }
 }
