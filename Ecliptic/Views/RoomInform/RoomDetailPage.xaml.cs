@@ -27,10 +27,6 @@ namespace Ecliptic.Views
                 Label label5 = null;
                 Label label6 = null;
 
-                //-------------
-                User.LoadUser("das","asda");
-                //-------------
-
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
 
@@ -204,9 +200,15 @@ namespace Ecliptic.Views
                     item.Clicked += OnfaviriteClicked;
                     item.Order = ToolbarItemOrder.Default;
                     item.Priority = 1;
-
+                    if (User.isRoomFavoit(Current))
+                    {
+                        item.IconImageSource = "@drawable/stared.png";
+                    }
+                    else
+                    {
+                        item.IconImageSource = "@drawable/unstared.png";
+                    }
                     this.ToolbarItems.Add(item);
-
                 }
                 // публичные заметки
                 if (NoteData.Notes.Count != 0)
@@ -291,17 +293,17 @@ namespace Ecliptic.Views
         // On open page
         protected override void OnAppearing()
         {
-            ToolbarItem item = ToolbarItems.Last();
-
-            item.IconImageSource = "@drawable/unstared.png";
-
-            foreach (var i in User.CurrentUser.Favorites)
-            {
-                if (i.Name == Current.Name)
-                {
-                    item.IconImageSource = "@drawable/stared.png";
-                }
-            }
+         //   if (User.getInstance() != null)
+         //   {
+         //       ToolbarItem item = ToolbarItems.Last();
+         //
+         //       if (User.isRoomFavoit(Current))
+         //       {
+         //           item.IconImageSource = "@drawable/stared.png";
+         //           return;
+         //       }
+         //       item.IconImageSource = "@drawable/unstared.png";
+         //   }
         }
 
         // Buttons on page
@@ -353,22 +355,14 @@ namespace Ecliptic.Views
             {
                 ToolbarItem item = (ToolbarItem)sender;
 
-                bool isThat = User.isRoomFavoit(Current);
-
-                if (isThat)
+                if (User.isRoomFavoit(Current))
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                    // ToolbarItems.Remove(item);
-                    // ToolbarItems.Add(item);
-
                     User.CurrentUser.Favorites.Remove(Current);
                 }
                 else
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                    //ToolbarItems.Remove(item);
-                    //ToolbarItems.Add(item);
-
                     User.CurrentUser.Favorites.Add(Current);
                 }
             }
