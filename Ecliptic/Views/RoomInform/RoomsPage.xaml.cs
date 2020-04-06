@@ -21,7 +21,6 @@ namespace Ecliptic.Views
             InitializeComponent();
 
             this.BindingContext = this;
-            // BindingContext = new BearsViewModel();
             allGroups = RoomGroup.All;
             UpdateListContent();
         }
@@ -39,9 +38,8 @@ namespace Ecliptic.Views
             expandedGroups = new ObservableCollection<RoomGroup>();
             foreach (RoomGroup group in allGroups)
             {
-                //Create new FoodGroups so we do not alter original list
                 RoomGroup newGroup = new RoomGroup(group.Title, group.ShortName, group.Expanded);
-                //Add the count of food items for Lits Header Titles to use
+
                 newGroup.RoomCount = group.Count;
                 if (group.Expanded)
                 {
@@ -57,18 +55,9 @@ namespace Ecliptic.Views
 
         async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // string roomName = " wow";
-
             string roomName = (e.CurrentSelection as Room).Name;
-            //roomName = (e.CurrentSelection.FirstOrDefault()).ToString();
-            //bool answer = await DisplayAlert("Question?", "Would you like to play a game"+ roomName, "Yes", "No");
 
-            // This works because route names are unique in this application.
             await Shell.Current.GoToAsync($"roomdetails?name={roomName}");
-            //await Shell.Current.GoToAsync($"roomdetails?name={roomName}");
-            // The full route is shown below.
-            // await Shell.Current.GoToAsync($"//animals/monkeys/monkeydetails?name={monkeyName}");
-
         }
     }
 
@@ -127,12 +116,7 @@ namespace Ecliptic.Views
                                        .OrderBy(order=>order.Floor);
 
             foreach (var i in rooms)
-                Floors.Add(new RoomGroup(i.Floor.ToString() + "Этаж", i.Floor.ToString()));
-
-            // Floors.Add(new RoomGroup("1 Этаж", "1"));
-            // Floors.Add(new RoomGroup("2 Этаж", "2"));
-            // Floors.Add(new RoomGroup("3 Этаж", "3"));
-
+                Floors.Add(new RoomGroup(i.Floor.ToString() + " Этаж", i.Floor.ToString()));
 
             foreach (var i in RoomData.Roooms)
             {
@@ -145,24 +129,10 @@ namespace Ecliptic.Views
                 }
             }
 
-            // foreach (var i in RoomData.Roooms)
-            // {
-            //     if (i.Floor == 1)
-            //         Floors[0].Add(i);
-            //     if (i.Floor == 2)
-            //         Floors[1].Add(i);
-            //     if (i.Floor == 3)
-            //         Floors[2].Add(i);
-            //
-            // }
             foreach (var r in Floors)
             {
                 Groups.Add(r);
             }
-
-           // Groups.Add(Floors[0]);
-           // Groups.Add(Floors[1]);
-           // Groups.Add(Floors[2]);
 
             All = Groups;
         }

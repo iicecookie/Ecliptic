@@ -85,7 +85,7 @@ namespace Ecliptic.Views.UserInteraction
                     IsToggled = i.isPublic,
                     HorizontalOptions = LayoutOptions.End,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
-                    AutomationId = i.Id
+                    AutomationId = i.Id.ToString(),
                 };
                 Label  noteLab = new Label
                 {
@@ -105,17 +105,17 @@ namespace Ecliptic.Views.UserInteraction
                     Text = i.Text.ToString() ?? "wot",
                     FontSize = 12,
                     Style = Device.Styles.BodyStyle,
-                    AutomationId = i.Id
-                }; 
+                    AutomationId = i.Id.ToString(),
+                };
                 ImageButton SaveBtn = new ImageButton
                 {
                     Source = "save.png",
-                    AutomationId = i.Id
+                    AutomationId = i.Id.ToString(),
                 }; 
                 ImageButton DeleBtn = new ImageButton
                 {
                     Source = "delete.png",
-                    AutomationId = i.Id,
+                    AutomationId = i.Id.ToString(),
                 }; 
 
                 UserControls.Editors.Add(noteEnt);
@@ -135,7 +135,7 @@ namespace Ecliptic.Views.UserInteraction
                 Frame frame = new Frame()
                 {
                     BorderColor = Color.ForestGreen,
-                    AutomationId = i.Id
+                    AutomationId = i.Id.ToString(),
                 };
 
                 frame.Content = grid;
@@ -186,13 +186,13 @@ namespace Ecliptic.Views.UserInteraction
                 User.LoginOut();
             }
 
-            foreach (var i in RoomData.Roooms)
-            {
-                if (i.Notes.Count > 0)
-                {
-                    i.Notes = new List<Note>();
-                }
-            }
+          //  foreach (var i in RoomData.Roooms)
+          //  {
+          //      if (i.Notes.Count > 0)
+          //      {
+          //          i.Notes = new List<Note>();
+          //      }
+          //  }
 
             GetLoginPage();
         }
@@ -202,12 +202,12 @@ namespace Ecliptic.Views.UserInteraction
             ImageButton btn = (ImageButton)sender;
 
             // сохранить в пользователе 
-            Note temp = new Note();
+            Note temp = null;
 
             int i = 0;
             for (; i < User.CurrentUser.Notes.Count; i++)
             {
-                if (User.CurrentUser.Notes[i].Id == btn.AutomationId)
+                if (User.CurrentUser.Notes[i].Id == Int32.Parse(btn.AutomationId))
                 {
                     temp = User.CurrentUser.Notes[i];
                     break;
@@ -246,7 +246,7 @@ namespace Ecliptic.Views.UserInteraction
         {
             ImageButton btn = (ImageButton)sender;
 
-            User.DeleteNote(btn.AutomationId);
+            User.DeleteNote(Int32.Parse(btn.AutomationId));
 
             GetUserPage();
         }

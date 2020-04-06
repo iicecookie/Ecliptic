@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+      <Version>3.1.3</Version>
+    </PackageReference>
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
     </PackageReference>
@@ -63,6 +66,9 @@
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
       <Version>1.68.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.6.292</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>4.5.0.396</Version>
@@ -75,6 +81,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidDbPath.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PhotoLibrary.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

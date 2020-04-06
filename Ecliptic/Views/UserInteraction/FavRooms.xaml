@@ -2,16 +2,41 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ecliptic.Views.UserInteraction.FavRoomsPage"
-             BackgroundColor="#FFDAFFCD"
+             BackgroundColor="#FFDAFFFF"
              Title="New Note">
 
     <ListView x:Name="RoomView"
-            ItemsSource="{Binding Room}"
+              ItemsSource="{Binding Room}"
+              HasUnevenRows="True"
               ItemTapped="RoomView_ItemTapped">
+
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}" 
-                          TextColor="Black"/>
+
+                <ViewCell>
+                    <ContentView Padding="5">
+                        <Frame OutlineColor="Accent"
+                               Padding="10">
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout>
+
+                                    <Label Text="{Binding Name}"    
+                                           FontSize="18" 
+                                           VerticalOptions="StartAndExpand"/>
+
+                                    <Label Text="{Binding Floor, StringFormat='{0} Этаж'}" 
+                                           FontSize="15" 
+                                           VerticalOptions="StartAndExpand"/>
+                                    
+                                    <Label Text="{Binding Details}" 
+                                           FontSize="18" 
+                                           VerticalOptions="StartAndExpand"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </ContentView>
+                </ViewCell>
+
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

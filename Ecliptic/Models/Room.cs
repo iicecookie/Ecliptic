@@ -1,10 +1,15 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 
 namespace Ecliptic.Models
 {
+    [Table("Rooms")]
     public class Room : ICloneable
     {
+        [PrimaryKey, AutoIncrement, Column("id")]
+        public int Id { get; set; }
+
         public string Name { get; set; } // Имя аудитории +
         public int Floor { get; set; } // этаж
         public string Details { get; set; } //
@@ -15,7 +20,7 @@ namespace Ecliptic.Models
         public string Site { get; set; } // сайт
         // public bool Favorite { get; set; } // избранность
 
-        public List<Note> Notes = new List<Note>();  //заметки
+      //  public List<Note> Notes { get; set; } = new List<Note>();  //заметки
 
         private List<IVertex> Door; // выходы из аудиторий 
         private List<IVertex> Walls;// cтеныа удитории

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:controls="clr-namespace:Ecliptic.Controls"
+             xmlns:data="clr-namespace:Ecliptic.Data"
+             xmlns:views="clr-namespace:Ecliptic.Views"
+             x:Class="Ecliptic.Views.BuildingDetailPage"
+             Title="Rooms">
+   
+        <StackLayout>
+            <Label Text="Имя" />
+            <Entry Text="{Binding Name}" />
+            <Label Text="Email" />
+            <Entry Text="{Binding Email}" />
+            <Label Text="Телефон" />
+            <Entry Text="{Binding Phone}" />
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Сохранить" Clicked="SaveFriend" />
+                <Button Text="Удалить" Clicked="DeleteFriend" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage>

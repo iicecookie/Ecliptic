@@ -1,4 +1,5 @@
 ﻿using Ecliptic.Models;
+using Ecliptic.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,18 @@ namespace Ecliptic.Views.UserInteraction
         {
             if (User.CurrentUser == null)
             {
-                GetLoginPage();
+                using (var db = new ApplicationContext())
+                {
+                    if (db.User.Count() == 0)
+                    {
+                        GetLoginPage();
+                        //  db.SaveChanges();
+                    }
+                    else
+                    {
+                        User.setInstance(db.User.ToList().First());
+                    }
+                }
             }
             else
             {

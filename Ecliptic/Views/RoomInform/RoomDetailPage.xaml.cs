@@ -176,7 +176,7 @@ namespace Ecliptic.Views
                                 Text = i.Text.ToString() ?? "wot",
                                 FontSize = 12,
                                 Style = Device.Styles.BodyStyle,
-                                AutomationId = i.Id
+                                AutomationId = i.Id.ToString(),
                             };
 
                             grid.Children.Add(noteLab, 0, 0);
@@ -187,7 +187,7 @@ namespace Ecliptic.Views
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.ForestGreen,
-                                AutomationId = i.Id
+                                AutomationId = i.Id.ToString(),
                             };
 
                             frame.Content = grid;
@@ -253,7 +253,7 @@ namespace Ecliptic.Views
                                 Text = i.Text.ToString() ?? "wot",
                                 FontSize = 12,
                                 Style = Device.Styles.BodyStyle,
-                                AutomationId = i.Id
+                                AutomationId = i.Id.ToString(),
                             };
 
                             grid.Children.Add(noteLab, 0, 0);
@@ -264,7 +264,7 @@ namespace Ecliptic.Views
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.ForestGreen,
-                                AutomationId = i.Id
+                                AutomationId = i.Id.ToString(),
                             };
 
                             frame.Content = grid;

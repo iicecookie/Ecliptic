@@ -15,6 +15,8 @@ namespace Ecliptic.Views.UserInteraction
         ObservableCollection<Room> rooms = new ObservableCollection<Room>();
         public ObservableCollection<Room> Rooms { get { return rooms; } }
 
+        bool i = false;
+
         public FavRoomsPage()
         {
             InitializeComponent();

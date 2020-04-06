@@ -11,8 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.396" />
     <PackageReference Include="ZXing.Net" Version="0.16.5" />
@@ -23,6 +25,12 @@
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Buildings\BuildingPage.xaml.cs">
+      <DependentUpon>BuildingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Buildings\BuildingDetailPage.xaml.cs">
+      <DependentUpon>BuildingDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\UserInteraction\AuthorizationPage.xaml.cs">
       <DependentUpon>AuthorizationPage.xaml</DependentUpon>
     </Compile>

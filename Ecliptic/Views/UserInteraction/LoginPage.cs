@@ -30,7 +30,7 @@ namespace Ecliptic.Views.UserInteraction
             LoginControls.LoginBox = new Entry
             {
                 Text = "",
-                Placeholder = "Login",
+                Placeholder = "Имя",
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
@@ -44,7 +44,7 @@ namespace Ecliptic.Views.UserInteraction
             LoginControls.PasswBox = new Entry
             {
                 Text = "",
-                Placeholder = "Password",
+                Placeholder = "Пароль",
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
@@ -55,12 +55,12 @@ namespace Ecliptic.Views.UserInteraction
             };
             LoginControls.LoginBtn = new Button
             {
-                Text = "Login in",
+                Text = "Войти",
             };
             LoginControls.LoginBtn.Clicked += LoginIn;
             LoginControls.RegisBtn = new Button
             {
-                Text = "Registration",
+                Text = "Зарегестрироваться",
             };
             LoginControls.RegisBtn.Clicked += ToRegistrationPage;
 

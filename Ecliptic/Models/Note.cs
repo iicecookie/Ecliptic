@@ -1,13 +1,17 @@
 ﻿using Ecliptic.Data;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Ecliptic.Models
 {
-    public struct Note
+    [Table("Notes")]
+    public class Note
     {
-        public string Id { get; set; }
+        [PrimaryKey, AutoIncrement, Column("id")]
+        public int Id { get; set; }
 
         public string Text { get; set; }
 
@@ -19,30 +23,36 @@ namespace Ecliptic.Models
 
         public bool isPublic { get; set; } // общая ли заметтка или нет
 
-        public string Owner { get; set; }
 
+   //     [DisplayName("Владелец карты")]
+   //     public virtual User Owner { get; set; }
+
+        public Note()
+        {
+
+        }
         // добавление заметок пользователя
         public Note(User user, string text, string room, string building, bool acsess)
         {
-            Id = User.CurrentUser.Notes.Count.ToString();
+            Id = User.CurrentUser.Notes.Count;
             Text = text;
             Date = new DateTime().ToString();
             Room = room;
             Building = building;
             isPublic = acsess;
-            Owner = user.Name;
+        //    Owner = user;
         }
 
         // добавление общих заметок в NoteData
         public Note(string text, string room, string building, bool acsess)
         {
-            Id = NoteData.Notes.Count.ToString();
+            Id = NoteData.Notes.Count;
             Text = text;
             Date = new DateTime().ToString();
             Room = room;
             Building = building;
             isPublic = acsess;
-            Owner = "Вася";
+     //       Owner = User.CurrentUser;
         }
     }
 }

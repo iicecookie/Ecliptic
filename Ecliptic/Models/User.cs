@@ -1,12 +1,19 @@
 ﻿using Ecliptic.Data;
+using Ecliptic.Repository;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Ecliptic.Models
 {
+    [Table("User")]
     public class User
     {
+        [PrimaryKey, AutoIncrement, Column("id")]
+        public int Id { get; set; }
+
         public static User CurrentUser { get; private set; }
 
         #region Params
@@ -14,9 +21,11 @@ namespace Ecliptic.Models
         public string Login { get; private set; }
         public string Password { get; private set; }
 
-        public List<Note> Notes { get; set; }
 
-        public List<Room> Favorites { get; set; }
+        [DisplayName("Имеет заметки")]
+        public virtual List<Note> Notes { get; set; }
+
+        public virtual List<Room> Favorites { get; set; }
 
         public static bool isNull
         {
@@ -46,6 +55,11 @@ namespace Ecliptic.Models
         public static User getInstance()
         {
             return CurrentUser;
+        }
+
+        public static void setInstance(User user)
+        {
+            CurrentUser = user;
         }
 
         public static void setInstance(string name, string login, string pass)
@@ -129,6 +143,11 @@ namespace Ecliptic.Models
         }
         public static void LoginOut()
         {
+            using (var db = new ApplicationContext())
+            {
+                db.Remove(CurrentUser);
+                db.SaveChanges();
+            }
             CurrentUser = null;
         }
 
@@ -140,7 +159,7 @@ namespace Ecliptic.Models
         }
 
         // TODO with server part
-        public static string DeleteNote(string id)
+        public static string DeleteNote(int id)
         {
             // удалить с сервера если общая
             for (int i = 0; i < CurrentUser.Notes.Count; i++)
@@ -163,7 +182,7 @@ namespace Ecliptic.Models
 
         public static bool isRoomFavoit(Room room)
         {
-            foreach(var fav in CurrentUser.Favorites)
+            foreach (var fav in CurrentUser.Favorites)
             {
                 if (fav.Name == room.Name && fav.Description == room.Description)
                 {

@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              BackgroundColor="Silver"
              x:Class="Ecliptic.Views.RoomInform.QrScan"
-             Title="Qr чтука дрюка"
+             Title="Сканирование штрих-кода"
              
              >
 

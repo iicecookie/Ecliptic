@@ -53,7 +53,7 @@
 
                         <Label Grid.Column="1"
                                Grid.Row="0"
-                               Text="Этаж:"
+                               Text=" Этаж: "
                                FontAttributes="Bold" />
                         
                         <Label Grid.Column="2"
@@ -93,7 +93,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell Text  ="{Binding Name}"
-                               Detail="{Binding Location}"
+                               Detail="{Binding Details}"
                                ImageSource="{Binding Icon}"
                                TextColor="Black"
                                Height="65"

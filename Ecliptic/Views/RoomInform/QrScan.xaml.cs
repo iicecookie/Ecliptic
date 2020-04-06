@@ -158,8 +158,8 @@ namespace Ecliptic.Views.RoomInform
 
 			overlay = new ZXingDefaultOverlay
 			{
-				TopText = "Hold your phone up to the barcode",
-				BottomText = "Scanning will happen automatically",
+				TopText = "Поднесите телефон к штрих-коду",
+				BottomText = "Сканирование произойдет автоматически",
 				ShowFlashButton = zxing.HasTorch,
 			};
 			overlay.FlashButtonClicked += (sender, e) =>
@@ -191,7 +191,7 @@ namespace Ecliptic.Views.RoomInform
 
 		protected override void OnDisappearing	()
 		{
-		//	zxing.IsScanning = false;
+			zxing.IsScanning = false;
 
 			base.OnDisappearing();
 		}

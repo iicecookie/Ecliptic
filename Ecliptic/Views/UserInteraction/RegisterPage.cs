@@ -38,7 +38,7 @@ namespace Ecliptic.Views.UserInteraction
             RegisrationContrioolers.NameBox = new Entry
             {
                 Text = "",
-                Placeholder = "Nick name",
+                Placeholder = "Имя пользователя",
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
@@ -52,7 +52,7 @@ namespace Ecliptic.Views.UserInteraction
             RegisrationContrioolers.LoginBox = new Entry
             {
                 Text = "",
-                Placeholder = "Login",
+                Placeholder = "Имя",
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
@@ -66,7 +66,7 @@ namespace Ecliptic.Views.UserInteraction
             RegisrationContrioolers.PasswBox = new Entry
             {
                 Text = "",
-                Placeholder = "Password",
+                Placeholder = "Пароль",
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
@@ -79,7 +79,7 @@ namespace Ecliptic.Views.UserInteraction
             RegisrationContrioolers.PasswCheckBox = new Entry
             {
                 Text = "",
-                Placeholder = "Password again",
+                Placeholder = "Подтверждение пароля",
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
@@ -91,11 +91,11 @@ namespace Ecliptic.Views.UserInteraction
             };
             RegisrationContrioolers.RegisBtn = new Button
             {
-                Text = "Registration",
+                Text = "Зарегестрироваться",
             };
             RegisrationContrioolers.LoginBtn = new Button
             {
-                Text = "Login in",
+                Text = "Уже есть учетная запись",
             };
             RegisrationContrioolers.RegisBtn.Clicked += RegistrUser;
             RegisrationContrioolers.LoginBtn.Clicked += ToLoginPage;

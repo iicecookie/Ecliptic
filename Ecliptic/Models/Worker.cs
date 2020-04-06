@@ -1,11 +1,17 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Ecliptic.Models
 {
+    [Table("Workers")]
     public class Worker
     {
+        [PrimaryKey, AutoIncrement, Column("_id")]
+        public int Id { get; set; }
+
+
         public string FirstName  { get; set; }
         public string SecondName { get; set; }
         public string LastName   { get; set; }
@@ -18,10 +24,6 @@ namespace Ecliptic.Models
         public string Email   { get; set; }
         public string Phone   { get; set; }   // телефон
         public string Site    { get; set; }    // сайт
-
-
-        public List<string> Notes { get; set; }
-
 
         public override string ToString()
         {
