@@ -21,6 +21,7 @@ namespace Ecliptic.Views.UserInteraction
 
         protected async override void OnAppearing()
         {
+            // test
             if (User.CurrentUser == null)
             {
                 using (var db = new ApplicationContext())
