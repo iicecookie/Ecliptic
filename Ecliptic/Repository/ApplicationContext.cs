@@ -12,23 +12,27 @@ namespace Ecliptic.Repository
         private string databaseName;
 
         public DbSet<Building> Buildings { get; set; }
+
+        public DbSet<User>   User    { get; set; }
+        public DbSet<Note>   Notes   { get; set; }
+        public DbSet<Room>   Rooms   { get; set; }
         public DbSet<Worker> Workers { get; set; }
 
-        public DbSet<User> User  { get; set; }
-        public DbSet<Note> Notes { get; set; }
-        public DbSet<Room> Rooms { get; set; }
 
-        public ApplicationContext(string databasePath = "database.db")
+        public static ApplicationContext db = new ApplicationContext();
+
+        public ApplicationContext(string databasePath = "database.db") => databaseName = databasePath;
+        
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            databaseName = databasePath;
+            base.OnModelCreating(builder);
+
+            builder.Entity<User>().HasMany(c => c.Notes).WithOne(e => e.Owner);
+
+         //   builder.Entity<Worker>().HasOne(c => c.Room)
+         //                         .WithMany(c => c.Workers)
+         //                         .HasForeignKey(c => c.RoomId);
         }
-        //    protected override void OnModelCreating(ModelBuilder builder)
-        //    {
-        //        base.OnModelCreating(builder);
-        //
-        //        // Define composite key.
-        //        //     builder.Entity<User>().HasMany(p => p.Notes).WithOne(c => c.Owner);
-        //    }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,5 +41,8 @@ namespace Ecliptic.Repository
 
             optionsBuilder.UseSqlite($"Filename={databasePath}");
         }
+
+
+       // public static int GetRoomid(string)
     }
 }

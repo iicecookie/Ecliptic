@@ -1,4 +1,5 @@
 ﻿using Ecliptic.Models;
+using Ecliptic.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -93,6 +94,14 @@ namespace Ecliptic.Views.UserInteraction
             {
                 // загружаем данные в User
                 User.LoadUser(LoginControls.LoginBox.Text, LoginControls.PasswBox.Text);
+
+                using (var db = new ApplicationContext())
+                {
+                    db.User.Add(User.CurrentUser);
+
+                    db.SaveChanges();
+                }
+
                 // открываем страницу с данными
                 GetUserPage();
             }

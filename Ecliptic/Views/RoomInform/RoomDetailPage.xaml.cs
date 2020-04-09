@@ -15,7 +15,7 @@ namespace Ecliptic.Views
         {
             set
             {
-                Current = RoomData.Roooms
+                Current = RoomData.Rooms
                                   .FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));//.Clone();
 
                 Button button1 = null;
@@ -106,25 +106,37 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label5);
                 }
-                if (Current.Staff       != null)
+
+                var ww = RoomData.Rooms;
+
+                if (Current.Workers.Count == 0)
+                    foreach (var r in WorkerData.Workers)
+                    {
+                        if (Current.RoomId == r.RoomId)
+                        {
+                            Current = r.Room;
+                        }
+                    }
+
+                if (Current.Workers.Count > 0)
                 {
                     Label labeq = new Label
                     {
                         Text = "Работники:",
                         TextColor = Color.Black,
-                        FontSize=12,
+                        FontSize = 12,
                         Style = Device.Styles.TitleStyle,
                         HorizontalOptions = LayoutOptions.Start
                     };
                     stackLayout.Children.Add(labeq);
 
-                    foreach (var i in Current.Staff)
+                    foreach (var i in Current.Workers)
                     {
                         Button buttpers = new Button
                         {
                             Text = i.ToString() ?? "wot",
-                            FontSize=12,
-                            Style=Device.Styles.TitleStyle,
+                            FontSize = 12,
+                            Style = Device.Styles.TitleStyle,
                         };
                         buttpers.Clicked += clickPers;
 
@@ -135,14 +147,16 @@ namespace Ecliptic.Views
                 // персональные заметки (только приватные)
                 if (!User.isNull)
                 {
-
-                    Label labelN = new Label
+                    if (User.CurrentUser.Notes.Count != 0)
                     {
-                        Text = "Заметки " + User.CurrentUser.Name,
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-                    stackLayout.Children.Add(labelN);
+                        Label labelN = new Label
+                        {
+                            Text = "Заметки " + User.CurrentUser.Name,
+                            Style = Device.Styles.BodyStyle,
+                            HorizontalOptions = LayoutOptions.Center
+                        };
+                        stackLayout.Children.Add(labelN);
+                    }
 
                     foreach (var i in User.CurrentUser.Notes)
                     {
@@ -210,21 +224,29 @@ namespace Ecliptic.Views
                     }
                     this.ToolbarItems.Add(item);
                 }
+                    
                 // публичные заметки
                 if (NoteData.Notes.Count != 0)
                 {
-                    Label labelON = new Label
-                    {
-                        Text = "Общие заметки ",
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-                    stackLayout.Children.Add(labelON);
+                    bool flag = true;
 
                     foreach (var i in NoteData.Notes)
                     {
                         if (i.Room == Current.Name)
                         {
+                            if (flag)
+                            {
+                                Label labelON = new Label
+                                {
+                                    Text = "Общие заметки ",
+                                    Style = Device.Styles.BodyStyle,
+                                    HorizontalOptions = LayoutOptions.Center
+                                };
+                                stackLayout.Children.Add(labelON);
+                                flag = false;
+                            }
+
+
                             Grid grid = new Grid
                             {
                                 RowDefinitions =  {
@@ -279,7 +301,7 @@ namespace Ecliptic.Views
 
                 this.Content = scrollView;
 
-                BindingContext = RoomData.Roooms.FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
+                BindingContext = RoomData.Rooms.FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
             }
         }
 
@@ -290,21 +312,21 @@ namespace Ecliptic.Views
             InitializeComponent();
         }
 
-        // On open page
-        protected override void OnAppearing()
-        {
-         //   if (User.getInstance() != null)
-         //   {
-         //       ToolbarItem item = ToolbarItems.Last();
-         //
-         //       if (User.isRoomFavoit(Current))
-         //       {
-         //           item.IconImageSource = "@drawable/stared.png";
-         //           return;
-         //       }
-         //       item.IconImageSource = "@drawable/unstared.png";
-         //   }
-        }
+       // On open page
+       //protected override void OnAppearing()
+       //{
+       //   if (User.getInstance() != null)
+       //   {
+       //       ToolbarItem item = ToolbarItems.Last();
+       //
+       //       if (User.isRoomFavoit(Current))
+       //       {
+       //           item.IconImageSource = "@drawable/stared.png";
+       //           return;
+       //       }
+       //       item.IconImageSource = "@drawable/unstared.png";
+       //   }
+       //}
 
         // Buttons on page
         async void clickphone(object sender, EventArgs args)
@@ -358,12 +380,12 @@ namespace Ecliptic.Views
                 if (User.isRoomFavoit(Current))
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                    User.CurrentUser.Favorites.Remove(Current);
+                   // User.CurrentUser.Favorites.Remove(Current);
                 }
                 else
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                    User.CurrentUser.Favorites.Add(Current);
+                 //   User.CurrentUser.Favorites.Add(Current);
                 }
             }
         }

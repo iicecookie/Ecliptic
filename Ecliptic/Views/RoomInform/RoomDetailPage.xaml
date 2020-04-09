@@ -6,12 +6,12 @@
              Title="Room Details">
 
     <ContentPage.ToolbarItems>
-        
+
         <ToolbarItem Text="Показать на карте"
                      Clicked="OnButton1Clicked"
                      Order="Secondary"
                      Priority="0" />
-        
+
         <ToolbarItem Text="Начало маршрута"
                      Clicked="OnButton2Clicked"
                      IconImageSource="back.png"
@@ -31,7 +31,7 @@
                      Priority="1" />
 
 
-<!--
+        <!--
         <ToolbarItem Text="Добавить в избранное"
                      x:Name="star"
                     
@@ -41,9 +41,7 @@
 -->
 
     </ContentPage.ToolbarItems>
-    
-    <!--IconImageSource="unstared.png"-->
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="plainButton" TargetType="Button">

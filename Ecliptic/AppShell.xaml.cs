@@ -70,7 +70,7 @@ namespace Ecliptic
             //   await Shell.Current.GoToAsync($"{state.Location}/{destinationRoute}?name={animalName}");
             //   Shell.Current.FlyoutIsPresented = false;
             ShellNavigationState state = Shell.Current.CurrentState;
-            await Shell.Current.GoToAsync($"{state.Location}/{routes.ElementAt(5).Key}?name={RoomData.Roooms.ElementAt(rand.Next(0,RoomData.Roooms.Count)).Name}");
+            await Shell.Current.GoToAsync($"{state.Location}/{routes.ElementAt(5).Key}?name={RoomData.Rooms.ElementAt(rand.Next(0,RoomData.Rooms.Count)).Name}");
             Shell.Current.FlyoutIsPresented = false;
         }
 

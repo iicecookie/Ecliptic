@@ -29,7 +29,6 @@ namespace Ecliptic.Views.UserInteraction
                     if (db.User.Count() == 0)
                     {
                         GetLoginPage();
-                        //  db.SaveChanges();
                     }
                     else
                     {

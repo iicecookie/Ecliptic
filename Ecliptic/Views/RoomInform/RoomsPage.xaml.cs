@@ -19,7 +19,6 @@ namespace Ecliptic.Views
         public RoomsPage()
         {
             InitializeComponent();
-
             this.BindingContext = this;
             allGroups = RoomGroup.All;
             UpdateListContent();
@@ -111,14 +110,14 @@ namespace Ecliptic.Views
 
             List<RoomGroup> Floors = new List<RoomGroup>();
 
-            var rooms = RoomData.Roooms.GroupBy(room => room.Floor)
+            var rooms = RoomData.Rooms.GroupBy(room => room.Floor)
                                        .Select(group => group.First())
                                        .OrderBy(order=>order.Floor);
 
             foreach (var i in rooms)
                 Floors.Add(new RoomGroup(i.Floor.ToString() + " Этаж", i.Floor.ToString()));
 
-            foreach (var i in RoomData.Roooms)
+            foreach (var i in RoomData.Rooms)
             {
                 foreach (var r in Floors)
                 {

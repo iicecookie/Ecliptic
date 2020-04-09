@@ -23,9 +23,7 @@ namespace Ecliptic.Models
 
         public bool isPublic { get; set; } // общая ли заметтка или нет
 
-
-   //     [DisplayName("Владелец карты")]
-   //     public virtual User Owner { get; set; }
+        public virtual User Owner { get; set; }
 
         public Note()
         {
@@ -40,7 +38,7 @@ namespace Ecliptic.Models
             Room = room;
             Building = building;
             isPublic = acsess;
-        //    Owner = user;
+            Owner = user;
         }
 
         // добавление общих заметок в NoteData
@@ -52,7 +50,7 @@ namespace Ecliptic.Models
             Room = room;
             Building = building;
             isPublic = acsess;
-     //       Owner = User.CurrentUser;
+            Owner = User.CurrentUser;
         }
     }
 }

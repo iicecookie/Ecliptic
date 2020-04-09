@@ -18,8 +18,11 @@ namespace Ecliptic.Droid
 
             base.OnCreate(savedInstanceState);
             Instance = this;
+
             Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
-            Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));
+
+            // Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }

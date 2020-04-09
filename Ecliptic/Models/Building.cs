@@ -8,7 +8,7 @@ namespace Ecliptic.Models
     [Table("Buildings")]
     public class Building
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
+        [PrimaryKey, AutoIncrement, Column("id")]
         public int Id { get; set; }
 
         public string Name { get; set; }

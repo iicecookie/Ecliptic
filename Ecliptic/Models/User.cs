@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Xamarin.Forms.Internals;
 
 namespace Ecliptic.Models
 {
@@ -21,11 +22,9 @@ namespace Ecliptic.Models
         public string Login { get; private set; }
         public string Password { get; private set; }
 
-
-        [DisplayName("Имеет заметки")]
         public virtual List<Note> Notes { get; set; }
 
-        public virtual List<Room> Favorites { get; set; }
+     //   public virtual List<Room> Favorites { get; set; }
 
         public static bool isNull
         {
@@ -41,8 +40,11 @@ namespace Ecliptic.Models
         #region Constructors
         private User()
         {
+            Name = "";
+            Login = "";
+            Password = "";
             Notes = new List<Note>();
-            Favorites = new List<Room>();
+     //       Favorites = new List<Room>();
         }
         private User(string Name, string login, string pass) : this()
         {
@@ -78,7 +80,7 @@ namespace Ecliptic.Models
             return false;
         }
 
-        public static void LoadUser(string login, string password)
+        public static User LoadUser(string login, string password)
         {
             // загружаем данные из базы
 
@@ -95,7 +97,7 @@ namespace Ecliptic.Models
             User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка4", "200", "KGU", false));
             User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка5", "202", "KGU", false));
             User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка6", "202", "KGU", false));
-
+            /*
             CurrentUser.Favorites.Add(new Room
             {
                 Name = "213",
@@ -140,14 +142,16 @@ namespace Ecliptic.Models
                 Details = "The giant panda, also known as panda bear or simply panda, is a bear native to south central China. It is easily recognized by the large, distinctive black patches around its eyes, over the ears, and across its round body. The name giant panda is sometimes used to distinguish it from the unrelated red panda. Though it belongs to the order Carnivora, the giant panda's diet is over 99% bamboo. Giant pandas in the wild will occasionally eat other grasses, wild tubers, or even meat in the form of birds, rodents, or carrion. In captivity, they may receive honey, eggs, fish, yams, shrub leaves, oranges, or bananas along with specially prepared food.",
 
             });
+            */
+            return CurrentUser;
         }
         public static void LoginOut()
         {
-            using (var db = new ApplicationContext())
-            {
-                db.Remove(CurrentUser);
-                db.SaveChanges();
-            }
+         //  using (var db = new ApplicationContext())
+         //  {
+         //      db.Remove(CurrentUser);
+         //      db.SaveChanges();
+         //  }
             CurrentUser = null;
         }
 
@@ -181,14 +185,14 @@ namespace Ecliptic.Models
 
 
         public static bool isRoomFavoit(Room room)
-        {
+        {/*
             foreach (var fav in CurrentUser.Favorites)
             {
                 if (fav.Name == room.Name && fav.Description == room.Description)
                 {
                     return true;
                 }
-            }
+            }*/
             return false;
         }
     }

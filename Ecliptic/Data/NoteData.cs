@@ -15,29 +15,24 @@ namespace Ecliptic.Data
 
         static NoteData()
         {
+
             Notes = new List<Note>();
 
-        //   using (var db = new ApplicationContext())
-        //   {
-        //      if (db.Workers.Count() == 0)
-        //       {
-        //
-        //
-        //           db.Notes.Add(new Note("I'm open note", "213", "KGU", true));
-        //           db.Notes.Add(new Note("I'm open yesi", "522", "KGU", true));
-        //           db.Notes.Add(new Note("I'm open noby", "231", "KGU", true));
-        //           db.Notes.Add(new Note("I'm open okey", "213", "KGU", true));
-        //           db.Notes.Add(new Note("I'm open puko", "409", "KGU", true));
-        //
-        //           db.SaveChanges();
-        //       }
-        //       else
-        //       {
-        //           Notes = db.Notes.ToList();
-        //           int i = 5;
-        //       }
-        //   }
-        }
+            using (var db = new ApplicationContext())
+            {
+                if (db.Notes.Count() == 0)
+                {
+                    db.Notes.Add(new Note("I'm open note", "213", "KGU", true));
+                    db.Notes.Add(new Note("I'm open yesi", "522", "KGU", true));
+                    db.Notes.Add(new Note("I'm open noby", "231", "KGU", true));
+                    db.Notes.Add(new Note("I'm open okey", "213", "KGU", true));
+                    db.Notes.Add(new Note("I'm open puko", "409", "KGU", true));
 
+                    db.SaveChanges();
+                }
+
+                Notes = db.Notes.ToList();
+            }
+        }
     }
 }
