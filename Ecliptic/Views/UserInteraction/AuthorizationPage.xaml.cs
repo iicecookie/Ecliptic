@@ -19,9 +19,8 @@ namespace Ecliptic.Views.UserInteraction
             InitializeComponent();
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
-            // test
             if (User.CurrentUser == null)
             {
                 using (var db = new ApplicationContext())
@@ -33,6 +32,9 @@ namespace Ecliptic.Views.UserInteraction
                     else
                     {
                         User.setInstance(db.User.ToList().First());
+                        User.LoadNotesFromBd();
+
+                        GetUserPage();
                     }
                 }
             }

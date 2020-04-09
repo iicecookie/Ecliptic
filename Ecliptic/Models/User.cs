@@ -1,19 +1,18 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Repository;
-using SQLite;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms.Internals;
 
 namespace Ecliptic.Models
 {
-    [Table("User")]
     public class User
     {
-        [PrimaryKey, AutoIncrement, Column("id")]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         public static User CurrentUser { get; private set; }
 
@@ -62,6 +61,7 @@ namespace Ecliptic.Models
         public static void setInstance(User user)
         {
             CurrentUser = user;
+
         }
 
         public static void setInstance(string name, string login, string pass)
@@ -82,21 +82,27 @@ namespace Ecliptic.Models
 
         public static User LoadUser(string login, string password)
         {
-            // загружаем данные из базы
-
             // записываю в пользователя
             setInstance("Jo", login, password);
 
-            // также загружаются заметки в NoteData
-            // foreach
-            // NoteData.AddNote(note);
+            var db = new ApplicationContext();
 
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка1", "409", "KGU", true));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка2", "213", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка3", "200", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка4", "200", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка5", "202", "KGU", false));
-            User.CurrentUser.Notes.Add(new Note(CurrentUser, "заметка6", "202", "KGU", false));
+            // загружаю в базу данных
+            db.User.Add(User.CurrentUser);
+            db.SaveChanges();
+            // выгружаю с привязкой
+            User.setInstance(db.User.First());
+
+            db.Notes.Add(new Note(CurrentUser.UserId, "заметка2", "213", "KGU", false));
+            db.Notes.Add(new Note(CurrentUser.UserId, "заметка3", "200", "KGU", false));
+            db.Notes.Add(new Note(CurrentUser.UserId, "заметка4", "200", "KGU", false));
+            db.Notes.Add(new Note(CurrentUser.UserId, "заметка5", "202", "KGU", false));
+            db.Notes.Add(new Note(CurrentUser.UserId, "заметка6", "202", "KGU", false));
+
+            db.SaveChanges();
+
+            User.LoadNotesFromBd();
+
             /*
             CurrentUser.Favorites.Add(new Room
             {
@@ -145,14 +151,23 @@ namespace Ecliptic.Models
             */
             return CurrentUser;
         }
+
+        public static void LoadNotesFromBd()
+        {
+            var db = new ApplicationContext();
+            User.CurrentUser.Notes = db.Notes.Include(u => u.User)
+                                             .ToList();
+        }
+
         public static void LoginOut()
         {
-         //  using (var db = new ApplicationContext())
-         //  {
-         //      db.Remove(CurrentUser);
-         //      db.SaveChanges();
-         //  }
-            CurrentUser = null;
+            using (var db = new ApplicationContext())
+            {
+                db.Remove(CurrentUser);
+                db.SaveChanges();
+
+                CurrentUser = null;
+            }
         }
 
         // TODO with server part

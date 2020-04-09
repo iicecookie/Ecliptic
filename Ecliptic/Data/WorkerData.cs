@@ -12,18 +12,6 @@ namespace Ecliptic.Data
     {
         public static List<Worker> Workers { get; private set; }
 
-        public static Worker GetWorker(string first, string second = null, string last = null)
-        {
-            foreach (var i in Workers)
-            {
-                if (i.FirstName == first &&
-                    i.SecondName == second &&
-                    i.LastName == last)
-                    return i;
-            }
-            return null;
-        }
-
         static WorkerData()
         {
             Workers = new List<Worker>();
@@ -84,7 +72,16 @@ namespace Ecliptic.Data
                                          .ToList();
             }
         }
-
-       
+        public static Worker GetWorker(string first, string second = null, string last = null)
+        {
+            foreach (var i in Workers)
+            {
+                if (i.FirstName == first &&
+                    i.SecondName == second &&
+                    i.LastName == last)
+                    return i;
+            }
+            return null;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using SQLite;
+﻿//using SQLite;
 using System;
 using System.Collections.Generic;
 
@@ -6,7 +6,7 @@ namespace Ecliptic.Models
 {
     public class Room : ICloneable
     {
-        [PrimaryKey, AutoIncrement, Column("id")]
+    //    [PrimaryKey, AutoIncrement, Column("id")]
         public int RoomId { get; set; }
 
         public string Name { get; set; } // Имя аудитории +

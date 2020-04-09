@@ -102,7 +102,7 @@ namespace Ecliptic.Views.UserInteraction
 
         async void OnButtonSaveClicked(object sender, EventArgs args)
         {
-            User.AddNote(new Note(User.getInstance(),
+            User.AddNote(new Note(User.CurrentUser.UserId,
                                   NoteControls.Text.Text,
                                   NoteControls.Room.Text,
                                   NoteControls.Building.Text,false));

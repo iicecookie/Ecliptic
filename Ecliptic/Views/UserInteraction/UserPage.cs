@@ -177,6 +177,7 @@ namespace Ecliptic.Views.UserInteraction
             this.ToolbarItems.Add(LogOut);
             #endregion
         }
+
         void GoLoginPage(object sender, EventArgs args)
         {
             this.ToolbarItems.Clear();
@@ -185,14 +186,6 @@ namespace Ecliptic.Views.UserInteraction
             {
                 User.LoginOut();
             }
-
-          //  foreach (var i in RoomData.Roooms)
-          //  {
-          //      if (i.Notes.Count > 0)
-          //      {
-          //          i.Notes = new List<Note>();
-          //      }
-          //  }
 
             GetLoginPage();
         }
@@ -252,7 +245,7 @@ namespace Ecliptic.Views.UserInteraction
         }
 
         // Toolbar
-        async void OnNewNoteClicked(object sender, EventArgs args)
+        async void OnNewNoteClicked (object sender, EventArgs args)
         {
             await Navigation.PushAsync(new NewNotePage("",""));
         }

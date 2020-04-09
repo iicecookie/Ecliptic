@@ -1,4 +1,4 @@
-﻿using SQLite;
+﻿//using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +7,7 @@ namespace Ecliptic.Models
 {
     public class Worker
     {
-        [PrimaryKey, AutoIncrement, Column("id")]
+       // [PrimaryKey, AutoIncrement, Column("id")]
         public int Id { get; set; }
 
         public string FirstName { get; set; }

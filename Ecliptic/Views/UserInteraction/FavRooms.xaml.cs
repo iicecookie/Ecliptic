@@ -36,11 +36,7 @@ namespace Ecliptic.Views.UserInteraction
         protected override void OnAppearing()
         {
             rooms.Clear();
-            /*
-            foreach (var i in User.CurrentUser.Favorites)
-            {
-                rooms.Add(i);
-            }*/
+
             base.OnAppearing();
         }
     }

@@ -20,6 +20,7 @@
 
             <Label 
                    x:Name="label"
+                   Text="Тебе тут не место"
                    HorizontalOptions="Center" 
                    Margin="50"
                    Style="{DynamicResource TitleStyle}" />

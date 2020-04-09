@@ -15,7 +15,6 @@ namespace Ecliptic.Data
 
         static NoteData()
         {
-
             Notes = new List<Note>();
 
             using (var db = new ApplicationContext())

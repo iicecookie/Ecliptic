@@ -81,35 +81,29 @@ namespace Ecliptic.Views.UserInteraction
 
         private async void LoginIn(object sender, EventArgs e)
         {
-            if (LoginControls.LoginBox.Text == "" || LoginControls.PasswBox.Text == "")
+            if (LoginControls.LoginBox.Text == "" ||
+                LoginControls.PasswBox.Text == "")
             {
-                // WrongData();
                 await DisplayAlert("Опупка", "Заполните поля", "OK");
                 return;
             }
+
             // проверить есть ли на сервере пользователь
             // с заданным логином и паролем
-            // если все ОКе, 
+            // если все ОКе - загрузить его 
             if (User.CheckUser(LoginControls.LoginBox.Text, LoginControls.PasswBox.Text))
             {
                 // загружаем данные в User
                 User.LoadUser(LoginControls.LoginBox.Text, LoginControls.PasswBox.Text);
 
-                using (var db = new ApplicationContext())
-                {
-                    db.User.Add(User.CurrentUser);
 
-                    db.SaveChanges();
-                }
 
                 // открываем страницу с данными
                 GetUserPage();
             }
-            // иначе
             else
             {
                 await DisplayAlert("Alert", "Такого пользователя не существует", "OK");
-                //WrongData();
             }
         }
 

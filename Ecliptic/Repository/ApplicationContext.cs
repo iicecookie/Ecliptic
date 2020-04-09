@@ -27,7 +27,7 @@ namespace Ecliptic.Repository
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<User>().HasMany(c => c.Notes).WithOne(e => e.Owner);
+           // builder.Entity<User>().HasMany(c => c.Notes).WithOne(e => e.User);
 
          //   builder.Entity<Worker>().HasOne(c => c.Room)
          //                         .WithMany(c => c.Workers)
