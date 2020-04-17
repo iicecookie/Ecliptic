@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Ecliptic.Views.BuildingPage"
              x:Name="self"
+             xmlns:controls="clr-namespace:Ecliptic.Controls"
              Title="Room Details"
              xmlns:local="clr-namespace:Ecliptic"
              >
@@ -23,4 +24,34 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
-    </ContentPage>
+
+    <Shell.SearchHandler>
+        <controls:RoomSearchHandler Placeholder="Найти помещение"
+                                    ShowsResults="true">
+            <controls:RoomSearchHandler.ItemTemplate>
+                <DataTemplate>
+
+                    <Frame OutlineColor="Black"
+                           Padding="5">
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout>
+
+                                <Label Text="{Binding Name}" 
+                                       FontSize="15" 
+                                       VerticalOptions="StartAndExpand"/>
+
+                                <Label Text="{Binding Floor, StringFormat='{0} Этаж'}" 
+                                       FontSize="15" 
+                                       VerticalOptions="StartAndExpand"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+
+                </DataTemplate>
+            </controls:RoomSearchHandler.ItemTemplate>
+        </controls:RoomSearchHandler>
+    </Shell.SearchHandler>
+
+
+
+</ContentPage>

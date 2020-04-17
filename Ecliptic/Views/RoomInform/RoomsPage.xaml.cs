@@ -55,7 +55,7 @@ namespace Ecliptic.Views
         {
             string roomName = (e.CurrentSelection as Room).Name;
 
-            await Navigation.PushAsync(new RoomDetailPage(roomName));
+            await Shell.Current.GoToAsync($"roomdetails?name={roomName}");
         }
     }
 

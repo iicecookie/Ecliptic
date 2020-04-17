@@ -3,6 +3,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Ecliptic.Data;
 using Ecliptic.Models;
+using System.Collections.ObjectModel;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.ComponentModel;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Ecliptic.Controls
 {
@@ -19,8 +25,8 @@ namespace Ecliptic.Controls
             else
             {
                 ItemsSource = RoomData.Rooms
-                    .Where(room => room.Name.ToLower().Contains(newValue.ToLower())|| 
-                                room.Details.ToLower().Contains(newValue.ToLower()))
+                    .Where(room => room.Name   .ToLower().Contains(newValue.ToLower())|| 
+                                   room.Details.ToLower().Contains(newValue.ToLower()))
                     .ToList<Room>();
             }
         }
@@ -28,7 +34,6 @@ namespace Ecliptic.Controls
         protected override async void OnItemSelected(object item)
         {
             base.OnItemSelected(item);
-            await Task.Delay(500);
 
             await Shell.Current.GoToAsync($"roomdetails?name={((Room)item).Name}");
         }
