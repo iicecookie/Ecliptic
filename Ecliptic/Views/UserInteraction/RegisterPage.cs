@@ -27,7 +27,7 @@ namespace Ecliptic.Views.UserInteraction
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
 
-            RegisrationContrioolers.labelMessage = new Label
+            RegisrationContrioolers.labelMessage  = new Label
             {
                 Text = "Заполните поля",
                 Style = Device.Styles.TitleStyle,
@@ -35,7 +35,7 @@ namespace Ecliptic.Views.UserInteraction
                 //     VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Center
             };
-            RegisrationContrioolers.NameBox = new Entry
+            RegisrationContrioolers.NameBox       = new Entry
             {
                 Text = "",
                 Placeholder = "Имя пользователя",
@@ -49,7 +49,7 @@ namespace Ecliptic.Views.UserInteraction
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
-            RegisrationContrioolers.LoginBox = new Entry
+            RegisrationContrioolers.LoginBox      = new Entry
             {
                 Text = "",
                 Placeholder = "Имя",
@@ -63,7 +63,7 @@ namespace Ecliptic.Views.UserInteraction
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
-            RegisrationContrioolers.PasswBox = new Entry
+            RegisrationContrioolers.PasswBox      = new Entry
             {
                 Text = "",
                 Placeholder = "Пароль",
@@ -89,11 +89,11 @@ namespace Ecliptic.Views.UserInteraction
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
-            RegisrationContrioolers.RegisBtn = new Button
+            RegisrationContrioolers.RegisBtn      = new Button
             {
                 Text = "Зарегестрироваться",
             };
-            RegisrationContrioolers.LoginBtn = new Button
+            RegisrationContrioolers.LoginBtn      = new Button
             {
                 Text = "Уже есть учетная запись",
             };
@@ -115,7 +115,7 @@ namespace Ecliptic.Views.UserInteraction
 
         private async void RegistrUser(object sender, EventArgs e)
         {
-            if (RegisrationContrioolers.NameBox.Text == "" ||
+            if (RegisrationContrioolers.NameBox.Text  == "" ||
                 RegisrationContrioolers.LoginBox.Text == "" ||
                 RegisrationContrioolers.PasswBox.Text == "" ||
                 RegisrationContrioolers.PasswCheckBox.Text == "")

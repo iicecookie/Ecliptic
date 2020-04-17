@@ -4,8 +4,6 @@ using SkiaSharp;
 
 namespace Ecliptic.Views
 {
-
-
     class TouchManipulationInfo
     {
         public SKPoint PreviousPoint { set; get; }

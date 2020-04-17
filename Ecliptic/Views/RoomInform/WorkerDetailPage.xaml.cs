@@ -11,7 +11,6 @@ using Xamarin.Forms.Xaml;
 
 namespace Ecliptic.Views
 {
-   // [QueryProperty("FirstName", "firstfame")]
     public partial class WorkerDetailPage : ContentPage
     {
         public string FirstName
@@ -128,17 +127,15 @@ namespace Ecliptic.Views
             this.Content = scrollView;
 
         }
-        
-        // DisplayAlert("Alert", "и заново" + Current.Favorite, "OK");
 
-        // On open page
         protected override void OnAppearing()
         {
 
 
         }
+
         // Buttons on page
-        async void clickphone(object sender, EventArgs args)
+        void clickphone(object sender, EventArgs args)
         {
             try
             {
@@ -159,12 +156,11 @@ namespace Ecliptic.Views
 
             //  await DisplayAlert("Alert", "You have 1 been alerted"+Current.Phone , "OK");
         }
-        async void clickSite(object sender, EventArgs args)
+        void clickSite (object sender, EventArgs args)
         {
             new System.Threading.Thread(() =>
             {
                 Launcher.OpenAsync(new Uri(Current.Site));
-                //Device.OpenUri(new Uri(Current.Site));
             }).Start();
         }
     }

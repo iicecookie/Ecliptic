@@ -23,7 +23,7 @@ namespace Ecliptic.Models
 
         public virtual List<Note> Notes { get; set; }
 
-     //   public virtual List<Room> Favorites { get; set; }
+        public virtual List<Room> Favorites { get; set; }
 
         public static bool isNull
         {
@@ -42,8 +42,8 @@ namespace Ecliptic.Models
             Name = "";
             Login = "";
             Password = "";
-            Notes = new List<Note>();
-     //       Favorites = new List<Room>();
+            Notes     = new List<Note>();
+            Favorites = new List<Room>();
         }
         private User(string Name, string login, string pass) : this()
         {
@@ -103,12 +103,12 @@ namespace Ecliptic.Models
 
             User.LoadNotesFromBd();
 
-            /*
+            
             CurrentUser.Favorites.Add(new Room
             {
                 Name = "213",
                 Floor = 1,
-                Staff = new List<Worker>
+                Workers = new List<Worker>
                 {
                      WorkerData.GetWorker("Makarov","Kirya"),
                      WorkerData.GetWorker("Uraeva","Elena"),
@@ -148,7 +148,7 @@ namespace Ecliptic.Models
                 Details = "The giant panda, also known as panda bear or simply panda, is a bear native to south central China. It is easily recognized by the large, distinctive black patches around its eyes, over the ears, and across its round body. The name giant panda is sometimes used to distinguish it from the unrelated red panda. Though it belongs to the order Carnivora, the giant panda's diet is over 99% bamboo. Giant pandas in the wild will occasionally eat other grasses, wild tubers, or even meat in the form of birds, rodents, or carrion. In captivity, they may receive honey, eggs, fish, yams, shrub leaves, oranges, or bananas along with specially prepared food.",
 
             });
-            */
+            
             return CurrentUser;
         }
 

@@ -111,8 +111,8 @@ namespace Ecliptic.Views
             List<RoomGroup> Floors = new List<RoomGroup>();
 
             var rooms = RoomData.Rooms.GroupBy(room => room.Floor)
-                                       .Select(group => group.First())
-                                       .OrderBy(order=>order.Floor);
+                                      .Select (group => group.First())
+                                      .OrderBy(order=>order.Floor);
 
             foreach (var i in rooms)
                 Floors.Add(new RoomGroup(i.Floor.ToString() + " Этаж", i.Floor.ToString()));

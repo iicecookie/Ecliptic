@@ -15,108 +15,6 @@ using Ecliptic.Data;
 
 namespace Ecliptic.Views.RoomInform
 {
-	/*
-	public partial class QrScan : ContentPage
-	{
-		ZXingScannerPage scanPage;
-
-		Button buttonScan;
-
-		public QrScan() : base()
-		{
-			InitializeComponent();
-		}
-
-		protected override void OnAppearing()
-		{
-			Label lab1 = new Label
-			{
-				Text = "dfghjkl;",
-				
-
-			};
-			buttonScan= new Button
-			{
-				Text = "Scan with Default Overlay",
-				AutomationId = "scanWithDefaultOverlay",
-			};
-
-			buttonScan.Clicked += async delegate
-			{
-				scanPage = new ZXingScannerPage();
-				scanPage.OnScanResult += (result) =>
-				{
-					scanPage.IsScanning = false;
-
-					Device.BeginInvokeOnMainThread(async () =>
-					{
-						await Navigation.PopAsync();
-
-						
-						if (RoomData.isThatRoom(result.Text))
-						{
-							await Shell.Current.GoToAsync($"roomdetails?name={result.Text}");
-						}
-						else
-						{
-							await DisplayAlert("Scanned Barcode ", result.Text, "OK");
-						}
-					});
-				};
-				await Navigation.PushAsync(scanPage);
-			};
-
-            var stack = new StackLayout();
-
-			stack.Children.Add(lab1);
-			stack.Children.Add(buttonScan);
-
-		//	ScrollView scrollView = new ScrollView();
-		//	scrollView.Content = stack;
-
-			this.Content = stack;
-		}
-	}
-	*/
-	/*
-	public partial class QrScan : ContentPage
-	{
-		ZXingScannerView scanPage;
-
-		public QrScan() : base()
-		{
-			InitializeComponent();
-		}
-
-		protected override void OnAppearing()
-		{
-			scanPage = new ZXingScannerView();
-			
-			scanPage.OnScanResult += (result) =>
-			{
-				scanPage.IsScanning = false;
-
-				Device.BeginInvokeOnMainThread(async () =>
-				{
-					if (RoomData.isThatRoom(result.Text))
-					{
-						await Shell.Current.GoToAsync($"roomdetails?name={result.Text}");
-					}
-					else
-					{
-						await DisplayAlert("Scanned Barcode ", result.Text, "OK");
-					}
-				});
-			};
-
-			scanPage.IsScanning = true;
-
-			this.Content = scanPage;
-		}
-	}
-
-	*/
-
 	public partial class QrScan : ContentPage
 	{
 		ZXingScannerView    zxing;
@@ -139,16 +37,15 @@ namespace Ecliptic.Views.RoomInform
 				{
 					// Stop analysis until we navigate away so we don't keep reading barcodes
 					zxing.IsAnalyzing = false;
-					zxing.IsScanning = false;
+					zxing.IsScanning  = false;
 
 					// Show an alert
 					if (result.Text != null)
 						if (RoomData.isThatRoom(result.Text))
 						{
 							await Shell.Current.GoToAsync($"roomdetails?name={result.Text}");
-							zxing.IsScanning = true;
+							zxing.IsScanning  = true;
 							zxing.IsAnalyzing = true;
-
 						}
 						else
 						{
@@ -158,7 +55,7 @@ namespace Ecliptic.Views.RoomInform
 
 			overlay = new ZXingDefaultOverlay
 			{
-				TopText = "Поднесите телефон к штрих-коду",
+				TopText	   = "Поднесите телефон к штрих-коду",
 				BottomText = "Сканирование произойдет автоматически",
 				ShowFlashButton = zxing.HasTorch,
 			};
@@ -168,13 +65,12 @@ namespace Ecliptic.Views.RoomInform
 			};
 			var grid = new Grid
 			{
-				VerticalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions   = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 			};
 			grid.Children.Add(zxing);
 			grid.Children.Add(overlay);
 
-			// The root page of your application
 			Content = grid;
 		}
 
@@ -189,7 +85,7 @@ namespace Ecliptic.Views.RoomInform
 			Content = contentHolder;
 		}
 
-		protected override void OnDisappearing	()
+		protected override void OnDisappearing()
 		{
 			zxing.IsScanning = false;
 

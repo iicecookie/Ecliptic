@@ -1,5 +1,4 @@
 ﻿using Ecliptic.Data;
-//using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,10 +6,8 @@ using System.Text;
 
 namespace Ecliptic.Models
 {
-   // [Table("Notes")]
     public class Note
     {
-      //  [PrimaryKey, AutoIncrement, Column("id")]
         public int Id { get; set; }
 
         public string Text { get; set; }
@@ -24,7 +21,7 @@ namespace Ecliptic.Models
         public bool isPublic { get; set; } // общая ли заметтка или нет
 
 
-        public virtual int UserId { get; set; }
+        public virtual int? UserId { get; set; }
         public virtual User User { get; set; }
 
         public Note()

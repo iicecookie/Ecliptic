@@ -44,9 +44,9 @@ namespace Ecliptic.Views
             canvas.Concat(ref matrix);
             canvas.DrawBitmap(bitmap, 0, 0);
 
+
             if (floor == TouchManipulationMode.ScaleDualRotate)
             {
-
                 canvas.DrawLine(0, 0, 500, 0, paint);
                 canvas.DrawLine(500, 0, 500, 500, paint);
                 canvas.DrawLine(500, 500, 0, 500, paint);
@@ -137,8 +137,8 @@ namespace Ecliptic.Views
             {
                 int pivotIndex = infos[0].NewPoint == infos[0].PreviousPoint ? 0 : 1;
                 SKPoint pivotPoint = infos[pivotIndex].NewPoint;
-                SKPoint newPoint = infos[1 - pivotIndex].NewPoint;
-                SKPoint prevPoint = infos[1 - pivotIndex].PreviousPoint;
+                SKPoint newPoint   = infos[1 - pivotIndex].NewPoint;
+                SKPoint prevPoint  = infos[1 - pivotIndex].PreviousPoint;
 
                 touchMatrix = TouchManager.TwoFingerManipulate(prevPoint, newPoint, pivotPoint);
             }

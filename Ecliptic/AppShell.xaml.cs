@@ -17,8 +17,8 @@ namespace Ecliptic
         Dictionary<string, Type> routes = new Dictionary<string, Type>();
         public Dictionary<string, Type> Routes { get { return routes; } }
 
-        public ICommand HelpCommand => new Command<string>((url) => Device.OpenUri(new Uri(url)));
-        public ICommand RandomPageCommand => new Command(async () => await NavigateToRandomPageAsync());
+    //    public ICommand HelpCommand => new Command<string>((url) => Device.OpenUri(new Uri(url)));
+    //    public ICommand RandomPageCommand => new Command(async () => await NavigateToRandomPageAsync());
 
         public AppShell()
         {

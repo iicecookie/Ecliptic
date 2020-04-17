@@ -12,18 +12,13 @@ namespace Ecliptic.Views.UserInteraction
 {
     public partial class FavRoomsPage : ContentPage
     {
-        ObservableCollection<Room> rooms = new ObservableCollection<Room>();
-        public ObservableCollection<Room> Rooms { get { return rooms; } }
-
-        bool i = false;
-
         public FavRoomsPage()
         {
             InitializeComponent();
 
             Title = "Избоанные аудитории";
 
-            RoomView.ItemsSource = rooms;
+            RoomView.ItemsSource = User.CurrentUser.Favorites;
         }
 
         private async void RoomView_ItemTapped(object sender, ItemTappedEventArgs e)

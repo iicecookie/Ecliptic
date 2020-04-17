@@ -25,12 +25,11 @@ namespace Ecliptic.Views
                 Label label3 = null;
                 Label label4 = null;
                 Label label5 = null;
-                Label label6 = null;
 
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
 
-                if (Current.Name        != null)
+                if (Current.Name != null)
                 {
                     label1 = new Label
                     {
@@ -54,7 +53,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label2);
                 }
-                if (Current.Details     != null)
+                if (Current.Details != null)
                 {
                     label3 = new Label
                     {
@@ -65,7 +64,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label3);
                 }
-                if (Current             == null)
+                if (Current == null)
                 {
                     label4 = new Label
                     {
@@ -75,7 +74,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label4);
                 }
-                if (Current.Phone       != null)
+                if (Current.Phone != null)
                 {
                     button1 = new Button
                     {
@@ -85,7 +84,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(button1);
                 }
-                if (Current.Site        != null)
+                if (Current.Site != null)
                 {
                     button2 = new Button
                     {
@@ -95,7 +94,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(button2);
                 }
-                if (Current.Timetable   != null)
+                if (Current.Timetable != null)
                 {
                     label5 = new Label
                     {
@@ -224,7 +223,8 @@ namespace Ecliptic.Views
                     }
                     this.ToolbarItems.Add(item);
                 }
-                    
+
+                var v = NoteData.Notes;
                 // публичные заметки
                 if (NoteData.Notes.Count != 0)
                 {
@@ -312,21 +312,10 @@ namespace Ecliptic.Views
             InitializeComponent();
         }
 
-       // On open page
-       //protected override void OnAppearing()
-       //{
-       //   if (User.getInstance() != null)
-       //   {
-       //       ToolbarItem item = ToolbarItems.Last();
-       //
-       //       if (User.isRoomFavoit(Current))
-       //       {
-       //           item.IconImageSource = "@drawable/stared.png";
-       //           return;
-       //       }
-       //       item.IconImageSource = "@drawable/unstared.png";
-       //   }
-       //}
+        protected override void OnAppearing()
+        {
+
+        }
 
         // Buttons on page
         async void clickphone(object sender, EventArgs args)
@@ -347,15 +336,13 @@ namespace Ecliptic.Views
             {
                 // Other error has occurred.
             }
-
-            //  await DisplayAlert("Alert", "You have 1 been alerted"+Current.Phone , "OK");
         }
-        async void clickSite(object sender, EventArgs args)
+
+        void clickSite(object sender, EventArgs args)
         {
             new System.Threading.Thread(() =>
             {
                 Launcher.OpenAsync(new Uri(Current.Site));
-                //Device.OpenUri(new Uri(Current.Site));
             }).Start();
         }
         async void clickPers(object sender, EventArgs args)
@@ -364,14 +351,11 @@ namespace Ecliptic.Views
 
             string[] words = btn.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            
-            //DisplayAlert("Alert", words[2] ?? "no", "OK");
-
             await Navigation.PushAsync(new WorkerDetailPage(words));
         }
 
         // Star click
-        async void OnfaviriteClicked(object sender, EventArgs args)
+        void OnfaviriteClicked(object sender, EventArgs args)
         {
             if (User.getInstance() != null)
             {
@@ -380,12 +364,12 @@ namespace Ecliptic.Views
                 if (User.isRoomFavoit(Current))
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                   // User.CurrentUser.Favorites.Remove(Current);
+                    // User.CurrentUser.Favorites.Remove(Current);
                 }
                 else
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                 //   User.CurrentUser.Favorites.Add(Current);
+                    //   User.CurrentUser.Favorites.Add(Current);
                 }
             }
         }

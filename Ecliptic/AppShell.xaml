@@ -119,6 +119,12 @@
 
         <ShellContent Route="Buildings"
                       Style= "{StaticResource BuildingShell}"
+                      Title="Маршрут"
+                      Icon="bread.png"
+                      ContentTemplate="{DataTemplate views:FindWayPage}" />
+
+        <ShellContent Route="Buildings"
+                      Style= "{StaticResource BuildingShell}"
                       Title="Все здания"
                       Icon="cat.png"
                       ContentTemplate="{DataTemplate views:BuildingPage}" />

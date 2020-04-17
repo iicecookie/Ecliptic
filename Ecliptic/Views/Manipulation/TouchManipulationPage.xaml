@@ -93,6 +93,7 @@
                 SelectedIndexChanged="OnTouchModePickerSelectedIndexChanged"
                 BackgroundColor="Snow" 
                 >
+            
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type local:TouchManipulationMode}">
                     <x:Static Member="local:TouchManipulationMode.None" />

@@ -26,7 +26,7 @@ namespace Ecliptic.Views
                 if (Magnitude(newVector) > 25 && Magnitude(oldVector) > 25)
                 {
                     float prevAngle = (float)Math.Atan2(oldVector.Y, oldVector.X);
-                    float newAngle = (float)Math.Atan2(newVector.Y, newVector.X);
+                    float newAngle  = (float)Math.Atan2(newVector.Y, newVector.X);
 
                     // Calculate rotation matrix
                     float angle = newAngle - prevAngle;
