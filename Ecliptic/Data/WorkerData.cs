@@ -31,7 +31,7 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Email = "seliv@mail.ru",
-                RoomId = DbService.GetRoom(3).RoomId,
+                RoomId = DbService.GetRoomById(3).RoomId,
             });
             DbService.AddWorker(new Worker
             {
@@ -44,7 +44,7 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Email = "seliv@mail.ru",
-                RoomId = DbService.GetRoom(1).RoomId,
+                RoomId = DbService.GetRoomById(1).RoomId,
             });
             DbService.AddWorker(new Worker
             {
@@ -57,7 +57,7 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Email = "seliv@mail.ru",
-                RoomId = DbService.GetRoom(3).RoomId,
+                RoomId = DbService.GetRoomById(3).RoomId,
             });
         }
 
