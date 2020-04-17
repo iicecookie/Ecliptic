@@ -18,9 +18,9 @@ namespace Ecliptic.Data
             Notes = new List<Note>();
 
             DbService.AddNote(new Note("I'm open note", "213", "KGU", true));
+            DbService.AddNote(new Note("I'm open okey", "213", "KGU", true));
             DbService.AddNote(new Note("I'm open yesi", "522", "KGU", true));
             DbService.AddNote(new Note("I'm open noby", "231", "KGU", true));
-            DbService.AddNote(new Note("I'm open okey", "213", "KGU", true));
             DbService.AddNote(new Note("I'm open puko", "409", "KGU", true));
 
             Notes = DbService.LoadAllNotes();

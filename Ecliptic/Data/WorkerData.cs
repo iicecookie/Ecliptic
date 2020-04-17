@@ -10,12 +10,15 @@ namespace Ecliptic.Data
 {
     public static class WorkerData
     {
-        public static List<Worker> Workers { get; private set; }
+        public static List<Worker> Workers { get; set; }
 
         static WorkerData()
         {
             Workers = new List<Worker>();
+        }
 
+        public static void LoadHomeWorkers()
+        {
             DbService.AddWorker(new Worker
             {
                 FirstName = "Celivans",
@@ -28,8 +31,7 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Email = "seliv@mail.ru",
-                RoomId = RoomData.Rooms.ElementAt(0).RoomId,
-
+                RoomId = DbService.GetRoom(3).RoomId,
             });
             DbService.AddWorker(new Worker
             {
@@ -42,7 +44,7 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Email = "seliv@mail.ru",
-                RoomId = RoomData.Rooms.ElementAt(1).RoomId,
+                RoomId = DbService.GetRoom(1).RoomId,
             });
             DbService.AddWorker(new Worker
             {
@@ -55,12 +57,8 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Email = "seliv@mail.ru",
-                RoomId = RoomData.Rooms.ElementAt(2).RoomId,
+                RoomId = DbService.GetRoom(3).RoomId,
             });
-
-            Workers = DbService.RelationsWorkersRoom();
-
-            RoomData.Rooms = DbService.RelationsRoomsWorker();
         }
 
         public static Worker GetWorker(string first, string second = null, string last = null)

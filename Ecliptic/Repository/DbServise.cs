@@ -79,6 +79,10 @@ namespace Ecliptic.Repository
 
             db.SaveChanges();
         }
+        public static Room GetRoom(int id)
+        {
+            return db.Rooms.ToList().Where(s => s.RoomId == id).First();
+        }
 
         public static List<Room> RelationsRoomsWorker()
         {

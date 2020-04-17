@@ -17,6 +17,16 @@ namespace Ecliptic.Data
         {
             Rooms = new List<Room>();
 
+            // загрузка информации
+            LoadHomeRooms();
+            WorkerData.LoadHomeWorkers();
+            
+            WorkerData.Workers = DbService.RelationsWorkersRoom();
+            Rooms = DbService.RelationsRoomsWorker();
+        }
+
+        public static void LoadHomeRooms()
+        {
             DbService.AddRoom(new Room
             {
                 Name = "213",
@@ -25,12 +35,12 @@ namespace Ecliptic.Data
                 Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
                 Phone = "8(906)6944309",
                 Timetable = "Время работы:вторник	  10:00–22:00" +
-        "             среда       10:00–22:00" +
-        "             четверг     10:00–22:00" +
-        "             пятница     10:00–22:00" +
-        "             суббота     10:00–22:00" +
-        "             воскресенье 10:00–22:00" +
-        "             понедельник 10:00–22:00",
+"             среда       10:00–22:00" +
+"             четверг     10:00–22:00" +
+"             пятница     10:00–22:00" +
+"             суббота     10:00–22:00" +
+"             воскресенье 10:00–22:00" +
+"             понедельник 10:00–22:00",
 
             });
             DbService.AddRoom(new Room
@@ -147,14 +157,11 @@ namespace Ecliptic.Data
                 Details = "The California grizzly bear is an extinct subspecies of the grizzly bear, the very large North American brown bear. Grizzly could have meant grizzled (that is, with golden and grey tips of the hair) or fear-inspiring. Nonetheless, after careful study, naturalist George Ord formally classified it in 1815 – not for its hair, but for its character – as Ursus horribilis (terrifying bear). Genetically, North American grizzlies are closely related; in size and coloring, the California grizzly bear was much like the grizzly bear of the southern coast of Alaska. In California, it was particularly admired for its beauty, size and strength. The grizzly became a symbol of the Bear Flag Republic, a moniker that was attached to the short-lived attempt by a group of American settlers to break away from Mexico in 1846. Later, this rebel flag became the basis for the state flag of California, and then California was known as the Bear State.",
                 Site = "okasdjasdk",
             });
-
-            Rooms = DbService.RelationsRoomsWorker();
-
         }
 
         public static bool isThatRoom(string room)
         {
-            foreach (var i in RoomData.Rooms)
+            foreach (var i in Rooms)
             {
                 if (i.Name == room)
                     return true;

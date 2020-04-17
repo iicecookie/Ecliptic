@@ -19,7 +19,7 @@ namespace Ecliptic.Views
 
         public RoomDetailPage(string name):this()
         { 
-            Current = RoomData.Rooms.FirstOrDefault(m => m.Name == Uri.UnescapeDataString(name));//.Clone();
+            Current = RoomData.Rooms.FirstOrDefault(m => m.Name == Uri.UnescapeDataString(name));
 
             Button button1 = null;
             Button button2 = null;
@@ -109,17 +109,6 @@ namespace Ecliptic.Views
                 stackLayout.Children.Add(label5);
             }
 
-            var ww = RoomData.Rooms;
-
-            if (Current.Workers.Count == 0)
-                foreach (var r in WorkerData.Workers)
-                {
-                    if (Current.RoomId == r.RoomId)
-                    {
-                        Current = r.Room;
-                    }
-                }
-
             if (Current.Workers.Count > 0)
             {
                 Label labeq = new Label
@@ -149,21 +138,27 @@ namespace Ecliptic.Views
             // персональные заметки (только приватные)
             if (!User.isNull)
             {
-                if (User.CurrentUser.Notes.Count != 0)
-                {
-                    Label labelN = new Label
-                    {
-                        Text = "Заметки " + User.CurrentUser.Name,
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-                    stackLayout.Children.Add(labelN);
-                }
+                bool isNote = false;
 
                 foreach (var i in User.CurrentUser.Notes)
                 {
                     if (i.Room == Current.Name)// && i.isPublic == false)
                     {
+                        if (isNote == false)
+                            if (User.CurrentUser.Notes.Count != 0)
+                            {
+                                Label labelN = new Label
+                                {
+                                    Text = "Заметки " + User.CurrentUser.Name,
+                                    Style = Device.Styles.BodyStyle,
+                                    HorizontalOptions = LayoutOptions.Center
+                                };
+                                stackLayout.Children.Add(labelN);
+                                isNote = true;
+                            }
+
+
+
                         Grid grid = new Grid
                         {
                             RowDefinitions =  {
@@ -227,7 +222,6 @@ namespace Ecliptic.Views
                 this.ToolbarItems.Add(item);
             }
 
-            var v = NoteData.Notes;
             // публичные заметки
             if (NoteData.Notes.Count != 0)
             {
@@ -310,7 +304,7 @@ namespace Ecliptic.Views
         }
 
         // Buttons on page
-        async void clickphone(object sender, EventArgs args)
+        void clickphone(object sender, EventArgs args)
         {
             try
             {
