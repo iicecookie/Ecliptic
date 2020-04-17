@@ -6,7 +6,6 @@ using Ecliptic.Data;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using Ecliptic.ViewModels;
 using System.ComponentModel;
 
 namespace Ecliptic.Views

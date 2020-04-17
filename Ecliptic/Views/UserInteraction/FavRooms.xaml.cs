@@ -12,6 +12,10 @@ namespace Ecliptic.Views.UserInteraction
 {
     public partial class FavRoomsPage : ContentPage
     {
+        //  ObservableCollection<Room> rooms = new ObservableCollection<Room>();
+        //  public ObservableCollection<Room> Rooms { get { return rooms; } }
+
+
         public FavRoomsPage()
         {
             InitializeComponent();
@@ -30,7 +34,7 @@ namespace Ecliptic.Views.UserInteraction
 
         protected override void OnAppearing()
         {
-            rooms.Clear();
+            //        rooms.Clear();
 
             base.OnAppearing();
         }

@@ -21,9 +21,6 @@
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Views\Buildings\BuildingPage.xaml.cs">
       <DependentUpon>BuildingPage.xaml</DependentUpon>
     </Compile>
