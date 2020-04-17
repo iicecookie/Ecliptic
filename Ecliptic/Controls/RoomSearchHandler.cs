@@ -30,11 +30,7 @@ namespace Ecliptic.Controls
             base.OnItemSelected(item);
             await Task.Delay(500);
 
-            // Note: strings will be URL encoded for navigation (e.g. "Blue Monkey" becomes "Blue%20Monkey"). Therefore, decode at the receiver.
-            // This works because route names are unique in this application.
             await Shell.Current.GoToAsync($"roomdetails?name={((Room)item).Name}");
-            // The full route is shown below.
-            // await Shell.Current.GoToAsync($"//animals/monkeys/monkeydetails?name={((Animal)item).Name}");
         }
     }
 }

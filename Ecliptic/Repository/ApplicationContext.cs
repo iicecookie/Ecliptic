@@ -13,13 +13,10 @@ namespace Ecliptic.Repository
 
         public DbSet<Building> Buildings { get; set; }
 
-        public DbSet<User> User { get; set; }
-        public DbSet<Note> Notes { get; set; }
-        public DbSet<Room> Rooms { get; set; }
+        public DbSet<User>   User    { get; set; }
+        public DbSet<Note>   Notes   { get; set; }
+        public DbSet<Room>   Rooms   { get; set; }
         public DbSet<Worker> Workers { get; set; }
-
-
-        public static ApplicationContext db = new ApplicationContext();
 
         public ApplicationContext(string databasePath = "database.db")
         {
@@ -29,12 +26,6 @@ namespace Ecliptic.Repository
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // builder.Entity<User>().HasMany(c => c.Notes).WithOne(e => e.User);
-
-            //   builder.Entity<Worker>().HasOne(c => c.Room)
-            //                         .WithMany(c => c.Workers)
-            //                         .HasForeignKey(c => c.RoomId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

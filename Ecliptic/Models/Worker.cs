@@ -1,5 +1,4 @@
-﻿//using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +6,6 @@ namespace Ecliptic.Models
 {
     public class Worker
     {
-       // [PrimaryKey, AutoIncrement, Column("id")]
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -25,6 +23,8 @@ namespace Ecliptic.Models
 
         public virtual Room Room { get; set; }
         public virtual int? RoomId { get; set; }
+
+
 
         public Worker()
         {

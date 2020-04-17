@@ -28,6 +28,7 @@ namespace Ecliptic.Models
         {
 
         }
+
         // добавление заметок пользователя
         public Note(int userid, string text, string room, string building, bool acsess)
         {

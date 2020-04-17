@@ -17,13 +17,15 @@ namespace Ecliptic.Models
         public static User CurrentUser { get; private set; }
 
         #region Params
-        public string Name { get; private set; }
-        public string Login { get; private set; }
+        public string Name     { get; private set; }
+        public string Login    { get; private set; }
         public string Password { get; private set; }
 
-        public virtual List<Note> Notes { get; set; }
+        public virtual List<Note> Notes     { get; set; }
 
         public virtual List<Room> Favorites { get; set; }
+
+
 
         public static bool isNull
         {

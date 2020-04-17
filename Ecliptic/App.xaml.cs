@@ -18,24 +18,13 @@ namespace Ecliptic
         {
             InitializeComponent();
 
-            ApplicationContext db = new ApplicationContext();
+            DbService.RefrashDb();
 
-            // Удаляем бд, если она существуеты
-            db.Database.EnsureDeleted();
-            // Создаем бд, если она отсутствует
-            db.Database.EnsureCreated();
-
-            if (db.Buildings.Count() == 0)
-            {
-                db.Buildings.Add(new Building { Name = "Tom", Email = "tom@gmail.com", Phone = "+1234567" });
-                db.Buildings.Add(new Building { Name = "Alice", Email = "alice@gmail.com", Phone = "+3435957" });
-
-                db.SaveChanges();
-            }
+            DbService.AddBuilding(new Building { Name = "Tom", Email = "tom@gmail.com", Phone = "+1234567" });
+            DbService.AddBuilding(new Building { Name = "Alice", Email = "alice@gmail.com", Phone = "+3435957" });
 
             MainPage = new AppShell();
         }
-
 
         protected override void OnStart()
         {
