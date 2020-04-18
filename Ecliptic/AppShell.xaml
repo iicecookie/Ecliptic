@@ -80,7 +80,14 @@
             <Setter Property="Shell.BackgroundColor"
                     Value="ForestGreen" />
         </Style>
-        
+
+        <Style x:Key="WayShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#0c91fa" />
+        </Style>
+
         <Style x:Key="AboutShell"
                TargetType="Element"
                BasedOn="{StaticResource BaseStyle}">
@@ -107,7 +114,7 @@
 
         <ShellContent Route="Home"
                       Style= "{StaticResource HomeShell}"
-                      Title="Схема здания"
+                      Title="Схема"
                       Icon="paw.png"
                       ContentTemplate="{DataTemplate views:TouchManipulationPage}" />
 
@@ -118,7 +125,7 @@
                       ContentTemplate="{DataTemplate views:RoomsPage}" />
 
         <ShellContent Route="Buildings"
-                      Style= "{StaticResource BuildingShell}"
+                      Style= "{StaticResource WayShell}"
                       Title="Маршрут"
                       Icon="bread.png"
                       ContentTemplate="{DataTemplate views:FindWayPage}" />

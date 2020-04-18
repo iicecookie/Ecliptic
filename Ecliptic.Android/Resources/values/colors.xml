@@ -7,10 +7,11 @@
     <color name="primary">#2196F3</color>
     <color name="primaryDark">#1976D2</color>
     <color name="accent">#FFC107</color>
+
+    <color name="ListViewSelected">#96BCE3</color>
+    <color name="ListViewHighlighted">#E39696</color>
   
     <color name="window_background">#F5F5F5</color>
     <color name="splash_background">#000000</color>
-    <color name="ListViewSelected">#96BCE3</color>
-    <color name="ListViewHighlighted">#E39696</color>
 
 </resources>

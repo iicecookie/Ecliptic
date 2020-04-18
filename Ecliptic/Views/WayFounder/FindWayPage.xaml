@@ -7,8 +7,9 @@
              x:Class="Ecliptic.Views.FindWayPage"
              BackgroundColor="AliceBlue"
              Title="Поиск маршрута">
-    
+
     <ContentPage.Resources>
+
         <Style TargetType="Grid">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -25,6 +26,7 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
+
     </ContentPage.Resources>
 
     <Shell.SearchHandler>
@@ -53,5 +55,105 @@
             </controls:RoomSearchHandler.ItemTemplate>
         </controls:RoomSearchHandler>
     </Shell.SearchHandler>
+
+    <!-- ____________________________________________________________________________________________________ -->
+
+    <ScrollView>
+        <StackLayout>
+
+            <Label 
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="From:" FontSize="Large" FontAttributes="Bold"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <SearchBar x:Name="searchBar1" 
+                       VerticalOptions="Center"
+                       TextChanged="OnTextFromChanged"/>
+
+            <StackLayout x:Name="stackBar1">
+                <ListView  x:Name="searchResults1"
+                           
+                           ItemsSource="{Binding Room}"
+                           ItemTapped="OnRoomFromTapped"
+                           SeparatorVisibility="Default"    
+                           RowHeight="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
+                                                    <Span Text="{Binding Floor, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="15"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <!-- ____________________________________________________________________________________________ -->
+
+            <Label HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="To:" FontSize="Large" FontAttributes="Bold"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <SearchBar x:Name="searchBar2" TextChanged="OnTextToChanged"/>
+
+            <StackLayout x:Name="stackBar2">
+                <ListView  x:Name="searchResults2"
+                           ItemTapped="OnRoomToTapped"
+                           SeparatorVisibility="Default"
+                           RowHeight="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
+                                                    <Span Text="{Binding Floor, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="15"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <!-- ____________________________________________________________________________________________ -->
+
+            <Button
+                Text="Построить маршрут"
+                VerticalOptions="Start"
+                HorizontalOptions="Fill"
+                Clicked="Button_Clicked">
+            </Button>
+
+        </StackLayout>
+    </ScrollView>
+
 
 </ContentPage>
