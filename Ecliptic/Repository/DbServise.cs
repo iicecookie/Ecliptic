@@ -57,8 +57,6 @@ namespace Ecliptic.Repository
         public static void AddWorker(Worker worker)
         {
             db.Workers.Add(worker);
-
-            db.SaveChanges();
         }
 
         public static List<Worker> RelationsWorkersRoom()
@@ -76,8 +74,6 @@ namespace Ecliptic.Repository
         public static void AddRoom(Room room)
         {
             db.Rooms.Add(room);
-
-            db.SaveChanges();
         }
         public static Room GetRoomById(int id)
         {

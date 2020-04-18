@@ -121,53 +121,21 @@
         <ShellContent Route="Rooms"
                       Style= "{StaticResource HomeShell}"
                       Title="Помещения"
-                      Icon="cat.png"
+                      Icon="List.png"
                       ContentTemplate="{DataTemplate views:RoomsPage}" />
 
-        <ShellContent Route="Buildings"
+        <ShellContent Route="WayFound"
                       Style= "{StaticResource WayShell}"
                       Title="Маршрут"
-                      Icon="bread.png"
+                      Icon="Map.png"
                       ContentTemplate="{DataTemplate views:FindWayPage}" />
 
         <ShellContent Route="Buildings"
                       Style= "{StaticResource BuildingShell}"
                       Title="Все здания"
-                      Icon="cat.png"
+                      Icon="build.png"
                       ContentTemplate="{DataTemplate views:BuildingPage}" />
 
-        <!--
-        <Tab Title="Domestic"
-             Route="domestic"
-             Icon="paw.png">
-            <ShellContent Route="cats"
-                          Style="{StaticResource DomesticShell}"
-                          Title="Cats"
-                          Icon="cat.png"
-                          ContentTemplate="{DataTemplate views:CatsPage}" />
-            <ShellContent Route="dogs"
-                          Style="{StaticResource DomesticShell}"
-                          Title="Dogs"
-                          Icon="dog.png"
-                          ContentTemplate="{DataTemplate views:DogsPage}" />
-        </Tab>
-        <ShellContent Route="monkeys"
-                      Style="{StaticResource MonkeysShell}"
-                      Title="Monkeys"
-                      Icon="monkey.png"
-                      ContentTemplate="{DataTemplate views:MonkeysPage}" />
-        <ShellContent Route="elephants"
-                      Style="{StaticResource ElephantsShell}"
-                      Title="Elephants"
-                      Icon="elephant.png"
-                      ContentTemplate="{DataTemplate views:ElephantsPage}" />
-        <ShellContent Route="bears"
-                      Style="{StaticResource BearsShell}"
-                      Title="Bears"
-                      Icon="bear.png"
-                      ContentTemplate="{DataTemplate views:BearsPage}" />
-       -->
-        
     </FlyoutItem>
 
     <ShellContent Route="Войти в учтеную запись"
@@ -190,9 +158,9 @@
                   Icon="info.png"
                   ContentTemplate="{DataTemplate views:AboutPage}" />
 
-    <MenuItem Text="Техподдержка"
-              IconImageSource="help.png"
-              Command="{Binding HelpCommand}"
-              CommandParameter="https://vk.com/progksu" />
+    <MenuItem     Text="Техподдержка"
+                  IconImageSource="help.png"
+                  Command="{Binding HelpCommand}"
+                  CommandParameter="https://vk.com/progksu" />
 
 </Shell>

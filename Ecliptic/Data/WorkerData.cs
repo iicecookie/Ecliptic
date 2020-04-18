@@ -59,6 +59,8 @@ namespace Ecliptic.Data
                 Email = "seliv@mail.ru",
                 RoomId = DbService.GetRoomById(3).RoomId,
             });
+
+            DbService.SaveDb();
         }
 
         public static Worker GetWorker(string first, string second = null, string last = null)
