@@ -142,14 +142,14 @@
                   x:Name="userpage"
                   Style="{StaticResource UserShell}"
                   Title="Учетная запись"
-                  Icon="info.png"
+                  Icon="user.png"
                   ContentTemplate="{DataTemplate user:Authorization  }" />
 
     <ShellContent Route="Сканировать"
                   x:Name="qrpage"
                   Style="{StaticResource QRShell}"
                   Title="Поиск по штрих-коду "
-                  Icon="info.png"
+                  Icon="code.png"
                   ContentTemplate="{DataTemplate room:QrScan  }" />
 
     <ShellContent Route="About"
