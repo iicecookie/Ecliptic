@@ -7,37 +7,32 @@
 
     <ListView x:Name="RoomView"
               ItemsSource="{Binding Room}"
-              HasUnevenRows="True"
+
+              
+              BackgroundColor="#FFDFFFFF"
+              RowHeight="52"
               ItemTapped="RoomView_ItemTapped">
 
         <ListView.ItemTemplate>
+            
             <DataTemplate>
-
                 <ViewCell>
-                    <ContentView Padding="5">
-                        <Frame OutlineColor="Accent"
-                               Padding="10">
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout>
-
-                                    <Label Text="{Binding Name}"    
-                                           FontSize="18" 
-                                           VerticalOptions="StartAndExpand"/>
-
-                                    <Label Text="{Binding Floor, StringFormat='{0} Этаж'}" 
-                                           FontSize="15" 
-                                           VerticalOptions="StartAndExpand"/>
-                                    
-                                    <Label Text="{Binding Details}" 
-                                           FontSize="18" 
-                                           VerticalOptions="StartAndExpand"/>
-                                </StackLayout>
-                            </StackLayout>
-                        </Frame>
-                    </ContentView>
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout>
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
+                                        <Span Text="{Binding Floor, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="15"/>
+                        </StackLayout>
+                    </StackLayout>
                 </ViewCell>
-
             </DataTemplate>
+            
         </ListView.ItemTemplate>
     </ListView>
 

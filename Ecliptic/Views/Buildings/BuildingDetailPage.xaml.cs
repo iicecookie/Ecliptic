@@ -17,6 +17,7 @@ namespace Ecliptic.Views
         {
             InitializeComponent();
         }
+
         private void SaveFriend(object sender, EventArgs e)
         {
             var friend = (Building)BindingContext;
@@ -35,6 +36,7 @@ namespace Ecliptic.Views
             }
             this.Navigation.PopAsync();
         }
+
         private void DeleteFriend(object sender, EventArgs e)
         {
             var friend = (Building)BindingContext;

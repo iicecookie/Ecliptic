@@ -202,14 +202,14 @@ namespace Ecliptic.Models
 
 
         public static bool isRoomFavoit(Room room)
-        {/*
+        {
             foreach (var fav in CurrentUser.Favorites)
             {
-                if (fav.Name == room.Name && fav.Description == room.Description)
+                if (fav.Equals(room))
                 {
                     return true;
                 }
-            }*/
+            }
             return false;
         }
     }

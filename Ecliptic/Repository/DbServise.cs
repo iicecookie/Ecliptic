@@ -15,7 +15,7 @@ namespace Ecliptic.Repository
         public static void RefrashDb()
         {
             // Удаляем бд, если она существуеты
-        //    db.Database.EnsureDeleted();
+            db.Database.EnsureDeleted();
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
         }

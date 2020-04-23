@@ -5,6 +5,7 @@ using Ecliptic.Data;
 using System.Threading.Tasks;
 using Ecliptic.Models;
 using Xamarin.Essentials;
+using Ecliptic.Views.WayFounder;
 
 namespace Ecliptic.Views
 {
@@ -30,7 +31,7 @@ namespace Ecliptic.Views
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
 
-                if (Current.Name        != null)
+                if (Current.Name != null)
                 {
                     label1 = new Label
                     {
@@ -54,7 +55,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label2);
                 }
-                if (Current.Details     != null)
+                if (Current.Details != null)
                 {
                     label3 = new Label
                     {
@@ -75,7 +76,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(label4);
                 }
-                if (Current.Phone     != null)
+                if (Current.Phone != null)
                 {
                     button1 = new Button
                     {
@@ -85,7 +86,7 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(button1);
                 }
-                if (Current.Site      != null)
+                if (Current.Site != null)
                 {
                     button2 = new Button
                     {
@@ -209,14 +210,14 @@ namespace Ecliptic.Views
                     item.Clicked += OnfaviriteClicked;
                     item.Order = ToolbarItemOrder.Default;
                     item.Priority = 1;
-                    if (User.isRoomFavoit(Current))
-                    {
-                        item.IconImageSource = "@drawable/stared.png";
-                    }
-                    else
-                    {
-                        item.IconImageSource = "@drawable/unstared.png";
-                    }
+               //   if (User.isRoomFavoit(Current))
+               //   {
+               //       item.IconImageSource = "@drawable/stared.png";
+               //   }
+               //   else
+               //   {
+               //       item.IconImageSource = "@drawable/unstared.png";
+               //   }
                     this.ToolbarItems.Add(item);
                 }
 
@@ -297,6 +298,9 @@ namespace Ecliptic.Views
                 this.Content = scrollView;
             }
         }
+        // а что если инкапсулировать процесс создания контролелеров Лайбл и прочего в отдельные кнопки
+        // для сокращения кода и просто передавать туда имяна и прочую информацию
+        // можно даже сразу добавлять там в стак лайаут
 
         public Room Current { get; set; }
 
@@ -304,9 +308,20 @@ namespace Ecliptic.Views
         {
             InitializeComponent();
         }
-        
+
         protected override void OnAppearing()
         {
+            if (User.getInstance() != null)
+            {
+                if (User.isRoomFavoit(Current))
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+                }
+                else
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                }
+            }
 
         }
 
@@ -357,12 +372,12 @@ namespace Ecliptic.Views
                 if (User.isRoomFavoit(Current))
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                    // User.CurrentUser.Favorites.Remove(Current);
+                    User.CurrentUser.Favorites.Remove(Current);
                 }
                 else
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                    //   User.CurrentUser.Favorites.Add(Current);
+                    User.CurrentUser.Favorites.Add(Current);
                 }
             }
         }
@@ -372,13 +387,17 @@ namespace Ecliptic.Views
         {
             await DisplayAlert("Alert", "You have 1 been alerted", "OK");
         }
-        async void OnButton2Clicked(object sender, EventArgs args)
+        void OnButton2Clicked(object sender, EventArgs args)
         {
-            await DisplayAlert("Alert", "You have 2 been alerted", "OK");
+            Way.Begin = Current;
+
+            DependencyService.Get<Toast>().Show("Начало маршрута установлео");
         }
-        async void OnButton3Clicked(object sender, EventArgs args)
+        void OnButton3Clicked(object sender, EventArgs args)
         {
-            await DisplayAlert("Alert", "You have 3 been alerted", "OK");
+            Way.End = Current;
+
+            DependencyService.Get<Toast>().Show("Конец маршрута установлен");
         }
         async void OnButton4Clicked(object sender, EventArgs args)
         {

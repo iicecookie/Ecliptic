@@ -17,8 +17,6 @@ namespace Ecliptic.Views.UserInteraction
             InitializeComponent();
 
             Title = "Избоанные аудитории";
-
-            RoomView.ItemsSource = User.CurrentUser.Favorites;
         }
 
         private async void RoomView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -30,9 +28,9 @@ namespace Ecliptic.Views.UserInteraction
 
         protected override void OnAppearing()
         {
-            RoomView.ItemsSource = User.CurrentUser.Favorites;
-
             base.OnAppearing();
+            RoomView.ItemsSource = null;
+            RoomView.ItemsSource = User.CurrentUser.Favorites;
         }
     }
 }
