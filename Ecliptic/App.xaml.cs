@@ -23,6 +23,8 @@ namespace Ecliptic
             DbService.AddBuilding(new Building { Name = "Tom", Email = "tom@gmail.com", Phone = "+1234567" });
             DbService.AddBuilding(new Building { Name = "Alice", Email = "alice@gmail.com", Phone = "+3435957" });
 
+            DbService.LoadTestSample();
+
             MainPage = new AppShell();
         }
 

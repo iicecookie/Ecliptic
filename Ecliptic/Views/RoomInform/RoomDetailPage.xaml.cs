@@ -108,6 +108,8 @@ namespace Ecliptic.Views
                     stackLayout.Children.Add(label5);
                 }
 
+                var v = RoomData.Rooms;
+
                 if (Current.Workers.Count > 0)
                 {
                     Label labeq = new Label
