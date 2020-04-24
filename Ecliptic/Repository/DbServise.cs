@@ -1,11 +1,8 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Ecliptic.Repository
 {
@@ -16,13 +13,27 @@ namespace Ecliptic.Repository
         public static void RefrashDb()
         {
             // Удаляем бд, если она существуеты
-            db.Database.EnsureDeleted();
+        //    db.Database.EnsureDeleted();
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
         }
         public static void SaveDb()
         {
             db.SaveChanges();
+        }
+
+        public static void LoadAll()
+        {
+
+            NoteData.Notes = DbService.LoadAllNotes();
+            WorkerData.Workers = DbService.RelationsWorkersRoom();
+            RoomData.Rooms = DbService.RelationsRoomsWorker();
+
+            if (db.User.Count() > 0)
+            {
+                User.setInstance(LoadUserFromDb());
+               // LoadUserNotes(User.CurrentUser);
+            }
         }
 
         #region Notes
@@ -32,6 +43,13 @@ namespace Ecliptic.Repository
 
             db.SaveChanges();
         }
+        public static void RemoveNote(Note note)
+        {
+            db.Notes.Remove(note);
+
+            db.SaveChanges();
+        }
+
 
         public static List<Note> LoadAllNotes()
         {
@@ -91,6 +109,61 @@ namespace Ecliptic.Repository
         {
             return db.Rooms.ToList();
         }
+        #endregion
+
+        #region User
+
+        public static bool isSavedUser()
+        {
+            return db.User.ToList().Count > 0 ? true : false;
+        }
+
+        public static User LoadUserFromDb()
+        {
+            return db.User.ToList().First();
+        }
+
+        public static void SaveUser(User user)
+        {
+            db.User.Add(user);
+            db.SaveChanges();   
+        }
+
+        public static void RemoveUser(User user)
+        {
+            db.User.Remove(user);
+            db.SaveChanges();
+        }
+
+        public static void LoadUserNotes(User user)
+        {
+            user.Notes = db.Notes.Include(u => u.User).ToList();
+        }
+
+        public static void RemoveUsersNotes(List<Note> notes)
+        {
+            foreach (var note in notes)
+            {
+                db.Notes.Remove(note);
+            }
+            db.SaveChanges();
+        }
+
+        public static void LoadUserFavorites(User user)
+        {
+                user.Favorites = db.Rooms.Include(u => u.RoomId).ToList();
+        }
+
+        public static void RemoveUsersFavorites(List<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                db.Rooms.Remove(room);
+            }
+            db.SaveChanges();
+        }
+
+
         #endregion
 
         #region Sample
@@ -168,7 +241,6 @@ namespace Ecliptic.Repository
 "             суббота     10:00–22:00" +
 "             воскресенье 10:00–22:00" +
 "             понедельник 10:00–22:00",
-
             });
             AddRoom(new Room
             {

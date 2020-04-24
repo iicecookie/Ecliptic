@@ -1,5 +1,6 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
+using Ecliptic.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -195,14 +196,14 @@ namespace Ecliptic.Views.UserInteraction
             ImageButton btn = (ImageButton)sender;
 
             // сохранить в пользователе 
-            Note temp = null;
+            Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
 
             int i = 0;
             for (; i < User.CurrentUser.Notes.Count; i++)
             {
-                if (User.CurrentUser.Notes[i].Id == Int32.Parse(btn.AutomationId))
+                if (User.CurrentUser.Notes[i].Id == note.Id)
                 {
-                    temp = User.CurrentUser.Notes[i];
+                    note = User.CurrentUser.Notes[i];
                     break;
                 }
             }
@@ -211,35 +212,35 @@ namespace Ecliptic.Views.UserInteraction
             {
                 if (editor.AutomationId == btn.AutomationId)
                 {
-                    temp.Text = editor.Text;
+                    note.Text = editor.Text;
                     break;
                 }
             }
+
             foreach (var Cswitch in UserControls.Switches)
             {
                 if (Cswitch.AutomationId == btn.AutomationId)
                 {
-                    temp.isPublic = Cswitch.IsToggled;
+                    note.isPublic = Cswitch.IsToggled;
                     break;
                 }
             }
 
-            User.CurrentUser.Notes[i] = temp;
+            User.CurrentUser.Notes[i] = note;
 
             // отправить на сервер
-            SendToDatabase(btn.AutomationId);
-        }
 
-        void SendToDatabase(string room)
-        {
-
+            //   SendToDatabase(btn.AutomationId);
         }
 
         void OnButtonDeleteClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
 
-            User.DeleteNote(Int32.Parse(btn.AutomationId));
+            Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
+
+            DbService.RemoveNote(note);
+            DbService.LoadUserNotes(User.CurrentUser);
 
             GetUserPage();
         }

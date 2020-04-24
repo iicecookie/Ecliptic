@@ -81,8 +81,7 @@ namespace Ecliptic.Views.UserInteraction
 
         private async void LoginIn(object sender, EventArgs e)
         {
-            if (LoginControls.LoginBox.Text == "" ||
-                LoginControls.PasswBox.Text == "")
+            if (LoginControls.LoginBox.Text == "" || LoginControls.PasswBox.Text == "")
             {
                 await DisplayAlert("Опупка", "Заполните поля", "OK");
                 return;
@@ -95,8 +94,6 @@ namespace Ecliptic.Views.UserInteraction
             {
                 // загружаем данные в User
                 User.LoadUser(LoginControls.LoginBox.Text, LoginControls.PasswBox.Text);
-
-
 
                 // открываем страницу с данными
                 GetUserPage();

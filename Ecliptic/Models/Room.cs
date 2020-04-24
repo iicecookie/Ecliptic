@@ -17,15 +17,21 @@ namespace Ecliptic.Models
 
         public virtual List<Worker> Workers { get; set; } // работники 
 
+        public virtual int? UserId { get; set; }
+        public virtual User User { get; set; }
+
         public Room()
         {
             Description = " ";
             Workers = new List<Worker>();
         }
 
-        public Room(int roomId, string name, int floor, string details, string description, string timetable, string phone, string site, List<Worker> workers = null) : this()
+        public Room(string name, int floor, 
+                    string details=null, string description=null, string timetable=null, 
+                    string phone=null,   string site=null,  List<Worker> workers = null,
+                    User user = null) : this()
         {
-            RoomId = roomId;
+           // RoomId = roomId;
             Name = name;
             Floor = floor;
             Details = details;
@@ -33,9 +39,14 @@ namespace Ecliptic.Models
             Timetable = timetable;
             Phone = phone;
             Site = site;
+
             if (workers != null)
                 Workers = workers;
+
+            if (user != null)
+                UserId = user.UserId;
         }
+
 
         public object Clone()
         {

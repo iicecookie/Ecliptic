@@ -1,5 +1,6 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
+using Ecliptic.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -90,8 +91,6 @@ namespace Ecliptic.Views.UserInteraction
             stackLayout.Children.Add(NoteControls.Room);
             stackLayout.Children.Add(Lbuilding);
             stackLayout.Children.Add(NoteControls.Building);
-            // stackLayout.Children.Add(Lpublic);
-            // stackLayout.Children.Add(NoteControls.isPublic);
             stackLayout.Children.Add(SaveBtn);
             
             ScrollView scrollView = new ScrollView();
@@ -102,12 +101,14 @@ namespace Ecliptic.Views.UserInteraction
 
         async void OnButtonSaveClicked(object sender, EventArgs args)
         {
-            User.AddNote(new Note(User.CurrentUser.UserId,
+            DbService.AddNote(new Note(User.CurrentUser.UserId,
                                   NoteControls.Text.Text,
                                   NoteControls.Room.Text,
-                                  NoteControls.Building.Text,false));
-            
-            await Navigation.PopAsync ();
+                                  NoteControls.Building.Text, false));
+
+        //    DbService.LoadUserNotes(User.CurrentUser);
+
+            await Navigation.PopAsync();
         }
     }
 

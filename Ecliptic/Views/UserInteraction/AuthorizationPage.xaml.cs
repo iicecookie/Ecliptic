@@ -23,20 +23,7 @@ namespace Ecliptic.Views.UserInteraction
         {
             if (User.CurrentUser == null)
             {
-                using (var db = new ApplicationContext())
-                {
-                    if (db.User.Count() == 0)
-                    {
-                        GetLoginPage();
-                    }
-                    else
-                    {
-                        User.setInstance(db.User.ToList().First());
-                        User.LoadNotesFromBd();
-
-                        GetUserPage();
-                    }
-                }
+                GetLoginPage();
             }
             else
             {

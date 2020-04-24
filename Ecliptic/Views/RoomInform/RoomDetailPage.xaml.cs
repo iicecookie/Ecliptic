@@ -120,6 +120,7 @@ namespace Ecliptic.Views
                         Style = Device.Styles.TitleStyle,
                         HorizontalOptions = LayoutOptions.Start
                     };
+
                     stackLayout.Children.Add(labeq);
 
                     foreach (var i in Current.Workers)
