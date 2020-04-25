@@ -220,7 +220,7 @@ namespace Ecliptic.Views.UserInteraction
 
             DbService.UpdateNote(note);
 
-            DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " сохранена");
+            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " сохранена");
             // User.CurrentUser.Notes[i] = note;
 
             // отправить на сервер
@@ -234,7 +234,7 @@ namespace Ecliptic.Views.UserInteraction
 
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
 
-            DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " удалена");
+            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " удалена");
 
             DbService.RemoveNote(note);
 
@@ -261,7 +261,7 @@ namespace Ecliptic.Views.UserInteraction
 
                 NoteData.Notes = DbService.LoadAllPublicNotes();
 
-                DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " стала публичной");
+                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала публичной");
             }
             else
             {
@@ -274,7 +274,7 @@ namespace Ecliptic.Views.UserInteraction
 
                 note.isPublic = false;
 
-                DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " стала приватной");
+                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала приватной");
             }
         }
 

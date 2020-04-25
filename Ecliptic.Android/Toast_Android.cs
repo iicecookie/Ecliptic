@@ -16,7 +16,7 @@ using Ecliptic.Droid;
 
 namespace Ecliptic.Droid
 {
-    public class Toast_Android : Ecliptic.Toast
+    public class Toast_Android : Ecliptic.IToast
     {
         public void Show(string message)
         {

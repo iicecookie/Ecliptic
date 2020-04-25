@@ -395,13 +395,13 @@ namespace Ecliptic.Views
         {
             Way.Begin = Current;
 
-            DependencyService.Get<Toast>().Show("Начало маршрута установлео");
+            DependencyService.Get<IToast>().Show("Начало маршрута установлео");
         }
         void OnButton3Clicked(object sender, EventArgs args)
         {
             Way.End = Current;
 
-            DependencyService.Get<Toast>().Show("Конец маршрута установлен");
+            DependencyService.Get<IToast>().Show("Конец маршрута установлен");
         }
         async void OnButton4Clicked(object sender, EventArgs args)
         {

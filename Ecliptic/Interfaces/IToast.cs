@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ecliptic
 {
-    public interface Toast
+    public interface IToast
     {
         void Show(string message);
     }
