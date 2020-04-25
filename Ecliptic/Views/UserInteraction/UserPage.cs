@@ -123,6 +123,7 @@ namespace Ecliptic.Views.UserInteraction
                 UserControls.Switches.Add(switche);
                 SaveBtn.Clicked += OnButtonSaveClicked;
                 DeleBtn.Clicked += OnButtonDeleteClicked;
+                switche.Toggled += OnSwitched;
 
                 grid.Children.Add(noteLab, 0, 0);
                 grid.Children.Add(switche, 1, 0);
@@ -217,16 +218,10 @@ namespace Ecliptic.Views.UserInteraction
                 }
             }
 
-            foreach (var Cswitch in UserControls.Switches)
-            {
-                if (Cswitch.AutomationId == btn.AutomationId)
-                {
-                    note.isPublic = Cswitch.IsToggled;
-                    break;
-                }
-            }
+            DbService.UpdateNote(note);
 
-            User.CurrentUser.Notes[i] = note;
+            DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " сохранена");
+            // User.CurrentUser.Notes[i] = note;
 
             // отправить на сервер
 
@@ -239,10 +234,48 @@ namespace Ecliptic.Views.UserInteraction
 
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
 
+            DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " удалена");
+
             DbService.RemoveNote(note);
-            DbService.LoadUserNotes(User.CurrentUser);
+
+            //  DbService.LoadUserNotes(User.CurrentUser);
 
             GetUserPage();
+        }
+
+        void OnSwitched(object sender, EventArgs args)
+        {
+            Switch switcher = (Switch)sender;
+
+            Note note = User.FindNoteById(Int32.Parse(switcher.AutomationId));
+
+            if (switcher.IsToggled) // сделал публичной
+            {
+                note.isPublic = true;
+
+                // отпрвыить на сервер
+
+                // добавить в общий если добавилось на сервер
+
+                DbService.AddNote((Note)note.Clone());
+
+                NoteData.Notes = DbService.LoadAllPublicNotes();
+
+                DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " стала публичной");
+            }
+            else
+            {
+                // удалить с сервера
+
+                // удалить из общиз если удалилось с сервера
+                DbService.RemoveNote(DbService.FindNote((Note)note.Clone()));
+
+                NoteData.Notes = DbService.LoadAllPublicNotes();
+
+                note.isPublic = false;
+
+                DependencyService.Get<Toast>().Show("Заметка о " + note.Room + " стала приватной");
+            }
         }
 
         // Toolbar

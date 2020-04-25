@@ -13,7 +13,7 @@ namespace Ecliptic.Repository
         public static void RefrashDb()
         {
             // Удаляем бд, если она существуеты
-        //    db.Database.EnsureDeleted();
+           db.Database.EnsureDeleted();
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
         }
@@ -24,8 +24,7 @@ namespace Ecliptic.Repository
 
         public static void LoadAll()
         {
-
-            NoteData.Notes = DbService.LoadAllNotes();
+            NoteData.Notes = DbService.LoadAllPublicNotes();
             WorkerData.Workers = DbService.RelationsWorkersRoom();
             RoomData.Rooms = DbService.RelationsRoomsWorker();
 
@@ -37,12 +36,13 @@ namespace Ecliptic.Repository
         }
 
         #region Notes
+
         public static void AddNote(Note note)
         {
             db.Notes.Add(note);
-
             db.SaveChanges();
         }
+
         public static void RemoveNote(Note note)
         {
             db.Notes.Remove(note);
@@ -50,11 +50,35 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
+        public static void UpdateNote(Note note)
+        {
+            db.Notes.Update(note);
+
+            db.SaveChanges();
+        }
+
+        public static Note FindNote(Note note)
+        {
+            return db.Notes.Where(s => 
+                                       s.Text == note.Text &&
+                                       s.Date == note.Date &&
+                                       s.Building == note.Building && 
+                                       s.Room == note.Room &&
+                                       s.isPublic == note.isPublic &&
+                                       s.UserId == note.UserId
+                                       ).First();
+        }
 
         public static List<Note> LoadAllNotes()
         {
             return db.Notes.ToList();
         }
+
+        public static List<Note> LoadAllPublicNotes()
+        {
+            return db.Notes.Where(s => s.isPublic == true && s.User == null).ToList();
+        }
+
         #endregion
 
         #region Building
@@ -163,7 +187,6 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
-
         #endregion
 
         #region Sample
@@ -176,7 +199,7 @@ namespace Ecliptic.Repository
 
             SaveDb();
 
-            NoteData.Notes     = DbService.LoadAllNotes();
+            NoteData.Notes     = DbService.LoadAllPublicNotes();
             WorkerData.Workers = DbService.RelationsWorkersRoom();
             RoomData.Rooms     = DbService.RelationsRoomsWorker();
         }

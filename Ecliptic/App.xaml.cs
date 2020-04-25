@@ -24,9 +24,9 @@ namespace Ecliptic
             DbService.AddBuilding(new Building { Name = "Alice", Email = "alice@gmail.com", Phone = "+3435957" });
 
 
-             DbService.LoadAll();    
+          //   DbService.LoadAll();    
             
-         //   DbService.LoadTestSample();
+           DbService.LoadTestSample();
 
             MainPage = new AppShell();
         }

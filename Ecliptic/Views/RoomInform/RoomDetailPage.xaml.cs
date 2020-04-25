@@ -231,7 +231,8 @@ namespace Ecliptic.Views
 
                     foreach (var i in NoteData.Notes)
                     {
-                        if (i.Room == Current.Name)
+
+                        if (i.Room == Current.Name && i.User == null)
                         {
                             if (flag)
                             {

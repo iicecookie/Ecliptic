@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ecliptic.Models
 {
-    public class Note
+    public class Note : ICloneable
     {
         public int Id { get; set; }
 
@@ -48,6 +48,29 @@ namespace Ecliptic.Models
             Room = room;
             Building = building;
             isPublic = acsess;
+        }
+
+        public object Clone()
+        {
+            return new Note
+            {
+                Text = this.Text,
+                Date = this.Date,
+                Room = this.Room,
+                Building = this.Building,
+                isPublic = this.isPublic,
+            };
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Note note  &&
+                   Text == note.Text &&
+                   Date == note.Date &&
+                   Room == note.Room &&
+                   Building == note.Building &&
+                   isPublic == note.isPublic &&
+                   UserId == note.UserId;
         }
     }
 }
