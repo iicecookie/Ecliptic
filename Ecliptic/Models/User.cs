@@ -187,16 +187,16 @@ namespace Ecliptic.Models
         // Мысль - обсудить с Ураевой, возможно все заметки хранить на сервере
         // но те, что общие, добавлять именно к аудитории
 
-        public static bool isRoomFavoit(Room room)
+        public static Room isRoomFavoit(Room room)
         {
             foreach (var fav in CurrentUser.Favorites)
             {
                 if (fav.Equals(room))
                 {
-                    return true;
+                    return fav;
                 }
             }
-            return false;
+            return null;
         }
     }
 }

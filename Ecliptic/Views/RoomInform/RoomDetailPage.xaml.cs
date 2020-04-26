@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ecliptic.Models;
 using Xamarin.Essentials;
 using Ecliptic.Views.WayFounder;
+using Ecliptic.Repository;
 
 namespace Ecliptic.Views
 {
@@ -213,7 +214,7 @@ namespace Ecliptic.Views
                     item.Clicked += OnfaviriteClicked;
                     item.Order = ToolbarItemOrder.Default;
                     item.Priority = 1;
-                    if (User.isRoomFavoit(Current))
+                    if (User.isRoomFavoit(Current)!=null)
                     {
                         item.IconImageSource = "@drawable/stared.png";
                     }
@@ -317,7 +318,7 @@ namespace Ecliptic.Views
         {
             if (User.getInstance() != null)
             {
-                if (User.isRoomFavoit(Current))
+                if (User.isRoomFavoit(Current) != null)
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
                 }
@@ -374,16 +375,25 @@ namespace Ecliptic.Views
             {
                 ToolbarItem item = (ToolbarItem)sender;
 
-                if (User.isRoomFavoit(Current))
+                if (User.isRoomFavoit(Current) != null)
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                    User.CurrentUser.Favorites.Remove(Current);
+
+                    Room newroom = User.isRoomFavoit(Current);
+
+                    User.CurrentUser.Favorites.Remove(newroom); 
                 }
                 else
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                    User.CurrentUser.Favorites.Add(Current);
+
+                    Room newroom = Current.Clone() as Room;
+                    newroom.UserId = User.CurrentUser.UserId;
+
+                    User.CurrentUser.Favorites.Add(newroom);
                 }
+
+                DbService.SaveDb();
             }
         }
 
