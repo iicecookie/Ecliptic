@@ -28,7 +28,8 @@ namespace EclipticTests
             bool expected;
 
             // Act   
-            expected = RoomData.isThatRoom(null);
+            Room v = null;
+            expected = RoomData.isThatRoom(v);
 
             // Assert
             bool actual = false;

@@ -6,7 +6,9 @@ namespace Ecliptic.Views
 {
     public partial class AboutPage : ContentPage
     {
-        public ICommand TapCommand => new Command<string>((url) => Device.OpenUri(new Uri(url)));
+        public ICommand TapCommand =>
+                        new Command<string>(
+                            (url) => Xamarin.Essentials.Launcher.CanOpenAsync(url));
 
         public AboutPage()
         {

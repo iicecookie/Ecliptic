@@ -144,18 +144,19 @@ namespace Ecliptic.Views
             catch (ArgumentNullException anEx)
             {
                 // Number was null or white space
+                DependencyService.Get<IToast>().Show("Неверный номер " + anEx.Message);
             }
             catch (FeatureNotSupportedException ex)
             {
                 // Phone Dialer is not supported on this device.
+                DependencyService.Get<IToast>().Show("Не потдерживается на вашем телефоне" + ex.Message);
             }
             catch (Exception ex)
             {
-                // Other error has occurred.
+                DependencyService.Get<IToast>().Show("Неизвесная ошибка " + ex.Message);
             }
-
-            //  await DisplayAlert("Alert", "You have 1 been alerted"+Current.Phone , "OK");
         }
+
         void clickSite (object sender, EventArgs args)
         {
             new System.Threading.Thread(() =>

@@ -20,7 +20,7 @@ namespace Ecliptic
 
             DbService.LoadAll();    
             
-          //  DbService.LoadTestSample();
+         //   DbService.LoadTestSample();
 
             MainPage = new AppShell();
         }

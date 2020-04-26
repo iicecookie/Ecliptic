@@ -213,14 +213,14 @@ namespace Ecliptic.Views
                     item.Clicked += OnfaviriteClicked;
                     item.Order = ToolbarItemOrder.Default;
                     item.Priority = 1;
-               //   if (User.isRoomFavoit(Current))
-               //   {
-               //       item.IconImageSource = "@drawable/stared.png";
-               //   }
-               //   else
-               //   {
-               //       item.IconImageSource = "@drawable/unstared.png";
-               //   }
+                    if (User.isRoomFavoit(Current))
+                    {
+                        item.IconImageSource = "@drawable/stared.png";
+                    }
+                    else
+                    {
+                        item.IconImageSource = "@drawable/unstared.png";
+                    }
                     this.ToolbarItems.Add(item);
                 }
 
@@ -315,18 +315,17 @@ namespace Ecliptic.Views
 
         protected override void OnAppearing()
         {
-          // if (User.getInstance() != null)
-          // {
-          //     if (User.isRoomFavoit(Current))
-          //     {
-          //         ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-          //     }
-          //     else
-          //     {
-          //         ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-          //     }
-          // }
-
+            if (User.getInstance() != null)
+            {
+                if (User.isRoomFavoit(Current))
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+                }
+                else
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                }
+            }
         }
 
         // Buttons on page
@@ -339,14 +338,16 @@ namespace Ecliptic.Views
             catch (ArgumentNullException anEx)
             {
                 // Number was null or white space
+                DependencyService.Get<IToast>().Show("Неверный номер " + anEx.Message);
             }
             catch (FeatureNotSupportedException ex)
             {
                 // Phone Dialer is not supported on this device.
+                DependencyService.Get<IToast>().Show("Не потдерживается на вашем телефоне" + ex.Message);
             }
             catch (Exception ex)
             {
-                // Other error has occurred.
+                DependencyService.Get<IToast>().Show("Неизвесная ошибка "+ ex.Message);
             }
         }
 
@@ -369,21 +370,21 @@ namespace Ecliptic.Views
         // Star click
         void OnfaviriteClicked(object sender, EventArgs args)
         {
-         //   if (User.getInstance() != null)
-         //   {
-         //       ToolbarItem item = (ToolbarItem)sender;
-         //
-         //       if (User.isRoomFavoit(Current))
-         //       {
-         //           ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-         //           User.CurrentUser.Favorites.Remove(Current);
-         //       }
-         //       else
-         //       {
-         //           ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-         //           User.CurrentUser.Favorites.Add(Current);
-         //       }
-         //   }
+            if (User.getInstance() != null)
+            {
+                ToolbarItem item = (ToolbarItem)sender;
+
+                if (User.isRoomFavoit(Current))
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                    User.CurrentUser.Favorites.Remove(Current);
+                }
+                else
+                {
+                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+                    User.CurrentUser.Favorites.Add(Current);
+                }
+            }
         }
 
         // Toolbar

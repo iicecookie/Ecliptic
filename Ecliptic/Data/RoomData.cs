@@ -18,6 +18,16 @@ namespace Ecliptic.Data
             Rooms = new List<Room>();
         }
 
+        public static bool isThatRoom(Room room)
+        {
+            foreach (var i in Rooms)
+            {
+                if (i.Equals(room))
+                    return true;
+            }
+            return false;
+        }
+
         public static bool isThatRoom(string room)
         {
             foreach (var i in Rooms)

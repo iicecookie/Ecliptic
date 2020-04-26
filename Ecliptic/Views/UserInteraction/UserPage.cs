@@ -236,12 +236,16 @@ namespace Ecliptic.Views.UserInteraction
 
             DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
 
+
             DbService.RemoveNote(note);
 
-            //  если публичная, то убрать и с сервера
-            DbService.RemoveNote(NoteData.FindNote(note));
-            DbService.SaveDb();
-            NoteData.Notes = DbService.LoadAllPublicNotes();
+            if (note.isPublic)
+            {
+                //  если публичная, то убрать и с сервера
+                DbService.RemoveNote(NoteData.FindNote(note));
+                DbService.SaveDb();
+                NoteData.Notes = DbService.LoadAllPublicNotes();
+            }
 
             GetUserPage();
         }

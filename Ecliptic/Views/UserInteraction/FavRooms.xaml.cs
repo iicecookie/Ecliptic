@@ -21,16 +21,24 @@ namespace Ecliptic.Views.UserInteraction
 
         private async void RoomView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            string roomName = (e.Item as Room).Name;
+            Room room = e.Item as Room;
 
-            await Shell.Current.GoToAsync($"roomdetails?name={roomName}");
+            if (RoomData.isThatRoom(room))
+            {
+                await Shell.Current.GoToAsync($"roomdetails?name={room.Name}");
+            }
+            else
+            {
+                DependencyService.Get<IToast>().Show("Ваша комната в другом замке");
+            }
+
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             RoomView.ItemsSource = null;
-           // RoomView.ItemsSource = User.CurrentUser.Favorites;
+            RoomView.ItemsSource = User.CurrentUser.Favorites;
         }
     }
 }

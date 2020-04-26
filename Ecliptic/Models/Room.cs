@@ -52,6 +52,7 @@ namespace Ecliptic.Models
         {
             return new Room
             {
+                UserId  = this.UserId, 
                 Name = this.Name,
                 Floor = this.Floor,
                 Details = this.Details,
