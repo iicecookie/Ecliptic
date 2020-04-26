@@ -10,13 +10,15 @@ namespace Ecliptic.Repository
     {
         private static ApplicationContext db = new ApplicationContext();
 
-        public static void RefrashDb()
+        public static void RefrashDb(bool delete = false)
         {
             // Удаляем бд, если она существуеты
-           db.Database.EnsureDeleted();
+            if (delete) db.Database.EnsureDeleted();
+
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
         }
+
         public static void SaveDb()
         {
             db.SaveChanges();
@@ -24,14 +26,14 @@ namespace Ecliptic.Repository
 
         public static void LoadAll()
         {
-            NoteData.Notes = DbService.LoadAllPublicNotes();
-            WorkerData.Workers = DbService.RelationsWorkersRoom();
-            RoomData.Rooms = DbService.RelationsRoomsWorker();
+            NoteData.Notes     = LoadAllPublicNotes();
+            WorkerData.Workers = RelationsWorkersRoom();
+            RoomData.Rooms     = RelationsRoomsWorker();
 
             if (db.User.Count() > 0)
             {
                 User.setInstance(LoadUserFromDb());
-               // LoadUserNotes(User.CurrentUser);
+                LoadUserNotes(User.CurrentUser);
             }
         }
 
@@ -41,6 +43,18 @@ namespace Ecliptic.Repository
         {
             db.Notes.Add(note);
             db.SaveChanges();
+        }
+
+        public static void AddPublicNote(Note note)
+        {
+            Note temp = (Note)note.Clone();
+
+            db.Notes.Add(temp);
+
+            db.SaveChanges();
+            // отправить в базу данных удаленную
+
+            // если это же здание - того, добавить в локальную
         }
 
         public static void RemoveNote(Note note)
@@ -161,7 +175,11 @@ namespace Ecliptic.Repository
 
         public static void LoadUserNotes(User user)
         {
-            user.Notes = db.Notes.Include(u => u.User).ToList();
+            foreach (var i in db.Notes)
+                if (i.UserId == user.UserId)
+                {
+                }
+             //       user.Notes.Add(i);
         }
 
         public static void RemoveUsersNotes(List<Note> notes)
@@ -175,7 +193,7 @@ namespace Ecliptic.Repository
 
         public static void LoadUserFavorites(User user)
         {
-                user.Favorites = db.Rooms.Include(u => u.RoomId).ToList();
+             //   user.Favorites = db.Rooms.Include(u => u.RoomId).ToList();
         }
 
         public static void RemoveUsersFavorites(List<Room> rooms)

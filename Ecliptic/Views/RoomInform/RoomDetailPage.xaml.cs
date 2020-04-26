@@ -315,17 +315,17 @@ namespace Ecliptic.Views
 
         protected override void OnAppearing()
         {
-            if (User.getInstance() != null)
-            {
-                if (User.isRoomFavoit(Current))
-                {
-                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                }
-                else
-                {
-                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                }
-            }
+          // if (User.getInstance() != null)
+          // {
+          //     if (User.isRoomFavoit(Current))
+          //     {
+          //         ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+          //     }
+          //     else
+          //     {
+          //         ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+          //     }
+          // }
 
         }
 
@@ -369,21 +369,21 @@ namespace Ecliptic.Views
         // Star click
         void OnfaviriteClicked(object sender, EventArgs args)
         {
-            if (User.getInstance() != null)
-            {
-                ToolbarItem item = (ToolbarItem)sender;
-
-                if (User.isRoomFavoit(Current))
-                {
-                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                    User.CurrentUser.Favorites.Remove(Current);
-                }
-                else
-                {
-                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                    User.CurrentUser.Favorites.Add(Current);
-                }
-            }
+         //   if (User.getInstance() != null)
+         //   {
+         //       ToolbarItem item = (ToolbarItem)sender;
+         //
+         //       if (User.isRoomFavoit(Current))
+         //       {
+         //           ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+         //           User.CurrentUser.Favorites.Remove(Current);
+         //       }
+         //       else
+         //       {
+         //           ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+         //           User.CurrentUser.Favorites.Add(Current);
+         //       }
+         //   }
         }
 
         // Toolbar

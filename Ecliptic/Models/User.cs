@@ -16,7 +16,7 @@ namespace Ecliptic.Models
 
         public virtual List<Note> Notes     { get; set; }
 
-        public virtual List<Room> Favorites { get; set; }
+        //   public virtual List<Room> Favorites { get; set; }
 
         public static bool isNull
         {
@@ -36,7 +36,7 @@ namespace Ecliptic.Models
             Login = "";
             Password = "";
             Notes     = new List<Note>();
-            Favorites = new List<Room>();
+      //      Favorites = new List<Room>();
         }
         private User(string Name, string login, string pass) : this()
         {
@@ -82,21 +82,21 @@ namespace Ecliptic.Models
             // загружаю в базу данных
             DbService.SaveUser(CurrentUser);
            
-            // выгружаю с id
-            setInstance(DbService.LoadUserFromDb());
-
             DbService.AddNote(new Note(CurrentUser.UserId, "заметка1", "213", "KGU", false));
             DbService.AddNote(new Note(CurrentUser.UserId, "заметка2", "200", "KGU", false));
             DbService.AddNote(new Note(CurrentUser.UserId, "заметка3", "200", "KGU", false));
             DbService.AddNote(new Note(CurrentUser.UserId, "заметка4", "202", "KGU", false));
             DbService.AddNote(new Note(CurrentUser.UserId, "заметка5", "202", "KGU", false));
 
-          //  DbService.LoadUserNotes(CurrentUser);
+            // выгружаю с id
+            setInstance(DbService.LoadUserFromDb());
 
-          //  CurrentUser.Favorites.Add(DbService.GetRoomById(1));
-          //  CurrentUser.Favorites.Add(DbService.GetRoomById(2));
-          //  CurrentUser.Favorites.Add(DbService.GetRoomById(3));
-          //  CurrentUser.Favorites.Add(DbService.GetRoomById(4));
+            //  DbService.LoadUserNotes(CurrentUser);
+
+            //  CurrentUser.Favorites.Add(DbService.GetRoomById(1));
+             //  CurrentUser.Favorites.Add(DbService.GetRoomById(2));
+            //  CurrentUser.Favorites.Add(DbService.GetRoomById(3));
+            //  CurrentUser.Favorites.Add(DbService.GetRoomById(4));
 
             return CurrentUser;
         }
@@ -159,16 +159,16 @@ namespace Ecliptic.Models
         // но те, что общие, добавлять именно к аудитории
 
 
-        public static bool isRoomFavoit(Room room)
-        {
-            foreach (var fav in CurrentUser.Favorites)
-            {
-                if (fav.Equals(room))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+      //  public static bool isRoomFavoit(Room room)
+      //  {
+      //      foreach (var fav in CurrentUser.Favorites)
+      //      {
+      //          if (fav.Equals(room))
+      //          {
+      //              return true;
+      //          }
+      //      }
+      //      return false;
+      //  }
     }
 }

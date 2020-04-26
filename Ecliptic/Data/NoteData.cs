@@ -17,5 +17,17 @@ namespace Ecliptic.Data
         {
             Notes = new List<Note>();
         }
+
+        public static Note FindNote(Note note)
+        {
+            foreach(var i in Notes)
+            {
+                if (i.Equals(note))
+                {
+                    return i;
+                }
+            }
+            return null;
+        }
     }
 }

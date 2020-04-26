@@ -30,7 +30,7 @@ namespace Ecliptic.Views.UserInteraction
         {
             base.OnAppearing();
             RoomView.ItemsSource = null;
-            RoomView.ItemsSource = User.CurrentUser.Favorites;
+           // RoomView.ItemsSource = User.CurrentUser.Favorites;
         }
     }
 }

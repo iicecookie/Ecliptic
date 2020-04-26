@@ -69,8 +69,7 @@ namespace Ecliptic.Models
                    Date == note.Date &&
                    Room == note.Room &&
                    Building == note.Building &&
-                   isPublic == note.isPublic &&
-                   UserId == note.UserId;
+                   isPublic == note.isPublic;
         }
     }
 }
