@@ -83,6 +83,11 @@ namespace Ecliptic.Repository
                                        ).First();
         }
 
+        public static Note FindNote(int id)
+        {
+            return db.Notes.Where(s => s.Id == id).First();
+        }
+
         public static List<Note> LoadAllNotes()
         {
             return db.Notes.ToList();
@@ -129,10 +134,12 @@ namespace Ecliptic.Repository
         #endregion
 
         #region Rooms
+
         public static void AddRoom(Room room)
         {
             db.Rooms.Add(room);
         }
+
         public static Room GetRoomById(int id)
         {
             return db.Rooms.ToList().Where(s => s.RoomId == id).First();
@@ -147,6 +154,7 @@ namespace Ecliptic.Repository
         {
             return db.Rooms.ToList();
         }
+
         #endregion
 
         #region User

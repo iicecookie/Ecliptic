@@ -1,9 +1,7 @@
 ﻿using Ecliptic.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Ecliptic.Repository
 {
@@ -34,6 +32,8 @@ namespace Ecliptic.Repository
               Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), databaseName);
 
             optionsBuilder.UseSqlite($"Filename={databasePath}");
+
+            // optionsBuilder.UseSqlite("Filename = " + databaseName);
         }
     }
 }

@@ -85,7 +85,7 @@ namespace Ecliptic.Views.UserInteraction
             this.Content = scrollView;
         }
 
-        private async void LoginIn(object sender, EventArgs e)
+        public async void LoginIn(object sender, EventArgs e)
         {
             if (LoginControls.LoginBox.Text == "" || LoginControls.PasswBox.Text == "")
             {

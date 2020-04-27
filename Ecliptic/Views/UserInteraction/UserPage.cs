@@ -18,10 +18,10 @@ namespace Ecliptic.Views.UserInteraction
             static public Label Pass { get; set; }
             static public Label NoteCount { get; set; }
             static public Button LoginOutBtn { get; set; }
+
             static public List<Editor> Editors { get; set; }
             static public List<Switch> Switches { get; set; }
-            static public List<Label> Dates { get; set; }
-            static public double scroll { get; set; }
+            static public List<Label>  Dates { get; set; }
         }
 
         public void GetUserPage()
@@ -194,7 +194,7 @@ namespace Ecliptic.Views.UserInteraction
             #endregion
         }
 
-        void GoLoginPage(object sender, EventArgs args)
+        public void GoLoginPage(object sender, EventArgs args)
         {
             this.ToolbarItems.Clear();
 
@@ -206,7 +206,7 @@ namespace Ecliptic.Views.UserInteraction
             GetLoginPage();
         }
 
-        void OnButtonSaveClicked(object sender, EventArgs args)
+        public void OnButtonSaveClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
 
@@ -251,7 +251,7 @@ namespace Ecliptic.Views.UserInteraction
          
         }
 
-        void OnButtonDeleteClicked(object sender, EventArgs args)
+        public void OnButtonDeleteClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
 
@@ -273,7 +273,7 @@ namespace Ecliptic.Views.UserInteraction
             GetUserPage();
         }
 
-        void OnSwitched(object sender, EventArgs args)
+        public void OnSwitched(object sender, EventArgs args)
         {
             Switch switcher = (Switch)sender;
 
@@ -313,11 +313,11 @@ namespace Ecliptic.Views.UserInteraction
         }
 
         // Toolbar
-        async void OnNewNoteClicked (object sender, EventArgs args)
+        public async void OnNewNoteClicked (object sender, EventArgs args)
         {
             await Navigation.PushAsync(new NewNotePage("",""));
         }
-        async void OnFavRoomsClicked(object sender, EventArgs args)
+        public async void OnFavRoomsClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new FavRoomsPage());
         }

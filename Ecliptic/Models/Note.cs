@@ -73,10 +73,5 @@ namespace Ecliptic.Models
                    Building == note.Building &&
                    isPublic == note.isPublic;
         }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Text, Date, Room, Building, isPublic, UserId, User);
-        }
     }
 }

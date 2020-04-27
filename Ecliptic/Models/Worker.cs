@@ -43,7 +43,6 @@ namespace Ecliptic.Models
             Site = site;
         }
 
-
         public override string ToString()
         {
             return FirstName + " " + SecondName + " " + LastName;

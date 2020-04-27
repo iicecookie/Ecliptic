@@ -75,20 +75,5 @@ namespace Ecliptic.Models
                    Phone == room.Phone &&
                    Site == room.Site;
         }
-
-        public override int GetHashCode()
-        {
-            HashCode hash = new HashCode();
-            hash.Add(RoomId);
-            hash.Add(Name);
-            hash.Add(Floor);
-            hash.Add(Details);
-            hash.Add(Description);
-            hash.Add(Timetable);
-            hash.Add(Phone);
-            hash.Add(Site);
-            hash.Add(Workers);
-            return hash.ToHashCode();
-        }
     }
 }
