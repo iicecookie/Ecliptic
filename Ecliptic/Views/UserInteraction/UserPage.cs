@@ -16,9 +16,12 @@ namespace Ecliptic.Views.UserInteraction
             static public Label labelMessage { get; set; }
             static public Label Login { get; set; }
             static public Label Pass { get; set; }
+            static public Label NoteCount { get; set; }
             static public Button LoginOutBtn { get; set; }
             static public List<Editor> Editors { get; set; }
             static public List<Switch> Switches { get; set; }
+            static public List<Label> Dates { get; set; }
+            static public double scroll { get; set; }
         }
 
         public void GetUserPage()
@@ -31,19 +34,20 @@ namespace Ecliptic.Views.UserInteraction
             {
                 Text = User.CurrentUser.Name,
                 Style = Device.Styles.TitleStyle,
-                HorizontalOptions = LayoutOptions.Center
+                HorizontalOptions = LayoutOptions.Start
             };
-            UserControls.Login        = new Label
+            UserControls.Login = new Label
             {
                 Text = User.CurrentUser.Login,
                 Style = Device.Styles.TitleStyle,
-                HorizontalOptions = LayoutOptions.Center
+                HorizontalOptions = LayoutOptions.Start
             };
-            UserControls.Pass         = new Label
+
+            UserControls.NoteCount = new Label
             {
-                Text = User.CurrentUser.Password,
-                Style = Device.Styles.TitleStyle,
-                HorizontalOptions = LayoutOptions.Center
+                Text = "У вас " + User.CurrentUser.Notes.Count + " заметок и " + User.CurrentUser.Favorites.Count + " избраных помещений",
+                Style = Device.Styles.ListItemTextStyle,
+                HorizontalOptions = LayoutOptions.Start
             };
             UserControls.LoginOutBtn  = new Button
             {
@@ -51,6 +55,7 @@ namespace Ecliptic.Views.UserInteraction
             };
             UserControls.Editors      = new List<Editor>();
             UserControls.Switches     = new List<Switch>();
+            UserControls.Dates        = new List<Label>();
             UserControls.LoginOutBtn.Clicked += GoLoginPage;
             #endregion
 
@@ -59,7 +64,7 @@ namespace Ecliptic.Views.UserInteraction
 
             stackLayout.Children.Add(UserControls.labelMessage);
             stackLayout.Children.Add(UserControls.Login);
-            stackLayout.Children.Add(UserControls.Pass);
+            stackLayout.Children.Add(UserControls.NoteCount);
 
             foreach (var i in User.CurrentUser.Notes)
             {
@@ -71,13 +76,14 @@ namespace Ecliptic.Views.UserInteraction
                                      new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
                         },
                     ColumnDefinitions = {
-                                     new ColumnDefinition { Width = new GridLength(160) },
+                                     new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star) },
                                      new ColumnDefinition { Width = new GridLength(50) },
                                      new ColumnDefinition { Width = new GridLength(30) },
                                      new ColumnDefinition { Width = new GridLength(30) }
                         }
 
                 };
+
                 grid.ColumnSpacing = 10;
                 grid.RowSpacing    = 10;
 
@@ -90,7 +96,7 @@ namespace Ecliptic.Views.UserInteraction
                 };
                 Label  noteLab = new Label
                 {
-                    Text = i.Room.ToString() + " Аудитория ",
+                    Text = i.Room.ToString(),
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
@@ -98,6 +104,13 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     Text = "Здание "  + i.Building.ToString(),
                     FontSize = 14,
+                    Style = Device.Styles.TitleStyle,
+                };
+                Label  date = new Label
+                {
+                    Text = " " + i.Date.ToString(),
+                    FontSize = 14,
+                    AutomationId = i.Id.ToString(),
                     Style = Device.Styles.TitleStyle,
                 };
                 Editor noteEnt = new Editor
@@ -119,6 +132,7 @@ namespace Ecliptic.Views.UserInteraction
                     AutomationId = i.Id.ToString(),
                 }; 
 
+                UserControls.Dates.Add(date);
                 UserControls.Editors.Add(noteEnt);
                 UserControls.Switches.Add(switche);
                 SaveBtn.Clicked += OnButtonSaveClicked;
@@ -129,9 +143,10 @@ namespace Ecliptic.Views.UserInteraction
                 grid.Children.Add(switche, 1, 0);
                 grid.Children.Add(SaveBtn, 2, 0);
                 grid.Children.Add(DeleBtn, 3, 0);
+                grid.Children.Add(date, 1, 1);
+                Grid.SetColumnSpan(date, 2);
                 grid.Children.Add(noteBui, 0, 1);
                 grid.Children.Add(noteEnt, 0, 2);
-
                 Grid.SetColumnSpan(noteEnt, 4);   // растягиваем на 4 столбца
 
                 Frame frame = new Frame()
@@ -149,7 +164,6 @@ namespace Ecliptic.Views.UserInteraction
 
             ScrollView scrollView = new ScrollView();
             scrollView.Content = stackLayout;
-
             this.Content = scrollView;
 
             #region ToolBarItems
@@ -199,8 +213,7 @@ namespace Ecliptic.Views.UserInteraction
             // сохранить в пользователе 
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
 
-            int i = 0;
-            for (; i < User.CurrentUser.Notes.Count; i++)
+            for (int i = 0; i < User.CurrentUser.Notes.Count; i++)
             {
                 if (User.CurrentUser.Notes[i].Id == note.Id)
                 {
@@ -218,14 +231,24 @@ namespace Ecliptic.Views.UserInteraction
                 }
             }
 
+            foreach (var date   in UserControls.Dates)
+            {
+                if (date.AutomationId == btn.AutomationId)
+                {
+                    date.Text = DateTime.Today.ToString();
+                    break;
+                }
+            }
+
+            note.Date = DateTime.Today.ToString();
+
             DbService.UpdateNote(note);
 
-            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " сохранена");
-            // User.CurrentUser.Notes[i] = note;
+            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " изменена");
+
 
             // отправить на сервер
-
-            //   SendToDatabase(btn.AutomationId);
+         
         }
 
         void OnButtonDeleteClicked(object sender, EventArgs args)

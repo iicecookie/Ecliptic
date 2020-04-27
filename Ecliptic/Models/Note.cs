@@ -33,7 +33,8 @@ namespace Ecliptic.Models
         public Note(int userid, string text, string room, string building, bool acsess)
         {
             Text = text;
-            Date = new DateTime().ToString();
+
+            Date = DateTime.Today.ToString();
             Room = room;
             Building = building;
             isPublic = acsess;
@@ -44,7 +45,8 @@ namespace Ecliptic.Models
         public Note(string text, string room, string building, bool acsess)
         {
             Text = text;
-            Date = new DateTime().ToString();
+
+            Date = DateTime.Today.ToString();
             Room = room;
             Building = building;
             isPublic = acsess;

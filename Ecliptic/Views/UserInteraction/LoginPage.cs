@@ -57,11 +57,17 @@ namespace Ecliptic.Views.UserInteraction
             LoginControls.LoginBtn = new Button
             {
                 Text = "Войти",
+                BackgroundColor= Color.FromHex("#AFFFA3"),
+                TextColor = Color.White,
+                BorderColor = Color.Black,
             };
             LoginControls.LoginBtn.Clicked += LoginIn;
             LoginControls.RegisBtn = new Button
             {
                 Text = "Зарегестрироваться",
+                BackgroundColor = Color.ForestGreen,
+                TextColor = Color.White,
+                BorderColor= Color.Beige,
             };
             LoginControls.RegisBtn.Clicked += ToRegistrationPage;
 
