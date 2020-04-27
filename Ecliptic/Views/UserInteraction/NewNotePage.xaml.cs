@@ -78,6 +78,9 @@ namespace Ecliptic.Views.UserInteraction
             Button SaveBtn = new Button
             {
                 Text = "Сохранить заметку",
+                BackgroundColor = Color.FromHex("#BFD9B6"),
+                TextColor = Color.Black,
+                BorderColor = Color.Black,
             };
             SaveBtn.Clicked += OnButtonSaveClicked;
             #endregion

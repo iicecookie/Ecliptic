@@ -54,21 +54,23 @@ namespace Ecliptic.Views.UserInteraction
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
+            
             LoginControls.LoginBtn = new Button
             {
                 Text = "Войти",
-                BackgroundColor= Color.FromHex("#AFFFA3"),
-                TextColor = Color.White,
+                BackgroundColor = Color.FromHex("#BFD9B6"),
+                TextColor = Color.Black,
                 BorderColor = Color.Black,
             };
-            LoginControls.LoginBtn.Clicked += LoginIn;
             LoginControls.RegisBtn = new Button
             {
                 Text = "Зарегестрироваться",
-                BackgroundColor = Color.ForestGreen,
-                TextColor = Color.White,
-                BorderColor= Color.Beige,
+                BackgroundColor = Color.FromHex("#BFD9B6"),
+                TextColor = Color.Black,
+                BorderColor = Color.Black,
             };
+
+            LoginControls.LoginBtn.Clicked += LoginIn;
             LoginControls.RegisBtn.Clicked += ToRegistrationPage;
 
             StackLayout stackLayout = new StackLayout();

@@ -89,13 +89,20 @@ namespace Ecliptic.Views.UserInteraction
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
+
             RegisrationContrioolers.RegisBtn      = new Button
             {
                 Text = "Зарегестрироваться",
+                BackgroundColor = Color.FromHex("#BFD9B6"),
+                TextColor = Color.Black,
+                BorderColor = Color.Black,
             };
             RegisrationContrioolers.LoginBtn      = new Button
             {
                 Text = "Уже есть учетная запись",
+                BackgroundColor = Color.FromHex("#BFD9B6"),
+                TextColor = Color.Black,
+                BorderColor = Color.Black,
             };
             RegisrationContrioolers.RegisBtn.Clicked += RegistrUser;
             RegisrationContrioolers.LoginBtn.Clicked += ToLoginPage;

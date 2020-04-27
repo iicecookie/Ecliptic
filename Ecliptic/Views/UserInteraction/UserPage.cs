@@ -52,6 +52,9 @@ namespace Ecliptic.Views.UserInteraction
             UserControls.LoginOutBtn  = new Button
             {
                 Text = "Login Out",
+                BackgroundColor = Color.FromHex("#BFD9B6"),
+                TextColor = Color.Black,
+                BorderColor = Color.Black,
             };
             UserControls.Editors      = new List<Editor>();
             UserControls.Switches     = new List<Switch>();
