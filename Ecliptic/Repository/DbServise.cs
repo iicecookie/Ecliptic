@@ -15,14 +15,11 @@ namespace Ecliptic.Repository
         public static void RefrashDb(bool delete = false)
         {
             // Удаляем бд, если она существуеты
-
              if (delete) 
                 db.Database.EnsureDeleted();
 
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
-            
-           // ClearAll();
         }
 
         public static void SaveDb()
@@ -58,7 +55,7 @@ namespace Ecliptic.Repository
         public static void AddNote(Note note)
         {
             db.Notes.Add(note);
-            SaveDb();
+            db.SaveChanges();
         }
 
         public static void AddPublicNote(Note note)

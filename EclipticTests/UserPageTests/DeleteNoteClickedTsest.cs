@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using Ecliptic.Models;
 using Ecliptic.Repository;
 using static Ecliptic.Views.UserInteraction.Authorization;
+using System.Linq;
 
 namespace EclipticTests.UserPage
 {
@@ -47,9 +48,9 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(1);
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
-            Assert.IsNull(note);
+            Assert.AreEqual(note.Text, "заметка2");
         }
 
         [TestMethod]
@@ -69,7 +70,7 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(1);
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
             Assert.AreEqual(note.Text, "заметка1");
         }
@@ -91,7 +92,7 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(1);
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
             Assert.AreEqual(note.Text, "заметка1");
         }
@@ -113,7 +114,7 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(1);
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
             Assert.AreEqual(note.Text, "заметка1");
         }

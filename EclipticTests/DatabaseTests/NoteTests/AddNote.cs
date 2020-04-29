@@ -12,23 +12,30 @@ namespace EclipticTests.DatabaseTests
 {
     [TestClass]
     public class AddNote
-    {       
+    {
+
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            // обновление базы данных
-            //   
-            DbService.ClearAll();
-         //   DbService.RefrashDb(true);
+            // очистка контекста
+           // DbService.ClearAll();
         }
 
         [TestCleanup()]
         public void MyTestCleanup()
         {
-          //  NoteData.Notes = new List<Note>();
-          //  RoomData.Rooms = new List<Room>();
-          //  WorkerData.Workers = new List<Worker>();
-        }   
+            // обновить базу данных
+            DbService.ClearAll();
+           // DbService.RefrashDb(true);
+        }
+
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            DbService.ClearAll();
+            DbService.RefrashDb(true);
+            //     DbService.RefrashDb(true);
+        }
 
         [TestMethod]
         public void AddOne()
@@ -44,20 +51,16 @@ namespace EclipticTests.DatabaseTests
 
             Assert.AreEqual(count, 1);
         }
-        
 
         [TestMethod]
         public void AddTwoSame()
         {
             // Arrange   -------------------------------------
-           //  Note note  = new Note("заметка", "213", "KSU", false);
-           //  Note note2 = new Note("заметка1", "213", "KSU", false);
-           //  Note note1 = new Note("заметка2", "213", "KSU", false);
-            // Act   -----------------------------------------
+            //  Note note  = new Note("заметка", "213", "KSU", false);
+            //  Note note2 = new Note("заметка1", "213", "KSU", false);
+            //  Note note1 = new Note("заметка2", "213", "KSU", false);
 
-            // DbService.AddNote(note);
-            // DbService.AddNote(note1);
-            // DbService.AddNote(note2);
+            // Act   -----------------------------------------
             DbService.AddNote(new Note("I'm open note", "213", "KGU", true));
             DbService.AddNote(new Note("I'm open okey", "213", "KGU", true));
             DbService.AddNote(new Note("I'm open yesi", "522", "KGU", true));

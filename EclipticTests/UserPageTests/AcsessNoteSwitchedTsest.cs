@@ -67,8 +67,8 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(2);
-           
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(1);
+
             Assert.AreEqual(false, note.isPublic);
         }
 
@@ -87,7 +87,7 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(2);
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(1);
 
             Assert.AreEqual(true, note.isPublic);
         }
