@@ -11,22 +11,13 @@ using Ecliptic.Data;
 namespace EclipticTests.DatabaseTests
 {
     [TestClass]
-    public class AddNote
+    public class Add
     {
-
-        [TestInitialize()]
-        public void MyTestInitialize()
-        {
-            // очистка контекста
-           // DbService.ClearAll();
-        }
-
         [TestCleanup()]
         public void MyTestCleanup()
         {
             // обновить базу данных
             DbService.ClearAll();
-           // DbService.RefrashDb(true);
         }
 
         [ClassCleanup()]
@@ -34,31 +25,28 @@ namespace EclipticTests.DatabaseTests
         {
             DbService.ClearAll();
             DbService.RefrashDb(true);
-            //     DbService.RefrashDb(true);
         }
 
         [TestMethod]
-        public void AddOne()
+        public void RemoveOne()
         {
             // Arrange   -------------------------------------    
             Note note = new Note("заметка", "213", "KSU", false);
-            
-            // Act   -----------------------------------------        
             DbService.AddNote(note);
+
+            // Act   -----------------------------------------        
+            DbService.RemoveNote(note);
 
             // Assert-----------------------------------------
             int count = DbService.LoadAllNotes().Count;
 
-            Assert.AreEqual(count, 1);
+            Assert.AreEqual(0, count);
         }
 
         [TestMethod]
-        public void AddTwoSame()
+        public void AddFiveSame()
         {
             // Arrange   -------------------------------------
-            //  Note note  = new Note("заметка", "213", "KSU", false);
-            //  Note note2 = new Note("заметка1", "213", "KSU", false);
-            //  Note note1 = new Note("заметка2", "213", "KSU", false);
 
             // Act   -----------------------------------------
             DbService.AddNote(new Note("I'm open note", "213", "KGU", true));
@@ -72,6 +60,8 @@ namespace EclipticTests.DatabaseTests
 
             Assert.AreEqual(5, count);
         }
+        
+
         
 
     }

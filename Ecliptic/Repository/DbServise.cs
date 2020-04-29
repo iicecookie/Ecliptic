@@ -46,6 +46,7 @@ namespace Ecliptic.Repository
             db.Rooms  .RemoveRange(db.Rooms.ToArray());
             db.Notes  .RemoveRange(db.Notes.ToArray());
             db.User   .RemoveRange(db.User.ToArray());
+            db.SaveChanges();
         }
 
         #endregion
@@ -54,21 +55,20 @@ namespace Ecliptic.Repository
 
         public static void AddNote(Note note)
         {
+            if (note == null) return;
             db.Notes.Add(note);
             db.SaveChanges();
         }
 
-        public static void AddPublicNote(Note note)
+        public static void AddNote(List<Note> notes)
         {
-            Note temp = (Note)note.Clone();
-
-            db.Notes.Add(temp);
-
+            foreach (var note in notes)
+            {
+                db.Notes.Add(note);
+            }
             db.SaveChanges();
-            // отправить в базу данных удаленную
-
-            // если это же здание - того, добавить в локальную
         }
+
 
         public static void RemoveNote(Note note)
         {
@@ -76,7 +76,8 @@ namespace Ecliptic.Repository
 
             db.SaveChanges();
         }
-        public static void RemoveAllNotes(List<Note> notes)
+
+        public static void RemoveNotes(List<Note> notes)
         {
             foreach (var note in notes)
             {
@@ -91,7 +92,6 @@ namespace Ecliptic.Repository
 
             db.SaveChanges();
         }
-
 
         public static Note FindNote(Note note)
         {
@@ -108,8 +108,6 @@ namespace Ecliptic.Repository
         public static Note FindNote(int id)
         {
             return db.Notes.Find(id);
-
-
         }
 
         public static List<Note> LoadAllNotes()
