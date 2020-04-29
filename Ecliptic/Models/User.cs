@@ -51,15 +51,17 @@ namespace Ecliptic.Models
             return CurrentUser;
         }
 
-        public static void setInstance(User user)
+        public static User setInstance(User user)
         {
             CurrentUser = user;
+            return CurrentUser;
 
         }
 
-        public static void setInstance(string name, string login, string pass)
+        public static User setInstance(string name, string login, string pass)
         {
             CurrentUser = new User(name, login, pass);
+            return CurrentUser;
         }
 
         #endregion
@@ -83,8 +85,8 @@ namespace Ecliptic.Models
 
         public static void LoginOut()
         {
-            DbService.RemoveUsersFavorites(CurrentUser.Favorites);
-            DbService.RemoveUsersNotes(CurrentUser.Notes);
+            DbService.RemoveRoom(CurrentUser.Favorites);
+            DbService.RemoveNote(CurrentUser.Notes);
 
             DbService.RemoveUser(CurrentUser);
 

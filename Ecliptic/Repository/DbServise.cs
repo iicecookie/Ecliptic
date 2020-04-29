@@ -163,6 +163,22 @@ namespace Ecliptic.Repository
             db.Rooms.Add(room);
         }
 
+        public static void RemoveRoom(Room room)
+        {
+            if (room == null) return;
+            db.Rooms.Remove(room);
+
+            db.SaveChanges();
+        }
+
+        public static void RemoveRoom(List<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                db.Rooms.Remove(room);
+            }
+            db.SaveChanges();
+        }
 
         public static List<Room> RelationsRoomsWorker()
         {
@@ -180,22 +196,26 @@ namespace Ecliptic.Repository
 
         public static bool isSavedUser()
         {
-            return db.User.ToList().Count > 0 ? true : false;
+            if (db.User.Count() > 0) return true;
+            return false;
         }
 
         public static User LoadUserFromDb()
         {
+            if (db.User.Count() == 0) return null;
             return db.User.ToList().First();
         }
 
         public static void SaveUser(User user)
         {
+            if (user == null) return;
             db.User.Add(user);
             db.SaveChanges();   
         }
 
         public static void RemoveUser(User user)
         {
+            if (user == null) return;
             db.User.Remove(user);
             db.SaveChanges();
         }
@@ -207,30 +227,6 @@ namespace Ecliptic.Repository
                 {
                 }
             return User.CurrentUser.Notes;
-             //       user.Notes.Add(i);
-        }
-
-        public static void RemoveUsersNotes(List<Note> notes)
-        {
-            foreach (var note in notes)
-            {
-                db.Notes.Remove(note);
-            }
-            db.SaveChanges();
-        }
-
-        public static void LoadUserFavorites(User user)
-        {
-             //   user.Favorites = db.Rooms.Include(u => u.RoomId).ToList();
-        }
-
-        public static void RemoveUsersFavorites(List<Room> rooms)
-        {
-            foreach (var room in rooms)
-            {
-                db.Rooms.Remove(room);
-            }
-            db.SaveChanges();
         }
 
         #endregion
