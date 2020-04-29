@@ -16,7 +16,7 @@ namespace Ecliptic.Repository
         {
             // Удаляем бд, если она существуеты
 
-            // if (delete) 
+             if (delete) 
                 db.Database.EnsureDeleted();
 
             // Создаем бд, если она отсутствует
@@ -58,7 +58,7 @@ namespace Ecliptic.Repository
         public static void AddNote(Note note)
         {
             db.Notes.Add(note);
-            db.SaveChanges();
+            SaveDb();
         }
 
         public static void AddPublicNote(Note note)
@@ -77,6 +77,14 @@ namespace Ecliptic.Repository
         {
             db.Notes.Remove(note);
 
+            db.SaveChanges();
+        }
+        public static void RemoveAllNotes(List<Note> notes)
+        {
+            foreach (var note in notes)
+            {
+                db.Notes.Remove(note);
+            }
             db.SaveChanges();
         }
 
@@ -200,12 +208,13 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
-        public static void LoadUserNotes(User user)
+        public static List<Note> LoadUserNotes(User user)
         {
             foreach (var i in db.Notes)
                 if (i.UserId == user.UserId)
                 {
                 }
+            return User.CurrentUser.Notes;
              //       user.Notes.Add(i);
         }
 
@@ -445,8 +454,8 @@ namespace Ecliptic.Repository
 
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка1", "213", "KGU", false));
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка2", "200", "KGU", true));
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка3", "200", "KGU", false));
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка4", "202", "KGU", false));
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка3", "201", "KGU", false));
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка4", "203", "KGU", false));
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка5", "202", "KGU", false));
 
             DbService.AddRoom(new Room

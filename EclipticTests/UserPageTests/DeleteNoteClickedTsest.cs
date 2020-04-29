@@ -10,22 +10,24 @@ namespace EclipticTests.UserPage
     [TestClass]
     public class DeleteNoteClickedTsest
     {
-        // Use TestInitialize to run code before running each test 
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            // обновление базы данных
-            DbService.RefrashDb(true);
+            // очистка контекста
+            DbService.ClearAll();
 
             // загрузка тестового пользователя  
             DbService.LoadSampleUser("", "");
         }
 
-        // Use TestCleanup to run code after each test has run
         [TestCleanup()]
         public void MyTestCleanup()
         {
+            // закрыть контекст пользователья
             User.LoginOut();
+
+            // обновить базу данных
+            DbService.RefrashDb(true);
         }
 
         [TestMethod]

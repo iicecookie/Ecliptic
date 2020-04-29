@@ -4,33 +4,37 @@ using Xamarin.Forms;
 using Ecliptic.Models;
 using Ecliptic.Repository;
 using static Ecliptic.Views.UserInteraction.Authorization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EclipticTests.UserPage
 {
     [TestClass]
     public class AcsessNoteSwitchedTest
     {
-        // Use TestInitialize to run code before running each test 
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            // обновление базы данных
-            DbService.RefrashDb(true);
+            // очистка контекста
+            DbService.ClearAll();
 
             // загрузка тестового пользователя  
             DbService.LoadSampleUser("", "");
         }
 
-        // Use TestCleanup to run code after each test has run
         [TestCleanup()]
         public void MyTestCleanup()
         {
+            // закрыть контекст пользователья
             User.LoginOut();
+
+            // обновить базу данных
+            DbService.RefrashDb(true);
         }
 
         [TestMethod]
         public void MakeExistPrivateNotePublic()
-        {
+        {        
             // Arrange   -------------------------------------
             // создаю отображение пользователей с заметкаим
             Authorization UserPage = new Authorization();
@@ -43,9 +47,9 @@ namespace EclipticTests.UserPage
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.FindNote(1);
+            Note note = DbService.LoadUserNotes(User.CurrentUser).First();
 
-            Assert.AreEqual(note.isPublic, true);
+            Assert.AreEqual(true, note.isPublic);
         }
 
         [TestMethod]
@@ -64,8 +68,8 @@ namespace EclipticTests.UserPage
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
             Note note = DbService.FindNote(2);
-
-            Assert.AreEqual(note.isPublic, false);
+           
+            Assert.AreEqual(false, note.isPublic);
         }
 
         [TestMethod]
@@ -85,12 +89,13 @@ namespace EclipticTests.UserPage
             // проверяю, сохранилась ли информация по заметке
             Note note = DbService.FindNote(2);
 
-            Assert.AreEqual(note.isPublic, true);
+            Assert.AreEqual(true, note.isPublic);
         }
 
         [TestMethod]
         public void MakeUnexistNotePrivate()
         {
+            // проверка, что не появились новые публичные заметки
             // Arrange   -------------------------------------
             // свитчер соответствующей заметки
             Switch switcher = new Switch
@@ -118,6 +123,7 @@ namespace EclipticTests.UserPage
         [TestMethod]
         public void MakeUnexistNotePublic()
         {
+            // проверка, что не появились новые публичные заметки
             // Arrange   -------------------------------------
             // свитчер соответствующей заметки
             Switch switcher = new Switch

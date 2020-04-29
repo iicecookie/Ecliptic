@@ -30,10 +30,8 @@ namespace Ecliptic.Repository
         {
             String databasePath =
               Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), databaseName);
-
+          
             optionsBuilder.UseSqlite($"Filename={databasePath}");
-
-            // optionsBuilder.UseSqlite("Filename = " + databaseName);
         }
     }
 }
