@@ -15,12 +15,14 @@ namespace Ecliptic.Repository
         public static void RefrashDb(bool delete = false)
         {
             // Удаляем бд, если она существуеты
-            if (delete) db.Database.EnsureDeleted();
+
+            // if (delete) 
+                db.Database.EnsureDeleted();
 
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
-
-            ClearAll();
+            
+           // ClearAll();
         }
 
         public static void SaveDb()
@@ -43,14 +45,10 @@ namespace Ecliptic.Repository
 
         public static void ClearAll()
         {
-            foreach (var v in db.Notes)
-            { db.Notes.Remove(v); }
-            foreach (var v in db.Rooms)
-            { db.Rooms.Remove(v); }
-            foreach (var v in db.Workers)
-            { db.Workers.Remove(v); }
-            foreach (var v in db.User)
-            { db.User.Remove(v); }
+            db.Workers.RemoveRange(db.Workers.ToArray());
+            db.Rooms  .RemoveRange(db.Rooms.ToArray());
+            db.Notes  .RemoveRange(db.Notes.ToArray());
+            db.User   .RemoveRange(db.User.ToArray());
         }
 
         #endregion

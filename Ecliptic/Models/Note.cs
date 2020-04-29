@@ -18,7 +18,7 @@ namespace Ecliptic.Models
 
         public string Building { get; set; }
 
-        public bool isPublic { get; set; } // общая ли заметтка или нет
+        public bool   isPublic { get; set; } // общая ли заметтка или нет
 
 
         public virtual int? UserId { get; set; }

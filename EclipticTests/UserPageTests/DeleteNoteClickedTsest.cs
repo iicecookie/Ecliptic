@@ -5,20 +5,33 @@ using Ecliptic.Models;
 using Ecliptic.Repository;
 using static Ecliptic.Views.UserInteraction.Authorization;
 
-namespace EclipticTests.ModelTests
+namespace EclipticTests.UserPage
 {
     [TestClass]
     public class DeleteNoteClickedTsest
     {
+        // Use TestInitialize to run code before running each test 
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            // обновление базы данных
+            DbService.RefrashDb(true);
+
+            // загрузка тестового пользователя  
+            DbService.LoadSampleUser("", "");
+        }
+
+        // Use TestCleanup to run code after each test has run
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            User.LoginOut();
+        }
+
         [TestMethod]
         public void PrivateNoteNormalData()
         {
             // Arrange   -------------------------------------
-            // обновление базы данных
-            DbService.RefrashDb(true);
-            // загрузка тестового пользователя  
-            DbService.LoadSampleUser("", "");
-
             // кнопка соответствующей заметки
             ImageButton DeleteBtn = new ImageButton { AutomationId = "1" };
 
@@ -35,18 +48,12 @@ namespace EclipticTests.ModelTests
             Note note = DbService.FindNote(1);
 
             Assert.IsNull(note);
-            User.LoginOut();
         }
 
         [TestMethod]
         public void ZeroIdInButton()
         {
             // Arrange   -------------------------------------
-            // обновление базы данных
-            DbService.RefrashDb(true);
-            // загрузка тестового пользователя  
-            DbService.LoadSampleUser("", "");
-
             // кнопка соответствующей заметки
             ImageButton DeleteBtn = new ImageButton { AutomationId = "0" };
 
@@ -63,18 +70,12 @@ namespace EclipticTests.ModelTests
             Note note = DbService.FindNote(1);
 
             Assert.AreEqual(note.Text, "заметка1");
-            User.LoginOut();
         }
 
         [TestMethod]
         public void UnexistIdInButton()
         {
             // Arrange   -------------------------------------
-            // обновление базы данных
-            DbService.RefrashDb(true);
-            // загрузка тестового пользователя  
-            DbService.LoadSampleUser("", "");
-
             // кнопка соответствующей заметки
             ImageButton DeleteBtn = new ImageButton { AutomationId = "50" };
 
@@ -91,18 +92,12 @@ namespace EclipticTests.ModelTests
             Note note = DbService.FindNote(1);
 
             Assert.AreEqual(note.Text, "заметка1");
-            User.LoginOut();
         }
 
         [TestMethod]
         public void DeletePublicNote()
         {
             // Arrange   -------------------------------------
-            // обновление базы данных
-            DbService.RefrashDb(true);
-            // загрузка тестового пользователя  
-            DbService.LoadSampleUser("", "");
-
             // кнопка соответствующей заметки
             ImageButton DeleteBtn = new ImageButton { AutomationId = "2" };
 
@@ -119,7 +114,6 @@ namespace EclipticTests.ModelTests
             Note note = DbService.FindNote(1);
 
             Assert.AreEqual(note.Text, "заметка1");
-            User.LoginOut();
         }
     }
 }
