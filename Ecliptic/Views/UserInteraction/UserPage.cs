@@ -100,19 +100,22 @@ namespace Ecliptic.Views.UserInteraction
                 Label  noteLab = new Label
                 {
                     Text = i.Room.ToString(),
-                    FontSize = 14,
+                    // hide in test
+                    // FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
                 Label  noteBui = new Label
                 {
                     Text = "Здание "  + i.Building.ToString(),
-                    FontSize = 14,
+                    // hide in test
+                    // FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
                 Label  date = new Label
                 {
                     Text = " " + i.Date.ToString(),
-                    FontSize = 14,
+                    // hide in test
+                    // FontSize = 14,
                     AutomationId = i.Id.ToString(),
                     Style = Device.Styles.TitleStyle,
                 };
@@ -120,7 +123,8 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     AutoSize = EditorAutoSizeOption.TextChanges,
                     Text = i.Text.ToString() ?? "wot",
-                    FontSize = 12,
+                    // hide in test
+                    // FontSize = 12,
                     Style = Device.Styles.BodyStyle,
                     AutomationId = i.Id.ToString(),
                 };
@@ -212,9 +216,12 @@ namespace Ecliptic.Views.UserInteraction
         public void OnButtonSaveClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
+            if (btn.AutomationId == "0") { return; }
 
             // сохранить в пользователе 
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
+
+            if (note == null) return;
 
             for (int i = 0; i < User.CurrentUser.Notes.Count; i++)
             {
@@ -247,8 +254,8 @@ namespace Ecliptic.Views.UserInteraction
 
             DbService.UpdateNote(note);
 
-            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " изменена");
-
+            // hide in tests
+            //  DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " изменена");
 
             // отправить на сервер
          
@@ -257,20 +264,28 @@ namespace Ecliptic.Views.UserInteraction
         public void OnButtonDeleteClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
+            if (btn.AutomationId == "0") { return; }
 
+            // сохранить в пользователе 
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
+            if (note == null) return;
 
-            DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
-
+            // hide in tests
+            // DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
 
             DbService.RemoveNote(note);
 
             if (note.isPublic)
             {
                 //  если публичная, то убрать и с сервера
-                DbService.RemoveNote(NoteData.FindNote(note));
-                DbService.SaveDb();
-                NoteData.Notes = DbService.LoadAllPublicNotes();
+
+                // если заметка есть в загруженом здании
+                Note buildnote = NoteData.FindNote(note);
+                if  (buildnote != null)
+                {
+                    DbService.RemoveNote(buildnote);
+                    NoteData.Notes = DbService.LoadAllPublicNotes();
+                }
             }
 
             GetUserPage();
@@ -279,8 +294,10 @@ namespace Ecliptic.Views.UserInteraction
         public void OnSwitched(object sender, EventArgs args)
         {
             Switch switcher = (Switch)sender;
+            if (switcher.AutomationId == "0") { return; }
 
             Note note = User.FindNoteById(Int32.Parse(switcher.AutomationId));
+            if (note == null) return;
 
             if (switcher.IsToggled) // сделал публичной
             {
@@ -290,28 +307,36 @@ namespace Ecliptic.Views.UserInteraction
 
                 // добавить в общий если добавилось на сервер
 
-                DbService.AddNote((Note)note.Clone());
-
-                DbService.SaveDb();
+                Note buildnote = (Note)note.Clone();
+                if (RoomData.isThatRoom(buildnote.Room))
+                {
+                    DbService.AddNote(buildnote);
+                }
 
                 NoteData.Notes = DbService.LoadAllPublicNotes();
 
-                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала публичной");
+                // hide in test
+                // DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала публичной");
             }
             else
             {
                 // удалить с сервера
 
                 // удалить из общиз если удалилось с сервера
-                DbService.RemoveNote(NoteData.FindNote(note));
+                Note buildnote = NoteData.FindNote(note);
+                if (buildnote != null)
+                {
+                    DbService.RemoveNote(NoteData.FindNote(note));
+                }
 
                 note.isPublic = false;
 
                 DbService.SaveDb();
 
                 NoteData.Notes = DbService.LoadAllPublicNotes();
-
-                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала приватной");
+                
+                // hide in test
+                // DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала приватной");
             }
         }
 

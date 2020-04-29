@@ -10,6 +10,8 @@ namespace Ecliptic.Repository
     {
         private static ApplicationContext db = new ApplicationContext();
 
+        #region main
+
         public static void RefrashDb(bool delete = false)
         {
             // Удаляем бд, если она существуеты
@@ -17,6 +19,8 @@ namespace Ecliptic.Repository
 
             // Создаем бд, если она отсутствует
             db.Database.EnsureCreated();
+
+            ClearAll();
         }
 
         public static void SaveDb()
@@ -36,6 +40,20 @@ namespace Ecliptic.Repository
                 LoadUserNotes(User.CurrentUser);
             }
         }
+
+        public static void ClearAll()
+        {
+            foreach (var v in db.Notes)
+            { db.Notes.Remove(v); }
+            foreach (var v in db.Rooms)
+            { db.Rooms.Remove(v); }
+            foreach (var v in db.Workers)
+            { db.Workers.Remove(v); }
+            foreach (var v in db.User)
+            { db.User.Remove(v); }
+        }
+
+        #endregion
 
         #region Notes
 
@@ -71,6 +89,7 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
+
         public static Note FindNote(Note note)
         {
             return db.Notes.Where(s => 
@@ -85,7 +104,9 @@ namespace Ecliptic.Repository
 
         public static Note FindNote(int id)
         {
-            return db.Notes.Where(s => s.Id == id).First();
+            return db.Notes.Find(id);
+
+
         }
 
         public static List<Note> LoadAllNotes()
@@ -217,11 +238,11 @@ namespace Ecliptic.Repository
 
         #region Sample
 
-        public static void LoadTestSample()
+        public static void LoadSample()
         {
-            LoadNotes();
-            LoadRooms();
-            LoadWorkers();
+            LoadSampleNotes();
+            LoadSampleRooms();
+            LoadSampleWorkers();
 
             SaveDb();
 
@@ -230,7 +251,7 @@ namespace Ecliptic.Repository
             RoomData.Rooms     = DbService.RelationsRoomsWorker();
         }
 
-        public static void LoadWorkers()
+        public static void LoadSampleWorkers()
         {
             AddWorker(new Worker
             {
@@ -274,7 +295,7 @@ namespace Ecliptic.Repository
             });
         }
 
-        public static void LoadRooms()
+        public static void LoadSampleRooms()
         {
             AddRoom(new Room
             {
@@ -407,13 +428,65 @@ namespace Ecliptic.Repository
             });
         }
 
-        public static void LoadNotes()
+        public static void LoadSampleNotes()
         {
             AddNote(new Note("I'm open note", "213", "KGU", true));
             AddNote(new Note("I'm open okey", "213", "KGU", true));
             AddNote(new Note("I'm open yesi", "522", "KGU", true));
             AddNote(new Note("I'm open noby", "231", "KGU", true));
             AddNote(new Note("I'm open puko", "409", "KGU", true));
+        }
+
+        public static User LoadSampleUser(string login, string password)
+        {
+            // записываю в пользователя
+            User.setInstance("Jo", login, password);
+                
+            // загружаю в базу данных
+            DbService.SaveUser(User.CurrentUser);
+
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка1", "213", "KGU", false));
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка2", "200", "KGU", true));
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка3", "200", "KGU", false));
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка4", "202", "KGU", false));
+            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка5", "202", "KGU", false));
+
+            DbService.AddRoom(new Room
+            {
+                UserId = User.CurrentUser.UserId,
+                Name = "213",
+                Floor = 1,
+                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
+                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
+                Phone = "8(906)6944309",
+                Timetable = "Время работы:вторник	  10:00–22:00" +
+                            "             среда       10:00–22:00" +
+                            "             четверг     10:00–22:00" +
+                            "             пятница     10:00–22:00" +
+                            "             суббота     10:00–22:00" +
+                            "             воскресенье 10:00–22:00" +
+                            "             понедельник 10:00–22:00",
+            });
+            DbService.AddRoom(new Room
+            {
+                UserId = User.CurrentUser.UserId,
+                Name = "200",
+                Floor = 1,
+                Details = "The Asian black bear, also known as the moon bear and the white-chested bear, is a medium-sized bear species native to Asia and largely adapted to arboreal life. It lives in the Himalayas, in the northern parts of the Indian subcontinent, Korea, northeastern China, the Russian Far East, the Honshū and Shikoku islands of Japan, and Taiwan. It is classified as vulnerable by the International Union for Conservation of Nature (IUCN), mostly because of deforestation and hunting for its body parts.",
+                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
+
+            });
+            DbService.AddRoom(new Room
+            {
+                UserId = User.CurrentUser.UserId,
+                Name = "202",
+                Floor = 2,
+                Details = "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
+            });
+
+            DbService.SaveDb();
+
+            return User.CurrentUser;
         }
 
         #endregion

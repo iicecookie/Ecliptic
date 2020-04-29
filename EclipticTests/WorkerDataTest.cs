@@ -1,5 +1,6 @@
 using Ecliptic.Data;
 using Ecliptic.Models;
+using Ecliptic.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EclipticTests
@@ -11,13 +12,14 @@ namespace EclipticTests
         public void TestMethod1()
         {
             // Arrange
+            DbService.RefrashDb(true);
             bool expected;
 
             // Act   
             expected = RoomData.isThatRoom("213");
 
             // Assert
-            bool actual = true;
+            bool actual = false;
             Assert.AreEqual(expected, actual);
         }
 
@@ -25,6 +27,7 @@ namespace EclipticTests
         public void TestMethod2()
         {
             // Arrange
+            DbService.RefrashDb(true);
             bool expected;
 
             // Act   
@@ -40,6 +43,7 @@ namespace EclipticTests
         public void TestMethod3()
         {
             // Arrange
+            DbService.RefrashDb(true);
             bool expected;
 
             // Act   
@@ -54,6 +58,7 @@ namespace EclipticTests
         public void TestMethod4()
         {
             // Arrange
+            DbService.RefrashDb(true);
             bool expected;
 
             // Act   
@@ -67,6 +72,7 @@ namespace EclipticTests
         public void TestMethod5()
         {
             // Arrange
+            DbService.RefrashDb(true);
             bool expected;
 
             // Act   
@@ -75,7 +81,6 @@ namespace EclipticTests
             // Assert
             bool actual = false;
             Assert.AreEqual(expected, actual);
-        }
-
+        }   
     }
 }
