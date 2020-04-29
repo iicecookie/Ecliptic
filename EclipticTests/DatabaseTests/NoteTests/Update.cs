@@ -7,11 +7,12 @@ using Xamarin.Forms;
 using static Ecliptic.Views.UserInteraction.Authorization;
 using Xunit;
 using Ecliptic.Data;
+using System.Linq;
 
 namespace EclipticTests.DatabaseTests
 {
     [TestClass]
-    public class Remove
+    public class Update
     {
         [TestCleanup()]
         public void MyTestCleanup()
@@ -28,56 +29,53 @@ namespace EclipticTests.DatabaseTests
         }
 
         [TestMethod]
-        public void RemoveOne()
+        public void UpdateOne()
         {
             // Arrange   -------------------------------------    
             Note note = new Note("заметка", "213", "KSU", false);
             DbService.AddNote(note);
 
-            // Act   -----------------------------------------        
-            DbService.RemoveNote(note);
+            // Act   -----------------------------------------       
+            note.Text = "текст";
+            DbService.UpdateNote(note);
 
             // Assert-----------------------------------------
-            int count = DbService.LoadAllNotes().Count;
+            string upstring = DbService.LoadAllNotes().First().Text;
 
-            Assert.AreEqual(0, count);
+            Assert.AreEqual("текст", upstring);
         }
 
         [TestMethod]
-        public void RemoveEmpty()
+        public void UpdateEmpty()
         {
             // Arrange   -------------------------------------    
             Note note = new Note("заметка", "213", "KSU", false);
             DbService.AddNote(note);
 
-            // Act   -----------------------------------------      
-            Note empnote = null;
-            DbService.RemoveNote(empnote);
+            // Act   -----------------------------------------       
+            note = null;
+            DbService.UpdateNote(note);
 
             // Assert-----------------------------------------
-            int count = DbService.LoadAllNotes().Count;
+            string upstring = DbService.LoadAllNotes().First().Text;
 
-            Assert.AreEqual(1, count);
+            Assert.AreEqual("заметка", upstring);
         }
 
         [TestMethod]
-        public void RemoveMany()
+        public void NonUpdateWoW()
         {
-            // Arrange   -------------------------------------
-            DbService.AddNote(new Note("I'm open note", "213", "KGU", true));
-            DbService.AddNote(new Note("I'm open okey", "213", "KGU", true));
-            DbService.AddNote(new Note("I'm open yesi", "522", "KGU", true));
-            DbService.AddNote(new Note("I'm open noby", "231", "KGU", true));
-            DbService.AddNote(new Note("I'm open puko", "409", "KGU", true));
-            var notes = DbService.LoadAllNotes();
+            // Arrange   -------------------------------------    
+            Note note = new Note("заметка", "213", "KSU", false);
+            DbService.AddNote(note);
 
-            // Act   -----------------------------------------
-            DbService.RemoveNote(notes);
+            // Act   -----------------------------------------       
+            note.Text = "текст";
 
             // Assert-----------------------------------------
-            int count = DbService.LoadAllNotes().Count;
+            string upstring = DbService.LoadAllNotes().First().Text;
 
-            Assert.AreEqual(0, count);
+            Assert.AreEqual("текст", upstring);
         }
     }
 }

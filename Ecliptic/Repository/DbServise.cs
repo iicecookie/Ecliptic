@@ -69,15 +69,15 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
-
         public static void RemoveNote(Note note)
         {
+            if (note == null) return;
             db.Notes.Remove(note);
 
             db.SaveChanges();
         }
 
-        public static void RemoveNotes(List<Note> notes)
+        public static void RemoveNote(List<Note> notes)
         {
             foreach (var note in notes)
             {
@@ -88,6 +88,7 @@ namespace Ecliptic.Repository
 
         public static void UpdateNote(Note note)
         {
+            if (note == null) return;
             db.Notes.Update(note);
 
             db.SaveChanges();
@@ -95,19 +96,19 @@ namespace Ecliptic.Repository
 
         public static Note FindNote(Note note)
         {
-            return db.Notes.Where(s => 
+            if (note == null) return null;
+
+            var notes = db.Notes.Where(s =>
                                        s.Text == note.Text &&
                                        s.Date == note.Date &&
-                                       s.Building == note.Building && 
+                                       s.Building == note.Building &&
                                        s.Room == note.Room &&
                                        s.isPublic == note.isPublic &&
                                        s.UserId == note.UserId
-                                       ).First();
-        }
-
-        public static Note FindNote(int id)
-        {
-            return db.Notes.Find(id);
+                                       );
+            if (notes.Count() > 0)
+                return notes.First();
+            return null;
         }
 
         public static List<Note> LoadAllNotes()
@@ -162,10 +163,6 @@ namespace Ecliptic.Repository
             db.Rooms.Add(room);
         }
 
-        public static Room GetRoomById(int id)
-        {
-            return db.Rooms.ToList().Where(s => s.RoomId == id).First();
-        }
 
         public static List<Room> RelationsRoomsWorker()
         {

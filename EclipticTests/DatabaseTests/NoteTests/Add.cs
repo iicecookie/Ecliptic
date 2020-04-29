@@ -11,7 +11,7 @@ using Ecliptic.Data;
 namespace EclipticTests.DatabaseTests
 {
     [TestClass]
-    public class Remove
+    public class Add
     {
 
         [TestInitialize()]
