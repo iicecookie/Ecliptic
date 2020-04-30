@@ -31,6 +31,15 @@ namespace EclipticTests.UserPage
             DbService.RefrashDb(true);
         }
 
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            DbService.ClearAll();
+            DbService.RefrashDb(true);
+        }
+
+        //-------------------------------------
+
         [TestMethod]
         public void NormalTest()
         {
@@ -54,31 +63,6 @@ namespace EclipticTests.UserPage
             Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
             Assert.AreEqual(note.Text, Text);
-        }
-        
-        [TestMethod]
-        public void ZeroLinkInButton()
-        {
-            // Arrange   -------------------------------------
-            // кнопка соответствующей заметки
-            ImageButton SaveBtn = new ImageButton { AutomationId = "0" };
-
-            // создаю отображение пользователей с заметкаим
-            Authorization UserPage = new Authorization();
-            UserPage.GetUserPage();
-
-            // Act   -----------------------------------------
-            // изменяю текст заметки
-            UserControls.Editors[0].Text = "net text";
-            // нажимаю кнопку сохранить
-            UserPage.OnButtonSaveClicked(SaveBtn, new System.EventArgs());
-
-            // Assert-----------------------------------------
-            // проверяю, сохранилась ли информация по заметке
-            string Text = "заметка1";
-            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
-
-            Assert.AreEqual(note.Text, Text); 
         }
 
         [TestMethod]
@@ -104,6 +88,31 @@ namespace EclipticTests.UserPage
             Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
             Assert.AreEqual(note.Text, Text);
+        }
+
+        [TestMethod]
+        public void ZeroLinkInButton()
+        {
+            // Arrange   -------------------------------------
+            // кнопка соответствующей заметки
+            ImageButton SaveBtn = new ImageButton { AutomationId = "0" };
+
+            // создаю отображение пользователей с заметкаим
+            Authorization UserPage = new Authorization();
+            UserPage.GetUserPage();
+
+            // Act   -----------------------------------------
+            // изменяю текст заметки
+            UserControls.Editors[0].Text = "net text";
+            // нажимаю кнопку сохранить
+            UserPage.OnButtonSaveClicked(SaveBtn, new System.EventArgs());
+
+            // Assert-----------------------------------------
+            // проверяю, сохранилась ли информация по заметке
+            string Text = "заметка1";
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
+
+            Assert.AreEqual(note.Text, Text); 
         }
     }
 }

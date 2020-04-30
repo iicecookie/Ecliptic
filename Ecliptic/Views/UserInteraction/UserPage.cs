@@ -268,25 +268,27 @@ namespace Ecliptic.Views.UserInteraction
 
             // сохранить в пользователе 
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
-            if (note == null) return;
+            if  (note == null) return;
 
             // hide in tests
             // DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
 
-            DbService.RemoveNote(note);
 
             if (note.isPublic)
             {
                 //  если публичная, то убрать и с сервера
 
                 // если заметка есть в загруженом здании
-                Note buildnote = NoteData.FindNote(note);
-                if  (buildnote != null)
+                Note buildnote = NoteData.FindNote((Note)note.Clone());
+
+                if (buildnote != null)
                 {
                     DbService.RemoveNote(buildnote);
                     NoteData.Notes = DbService.LoadAllPublicNotes();
                 }
             }
+
+            DbService.RemoveNote(note);
 
             GetUserPage();
         }

@@ -11,6 +11,13 @@ namespace EclipticTests.UserPage
     [TestClass]
     public class DeleteNoteClickedTsest
     {
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            DbService.RefrashDb(true);
+            DbService.ClearAll();
+        }
+
         [TestInitialize()]
         public void MyTestInitialize()
         {
@@ -31,6 +38,38 @@ namespace EclipticTests.UserPage
             DbService.RefrashDb(true);
         }
 
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            DbService.ClearAll();
+            DbService.RefrashDb(true);
+        }
+        
+        //-------------------------------------
+
+        [TestMethod]
+        public void DeletePublicNote()
+        {
+            // Arrange   -------------------------------------
+            // кнопка соответствующей заметки
+            ImageButton DeleteBtn = new ImageButton { AutomationId = "2" };
+
+            // создаю отображение пользователей с заметкаим
+            Authorization UserPage = new Authorization();
+            UserPage.GetUserPage();
+
+            // Act   -----------------------------------------
+            // нажимаю кнопку удалить
+            DbService.LoadAll();
+            UserPage.OnButtonDeleteClicked(DeleteBtn, new System.EventArgs());
+
+            // Assert-----------------------------------------
+            // проверяю, сохранилась ли информация по заметке
+            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
+
+            Assert.AreEqual(note.Text, "заметка1");
+        }
+        
         [TestMethod]
         public void PrivateNoteNormalData()
         {
@@ -51,28 +90,6 @@ namespace EclipticTests.UserPage
             Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
 
             Assert.AreEqual(note.Text, "заметка2");
-        }
-
-        [TestMethod]
-        public void ZeroIdInButton()
-        {
-            // Arrange   -------------------------------------
-            // кнопка соответствующей заметки
-            ImageButton DeleteBtn = new ImageButton { AutomationId = "0" };
-
-            // создаю отображение пользователей с заметкаим
-            Authorization UserPage = new Authorization();
-            UserPage.GetUserPage();
-
-            // Act   -----------------------------------------
-            // нажимаю кнопку удалить
-            UserPage.OnButtonDeleteClicked(DeleteBtn, new System.EventArgs());
-
-            // Assert-----------------------------------------
-            // проверяю, сохранилась ли информация по заметке
-            Note note = DbService.LoadUserNotes(User.CurrentUser).ElementAt(0);
-
-            Assert.AreEqual(note.Text, "заметка1");
         }
 
         [TestMethod]
@@ -98,11 +115,11 @@ namespace EclipticTests.UserPage
         }
 
         [TestMethod]
-        public void DeletePublicNote()
+        public void ZeroIdInButton()
         {
             // Arrange   -------------------------------------
             // кнопка соответствующей заметки
-            ImageButton DeleteBtn = new ImageButton { AutomationId = "2" };
+            ImageButton DeleteBtn = new ImageButton { AutomationId = "0" };
 
             // создаю отображение пользователей с заметкаим
             Authorization UserPage = new Authorization();

@@ -12,12 +12,19 @@ namespace EclipticTests.UserPage
     [TestClass]
     public class AcsessNoteSwitchedTest
     {
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            DbService.ClearAll();
+            DbService.RefrashDb(true);
+        }
+
         [TestInitialize()]
         public void MyTestInitialize()
         {
             // очистка контекста
             DbService.ClearAll();
-
+            DbService.LoadAll();
             // загрузка тестового пользователя  
             DbService.LoadSampleUser("", "");
         }
@@ -31,6 +38,15 @@ namespace EclipticTests.UserPage
             // обновить базу данных
             DbService.RefrashDb(true);
         }
+
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            DbService.ClearAll();
+            DbService.RefrashDb(true);
+        }
+
+        //-------------------------------------
 
         [TestMethod]
         public void MakeExistPrivateNotePublic()

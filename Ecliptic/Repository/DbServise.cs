@@ -42,10 +42,14 @@ namespace Ecliptic.Repository
 
         public static void ClearAll()
         {
-            db.Workers.RemoveRange(db.Workers.ToArray());
-            db.Rooms  .RemoveRange(db.Rooms.ToArray());
-            db.Notes  .RemoveRange(db.Notes.ToArray());
-            db.User   .RemoveRange(db.User.ToArray());
+            if (db.Rooms.Count() > 0)
+                db.Rooms.RemoveRange(db.Rooms);
+            if (db.Notes.Count() > 0)
+                db.Notes.RemoveRange(db.Notes);
+            if (db.Workers.Count() > 0)
+                db.Workers.RemoveRange(db.Workers);
+            if (db.User.Count() > 0)
+                db.User.RemoveRange(db.User);
             db.SaveChanges();
         }
 
@@ -72,6 +76,7 @@ namespace Ecliptic.Repository
         public static void RemoveNote(Note note)
         {
             if (note == null) return;
+         //   if (db.Notes.Find(note) == null) return;
             db.Notes.Remove(note);
 
             db.SaveChanges();
@@ -141,7 +146,17 @@ namespace Ecliptic.Repository
 
         public static void AddWorker(Worker worker)
         {
+            if (worker == null) return;
             db.Workers.Add(worker);
+            db.SaveChanges();
+        }
+
+        public static void AddWorker(List<Worker> workers)
+        {
+            if (workers == null) return;
+            foreach (var worker in workers)
+                db.Workers.Add(worker);
+            db.SaveChanges();
         }
 
         public static List<Worker> RelationsWorkersRoom()
@@ -160,7 +175,17 @@ namespace Ecliptic.Repository
 
         public static void AddRoom(Room room)
         {
+            if (room == null) return;
             db.Rooms.Add(room);
+            db.SaveChanges();
+        }
+
+        public static void AddRoom(List<Room> rooms)
+        {
+            if (rooms == null) return;
+            foreach (var room in rooms)
+                db.Rooms.Add(room);
+            db.SaveChanges();
         }
 
         public static void RemoveRoom(Room room)
@@ -241,53 +266,16 @@ namespace Ecliptic.Repository
 
             SaveDb();
 
-            NoteData.Notes     = DbService.LoadAllPublicNotes();
-            WorkerData.Workers = DbService.RelationsWorkersRoom();
-            RoomData.Rooms     = DbService.RelationsRoomsWorker();
+            LoadAll();
         }
 
-        public static void LoadSampleWorkers()
+        public static void LoadSampleNotes()
         {
-            AddWorker(new Worker
-            {
-                FirstName = "Celivans",
-                SecondName = "irina",
-                LastName = "vasileva",
-
-                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
-                Status = "Teacher",
-
-                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
-                Phone = "8(906)6944309",
-                Email = "seliv@mail.ru",
-                RoomId = 3,
-            });
-            AddWorker(new Worker
-            {
-                FirstName = "Uraeva",
-                SecondName = "Elena",
-
-                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
-                Status = "Teacher",
-
-                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
-                Phone = "8(906)6944309",
-                Email = "seliv@mail.ru",
-                RoomId = 1,
-            });
-            AddWorker(new Worker
-            {
-                FirstName = "Makarov",
-                SecondName = "Kirya",
-
-                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
-                Status = "Teacher",
-
-                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
-                Phone = "8(906)6944309",
-                Email = "seliv@mail.ru",
-                RoomId = 2,
-            });
+            AddNote(new Note("I'm open note", "213", "KGU", true));
+            AddNote(new Note("I'm open okey", "213", "KGU", true));
+            AddNote(new Note("I'm open yesi", "522", "KGU", true));
+            AddNote(new Note("I'm open noby", "231", "KGU", true));
+            AddNote(new Note("I'm open puko", "409", "KGU", true));
         }
 
         public static void LoadSampleRooms()
@@ -320,7 +308,6 @@ namespace Ecliptic.Repository
                 Name = "202",
                 Floor = 2,
                 Details = "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
-
             });
             AddRoom(new Room
             {
@@ -423,13 +410,48 @@ namespace Ecliptic.Repository
             });
         }
 
-        public static void LoadSampleNotes()
+        public static void LoadSampleWorkers()
         {
-            AddNote(new Note("I'm open note", "213", "KGU", true));
-            AddNote(new Note("I'm open okey", "213", "KGU", true));
-            AddNote(new Note("I'm open yesi", "522", "KGU", true));
-            AddNote(new Note("I'm open noby", "231", "KGU", true));
-            AddNote(new Note("I'm open puko", "409", "KGU", true));
+            AddWorker(new Worker
+            {
+                FirstName = "Celivans",
+                SecondName = "irina",
+                LastName = "vasileva",
+
+                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
+                Status = "Teacher",
+
+                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
+                Phone = "8(906)6944309",
+                Email = "seliv@mail.ru",
+                RoomId = 3,
+            });
+            AddWorker(new Worker
+            {
+                FirstName = "Uraeva",
+                SecondName = "Elena",
+
+                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
+                Status = "Teacher",
+
+                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
+                Phone = "8(906)6944309",
+                Email = "seliv@mail.ru",
+                RoomId = 1,
+            });
+            AddWorker(new Worker
+            {
+                FirstName = "Makarov",
+                SecondName = "Kirya",
+
+                Details = "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
+                Status = "Teacher",
+
+                Site = "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
+                Phone = "8(906)6944309",
+                Email = "seliv@mail.ru",
+                RoomId = 2,
+            });
         }
 
         public static User LoadSampleUser(string login, string password)
