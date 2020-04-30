@@ -9,7 +9,7 @@ namespace Ecliptic.Views.UserInteraction
 {
     public partial class Authorization : ContentPage
     {
-        static class LoginControls
+        public static class LoginControls
         {
             static public Label labelMessage { get; set; }
             static public Entry LoginBox { get; set; }
@@ -35,10 +35,8 @@ namespace Ecliptic.Views.UserInteraction
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
-
-
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                FontAttributes = FontAttributes.Italic,
+                // FontAttributes = FontAttributes.Italic,
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -91,7 +89,7 @@ namespace Ecliptic.Views.UserInteraction
         {
             if (LoginControls.LoginBox.Text == "" || LoginControls.PasswBox.Text == "")
             {
-                await DisplayAlert("Опупка", "Заполните поля", "OK");
+               // await DisplayAlert("Опупка", "Заполните поля", "OK");
                 return;
             }
 

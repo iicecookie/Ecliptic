@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xamarin.Forms;
 
-namespace Ecliptic.Views.UserInteraction
+namespace Ecliptic.Views.UserNote
 {
     public partial class NewNotePage : ContentPage
     {
@@ -105,9 +105,9 @@ namespace Ecliptic.Views.UserInteraction
         async void OnButtonSaveClicked(object sender, EventArgs args)
         {
             DbService.AddNote(new Note(User.CurrentUser.UserId,
-                                  NoteControls.Text.Text,
-                                  NoteControls.Room.Text,
-                                  NoteControls.Building.Text, false));
+                                       NoteControls.Text.Text,
+                                       NoteControls.Room.Text,
+                                       NoteControls.Building.Text, false));
 
         //    DbService.LoadUserNotes(User.CurrentUser);
 

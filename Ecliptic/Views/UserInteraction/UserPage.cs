@@ -1,11 +1,14 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
 using Ecliptic.Repository;
+using Ecliptic.Views.UserNote;
+using Ecliptic.Views.FavoriteRoomList;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Xamarin.Forms;
+
 
 namespace Ecliptic.Views.UserInteraction
 {
@@ -15,7 +18,7 @@ namespace Ecliptic.Views.UserInteraction
         {
             static public Label labelMessage { get; set; }
             static public Label Login { get; set; }
-            static public Label Pass { get; set; }
+            // static public Label Pass { get; set; }
             static public Label NoteCount { get; set; }
             static public Button LoginOutBtn { get; set; }
 

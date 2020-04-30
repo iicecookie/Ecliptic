@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using Xamarin.Forms;
 
-namespace Ecliptic.Views.UserInteraction
+namespace Ecliptic.Views.FavoriteRoomList
 {
     public partial class FavRoomsPage : ContentPage
     {

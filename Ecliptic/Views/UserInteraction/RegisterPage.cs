@@ -42,10 +42,8 @@ namespace Ecliptic.Views.UserInteraction
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
-
-
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                FontAttributes = FontAttributes.Italic,
+             //   FontAttributes = FontAttributes.Italic,
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -56,10 +54,8 @@ namespace Ecliptic.Views.UserInteraction
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
-
-
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                FontAttributes = FontAttributes.Italic,
+               // FontAttributes = FontAttributes.Italic,
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -70,9 +66,8 @@ namespace Ecliptic.Views.UserInteraction
                 Keyboard = Keyboard.Default,
                 TextColor = Color.Black,
                 PlaceholderColor = Color.Black,
-
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                FontAttributes = FontAttributes.Italic,
+                // FontAttributes = FontAttributes.Italic,
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -85,7 +80,7 @@ namespace Ecliptic.Views.UserInteraction
                 PlaceholderColor = Color.Black,
 
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                FontAttributes = FontAttributes.Italic,
+               // FontAttributes = FontAttributes.Italic,
                 Style = Device.Styles.BodyStyle,
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -120,7 +115,7 @@ namespace Ecliptic.Views.UserInteraction
             this.Content = scrollView;
         }
 
-        private async void RegistrUser(object sender, EventArgs e)
+        public async void RegistrUser(object sender, EventArgs e)
         {
             if (RegisrationContrioolers.NameBox.Text  == "" ||
                 RegisrationContrioolers.LoginBox.Text == "" ||

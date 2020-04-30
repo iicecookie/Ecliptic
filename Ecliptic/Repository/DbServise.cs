@@ -40,7 +40,7 @@ namespace Ecliptic.Repository
             }
         }
 
-        public static void ClearAll()
+        public static void ClearAll()   
         {
             if (db.Rooms.Count() > 0)
                 db.Rooms.RemoveRange(db.Rooms);
