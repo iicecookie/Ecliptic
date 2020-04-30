@@ -27,6 +27,9 @@
     <Compile Update="Views\Buildings\BuildingDetailPage.xaml.cs">
       <DependentUpon>BuildingDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Scheme\SchemePlan.xaml.cs">
+      <DependentUpon>SchemePlan.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\WayFounder\FindWayPage.xaml.cs">
       <DependentUpon>FindWayPage.xaml</DependentUpon>
     </Compile>
@@ -50,7 +53,7 @@
     <EmbeddedResource Update="Views\RoomInform\RoomsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Manipulation\TouchManipulationPage.xaml">
+    <EmbeddedResource Update="Views\Scheme\SchemePlan.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RoomInform\WorkerDetailPage.xaml">

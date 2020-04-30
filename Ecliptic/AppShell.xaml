@@ -116,7 +116,7 @@
                       Style= "{StaticResource HomeShell}"
                       Title="Схема"
                       Icon="first.png"
-                      ContentTemplate="{DataTemplate views:TouchManipulationPage}" />
+                      ContentTemplate="{DataTemplate views:SchemePlanPage}" />
 
         <ShellContent Route="Rooms"
                       Style= "{StaticResource HomeShell}"

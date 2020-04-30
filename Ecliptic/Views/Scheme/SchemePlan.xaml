@@ -4,11 +4,11 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:tt="clr-namespace:TouchTracking"
              xmlns:local="clr-namespace:Ecliptic.Views"
-             x:Class="Ecliptic.Views.TouchManipulationPage"
              xmlns:controls="clr-namespace:Ecliptic.Controls"
              xmlns:data="clr-namespace:Ecliptic.Data"
              xmlns:views="clr-namespace:Ecliptic.Views"
-             Title="Touch Manipulation">
+             x:Class="Ecliptic.Views.SchemePlanPage"
+             Title="Building Plan">
 
     <ContentPage.ToolbarItems>
         
@@ -58,34 +58,12 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="43" />
         </Grid.RowDefinitions>
 
-
-        <Picker Title="Touch Mode"
-                Grid.Row="0"
-                SelectedIndexChanged="OnTouchModePickerSelectedIndexChanged"
-                BackgroundColor="Snow" 
-                >
-            
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type local:TouchManipulationMode}">
-                    <x:Static Member="local:TouchManipulationMode.None" />
-                    <x:Static Member="local:TouchManipulationMode.PanOnly" />
-                    <x:Static Member="local:TouchManipulationMode.IsotropicScale" />
-                    <x:Static Member="local:TouchManipulationMode.AnisotropicScale" />
-                    <x:Static Member="local:TouchManipulationMode.ScaleRotate" />
-                    <x:Static Member="local:TouchManipulationMode.ScaleDualRotate" />
-                </x:Array>
-            </Picker.ItemsSource>
-            <Picker.SelectedIndex>
-                4
-            </Picker.SelectedIndex>
-        </Picker>
-
         <Grid BackgroundColor="Snow"
-              Grid.Row="1">
+              Grid.Row="0">
 
             <skia:SKCanvasView x:Name="canvasView"
                                PaintSurface="OnCanvasViewPaintSurface" />
@@ -94,6 +72,27 @@
                                 TouchAction="OnTouchEffectAction" />
             </Grid.Effects>
         </Grid>
+
+
+        <Picker x:Name="FloorPicker"
+                Title="Выбор этажа"
+                Grid.Row="1"
+                SelectedIndexChanged="OnFloorPickerSelected"
+                
+                ItemDisplayBinding="{Binding Level}"
+                ItemsSource       ="{Binding Floors}"
+                
+                TitleColor="Black"
+                TextColor="White"
+                BackgroundColor="Black"
+                >
+              
+            <Picker.SelectedIndex>
+                1
+            </Picker.SelectedIndex>
+        </Picker>
+
+        
     </Grid>
     
 </ContentPage>

@@ -6,50 +6,65 @@ using Xamarin.Forms;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using TouchTracking;
+using Ecliptic.Models;
 
 namespace Ecliptic.Views
 {
-    public partial class TouchManipulationPage : ContentPage
+    public partial class SchemePlanPage : ContentPage
     {
         TouchManipulationBitmap bitmap;
+
         List<long> touchIds = new List<long>();
+
         MatrixDisplay matrixDisplay = new MatrixDisplay();
 
-        public TouchManipulationPage()
+        public SchemePlanPage()
         {
             InitializeComponent();
 
-            //   string resourceID = "SkiaSharpFormsDemos.Media.MountainClimbers.jpg";
-            //   Assembly assembly = GetType().GetTypeInfo().Assembly;
-
-            //   using (Stream stream = assembly.GetManifestResourceStream(resourceID))
-            //  {
-            // SKBitmap bitmap = SKBitmap.Decode(stream);
             SKBitmap bitmap = new SKBitmap(600, 600);
             this.bitmap = new TouchManipulationBitmap(bitmap);
             this.bitmap.TouchManager.Mode = TouchManipulationMode.ScaleRotate;
-            // }
-        }
-
-        void OnTouchModePickerSelectedIndexChanged(object sender, EventArgs args)
-        {
-            if (bitmap != null)
+    
+            foreach (var level in FloorData.Floors)
             {
-                Picker picker = (Picker)sender;
-                bitmap.TouchManager.Mode = (TouchManipulationMode)picker.SelectedItem;
+                FloorPicker.Items.Add(level.Level.ToString() + " Этаж");
+            }
 
-                //     bitmap.Paint(argsy.Surface.Canvas, bitmap.TouchManager.Mode);
+            for (int i = 0; i < FloorData.Floors.Count; i++)
+            {
+                if (FloorData.Floors[i].Level == 1)
+                {
+                    FloorPicker.SelectedIndex = i;
+                }
             }
         }
 
-        //        public SKPaintSurfaceEventArgs argsy ;
+        protected override void OnAppearing()
+        {   
+            base.OnAppearing();
+        }
+
+        void OnFloorPickerSelected(object sender, EventArgs args)
+        {
+            // селектнули - отрисовали
+
+
+            // if (bitmap != null)
+            // {
+            //     Picker picker = (Picker)sender;
+            //     bitmap.TouchManager.Mode = (TouchManipulationMode)picker.SelectedItem;
+            // 
+            //     //     bitmap.Paint(argsy.Surface.Canvas, bitmap.TouchManager.Mode);
+            // }
+        }
 
         void OnTouchEffectAction(object sender, TouchActionEventArgs args)
         {
             // Convert Xamarin.Forms point to pixels
             Point pt = args.Location;
             SKPoint point =
-                new SKPoint((float)(canvasView.CanvasSize.Width * pt.X / canvasView.Width),
+                new SKPoint((float)(canvasView.CanvasSize.Width  * pt.X / canvasView.Width),
                             (float)(canvasView.CanvasSize.Height * pt.Y / canvasView.Height));
 
             switch (args.Type)
@@ -88,9 +103,8 @@ namespace Ecliptic.Views
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
-            //        argsy = args;
-            canvas.Clear();
 
+            canvas.Clear();
 
             // Display the bitmap
             bitmap.Paint(canvas, bitmap.TouchManager.Mode);

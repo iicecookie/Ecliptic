@@ -33,6 +33,7 @@ namespace Ecliptic.Views
             friendPage.BindingContext = selectedFriend;
             await Navigation.PushAsync(friendPage);
         }
+
         // обработка нажатия кнопки добавления
         private async void CreateFriend(object sender, EventArgs e)
         {
