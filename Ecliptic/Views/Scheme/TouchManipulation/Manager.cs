@@ -91,7 +91,7 @@ namespace Ecliptic.Views
                 !float.IsNaN(scaleY) && !float.IsInfinity(scaleY))
             {
                 SKMatrix.PostConcat(ref touchMatrix,
-                    SKMatrix.MakeScale(scaleX, scaleY, pivotPoint.X, pivotPoint.Y));
+                SKMatrix.MakeScale(scaleX, scaleY, pivotPoint.X, pivotPoint.Y));
             }
 
             return touchMatrix;

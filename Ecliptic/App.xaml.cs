@@ -12,15 +12,15 @@ namespace Ecliptic
         {
             InitializeComponent();
 
-            DbService.RefrashDb(true);
+            DbService.RefrashDb(false);
 
             DbService.AddBuilding(new Building { Name = "Tom", Email = "tom@gmail.com", Phone = "+1234567" });
             DbService.AddBuilding(new Building { Name = "Alice", Email = "alice@gmail.com", Phone = "+3435957" });
 
 
-            DbService.LoadAll();    
+          //  DbService.LoadAll();    
             
-            //DbService.LoadSample();
+            DbService.LoadSample();
 
             MainPage = new AppShell();
         }

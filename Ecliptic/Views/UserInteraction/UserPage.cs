@@ -104,21 +104,21 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     Text = i.Room.ToString(),
                     // hide in test
-                    // FontSize = 14,
+                    FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
                 Label  noteBui = new Label
                 {
                     Text = "Здание "  + i.Building.ToString(),
                     // hide in test
-                    // FontSize = 14,
+                    FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
                 Label  date = new Label
                 {
                     Text = " " + i.Date.ToString(),
                     // hide in test
-                    // FontSize = 14,
+                    FontSize = 14,
                     AutomationId = i.Id.ToString(),
                     Style = Device.Styles.TitleStyle,
                 };
@@ -127,7 +127,7 @@ namespace Ecliptic.Views.UserInteraction
                     AutoSize = EditorAutoSizeOption.TextChanges,
                     Text = i.Text.ToString() ?? "wot",
                     // hide in test
-                    // FontSize = 12,
+                    FontSize = 12,
                     Style = Device.Styles.BodyStyle,
                     AutomationId = i.Id.ToString(),
                 };
@@ -258,7 +258,7 @@ namespace Ecliptic.Views.UserInteraction
             DbService.UpdateNote(note);
 
             // hide in tests
-            //  DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " изменена");
+            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " изменена");
 
             // отправить на сервер
          
@@ -274,7 +274,7 @@ namespace Ecliptic.Views.UserInteraction
             if  (note == null) return;
 
             // hide in tests
-            // DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
+            DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
 
 
             if (note.isPublic)
@@ -321,7 +321,7 @@ namespace Ecliptic.Views.UserInteraction
                 NoteData.Notes = DbService.LoadAllPublicNotes();
 
                 // hide in test
-                // DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала публичной");
+                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала публичной");
             }
             else
             {
@@ -341,7 +341,7 @@ namespace Ecliptic.Views.UserInteraction
                 NoteData.Notes = DbService.LoadAllPublicNotes();
                 
                 // hide in test
-                // DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала приватной");
+                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала приватной");
             }
         }
 
