@@ -1,5 +1,6 @@
 ﻿using Ecliptic.Data;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -15,21 +16,36 @@ namespace Ecliptic.Models
             Floors = new List<Floor>();
 
             FloorData.Floors.Add(new Floor() { Level = -1, });
-            FloorData.Floors.Add(new Floor() { Level = 1, });
             FloorData.Floors.Add(new Floor() { Level = 2, });
+            FloorData.Floors.Add(new Floor() { Level = 1, });
             FloorData.Floors.Add(new Floor() { Level = 3, });
+         
+            Floors = Floors.OrderBy(f => f.Level).ToList();
         }
 
-        public static Floor FindNote(Floor floor)
+        public static Floor GetFloor(int level)
         {
-            foreach (var i in Floors)
+            foreach (var floor in Floors)
             {
-                if (i.Equals(floor))
+                if (floor.Level == level)
                 {
-                    return i;
+                    return floor;
                 }
             }
             return null;
         }
+
+        public static int GetMaxLevel()
+        {
+            if (Floors.Count == 0) return 0;
+            return Floors.Max(s => s.Level);
+        }
+
+        public static int GetMinLevel()
+        {
+            if (Floors.Count == 0) return 0;
+            return Floors.Min(s => s.Level);
+        }
+
     }
 }

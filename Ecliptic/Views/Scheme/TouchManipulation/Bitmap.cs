@@ -10,6 +10,9 @@ namespace Ecliptic.Views
     class TouchManipulationBitmap
     {
         public SKBitmap bitmap;
+        public SKMatrix Matrix { set; get; }
+
+        public TouchManipulationManager TouchManager { set; get; }
 
         Dictionary<long, TouchManipulationInfo> touchDictionary =
                          new Dictionary<long, TouchManipulationInfo>();
@@ -17,6 +20,7 @@ namespace Ecliptic.Views
         public TouchManipulationBitmap(SKBitmap bitmap)
         {
             this.bitmap = bitmap;
+
             Matrix = SKMatrix.MakeIdentity();
 
             TouchManager = new TouchManipulationManager
@@ -25,11 +29,7 @@ namespace Ecliptic.Views
             };
         }
 
-        public TouchManipulationManager TouchManager { set; get; }
-
-        public SKMatrix Matrix { set; get; }
-
-        public void Paint(SKCanvas canvas, TouchManipulationMode floor)
+        public void Paint(SKCanvas canvas, int floor)
         {
             canvas.Save();
             SKMatrix matrix = Matrix;
@@ -45,7 +45,7 @@ namespace Ecliptic.Views
             canvas.DrawBitmap(bitmap, 0, 0);
 
 
-            if (floor == TouchManipulationMode.ScaleDualRotate)
+            if (floor == 1)
             {
                 canvas.DrawLine(0, 0, 500, 0, paint);
                 canvas.DrawLine(500, 0, 500, 500, paint);
@@ -71,17 +71,22 @@ namespace Ecliptic.Views
             canvas.Restore();
         }
 
+        internal void Paint(TouchManipulationBitmap bitmap, int selectedIndex)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool HitTest(SKPoint location)
         {
-            // Invert the matrix
+            // Инвертировать матрицу
             SKMatrix inverseMatrix;
 
             if (Matrix.TryInvert(out inverseMatrix))
             {
-                // Transform the point using the inverted matrix
+                // Преобразование точки, используя инвертированную матрицу
                 SKPoint transformedPoint = inverseMatrix.MapPoint(location);
 
-                // Check if it's in the untransformed bitmap rectangle
+                // Проверка, находится ли она в нетрансформированном прямоугольнике
                 SKRect rect = new SKRect(0, 0, bitmap.Width, bitmap.Height);
                 return rect.Contains(transformedPoint);
             }

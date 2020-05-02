@@ -56,14 +56,24 @@
         </controls:RoomSearchHandler>
     </Shell.SearchHandler>
 
-    <Grid>
+    <Grid     RowSpacing="0"
+              ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="43" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
         <Grid BackgroundColor="Snow"
-              Grid.Row="0">
+              
+              Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="4">
 
             <skia:SKCanvasView x:Name="canvasView"
                                PaintSurface="OnCanvasViewPaintSurface" />
@@ -73,26 +83,70 @@
             </Grid.Effects>
         </Grid>
 
+        <BoxView 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="4"
+            
+                BackgroundColor="Black"/>
+
+        <Label  Text=" Этаж:" 
+               
+                Grid.Row="1"
+                Grid.Column="0"
+               
+                Margin="0,8,0,0"
+               
+                FontSize="20"
+               
+                BackgroundColor="Black"
+                TextColor="White"/>
 
         <Picker x:Name="FloorPicker"
                 Title="Выбор этажа"
+                
                 Grid.Row="1"
+                Grid.Column="1"
+                
                 SelectedIndexChanged="OnFloorPickerSelected"
                 
                 ItemDisplayBinding="{Binding Level}"
                 ItemsSource       ="{Binding Floors}"
                 
+                FontSize="Medium"
+                
                 TitleColor="Black"
                 TextColor="White"
-                BackgroundColor="Black"
-                >
-              
-            <Picker.SelectedIndex>
-                1
-            </Picker.SelectedIndex>
-        </Picker>
+                BackgroundColor="Black"/>
 
-        
+        <Button x:Name="FloorDownStep"
+                Clicked="OnStepedDown"
+                Text="-"
+                BackgroundColor="White"
+                TextColor="Black"
+                BorderColor="Green"
+                
+                HeightRequest="20"
+                WidthRequest="40"
+                Margin="5,5,5,5"
+                
+                Grid.Row="1"
+                Grid.Column="2"/>
+
+        <Button x:Name="FloorUpStep"
+                Clicked="OnStepedUp"
+                Text="+"
+                
+                BackgroundColor="White"
+                TextColor="Black"
+                
+                HeightRequest="20"
+                WidthRequest="40"
+                Margin="5,5,5,5"
+                
+                Grid.Row="1"
+                Grid.Column="3"/>
+
     </Grid>
     
 </ContentPage>

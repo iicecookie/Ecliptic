@@ -97,6 +97,7 @@ namespace Ecliptic
 
                 MatrixPaint.Style = saveStyle;
             }
+
             return new SKSize(totalWidth, totalHeight);
         }
     }

@@ -23,21 +23,14 @@ namespace Ecliptic.Views
             InitializeComponent();
 
             SKBitmap bitmap = new SKBitmap(600, 600);
+            
             this.bitmap = new TouchManipulationBitmap(bitmap);
-            this.bitmap.TouchManager.Mode = TouchManipulationMode.ScaleRotate;
-    
-            foreach (var level in FloorData.Floors)
-            {
-                FloorPicker.Items.Add(level.Level.ToString() + " Этаж");
-            }
 
-            for (int i = 0; i < FloorData.Floors.Count; i++)
-            {
-                if (FloorData.Floors[i].Level == 1)
-                {
-                    FloorPicker.SelectedIndex = i;
-                }
-            }
+            this.bitmap.TouchManager.Mode = TouchManipulationMode.ScaleRotate;
+
+            FloorPicker.ItemsSource  = FloorData.Floors;
+
+            FloorPicker.SelectedItem = FloorData.GetFloor(1);
         }
 
         protected override void OnAppearing()
@@ -47,16 +40,52 @@ namespace Ecliptic.Views
 
         void OnFloorPickerSelected(object sender, EventArgs args)
         {
-            // селектнули - отрисовали
+            // селектнули - отрисовали  
+            canvasView.InvalidateSurface();
+        }
 
+        // переход на следующий этаж
+        private void OnStepedDown(object sender, EventArgs args)
+        {
+            if (FloorPicker.SelectedItem == null)
+            {
+                DependencyService.Get<IToast>().Show("Здание не загружено");
+                return;
+            }
 
-            // if (bitmap != null)
-            // {
-            //     Picker picker = (Picker)sender;
-            //     bitmap.TouchManager.Mode = (TouchManipulationMode)picker.SelectedItem;
-            // 
-            //     //     bitmap.Paint(argsy.Surface.Canvas, bitmap.TouchManager.Mode);
-            // }
+            int prevlevel = ((Floor)FloorPicker.SelectedItem).Level - 1;
+            if (prevlevel == 0) prevlevel--;
+
+            if (FloorData.GetFloor(prevlevel) != null)
+            {
+                FloorPicker.SelectedItem = FloorData.GetFloor(prevlevel);
+            }
+            else
+            {
+                DependencyService.Get<IToast>().Show("Вы на нижнем этаже");
+            }
+        }
+        
+        // переход на предэдущий этаж
+        private void OnStepedUp(object sender, EventArgs args)
+        {
+            if (FloorPicker.SelectedItem == null)
+            {
+                DependencyService.Get<IToast>().Show("Здание не загружено");
+                return;
+            }
+
+            int nextlevel = ((Floor)FloorPicker.SelectedItem).Level + 1;
+            if (nextlevel == 0) nextlevel++;
+
+            if (FloorData.GetFloor(nextlevel) != null)
+            {
+                FloorPicker.SelectedItem = FloorData.GetFloor(nextlevel);
+            }
+            else
+            {
+                DependencyService.Get<IToast>().Show("Вы на последнем этаже");
+            }
         }
 
         void OnTouchEffectAction(object sender, TouchActionEventArgs args)
@@ -106,8 +135,9 @@ namespace Ecliptic.Views
 
             canvas.Clear();
 
-            // Display the bitmap
-            bitmap.Paint(canvas, bitmap.TouchManager.Mode);
+            // Отображение рисунка
+            if (FloorPicker.SelectedItem != null)
+                bitmap.Paint(canvas, ((Floor)FloorPicker.SelectedItem).Level);
 
             // Display the matrix in the lower-right corner
             SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);

@@ -6,7 +6,7 @@
         PanOnly,
         IsotropicScale,     // includes panning
         AnisotropicScale,   // includes panning
-        ScaleRotate,        // implies isotropic scaling
+        ScaleRotate,        // implies isotropic scaling  // MAIN
         ScaleDualRotate     // adds one-finger rotation
     }
 }
