@@ -4,6 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
+using System.Linq;
+using System.Net.Http;
+using System.Net;
 
 namespace Ecliptic.Views.UserInteraction
 {
@@ -87,11 +92,35 @@ namespace Ecliptic.Views.UserInteraction
 
         public async void LoginIn(object sender, EventArgs e)
         {
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return; 
+            }
+
             if (LoginControls.LoginBox.Text == "" || LoginControls.PasswBox.Text == "")
             {
-               // await DisplayAlert("Опупка", "Заполните поля", "OK");
+                DependencyService.Get<IToast>().Show("Введены не все поля");
                 return;
             }
+
+            /*
+            HttpClient client = new HttpClient();
+
+            HttpRequestMessage request = new HttpRequestMessage();
+
+            request.RequestUri = new Uri("http://somesite.com");
+            request.Method = HttpMethod.Get;
+            request.Headers.Add("Accept", "application/json");
+
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                HttpContent responseContent = response.Content;
+                var json = await responseContent.ReadAsStringAsync();
+            }
+            */
 
             // проверить есть ли на сервере пользователь
             // с заданным логином и паролем

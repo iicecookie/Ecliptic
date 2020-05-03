@@ -14,12 +14,7 @@ namespace Ecliptic.Models
         static FloorData()
         {
             Floors = new List<Floor>();
-
-            FloorData.Floors.Add(new Floor() { Level = -1, });
-            FloorData.Floors.Add(new Floor() { Level = 2, });
-            FloorData.Floors.Add(new Floor() { Level = 1, });
-            FloorData.Floors.Add(new Floor() { Level = 3, });
-         
+ 
             Floors = Floors.OrderBy(f => f.Level).ToList();
         }
 

@@ -1,4 +1,5 @@
 ﻿using Ecliptic.Models;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -117,6 +118,12 @@ namespace Ecliptic.Views.UserInteraction
 
         public async void RegistrUser(object sender, EventArgs e)
         {
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return;
+            }
+
             if (RegisrationContrioolers.NameBox.Text  == "" ||
                 RegisrationContrioolers.LoginBox.Text == "" ||
                 RegisrationContrioolers.PasswBox.Text == "" ||

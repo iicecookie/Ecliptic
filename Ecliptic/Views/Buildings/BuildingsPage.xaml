@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Ecliptic.Views.BuildingPage"
+             x:Name="self"
+             xmlns:controls="clr-namespace:Ecliptic.Controls"
+             Title="Room Details"
+             xmlns:local="clr-namespace:Ecliptic"
+             >
+
+    <Shell.SearchHandler>
+        <controls:BuildingSearchHandler Placeholder="Найти здание"
+                                        ShowsResults="true">
+            <controls:BuildingSearchHandler.ItemTemplate>
+                <DataTemplate>
+
+                    <Frame OutlineColor="Black"
+                           Padding="5">
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout>
+
+                                <Label Text="{Binding Name}" 
+                                       FontSize="15" 
+                                       VerticalOptions="StartAndExpand"/>
+
+                                <Label Text="{Binding Details, StringFormat='{0} Этаж'}" 
+                                       FontSize="15" 
+                                       VerticalOptions="StartAndExpand"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+
+                </DataTemplate>
+            </controls:BuildingSearchHandler.ItemTemplate>
+        </controls:BuildingSearchHandler>
+    </Shell.SearchHandler>
+
+    <StackLayout BackgroundColor="#F1E8F3">
+
+        <Label Text="Доступные здания" 
+               FontSize="Title"
+               HorizontalOptions="CenterAndExpand"/>
+        
+        <ListView x:Name="BuildingView"
+                  ItemsSource="{Binding Building}"
+
+                  BackgroundColor="#F1E8F3"
+                  SeparatorVisibility="Default"
+                  RowHeight="55"
+                  
+                  ItemTapped="BuildingView_ItemTapped">
+
+            <ListView.ItemTemplate>
+
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal"
+                                     HeightRequest="100">
+                            <StackLayout>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
+                                            <Span Text="{Binding Id,    StringFormat='      '} " FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="18"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>

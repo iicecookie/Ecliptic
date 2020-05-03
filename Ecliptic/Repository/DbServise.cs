@@ -33,6 +33,10 @@ namespace Ecliptic.Repository
             WorkerData.Workers = RelationsWorkersRoom();
             RoomData.Rooms     = RelationsRoomsWorker();
 
+
+            FloorData.Floors       = db.Floors.ToList();
+            BuildingData.Buildings = db.Buildings.ToList();
+
             if (db.User.Count() > 0)
             {
                 User.setInstance(LoadUserFromDb());
@@ -264,9 +268,27 @@ namespace Ecliptic.Repository
             LoadSampleRooms();
             LoadSampleWorkers();
 
+            LoadSampleFloors();
+            LoadSampleBuildings();
+
             SaveDb();
 
             LoadAll();
+        }
+
+        public static void LoadSampleFloors()
+        {
+            db.Floors.Add(new Floor() { Level = -1, });
+            db.Floors.Add(new Floor() { Level = 2, });
+            db.Floors.Add(new Floor() { Level = 1, });
+            db.Floors.Add(new Floor() { Level = 3, });
+        }
+
+        public static void LoadSampleBuildings()
+        {
+            db.Buildings.Add(new Building() { Name = "KSU", Details = "sadsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd" });
+            db.Buildings.Add(new Building() { Name = "MGU", Details = "asdasd" });
+            db.Buildings.Add(new Building() { Name = "GPU", Details = "s21adsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd" });
         }
 
         public static void LoadSampleNotes()
