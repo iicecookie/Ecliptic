@@ -17,9 +17,6 @@ namespace Ecliptic.Models
 
         public virtual List<Worker> Workers { get; set; } // работники 
 
-        public virtual int? UserId { get; set; }
-        public virtual User User { get; set; }
-
         public Room()
         {
             Description = " ";
@@ -28,8 +25,7 @@ namespace Ecliptic.Models
 
         public Room(string name, int floor, 
                     string details=null, string description=null, string timetable=null, 
-                    string phone=null,   string site=null,  List<Worker> workers = null,
-                    User user = null) : this()
+                    string phone=null,   string site=null,  List<Worker> workers = null) : this()
         {
            // RoomId = roomId;
             Name = name;
@@ -43,16 +39,17 @@ namespace Ecliptic.Models
             if (workers != null)
                 Workers = workers;
 
-            if (user != null)
-                UserId = user.UserId;
         }
 
+        public FavRoom ToFavRoom(int Userid)
+        {
+            return new FavRoom(Name, Details, Userid);
+        }
 
         public object Clone()
         {
             return new Room
             {
-                UserId  = this.UserId, 
                 Name = this.Name,
                 Floor = this.Floor,
                 Details = this.Details,

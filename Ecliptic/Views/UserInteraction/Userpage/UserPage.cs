@@ -60,7 +60,7 @@ namespace Ecliptic.Views.UserInteraction
             }
         }
 
-        UserControls UserPage;
+        public UserControls UserPage;
 
         public void GetUserPage()
         {

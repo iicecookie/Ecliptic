@@ -146,7 +146,6 @@ namespace EclipticTests.DatabaseTests.UserTests
         public void AddOneUser()
         {
             // Arrange   -------------------------------------    
-            DbService.SaveUser(User.setInstance("", "", ""));
 
             // Act   -----------------------------------------        
             DbService.LoadAll();

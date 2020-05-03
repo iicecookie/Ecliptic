@@ -56,10 +56,11 @@ namespace EclipticTests.UserPage
             Authorization UserPage = new Authorization();
             UserPage.GetUserPage();
 
+
             // Act   -----------------------------------------
             // свитчер переключается на публичный
-            UserControls.Switches[0].IsToggled = true;
-            UserPage.OnSwitched(UserControls.Switches[0], new System.EventArgs());
+            UserPage.UserPage.Switches[0].IsToggled = true;
+            UserPage.OnSwitched(UserPage.UserPage.Switches[0], new System.EventArgs());
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
@@ -78,8 +79,8 @@ namespace EclipticTests.UserPage
 
             // Act   -----------------------------------------
             // свитчер переключается на публичный
-            UserControls.Switches[1].IsToggled = false;
-            UserPage.OnSwitched(UserControls.Switches[1], new System.EventArgs());
+            UserPage.UserPage.Switches[1].IsToggled = false;
+            UserPage.OnSwitched(UserPage.UserPage.Switches[1], new System.EventArgs());
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке
@@ -98,8 +99,8 @@ namespace EclipticTests.UserPage
 
             // Act   -----------------------------------------
             // свитчер переключается на публичный
-            UserControls.Switches[1].IsToggled = true;
-            UserPage.OnSwitched(UserControls.Switches[1], new System.EventArgs());
+            UserPage.UserPage.Switches[1].IsToggled = true;
+            UserPage.OnSwitched(UserPage.UserPage.Switches[1], new System.EventArgs());
 
             // Assert-----------------------------------------
             // проверяю, сохранилась ли информация по заметке

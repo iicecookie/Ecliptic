@@ -80,19 +80,6 @@ namespace EclipticTests.DatabaseTests.UserTests
         }
 
         [TestMethod]
-        public void SimpleFavLoad()
-        {
-            // Arrange   -------------------------------------    
-            DbService.LoadSampleUser("Username", "");
-
-            // Act   -----------------------------------------        
-            var rooms = DbService.LoadAllRooms();
-
-            // Assert-----------------------------------------
-            Assert.AreEqual("Username", rooms[0].User.Login);
-        }
-
-        [TestMethod]
         public void LoadFavOfEmptyUser()
         {
             // Arrange   -------------------------------------    
@@ -110,8 +97,7 @@ namespace EclipticTests.DatabaseTests.UserTests
             // Arrange   -------------------------------------    
             DbService.LoadSampleUser("Username", "");
 
-            // Act   -----------------------------------------        
-            DbService.RemoveRoom(User.CurrentUser.Favorites);
+            // Act   -----------------------------------------    
 
             // Assert-----------------------------------------
             Assert.AreEqual(0, DbService.LoadAllRooms().Count);

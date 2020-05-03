@@ -57,7 +57,6 @@ namespace EclipticTests.DatabaseTests.UserTests
         public void LoadOkeyUser()
         {
             // Arrange   -------------------------------------    
-            DbService.SaveUser(User.setInstance("Username", "", ""));
 
             // Act   -----------------------------------------        
             User user = DbService.LoadUserFromDb();

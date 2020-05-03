@@ -10,8 +10,11 @@ namespace Ecliptic.Repository
         private string databaseName;
 
 
-        public DbSet<User>   User    { get; set; }
-        public DbSet<Note>   Notes   { get; set; }
+        public DbSet<User>    User     { get; set; }
+        public DbSet<Note>    Notes    { get; set; }
+        public DbSet<FavRoom> FavRooms { get; set; }
+
+
         public DbSet<Room>   Rooms   { get; set; }
         public DbSet<Worker> Workers { get; set; }
 

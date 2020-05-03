@@ -1,14 +1,19 @@
-﻿using Ecliptic.Models;
-using Ecliptic.Repository;
+﻿using Xamarin.Forms;
 using System;
+using System.Net.Http;
+using Ecliptic.Models;
+using Plugin.Connectivity;
+using Newtonsoft.Json;
+using Ecliptic.WebInteractions;
+using Newtonsoft.Json.Linq;
+using Ecliptic.Repository;
 using System.Collections.Generic;
 using System.Text;
-using Xamarin.Forms;
-using Plugin.Connectivity;
 using Plugin.Connectivity.Abstractions;
 using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Ecliptic.Views.UserInteraction
 {
@@ -101,7 +106,7 @@ namespace Ecliptic.Views.UserInteraction
             if (CrossConnectivity.Current.IsConnected == false)
             {
                 DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-                return; 
+                return;
             }
 
             if (LoginPage.LoginBox.Text == "" || LoginPage.PasswBox.Text == "")
@@ -110,39 +115,38 @@ namespace Ecliptic.Views.UserInteraction
                 return;
             }
 
-            /*
-            HttpClient client = new HttpClient();
+            UserService userService = new UserService();
+            User user = await userService.Get(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
 
-            HttpRequestMessage request = new HttpRequestMessage();
-
-            request.RequestUri = new Uri("http://somesite.com");
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accept", "application/json");
-
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if (response.StatusCode == HttpStatusCode.OK)
+            // если сервер вернул данные пользователя - загрузить в пользователя
+            if (user != null)
             {
-                HttpContent responseContent = response.Content;
-                var json = await responseContent.ReadAsStringAsync();
-            }
-            */
+                NoteService    noteService    = new NoteService();
+                FavRoomService favRoomService = new FavRoomService();
 
-            // проверить есть ли на сервере пользователь
-            // с заданным логином и паролем
-            // если все ОКе - загрузить его 
-            if (User.CheckUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text))
-            {
-                // загружаем данные в User
-                User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
+                DbService.SaveUser(user); // сохранили пользователя
+                DbService.AddNote   (await noteService   .Get(user.UserId)); // сохранили его заметки
+                DbService.AddFavRoom(await favRoomService.Get(user.UserId)); // и избраные помещения
 
-                // открываем страницу с данными
+                DbService.LoadUser();
                 GetUserPage();
+                return;
             }
             else
             {
-                await DisplayAlert("Alert", "Такого пользователя не существует", "OK");
+                await DisplayAlert("Alert", "Базы данных не существует", "OK");
+           //     return;
             }
+
+            // для показа
+            if (true)
+            {
+                User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
+                GetUserPage();
+            }
+
+            await DisplayAlert("Alert", "Такого пользователя не существует", "OK");
+            return;
         }
 
         private void ToRegistrationPage(object sender, EventArgs e)

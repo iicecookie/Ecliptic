@@ -53,7 +53,7 @@ namespace EclipticTests.UserPage
 
             // Act   -----------------------------------------
             // изменяю текст заметки
-            UserControls.Editors[0].Text = "net text";
+            UserPage.UserPage.Editors[0].Text = "net text";
             // нажимаю кнопку сохранить
             UserPage.OnButtonSaveClicked(SaveBtn, new System.EventArgs());
 
@@ -78,7 +78,7 @@ namespace EclipticTests.UserPage
 
             // Act   -----------------------------------------
             // изменяю текст заметки
-            UserControls.Editors[0].Text = "net text";
+            UserPage.UserPage.Editors[0].Text = "net text";
             // нажимаю кнопку сохранить
             UserPage.OnButtonSaveClicked(SaveBtn, new System.EventArgs());
 
@@ -103,7 +103,7 @@ namespace EclipticTests.UserPage
 
             // Act   -----------------------------------------
             // изменяю текст заметки
-            UserControls.Editors[0].Text = "net text";
+            UserPage.UserPage.Editors[0].Text = "net text";
             // нажимаю кнопку сохранить
             UserPage.OnButtonSaveClicked(SaveBtn, new System.EventArgs());
 

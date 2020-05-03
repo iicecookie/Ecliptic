@@ -109,8 +109,6 @@ namespace Ecliptic.Views
                     stackLayout.Children.Add(label5);
                 }
 
-                var v = RoomData.Rooms;
-
                 if (Current.Workers.Count > 0)
                 {
                     Label labeq = new Label
@@ -139,7 +137,7 @@ namespace Ecliptic.Views
                 }
 
                 // персональные заметки (только приватные)
-                if (!User.isNull)
+                if (User.CurrentUser!=null)
                 {
                     bool isNote = false;
 
@@ -316,7 +314,7 @@ namespace Ecliptic.Views
 
         protected override void OnAppearing()
         {
-            if (User.getInstance() != null)
+            if (User.CurrentUser != null)
             {
                 if (User.isRoomFavoit(Current) != null)
                 {
@@ -371,7 +369,7 @@ namespace Ecliptic.Views
         // Star click
         void OnfaviriteClicked(object sender, EventArgs args)
         {
-            if (User.getInstance() != null)
+            if (User.CurrentUser != null)
             {
                 ToolbarItem item = (ToolbarItem)sender;
 
@@ -379,16 +377,16 @@ namespace Ecliptic.Views
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
 
-                    Room newroom = User.isRoomFavoit(Current);
-
+                    FavRoom newroom = User.isRoomFavoit(Current);
+                        
                     User.CurrentUser.Favorites.Remove(newroom); 
                 }
                 else
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
 
-                    Room newroom = Current.Clone() as Room;
-                    newroom.UserId = User.CurrentUser.UserId;
+                    FavRoom newroom = (Current.Clone() as Room)
+                                            .ToFavRoom(User.CurrentUser.UserId);
 
                     User.CurrentUser.Favorites.Add(newroom);
                 }
