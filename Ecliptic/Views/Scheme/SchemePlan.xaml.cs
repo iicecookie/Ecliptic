@@ -99,13 +99,13 @@ namespace Ecliptic.Views
             switch (args.Type)
             {
                 case TouchActionType.Pressed:
-                    if (bitmap.HitTest(point))
+                   // if (bitmap.HitTest(point)) // открыть для перемещения по нажатию на битмап
                     {
                         touchIds.Add(args.Id);
                         bitmap.ProcessTouchEvent(args.Id, args.Type, point);
                         break;
                     }
-                    break;
+                   // break;
 
                 case TouchActionType.Moved:
                     if (touchIds.Contains(args.Id))
@@ -143,7 +143,7 @@ namespace Ecliptic.Views
             SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
 
             matrixDisplay.Paint(canvas, bitmap.Matrix,
-                new SKPoint(info.Width - matrixSize.Width,
+                new SKPoint(info.Width  - matrixSize.Width,
                             info.Height - matrixSize.Height));
         }
     }

@@ -47,6 +47,7 @@ namespace Ecliptic.Views
 
             if (floor == 1)
             {
+                canvas.DrawText("213", 250, 250, paint);
                 canvas.DrawLine(0, 0, 500, 0, paint);
                 canvas.DrawLine(500, 0, 500, 500, paint);
                 canvas.DrawLine(500, 500, 0, 500, paint);
@@ -90,7 +91,7 @@ namespace Ecliptic.Views
                 SKRect rect = new SKRect(0, 0, bitmap.Width, bitmap.Height);
                 return rect.Contains(transformedPoint);
             }
-            return false;
+            return false; 
         }
 
         public void ProcessTouchEvent(long id, TouchActionType type, SKPoint location)
@@ -142,14 +143,20 @@ namespace Ecliptic.Views
             {
                 int pivotIndex = infos[0].NewPoint == infos[0].PreviousPoint ? 0 : 1;
                 SKPoint pivotPoint = infos[pivotIndex].NewPoint;
-                SKPoint newPoint   = infos[1 - pivotIndex].NewPoint;
-                SKPoint prevPoint  = infos[1 - pivotIndex].PreviousPoint;
+                SKPoint newPoint = infos[1 - pivotIndex].NewPoint;
+                SKPoint prevPoint = infos[1 - pivotIndex].PreviousPoint;
 
                 touchMatrix = TouchManager.TwoFingerManipulate(prevPoint, newPoint, pivotPoint);
             }
 
             SKMatrix matrix = Matrix;
             SKMatrix.PostConcat(ref matrix, touchMatrix);
+
+            // что бы не уменьшить ниже нижнего
+            // осторожно
+            // if (matrix.ScaleX < 0.01) { matrix.ScaleX = 0.01F; }
+            // if (matrix.ScaleY < 0.01) { matrix.ScaleY = 0.01F; }
+
             Matrix = matrix;
         }
     }

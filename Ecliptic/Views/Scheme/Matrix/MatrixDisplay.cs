@@ -8,7 +8,7 @@ namespace Ecliptic
         public SKPaint MatrixPaint { set; get; } = new SKPaint
         {
             Color = SKColors.Black,
-            TextSize = 48,
+            TextSize = 30,
             StrokeWidth = 2
         };
 
