@@ -14,85 +14,91 @@ namespace Ecliptic.Views.UserInteraction
 {
     public partial class Authorization : ContentPage
     {
-        static public class UserControls
+        public class UserControls
         {
-            static public Label labelMessage { get; set; }
-            static public Label Login { get; set; }
-            // static public Label Pass { get; set; }
-            static public Label NoteCount { get; set; }
-            static public Button LoginOutBtn { get; set; }
+            public Label labelMessage { get; set; }
+            public Label Login { get; set; }
+            public Label Pass { get; set; }
+            public Label NoteCount { get; set; }
+            public Button LoginOutBtn { get; set; }
 
-            static public List<Editor> Editors { get; set; }
-            static public List<Switch> Switches { get; set; }
-            static public List<Label>  Dates { get; set; }
+            public List<Editor> Editors { get; set; }
+            public List<Switch> Switches { get; set; }
+            public List<Label>  Dates { get; set; }
+
+            public UserControls()
+            {
+                labelMessage = new Label
+                {
+                    Text = User.CurrentUser.Name,
+                    Style = Device.Styles.TitleStyle,
+                    HorizontalOptions = LayoutOptions.Start
+                };
+                Login = new Label
+                {
+                    Text = User.CurrentUser.Login,
+                    Style = Device.Styles.TitleStyle,
+                    HorizontalOptions = LayoutOptions.Start
+                };
+
+                NoteCount = new Label
+                {
+                    Text = "У вас " + User.CurrentUser.Notes.Count + " заметок и " + User.CurrentUser.Favorites.Count + " избраных помещений",
+                    Style = Device.Styles.ListItemTextStyle,
+                    HorizontalOptions = LayoutOptions.Start
+                };
+                LoginOutBtn = new Button
+                {
+                    Text = "Login Out",
+                    BackgroundColor = Color.FromHex("#BFD9B6"),
+                    TextColor = Color.Black,
+                    BorderColor = Color.Black,
+                };
+                Editors = new List<Editor>();
+                Switches = new List<Switch>();
+                Dates = new List<Label>();
+            }
         }
+
+        UserControls UserPage;
 
         public void GetUserPage()
         {
             Title = "Профиль " + User.CurrentUser.Name;
 
-            #region CreateControls
-            this.ToolbarItems.Clear();
-            UserControls.labelMessage = new Label
-            {
-                Text = User.CurrentUser.Name,
-                Style = Device.Styles.TitleStyle,
-                HorizontalOptions = LayoutOptions.Start
-            };
-            UserControls.Login = new Label
-            {
-                Text = User.CurrentUser.Login,
-                Style = Device.Styles.TitleStyle,
-                HorizontalOptions = LayoutOptions.Start
-            };
+            RegisrationPage = null;
+            LoginPage = null;
 
-            UserControls.NoteCount = new Label
-            {
-                Text = "У вас " + User.CurrentUser.Notes.Count + " заметок и " + User.CurrentUser.Favorites.Count + " избраных помещений",
-                Style = Device.Styles.ListItemTextStyle,
-                HorizontalOptions = LayoutOptions.Start
-            };
-            UserControls.LoginOutBtn  = new Button
-            {
-                Text = "Login Out",
-                BackgroundColor = Color.FromHex("#BFD9B6"),
-                TextColor = Color.Black,
-                BorderColor = Color.Black,
-            };
-            UserControls.Editors      = new List<Editor>();
-            UserControls.Switches     = new List<Switch>();
-            UserControls.Dates        = new List<Label>();
-            UserControls.LoginOutBtn.Clicked += GoLoginPage;
-            #endregion
+            UserPage = new UserControls();
+            UserPage.LoginOutBtn.Clicked += GoLoginPage;
+
 
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
 
-            stackLayout.Children.Add(UserControls.labelMessage);
-            stackLayout.Children.Add(UserControls.Login);
-            stackLayout.Children.Add(UserControls.NoteCount);
+            stackLayout.Children.Add(UserPage.labelMessage);
+            stackLayout.Children.Add(UserPage.Login);
+            stackLayout.Children.Add(UserPage.NoteCount);
 
+            // create user notes
             foreach (var i in User.CurrentUser.Notes)
             {
                 Grid grid = new Grid
                 {
-                    RowDefinitions = {
+                    RowDefinitions    =  {
                                      new RowDefinition { Height = new GridLength(30) },
                                      new RowDefinition { Height = new GridLength(20) },
-                                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                        },
-                    ColumnDefinitions = {
+                                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) } },
+                    ColumnDefinitions =  {
                                      new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star) },
                                      new ColumnDefinition { Width = new GridLength(50) },
                                      new ColumnDefinition { Width = new GridLength(30) },
-                                     new ColumnDefinition { Width = new GridLength(30) }
-                        }
-
+                                     new ColumnDefinition { Width = new GridLength(30) } },
+                    ColumnSpacing = 10,
+                    RowSpacing = 10,
                 };
 
-                grid.ColumnSpacing = 10;
-                grid.RowSpacing    = 10;
-
+                #region onenote
                 Switch switche = new Switch
                 {
                     IsToggled = i.isPublic,
@@ -100,55 +106,58 @@ namespace Ecliptic.Views.UserInteraction
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     AutomationId = i.Id.ToString(),
                 };
+                switche.Toggled += OnSwitched;
+                UserPage.Switches.Add(switche);
+
                 Label  noteLab = new Label
                 {
                     Text = i.Room.ToString(),
-                    // hide in test
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
+
                 Label  noteBui = new Label
                 {
                     Text = "Здание "  + i.Building.ToString(),
-                    // hide in test
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
+
                 Label  date = new Label
                 {
                     Text = " " + i.Date.ToString(),
-                    // hide in test
                     FontSize = 14,
                     AutomationId = i.Id.ToString(),
                     Style = Device.Styles.TitleStyle,
                 };
+                UserPage.Dates.Add(date);
+
                 Editor noteEnt = new Editor
                 {
                     AutoSize = EditorAutoSizeOption.TextChanges,
                     Text = i.Text.ToString() ?? "wot",
-                    // hide in test
                     FontSize = 12,
                     Style = Device.Styles.BodyStyle,
                     AutomationId = i.Id.ToString(),
                 };
+                UserPage.Editors.Add(noteEnt);
+
                 ImageButton SaveBtn = new ImageButton
                 {
                     Source = "save.png",
                     AutomationId = i.Id.ToString(),
                 }; 
+                SaveBtn.Clicked += OnButtonSaveClicked;
+
                 ImageButton DeleBtn = new ImageButton
                 {
                     Source = "delete.png",
                     AutomationId = i.Id.ToString(),
-                }; 
-
-                UserControls.Dates.Add(date);
-                UserControls.Editors.Add(noteEnt);
-                UserControls.Switches.Add(switche);
-                SaveBtn.Clicked += OnButtonSaveClicked;
+                };
                 DeleBtn.Clicked += OnButtonDeleteClicked;
-                switche.Toggled += OnSwitched;
+                #endregion
 
+                #region addingrid
                 grid.Children.Add(noteLab, 0, 0);
                 grid.Children.Add(switche, 1, 0);
                 grid.Children.Add(SaveBtn, 2, 0);
@@ -158,25 +167,26 @@ namespace Ecliptic.Views.UserInteraction
                 grid.Children.Add(noteBui, 0, 1);
                 grid.Children.Add(noteEnt, 0, 2);
                 Grid.SetColumnSpan(noteEnt, 4);   // растягиваем на 4 столбца
+                #endregion
 
                 Frame frame = new Frame()
                 {
                     BorderColor = Color.ForestGreen,
                     AutomationId = i.Id.ToString(),
+                    Content = grid,
                 };
-
-                frame.Content = grid;
 
                 stackLayout.Children.Add(frame);
             }
 
-            stackLayout.Children.Add(UserControls.LoginOutBtn);
+            stackLayout.Children.Add(UserPage.LoginOutBtn);
 
-            ScrollView scrollView = new ScrollView();
-            scrollView.Content = stackLayout;
-            this.Content = scrollView;
+            this.Content = new ScrollView { Content = stackLayout };
 
             #region ToolBarItems
+
+            this.ToolbarItems.Clear();
+
             ToolbarItem NewNote = new ToolbarItem
             {
                 Text = "Новая заметка",
@@ -195,12 +205,15 @@ namespace Ecliptic.Views.UserInteraction
                 Order = ToolbarItemOrder.Secondary,
                 Priority = 1,
             };
+
             NewNote.Clicked += OnNewNoteClicked;
             FavRoom.Clicked += OnFavRoomsClicked;
-            LogOut.Clicked += GoLoginPage;
+            LogOut.Clicked  += GoLoginPage;
+
             this.ToolbarItems.Add(NewNote);
             this.ToolbarItems.Add(FavRoom);
             this.ToolbarItems.Add(LogOut);
+
             #endregion
         }
 
@@ -212,7 +225,7 @@ namespace Ecliptic.Views.UserInteraction
             {
                 User.LoginOut();
             }
-
+            UserPage = null;
             GetLoginPage();
         }
 
@@ -235,7 +248,7 @@ namespace Ecliptic.Views.UserInteraction
                 }
             }
 
-            foreach (var editor in UserControls.Editors)
+            foreach (var editor in UserPage.Editors)
             {
                 if (editor.AutomationId == btn.AutomationId)
                 {
@@ -244,7 +257,7 @@ namespace Ecliptic.Views.UserInteraction
                 }
             }
 
-            foreach (var date   in UserControls.Dates)
+            foreach (var date   in UserPage.Dates)
             {
                 if (date.AutomationId == btn.AutomationId)
                 {

@@ -14,80 +14,86 @@ namespace Ecliptic.Views.UserInteraction
 {
     public partial class Authorization : ContentPage
     {
-        public static class LoginControls
+        public class LoginControls
         {
-            static public Label labelMessage { get; set; }
-            static public Entry LoginBox { get; set; }
-            static public Entry PasswBox { get; set; }
-            static public Button LoginBtn { get; set; }
-            static public Button RegisBtn { get; set; }
+            public Label labelMessage { get; set; }
+            public Entry LoginBox { get; set; }
+            public Entry PasswBox { get; set; }
+            public Button LoginBtn { get; set; }
+            public Button RegisBtn { get; set; }
+
+            public LoginControls()
+            {
+                labelMessage = new Label
+                {
+                    Text = "Вход",
+                    Style = Device.Styles.TitleStyle,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+
+                LoginBox = new Entry
+                {
+                    Text = "",
+                    Placeholder = "Имя",
+                    Keyboard = Keyboard.Default,
+                    TextColor = Color.Black,
+                    PlaceholderColor = Color.Black,
+                    ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
+                    // FontAttributes = FontAttributes.Italic,
+                    Style = Device.Styles.BodyStyle,
+                    HorizontalOptions = LayoutOptions.Fill
+                };
+                PasswBox = new Entry
+                {
+                    Text = "",
+                    Placeholder = "Пароль",
+                    Keyboard = Keyboard.Default,
+                    TextColor = Color.Black,
+                    PlaceholderColor = Color.Black,
+                    IsPassword = true,
+                    ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
+                    Style = Device.Styles.BodyStyle,
+                    HorizontalOptions = LayoutOptions.Fill
+                };
+
+                LoginBtn = new Button
+                {
+                    Text = "Войти",
+                    BackgroundColor = Color.FromHex("#BFD9B6"),
+                    TextColor = Color.Black,
+                    BorderColor = Color.Black,
+                };
+                RegisBtn = new Button
+                {
+                    Text = "Зарегестрироваться",
+                    BackgroundColor = Color.FromHex("#BFD9B6"),
+                    TextColor = Color.Black,
+                    BorderColor = Color.Black,
+                };
+            }
         }
+
+        private LoginControls LoginPage;
 
         public void GetLoginPage()
         {
             Title = "Войти";
 
-            LoginControls.labelMessage = new Label
-            {
-                Text = "Вход",
-                Style = Device.Styles.TitleStyle,
-                HorizontalOptions = LayoutOptions.Center
-            };
-            LoginControls.LoginBox = new Entry
-            {
-                Text = "",
-                Placeholder = "Имя",
-                Keyboard = Keyboard.Default,
-                TextColor = Color.Black,
-                PlaceholderColor = Color.Black,
-                ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                // FontAttributes = FontAttributes.Italic,
-                Style = Device.Styles.BodyStyle,
-                HorizontalOptions = LayoutOptions.Fill
-            };
-            LoginControls.PasswBox = new Entry
-            {
-                Text = "",
-                Placeholder = "Пароль",
-                Keyboard = Keyboard.Default,
-                TextColor = Color.Black,
-                PlaceholderColor = Color.Black,
-                IsPassword = true,
-                ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                Style = Device.Styles.BodyStyle,
-                HorizontalOptions = LayoutOptions.Fill
-            };
-            
-            LoginControls.LoginBtn = new Button
-            {
-                Text = "Войти",
-                BackgroundColor = Color.FromHex("#BFD9B6"),
-                TextColor = Color.Black,
-                BorderColor = Color.Black,
-            };
-            LoginControls.RegisBtn = new Button
-            {
-                Text = "Зарегестрироваться",
-                BackgroundColor = Color.FromHex("#BFD9B6"),
-                TextColor = Color.Black,
-                BorderColor = Color.Black,
-            };
+            LoginPage = new LoginControls();
 
-            LoginControls.LoginBtn.Clicked += LoginIn;
-            LoginControls.RegisBtn.Clicked += ToRegistrationPage;
+            LoginPage.LoginBtn.Clicked += LoginIn;
+            LoginPage.RegisBtn.Clicked += ToRegistrationPage;
 
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
 
-            stackLayout.Children.Add(LoginControls.labelMessage);
-            stackLayout.Children.Add(LoginControls.LoginBox);
-            stackLayout.Children.Add(LoginControls.PasswBox);
-            stackLayout.Children.Add(LoginControls.LoginBtn);
-            stackLayout.Children.Add(LoginControls.RegisBtn);
+            stackLayout.Children.Add(LoginPage.labelMessage);
+            stackLayout.Children.Add(LoginPage.LoginBox);
+            stackLayout.Children.Add(LoginPage.PasswBox);
+            stackLayout.Children.Add(LoginPage.LoginBtn);
+            stackLayout.Children.Add(LoginPage.RegisBtn);
 
-            ScrollView scrollView = new ScrollView();
-            scrollView.Content = stackLayout;
-            this.Content = scrollView;
+            this.Content = new ScrollView { Content = stackLayout };
         }
 
         public async void LoginIn(object sender, EventArgs e)
@@ -98,7 +104,7 @@ namespace Ecliptic.Views.UserInteraction
                 return; 
             }
 
-            if (LoginControls.LoginBox.Text == "" || LoginControls.PasswBox.Text == "")
+            if (LoginPage.LoginBox.Text == "" || LoginPage.PasswBox.Text == "")
             {
                 DependencyService.Get<IToast>().Show("Введены не все поля");
                 return;
@@ -125,10 +131,10 @@ namespace Ecliptic.Views.UserInteraction
             // проверить есть ли на сервере пользователь
             // с заданным логином и паролем
             // если все ОКе - загрузить его 
-            if (User.CheckUser(LoginControls.LoginBox.Text, LoginControls.PasswBox.Text))
+            if (User.CheckUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text))
             {
                 // загружаем данные в User
-                User.LoadUser(LoginControls.LoginBox.Text, LoginControls.PasswBox.Text);
+                User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
 
                 // открываем страницу с данными
                 GetUserPage();
