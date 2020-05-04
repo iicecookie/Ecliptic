@@ -8,7 +8,8 @@ namespace Ecliptic.Models
     {
         #region Params
 
-        public readonly int    UserId;
+        public int UserId { get; set; }
+
         public readonly string Name;
         public readonly string Login;
         public readonly string Password;

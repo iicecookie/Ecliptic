@@ -115,9 +115,11 @@ namespace Ecliptic.Views.UserInteraction
                 return;
             }
 
+            /*
             UserService userService = new UserService();
             User user = await userService.Get(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
-
+           
+            
             // если сервер вернул данные пользователя - загрузить в пользователя
             if (user != null)
             {
@@ -135,14 +137,16 @@ namespace Ecliptic.Views.UserInteraction
             else
             {
                 await DisplayAlert("Alert", "Базы данных не существует", "OK");
-           //     return;
+                return;
             }
+            */
 
             // для показа
             if (true)
             {
                 User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
                 GetUserPage();
+                return;
             }
 
             await DisplayAlert("Alert", "Такого пользователя не существует", "OK");

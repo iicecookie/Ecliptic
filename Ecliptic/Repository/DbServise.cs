@@ -40,6 +40,7 @@ namespace Ecliptic.Repository
             if (db.User.Count() > 0)
             {
                 User.setUser(LoadUserFromDb());
+                User.CurrentUser.Favorites = db.FavRooms.ToList();
                 LoadUserNotes(User.CurrentUser);
             }
         }
@@ -539,20 +540,17 @@ namespace Ecliptic.Repository
             DbService.AddFavRoom(
                 new FavRoom("213",
                             "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
-                            User.CurrentUser.UserId,
-                            1));
+                            User.CurrentUser.UserId));
 
             DbService.AddFavRoom(
                  new FavRoom("200",
                              "The Asian black bear, also known as the moon bear and the white-chested bear, is a medium-sized bear species native to Asia and largely adapted to arboreal life. It lives in the Himalayas, in the northern parts of the Indian subcontinent, Korea, northeastern China, the Russian Far East, the Honshū and Shikoku islands of Japan, and Taiwan. It is classified as vulnerable by the International Union for Conservation of Nature (IUCN), mostly because of deforestation and hunting for its body parts.",
-                             User.CurrentUser.UserId,
-                             1));
+                             User.CurrentUser.UserId));
 
             DbService.AddFavRoom(
                  new FavRoom("202",
                              "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
-                             User.CurrentUser.UserId,
-                             1));
+                             User.CurrentUser.UserId));
 
             DbService.SaveDb();
 

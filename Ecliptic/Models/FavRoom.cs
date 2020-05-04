@@ -14,6 +14,11 @@ namespace Ecliptic.Models
         public virtual User User { get; set; }
         public virtual int? UserId { get; set; }
 
+        public FavRoom()
+        {
+
+        }
+
         public FavRoom(string name, string details, int userid, int roomId = 0)
         {
             FavRoomId = roomId;
