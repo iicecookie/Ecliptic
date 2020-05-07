@@ -21,7 +21,7 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все заметки пользователя
+        // получаем все избраные аудитории пользователя
         public async Task<List<FavoriteRoom>> Get(int Userid)
         {
             HttpClient client = GetClient();
@@ -29,7 +29,7 @@ namespace Ecliptic.WebInteractions
             return JsonConvert.DeserializeObject<List<FavoriteRoom>>(result);
         }
 
-        // добавляем одну заметку
+        // добавляем одну избраную аудиторию
         public async Task<FavoriteRoom> Add(FavoriteRoom note)
         {
             HttpClient client = GetClient();
@@ -45,7 +45,7 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
-        // удаляем заметку
+        // удаляем одну избраную аудиторию
         public async Task<FavoriteRoom> Delete(int id)
         {
             HttpClient client = GetClient();

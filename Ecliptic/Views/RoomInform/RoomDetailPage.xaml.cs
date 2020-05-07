@@ -7,6 +7,7 @@ using Ecliptic.Models;
 using Xamarin.Essentials;
 using Ecliptic.Views.WayFounder;
 using Ecliptic.Repository;
+using Ecliptic.WebInteractions;
 
 namespace Ecliptic.Views
 {
@@ -130,7 +131,7 @@ namespace Ecliptic.Views
                             FontSize = 12,
                             Style = Device.Styles.TitleStyle,
                         };
-                        buttpers.Clicked += clickPers;
+                        buttpers.Clicked += clickWorker;
 
                         stackLayout.Children.Add(buttpers);
                     }
@@ -301,9 +302,6 @@ namespace Ecliptic.Views
                 this.Content = scrollView;
             }
         }
-        // а что если инкапсулировать процесс создания контролелеров Лайбл и прочего в отдельные кнопки
-        // для сокращения кода и просто передавать туда имяна и прочую информацию
-        // можно даже сразу добавлять там в стак лайаут
 
         public Room Current { get; set; }
 
@@ -357,7 +355,8 @@ namespace Ecliptic.Views
                 Launcher.OpenAsync(new Uri(Current.Site));
             }).Start();
         }
-        async void clickPers(object sender, EventArgs args)
+
+        async void clickWorker(object sender, EventArgs args)
         {
             Button btn = (Button)sender;
 
@@ -367,28 +366,55 @@ namespace Ecliptic.Views
         }
 
         // Star click
-        void OnfaviriteClicked(object sender, EventArgs args)
+        async void OnfaviriteClicked(object sender, EventArgs args)
         {
             if (User.CurrentUser != null)
             {
                 ToolbarItem item = (ToolbarItem)sender;
 
-                if (User.isRoomFavoit(Current) != null)
-                {
-                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                var room = User.isRoomFavoit(Current);
 
-                    FavoriteRoom newroom = User.isRoomFavoit(Current);
-                        
-                    User.CurrentUser.Favorites.Remove(newroom); 
+                FavRoomService favRoomService = new FavRoomService();
+
+                if (room != null)
+                {
+                    FavoriteRoom newroom = null;
+                     
+                    if (WebData.istest)
+                    {
+                        newroom = User.isRoomFavoit(Current);
+                    }
+                    else
+                    {
+                        newroom = await favRoomService.Add((Current.Clone() as Room)
+                                                                   .ToFavRoom(User.CurrentUser.UserId));
+                    }
+
+                    if (newroom != null)
+                    {
+                        ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                        User.CurrentUser.Favorites.Remove(newroom);
+                    }
                 }
                 else
                 {
-                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+                    FavoriteRoom newroom = null;
 
-                    FavoriteRoom newroom = (Current.Clone() as Room)
-                                            .ToFavRoom(User.CurrentUser.UserId);
+                    if (WebData.istest)
+                    {
+                        newroom = (Current.Clone() as Room).ToFavRoom(User.CurrentUser.UserId);
+                    }
+                    else
+                    {
+                        newroom = await favRoomService.Add((Current.Clone() as Room)
+                                                                   .ToFavRoom(User.CurrentUser.UserId));
+                    }
 
-                    User.CurrentUser.Favorites.Add(newroom);
+                    if (newroom != null)
+                    {
+                        User.CurrentUser.Favorites.Add(newroom);
+                        ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
+                    }
                 }
 
                 DbService.SaveDb();
@@ -400,18 +426,21 @@ namespace Ecliptic.Views
         {
             await DisplayAlert("Alert", "You have 1 been alerted", "OK");
         }
+
         void OnButton2Clicked(object sender, EventArgs args)
         {
             Way.Begin = Current;
 
             DependencyService.Get<IToast>().Show("Начало маршрута установлео");
         }
+
         void OnButton3Clicked(object sender, EventArgs args)
         {
             Way.End = Current;
 
             DependencyService.Get<IToast>().Show("Конец маршрута установлен");
         }
+
         async void OnButton4Clicked(object sender, EventArgs args)
         {
             await DisplayAlert("Alert", "You have 4 been alerted", "OK");
