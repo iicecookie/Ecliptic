@@ -28,6 +28,18 @@ namespace Ecliptic.Data
             return false;
         }
 
+        public static bool isThatRoom(FavoriteRoom favorite)
+        {
+            foreach (var room in Rooms)
+            {
+                if (room.Name == favorite.Name &&
+                    room.Details == favorite.Details ||
+                    room.RoomId == favorite.FavoriteRoomId)
+                    return true;
+            }
+            return false;
+        }
+
         public static bool isThatRoom(string room)
         {
             foreach (var i in Rooms)

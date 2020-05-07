@@ -12,7 +12,7 @@ namespace Ecliptic.Repository
 
         public DbSet<User>    User     { get; set; }
         public DbSet<Note>    Notes    { get; set; }
-        public DbSet<FavRoom> FavRooms { get; set; }
+        public DbSet<FavoriteRoom> FavoriteRooms { get; set; }
 
 
         public DbSet<Room>   Rooms   { get; set; }

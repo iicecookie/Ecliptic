@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class FavRoomService
     {
-        const string Url = "http://192.168.1.18:3000/api/favroom/";
+        const string Url = WebData.ADRESS + "/api/favroom/";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -22,15 +22,15 @@ namespace Ecliptic.WebInteractions
         }
 
         // получаем все заметки пользователя
-        public async Task<List<FavRoom>> Get(int Userid)
+        public async Task<List<FavoriteRoom>> Get(int Userid)
         {
             HttpClient client = GetClient();
             string result = await client.GetStringAsync(Url + "/" + Userid);
-            return JsonConvert.DeserializeObject<List<FavRoom>>(result);
+            return JsonConvert.DeserializeObject<List<FavoriteRoom>>(result);
         }
 
         // добавляем одну заметку
-        public async Task<FavRoom> Add(FavRoom note)
+        public async Task<FavoriteRoom> Add(FavoriteRoom note)
         {
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
@@ -41,19 +41,19 @@ namespace Ecliptic.WebInteractions
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
 
-            return JsonConvert.DeserializeObject<FavRoom>(
+            return JsonConvert.DeserializeObject<FavoriteRoom>(
                 await response.Content.ReadAsStringAsync());
         }
 
         // удаляем заметку
-        public async Task<FavRoom> Delete(int id)
+        public async Task<FavoriteRoom> Delete(int id)
         {
             HttpClient client = GetClient();
             var response = await client.DeleteAsync(Url + "/" + id);
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
 
-            return JsonConvert.DeserializeObject<FavRoom>(
+            return JsonConvert.DeserializeObject<FavoriteRoom>(
                await response.Content.ReadAsStringAsync());
         }
     }

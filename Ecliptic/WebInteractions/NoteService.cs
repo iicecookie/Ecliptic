@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class NoteService
     {
-        const string Url = "http://192.168.1.18:3000/api/note/";
+        const string Url = WebData.ADRESS + "/api/note/";
 
         // настройка клиента
         private HttpClient GetClient()

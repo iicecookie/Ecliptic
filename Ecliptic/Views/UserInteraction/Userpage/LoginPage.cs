@@ -103,23 +103,36 @@ namespace Ecliptic.Views.UserInteraction
 
         public async void LoginIn(object sender, EventArgs e)
         {
-            if (CrossConnectivity.Current.IsConnected == false)
-            {
-                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-                return;
-            }
-
             if (LoginPage.LoginBox.Text == "" || LoginPage.PasswBox.Text == "")
             {
                 DependencyService.Get<IToast>().Show("Введены не все поля");
                 return;
             }
 
-            /*
+            // тестовый пользователь
+            if (WebData.istest)
+            {
+                User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
+                GetUserPage();
+                return;
+            }
+
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return;
+            }
+
+            bool isRemoteReachable = await CrossConnectivity.Current.IsReachable("ecliptic.geo.com");
+            if (!isRemoteReachable)
+            { 
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
+                return;
+            }
+
             UserService userService = new UserService();
             User user = await userService.Get(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
-           
-            
+                 
             // если сервер вернул данные пользователя - загрузить в пользователя
             if (user != null)
             {
@@ -127,30 +140,19 @@ namespace Ecliptic.Views.UserInteraction
                 FavRoomService favRoomService = new FavRoomService();
 
                 DbService.SaveUser(user); // сохранили пользователя
-                DbService.AddNote   (await noteService   .Get(user.UserId)); // сохранили его заметки
-                DbService.AddFavRoom(await favRoomService.Get(user.UserId)); // и избраные помещения
+                DbService.AddNote        (await noteService   .Get(user.UserId)); // сохранили его заметки
+                DbService.AddFavoriteRoom(await favRoomService.Get(user.UserId)); // и избраные помещения
 
                 DbService.LoadUser();
                 GetUserPage();
+
                 return;
             }
             else
             {
-                await DisplayAlert("Alert", "Базы данных не существует", "OK");
+                await DisplayAlert("Ошибка", "Данные с сервера не получены", "OK");
                 return;
             }
-            */
-
-            // для показа
-            if (true)
-            {
-                User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
-                GetUserPage();
-                return;
-            }
-
-            await DisplayAlert("Alert", "Такого пользователя не существует", "OK");
-            return;
         }
 
         private void ToRegistrationPage(object sender, EventArgs e)

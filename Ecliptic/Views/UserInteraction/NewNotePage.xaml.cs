@@ -1,6 +1,8 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
 using Ecliptic.Repository;
+using Ecliptic.WebInteractions;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -104,17 +106,53 @@ namespace Ecliptic.Views.UserNote
 
         async void OnButtonSaveClicked(object sender, EventArgs args)
         {
-            DbService.AddNote(new Note(User.CurrentUser.UserId,
-                                       NoteControls.Text.Text,
-                                       NoteControls.Room.Text,
-                                       NoteControls.Building.Text, false));
+            if (WebData.istest)
+            {
+                DbService.AddNote(new Note(User.CurrentUser.UserId,
+                                                       NoteControls.Text.Text,
+                                                       NoteControls.Room.Text,
+                                                       NoteControls.Building.Text, false));
 
-        //    DbService.LoadUserNotes(User.CurrentUser);
+                await Navigation.PopAsync();
 
-            await Navigation.PopAsync();
+                return;
+            }
+
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return;
+            }
+
+            bool isRemoteReachable = await CrossConnectivity.Current.IsReachable(WebData.ADRESS);
+            if (!isRemoteReachable)
+            {
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
+                return;
+            }
+
+            NoteService noteService = new NoteService();
+            Note note = await noteService.Add(new Note(User.CurrentUser.UserId,
+                                                       NoteControls.Text.Text,
+                                                       NoteControls.Room.Text,
+                                                       NoteControls.Building.Text, false));
+
+            // если сервер вернул данные по заметке - загрузить в пользователя
+            if (note != null)
+            {
+                DbService.AddNote(note); // сохранили заметку
+
+                // DbService.LoadUser();
+
+                await Navigation.PopAsync();
+
+                return;
+            }
+            else
+            {
+                await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
+                return;
+            }
         }
     }
-
-
-
 }

@@ -365,7 +365,7 @@ namespace Ecliptic.Views.UserInteraction
         }
         public async void OnFavRoomsClicked(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new FavRoomsPage());
+            await Navigation.PushAsync(new FavoriteRoomsPage());
         }
     }
 }

@@ -10,18 +10,18 @@ using Xamarin.Forms;
 
 namespace Ecliptic.Views.FavoriteRoomList
 {
-    public partial class FavRoomsPage : ContentPage
+    public partial class FavoriteRoomsPage : ContentPage
     {
-        public FavRoomsPage()
+        public FavoriteRoomsPage()
         {
             InitializeComponent();
 
-            Title = "Избоанные аудитории";
+            Title = "Избранные аудитории";
         }
 
         private async void RoomView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Room room = e.Item as Room;
+            FavoriteRoom room = e.Item as FavoriteRoom;
 
             if (RoomData.isThatRoom(room))
             {

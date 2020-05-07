@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class UserService
     { 
-        const string Url = "http://ecliptic/api/user/";
+        const string Url = WebData.ADRESS + "/api/user/";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -37,33 +37,17 @@ namespace Ecliptic.WebInteractions
             return JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
         }
 
-        // добавляем одного друга
-        public async Task<User> Add(User user)
+        // добавляем пользоваетля
+        public async Task<User> Register(string name, string login, string pass)
         {
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
                 new StringContent(
-                    JsonConvert.SerializeObject(user),
+                    JsonConvert.SerializeObject(new { Name = name, Login = login, Pass = pass }),
                     Encoding.UTF8, "application/json"));
 
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;    
-
-            return JsonConvert.DeserializeObject<User>(
-                await response.Content.ReadAsStringAsync());
-        }
-
-        // обновляем друга
-        public async Task<User> Update(User user)
-        {
-            HttpClient client = GetClient();
-            var response = await client.PutAsync(Url + "/" + user.UserId,
-                new StringContent(
-                    JsonConvert.SerializeObject(user),
-                    Encoding.UTF8, "application/json"));
-
-            if (response.StatusCode != HttpStatusCode.OK)
-                return null;
 
             return JsonConvert.DeserializeObject<User>(
                 await response.Content.ReadAsStringAsync());

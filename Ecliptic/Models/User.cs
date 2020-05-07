@@ -8,17 +8,17 @@ namespace Ecliptic.Models
     {
         #region Params
 
+        public static User CurrentUser { get; private set; }
+
         public int UserId { get; set; }
 
         public readonly string Name;
         public readonly string Login;
-        public readonly string Password;
 
         public virtual List<Note> Notes     { get; set; }
 
-        public virtual List<FavRoom> Favorites { get; set; }
+        public virtual List<FavoriteRoom> Favorites { get; set; }
 
-        public static User CurrentUser { get; private set; }
         #endregion
 
         #region Constructors
@@ -26,32 +26,31 @@ namespace Ecliptic.Models
         private User()
         {
             Notes     = new List<Note>();
-            Favorites = new List<FavRoom>();
+            Favorites = new List<FavoriteRoom>();
         }
 
-        private User(int id, string Name, string login, string pass) : this()
+        private User(int id, string Name, string login) : this()
         {
             this.UserId = id;
             this.Name = Name;
             this.Login = login;
-            this.Password = pass;
         }
 
         public static User setUser(User user)
         {
             CurrentUser = user;
             return CurrentUser;
-
         }
 
-        public static User setUser(int id, string name, string login, string pass)
+        public static User setUser(int id, string name, string login)
         {
-            CurrentUser = new User(id, name, login, pass);
+            CurrentUser = new User(id, name, login);
             return CurrentUser;
         }
 
         #endregion
 
+        // sample
         public static User LoadUser(string login, string password)
         {
             DbService.LoadSampleUser("", "");
@@ -60,7 +59,7 @@ namespace Ecliptic.Models
 
         public static void LoginOut()
         {
-            DbService.RemoveFavRoom(CurrentUser.Favorites);
+            DbService.RemoveFavoriteRoom(CurrentUser.Favorites);
             DbService.RemoveNote(CurrentUser.Notes);
 
             DbService.RemoveUser(CurrentUser);
@@ -115,13 +114,15 @@ namespace Ecliptic.Models
         // Мысль - обсудить с Ураевой, возможно все заметки хранить на сервере
         // но те, что общие, добавлять именно к аудитории
 
-        public static FavRoom isRoomFavoit(Room room)
+        public static FavoriteRoom isRoomFavoit(Room room)
         {   
-            foreach (var fav in CurrentUser.Favorites)
+            foreach (var favorite in CurrentUser.Favorites)
             {
-                if (fav.Name == room.Name && fav.Details == room.Details)
+                if (favorite.Name == room.Name && 
+                    favorite.Details == room.Details || 
+                    favorite.FavoriteRoomId == room.RoomId)
                 {
-                    return fav;
+                    return favorite;
                 }
             }
             return null;

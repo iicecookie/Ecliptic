@@ -40,7 +40,7 @@ namespace Ecliptic.Repository
             if (db.User.Count() > 0)
             {
                 User.setUser(LoadUserFromDb());
-                User.CurrentUser.Favorites = db.FavRooms.ToList();
+                User.CurrentUser.Favorites = db.FavoriteRooms.ToList();
                 LoadUserNotes(User.CurrentUser);
             }
         }
@@ -177,35 +177,35 @@ namespace Ecliptic.Repository
         #endregion
 
         #region Favs
-        public static void AddFavRoom(FavRoom favRoom)
+        public static void AddFavoriteRoom(FavoriteRoom favRoom)
         {
             if (favRoom == null) return;
-            db.FavRooms.Add(favRoom);
+            db.FavoriteRooms.Add(favRoom);
             db.SaveChanges();
         }
 
-        public static void AddFavRoom(List<FavRoom> favRooms)
+        public static void AddFavoriteRoom(List<FavoriteRoom> favRooms)
         {
             foreach (var favRoom in favRooms)
             {
-                db.FavRooms.Add(favRoom);
+                db.FavoriteRooms.Add(favRoom);
             }
             db.SaveChanges();
         }
 
-        public static void RemoveFavRoom(FavRoom room)
+        public static void RemoveFavoriteRoom(FavoriteRoom room)
         {
             if (room == null) return;
-            db.FavRooms.Remove(room);
+            db.FavoriteRooms.Remove(room);
 
             db.SaveChanges();
         }
 
-        public static void RemoveFavRoom(List<FavRoom> rooms)
+        public static void RemoveFavoriteRoom(List<FavoriteRoom> rooms)
         {
             foreach (var room in rooms)
             {
-                db.FavRooms.Remove(room);
+                db.FavoriteRooms.Remove(room);
             }
             db.SaveChanges();
         }
@@ -270,8 +270,8 @@ namespace Ecliptic.Repository
             
             User.setUser(db.User.First());
 
-            User.CurrentUser.Notes = db.Notes.Include(note => note.UserId).ToList();
-            User.CurrentUser.Favorites = db.FavRooms.Include(note => note.UserId).ToList();
+            User.CurrentUser.Notes     = db.Notes.Include(note => note.UserId).ToList();
+            User.CurrentUser.Favorites = db.FavoriteRooms.Include(note => note.UserId).ToList();
 
             return db.User.ToList().First();
         }
@@ -526,33 +526,33 @@ namespace Ecliptic.Repository
         public static User LoadSampleUser(string login, string password)
         {
             // записываю в пользователя
-            User.setUser(1,"Jo", login, password);
-                
+            User.setUser(1, password, login);
+
             // загружаю в базу данных
             DbService.SaveUser(User.CurrentUser);
-
+            
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка1", "213", "KGU", false));
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка2", "200", "KGU", true));
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка3", "201", "KGU", false));
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка4", "203", "KGU", false));
             DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка5", "202", "KGU", false));
 
-            DbService.AddFavRoom(
-                new FavRoom("213",
+            DbService.AddFavoriteRoom(
+                new FavoriteRoom("213",
                             "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
-                            User.CurrentUser.UserId));
+                            "", User.CurrentUser.UserId, 1));
 
-            DbService.AddFavRoom(
-                 new FavRoom("200",
+            DbService.AddFavoriteRoom(
+                 new FavoriteRoom("200",
                              "The Asian black bear, also known as the moon bear and the white-chested bear, is a medium-sized bear species native to Asia and largely adapted to arboreal life. It lives in the Himalayas, in the northern parts of the Indian subcontinent, Korea, northeastern China, the Russian Far East, the Honshū and Shikoku islands of Japan, and Taiwan. It is classified as vulnerable by the International Union for Conservation of Nature (IUCN), mostly because of deforestation and hunting for its body parts.",
-                             User.CurrentUser.UserId));
+                             "", User.CurrentUser.UserId, 2));
 
-            DbService.AddFavRoom(
-                 new FavRoom("202",
+            DbService.AddFavoriteRoom(
+                 new FavoriteRoom("202",
                              "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
-                             User.CurrentUser.UserId));
-
-            DbService.SaveDb();
+                             "", User.CurrentUser.UserId, 3));
+            
+            db.SaveChanges();
 
             return User.CurrentUser;
         }

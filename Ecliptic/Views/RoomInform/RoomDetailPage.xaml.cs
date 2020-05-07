@@ -377,7 +377,7 @@ namespace Ecliptic.Views
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
 
-                    FavRoom newroom = User.isRoomFavoit(Current);
+                    FavoriteRoom newroom = User.isRoomFavoit(Current);
                         
                     User.CurrentUser.Favorites.Remove(newroom); 
                 }
@@ -385,7 +385,7 @@ namespace Ecliptic.Views
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
 
-                    FavRoom newroom = (Current.Clone() as Room)
+                    FavoriteRoom newroom = (Current.Clone() as Room)
                                             .ToFavRoom(User.CurrentUser.UserId);
 
                     User.CurrentUser.Favorites.Add(newroom);

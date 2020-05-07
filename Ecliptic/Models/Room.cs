@@ -8,9 +8,12 @@ namespace Ecliptic.Models
         public int RoomId { get; set; }
 
         public string Name { get; set; } // Имя аудитории +
+
+
         public int    Floor { get; set; } // этаж
         public string Details { get; set; } //
         public string Description { get; set; } // описание
+
         public string Timetable { get; set; } // расписание
         public string Phone { get; set; } // телефон
         public string Site { get; set; } // сайт
@@ -41,9 +44,9 @@ namespace Ecliptic.Models
 
         }
 
-        public FavRoom ToFavRoom(int Userid)
+        public FavoriteRoom ToFavRoom(int Userid)
         {
-            return new FavRoom(Name, Details, Userid);
+            return new FavoriteRoom(Name, Details, "", Userid);
         }
 
         public object Clone()

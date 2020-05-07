@@ -1,8 +1,11 @@
 ﻿using Ecliptic.Models;
+using Ecliptic.Repository;
+using Ecliptic.WebInteractions;
 using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using Xamarin.Forms;
 
 namespace Ecliptic.Views.UserInteraction
@@ -132,25 +135,50 @@ namespace Ecliptic.Views.UserInteraction
                 return;
             }
 
-            if (RegisrationPage.NameBox.Text  == "" ||
-                RegisrationPage.LoginBox.Text == "" ||
-                RegisrationPage.PasswBox.Text == "" ||
-                RegisrationPage.PasswCheckBox.Text == "")
+            if (RegisrationPage.NameBox.Text  == "" || RegisrationPage.LoginBox.Text == "" ||
+                RegisrationPage.PasswBox.Text == "" || RegisrationPage.PasswCheckBox.Text == "")
             {
-                await DisplayAlert("Ошипка", "Не все поля заполнены", "OK");
-                return;
-            }
-            if (RegisrationPage.PasswBox.Text !=
-                RegisrationPage.PasswCheckBox.Text)
-            {
-                await DisplayAlert("Ошипка", "Пароли не совпадают", "OK");
-                return;
-            }
-            // зарегестрировать узера
-            // перейти на окно усера
-            User.LoadUser(RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
 
-            GetUserPage();
+                DependencyService.Get<IToast>().Show("Не все поля заполнены");
+                return;
+            }
+
+            if (RegisrationPage.PasswBox.Text != RegisrationPage.PasswCheckBox.Text)
+            {
+                DependencyService.Get<IToast>().Show("Пароли не совпадают");
+                return;
+            }
+
+            bool isRemoteReachable = await CrossConnectivity.Current.IsReachable("ecliptic.geo.com");
+            if (!isRemoteReachable)
+            {
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
+
+                // для теста 2 строки
+                User.LoadUser(RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
+                GetUserPage();
+
+                return;
+            }
+
+            UserService userService = new UserService();
+
+            User user = await userService.Register(RegisrationPage.NameBox.Text, LoginPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
+
+            // если сервер вернул данные пользователя - загрузить в пользователя
+            if (user != null)
+            {
+                DbService.SaveUser(user); // сохранили пользователя
+                DbService.LoadUser();
+
+                GetUserPage();
+                return;
+            }
+            else
+            {
+                await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
+                return;
+            }
         }
 
         private void ToLoginPage(object sender, EventArgs e)
