@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Ecliptic.Views.RoomDetailPage"
              x:Name="self"
+             BackgroundColor="#E6E6F0"
              Title="Room Details">
 
     <ContentPage.ToolbarItems>
@@ -29,16 +30,6 @@
                      IconImageSource="stared.png"
                      Order="Secondary"
                      Priority="1" />
-
-
-        <!--
-        <ToolbarItem Text="Добавить в избранное"
-                     x:Name="star"
-                    
-                     Clicked="OnfaviriteClicked"
-                     Order="Default"
-                     Priority="1" />
--->
 
     </ContentPage.ToolbarItems>
 

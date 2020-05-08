@@ -77,6 +77,9 @@
     <PackageReference Include="Xam.Plugin.Connectivity">
       <Version>3.2.0</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.5.3.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>4.5.0.657</Version>
     </PackageReference>
@@ -120,14 +123,8 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\drawable\bear.png" />
-    <AndroidResource Include="Resources\drawable\cat.png" />
-    <AndroidResource Include="Resources\drawable\dog.png" />
-    <AndroidResource Include="Resources\drawable\elephant.png" />
     <AndroidResource Include="Resources\drawable\help.png" />
     <AndroidResource Include="Resources\drawable\info.png" />
-    <AndroidResource Include="Resources\drawable\monkey.png" />
-    <AndroidResource Include="Resources\drawable\paw.png" />
     <AndroidResource Include="Resources\drawable\random.png" />
     <AndroidResource Include="Resources\drawable\back.png" />
   </ItemGroup>
@@ -161,58 +158,13 @@
     <AndroidResource Include="Resources\drawable\unstared.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icecream.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\milk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\orange.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pasta.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pear.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\peas.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\potato.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\rice.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\apple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\banana.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\bread.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\broccoli.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\carrot.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\cheese.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\collapsed_blue.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\expanded_blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\greenbean.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-mdpi\delete.png" />
@@ -263,4 +215,9 @@
     <AndroidResource Include="Resources\drawable\Map.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadUnhandledDeviceExceptionEclipticAndroidHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

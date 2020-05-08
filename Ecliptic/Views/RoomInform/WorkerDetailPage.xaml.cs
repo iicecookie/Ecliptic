@@ -89,22 +89,31 @@ namespace Ecliptic.Views
 
             if (Current.Email != null)
             {
-                label4 = new Label
+                Button mailBtn = new Button
                 {
-                    Text = Current.Email,
+                    Text = "Написать " + Current.Email,
                     TextColor = Color.Black,
+                    BackgroundColor = Color.FromHex("#6866A6"),
+                    VerticalOptions = LayoutOptions.Center,
                     Style = Device.Styles.BodyStyle,
-                    HorizontalOptions = LayoutOptions.Fill
+                    FontSize = 12,
+                    HeightRequest = 40,
                 };
-
-                stackLayout.Children.Add(label4);
+                mailBtn.Clicked += clickmail;
+                stackLayout.Children.Add(mailBtn);
             }
 
             if (Current.Phone != null)
             {
                 button1 = new Button
                 {
-                    Text = "Call " + Current.Phone,
+                    Text = "Позвонить " + Current.Phone,
+                    TextColor = Color.Black,
+                    BackgroundColor = Color.FromHex("#6866A6"),
+                    VerticalOptions = LayoutOptions.Center,
+                    Style = Device.Styles.BodyStyle,
+                    FontSize = 12,
+                    HeightRequest = 40,
                 };
                 button1.Clicked += clickphone;
 
@@ -115,7 +124,13 @@ namespace Ecliptic.Views
             {
                 button2 = new Button
                 {
-                    Text = "Open web site",
+                    Text = "Открыть сайт",
+                    TextColor = Color.Black,
+                    BackgroundColor = Color.FromHex("#6866A6"),
+                    VerticalOptions = LayoutOptions.Center,
+                    Style = Device.Styles.BodyStyle,
+                    FontSize = 12,
+                    HeightRequest = 40,
                 };
                 button2.Clicked += clickSite;
 
@@ -133,6 +148,36 @@ namespace Ecliptic.Views
         {
 
 
+        }
+
+        async void clickmail(object sender, System.EventArgs e)
+        {
+            List<string> toAddress = new List<string>();
+            toAddress.Add(Current.Email);
+
+            await SendEmail(toAddress);
+        }
+
+        public async Task SendEmail(List<string> recipients)
+        {
+            try
+            {
+                var message = new EmailMessage
+                {
+                    Subject = "",
+                    Body = "",
+                    To = recipients,
+                };
+                await Email.ComposeAsync(message);
+            }
+            catch (FeatureNotSupportedException fbsEx)
+            {
+                DependencyService.Get<IToast>().Show("не поддерживается на вашем устройстве");
+            }
+            catch (Exception ex)
+            {
+                DependencyService.Get<IToast>().Show("Произошла ошибка");
+            }
         }
 
         // Buttons on page

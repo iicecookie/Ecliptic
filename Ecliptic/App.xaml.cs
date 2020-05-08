@@ -14,8 +14,9 @@ namespace Ecliptic
 
             DbService.RefrashDb(true);
 
-            DbService.LoadAll();
-            // DbService.LoadSample();
+            // DbService.LoadAll();
+
+            DbService.LoadSample();
 
             MainPage = new AppShell();
         }

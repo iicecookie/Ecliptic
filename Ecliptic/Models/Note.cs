@@ -22,7 +22,7 @@ namespace Ecliptic.Models
         public virtual int? UserId { get; set; }
         public virtual User User { get; set; }
 
-      //  public Note() { }
+        public Note() { }   
 
         public Note(string text, string building, bool acsess,
                     int? roomid = null, int? userid = null, int noteid = 0)

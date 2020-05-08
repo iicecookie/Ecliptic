@@ -22,6 +22,8 @@ namespace Ecliptic.Views
                 Current = RoomData.Rooms
                                    .FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
 
+                Title = Current.Name;
+
                 Button button1 = null;
                 Button button2 = null;
                 Label label1 = null;
@@ -33,12 +35,13 @@ namespace Ecliptic.Views
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
 
-                if (Current.Name != null)
+                if (Current.Name      != null)
                 {
                     label1 = new Label
                     {
                         Text = Current.Name,
                         Style = Device.Styles.TitleStyle,
+                        TextColor = Color.Black,
                         //     FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                         //     VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.Center
@@ -51,48 +54,52 @@ namespace Ecliptic.Views
                     label2 = new Label
                     {
                         Text = Current.Description,
+                        TextColor = Color.Black,
                         FontAttributes = FontAttributes.Italic,
                         HorizontalOptions = LayoutOptions.Center
                     };
 
                     stackLayout.Children.Add(label2);
                 }
-                if (Current.Details != null)
+                if (Current.Details   != null)
                 {
                     label3 = new Label
                     {
                         Text = Current.Details,
+                        TextColor = Color.Black,
                         Style = Device.Styles.BodyStyle,
                         HorizontalOptions = LayoutOptions.Fill
                     };
 
                     stackLayout.Children.Add(label3);
                 }
-                if (Current == null)
-                {
-                    label4 = new Label
-                    {
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-
-                    stackLayout.Children.Add(label4);
-                }
-                if (Current.Phone != null)
+                if (Current.Phone     != null)
                 {
                     button1 = new Button
                     {
-                        Text = "Call " + Current.Phone,
+                        Text = "Позвонить " + Current.Phone,
+                        TextColor = Color.Black,
+                        BackgroundColor = Color.FromHex("#6866A6"),
+                        VerticalOptions = LayoutOptions.Center,
+                        Style = Device.Styles.BodyStyle,
+                        FontSize = 12,
+                        HeightRequest = 40,
                     };
                     button1.Clicked += clickphone;
 
                     stackLayout.Children.Add(button1);
                 }
-                if (Current.Site != null)
+                if (Current.Site      != null)
                 {
                     button2 = new Button
                     {
-                        Text = "Open web site",
+                        Text = "Открыть сайт",
+                        TextColor = Color.Black,
+                        BackgroundColor = Color.FromHex("#6866A6"),
+                        VerticalOptions = LayoutOptions.Center,
+                        Style = Device.Styles.BodyStyle,
+                        FontSize = 12,
+                        HeightRequest = 40,
                     };
                     button2.Clicked += clickSite;
 
@@ -103,6 +110,7 @@ namespace Ecliptic.Views
                     label5 = new Label
                     {
                         Text = Current.Timetable,
+                        TextColor = Color.Black,
                         Style = Device.Styles.BodyStyle,
                         HorizontalOptions = LayoutOptions.Start
                     };
@@ -114,11 +122,11 @@ namespace Ecliptic.Views
                 {
                     Label labeq = new Label
                     {
-                        Text = "Работники:",
-                        TextColor = Color.Black,
-                        FontSize = 12,
-                        Style = Device.Styles.TitleStyle,
-                        HorizontalOptions = LayoutOptions.Start
+                        Text = "Ответственные лица:",
+                        Style = Device.Styles.BodyStyle,
+                        HorizontalOptions = LayoutOptions.Center
+
+
                     };
 
                     stackLayout.Children.Add(labeq);
@@ -128,8 +136,12 @@ namespace Ecliptic.Views
                         Button buttpers = new Button
                         {
                             Text = i.ToString() ?? "wot",
+                            TextColor = Color.Black,
+                            BackgroundColor = Color.FromHex("#6866A6"),
+                            VerticalOptions = LayoutOptions.Center,
+                            Style = Device.Styles.BodyStyle,
                             FontSize = 12,
-                            Style = Device.Styles.TitleStyle,
+                            HeightRequest = 40,
                         };
                         buttpers.Clicked += clickWorker;
 
@@ -151,7 +163,7 @@ namespace Ecliptic.Views
                                 {
                                     Label labelN = new Label
                                     {
-                                        Text = "Заметки " + User.CurrentUser.Name,
+                                        Text = "Заметки " + User.CurrentUser.Name + ":",
                                         Style = Device.Styles.BodyStyle,
                                         HorizontalOptions = LayoutOptions.Center
                                     };
@@ -159,50 +171,53 @@ namespace Ecliptic.Views
                                     isNote = true;
                                 }
 
-
-
                             Grid grid = new Grid
                             {
-                                RowDefinitions =  {
-                                     new RowDefinition { Height = new GridLength(30) },
-                                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                                                       },
-                                ColumnDefinitions =  {
-                                     new ColumnDefinition { Width = new GridLength(160) },
-                                     new ColumnDefinition { Width = new GridLength(50) },
-                                     new ColumnDefinition { Width = new GridLength(30) },
-                                     new ColumnDefinition { Width = new GridLength(30) }
-                                                         }
+                                RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
+                                                       new RowDefinition {   Height = new GridLength(1, GridUnitType.Star) } },
+
+                                ColumnDefinitions =  { new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
+                                                       new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Auto) }, },
+                                ColumnSpacing = 10,
+                                RowSpacing = 10,
                             };
-                            grid.ColumnSpacing = 10;
-                            grid.RowSpacing = 10;
 
                             Label noteLab = new Label
                             {
-                                Text = i.Room.ToString() + " Аудитория ",
+                                // возможно здание будет заменено на пользователя
+                                Text = "Добавил: " + i.User.Name.ToString(),
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
-                            Editor noteEnt = new Editor
+
+                            Label noteDat = new Label
                             {
-                                AutoSize = EditorAutoSizeOption.TextChanges,
+                                Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
+                                FontSize = 14,
+                                Style = Device.Styles.TitleStyle,
+                            };
+
+                            Label noteEnt = new Label
+                            {
                                 Text = i.Text.ToString() ?? "wot",
-                                FontSize = 12,
-                                Style = Device.Styles.BodyStyle,
+                                HorizontalOptions = LayoutOptions.FillAndExpand,
+                                FontSize = 14,
+                                Style = Device.Styles.TitleStyle,
                                 AutomationId = i.NoteId.ToString(),
                             };
 
                             grid.Children.Add(noteLab, 0, 0);
+                            grid.Children.Add(noteDat, 1, 0);
                             grid.Children.Add(noteEnt, 0, 1);
 
-                            Grid.SetColumnSpan(noteEnt, 4);
+                            Grid.SetColumnSpan(noteEnt, 2);
 
                             Frame frame = new Frame()
                             {
-                                BorderColor = Color.ForestGreen,
+                                BorderColor = Color.FromHex("#04006A"),
+                                BackgroundColor = Color.FromHex("#B4B3D2"),
                                 AutomationId = i.NoteId.ToString(),
                             };
-
                             frame.Content = grid;
 
                             stackLayout.Children.Add(frame);
@@ -213,6 +228,7 @@ namespace Ecliptic.Views
                     item.Clicked += OnfaviriteClicked;
                     item.Order = ToolbarItemOrder.Default;
                     item.Priority = 1;
+
                     if (User.isRoomFavoit(Current)!=null)
                     {
                         item.IconImageSource = "@drawable/stared.png";
@@ -221,6 +237,7 @@ namespace Ecliptic.Views
                     {
                         item.IconImageSource = "@drawable/unstared.png";
                     }
+
                     this.ToolbarItems.Add(item);
                 }
 
@@ -238,7 +255,7 @@ namespace Ecliptic.Views
                             {
                                 Label labelON = new Label
                                 {
-                                    Text = "Общие заметки ",
+                                    Text = "Общие заметки:",
                                     Style = Device.Styles.BodyStyle,
                                     HorizontalOptions = LayoutOptions.Center
                                 };
@@ -246,49 +263,53 @@ namespace Ecliptic.Views
                                 flag = false;
                             }
 
-
                             Grid grid = new Grid
                             {
-                                RowDefinitions =  {
-                                                         new RowDefinition { Height = new GridLength(30) },
-                                                         new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                                                                           },
-                                ColumnDefinitions =  {
-                                                         new ColumnDefinition { Width = new GridLength(160) },
-                                                         new ColumnDefinition { Width = new GridLength(50) },
-                                                         new ColumnDefinition { Width = new GridLength(30) },
-                                                         new ColumnDefinition { Width = new GridLength(30) }
-                                                                             }
+                                RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
+                                                       new RowDefinition {   Height = new GridLength(1, GridUnitType.Star) } },
+
+                                ColumnDefinitions =  { new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
+                                                       new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Auto) }, },
+                                ColumnSpacing  =10,
+                                RowSpacing = 10,
                             };
-                            grid.ColumnSpacing = 10;
-                            grid.RowSpacing = 10;
 
                             Label noteLab = new Label
                             {
-                                Text = i.Room.ToString() + " Аудитория ",
+                                // возможно здание будет заменено на пользователя
+                                Text = "Добавил: " + i.Building.ToString(),
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
-                            Editor noteEnt = new Editor
+                            
+                            Label noteDat = new Label
                             {
-                                AutoSize = EditorAutoSizeOption.TextChanges,
+                                Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
+                                FontSize = 14,
+                                Style = Device.Styles.TitleStyle,
+                            };
+
+                            Label noteEnt = new Label
+                            {
                                 Text = i.Text.ToString() ?? "wot",
-                                FontSize = 12,
-                                Style = Device.Styles.BodyStyle,
+                                HorizontalOptions = LayoutOptions.FillAndExpand,
+                                FontSize = 14,
+                                Style = Device.Styles.TitleStyle,
                                 AutomationId = i.NoteId.ToString(),
                             };
 
                             grid.Children.Add(noteLab, 0, 0);
+                            grid.Children.Add(noteDat, 1, 0);
                             grid.Children.Add(noteEnt, 0, 1);
 
-                            Grid.SetColumnSpan(noteEnt, 4);
+                            Grid.SetColumnSpan(noteEnt, 2);
 
                             Frame frame = new Frame()
                             {
-                                BorderColor = Color.ForestGreen,
+                                BorderColor     = Color.FromHex("#04006A"),
+                                BackgroundColor = Color.FromHex("#B4B3D2"),
                                 AutomationId = i.NoteId.ToString(),
                             };
-
                             frame.Content = grid;
 
                             stackLayout.Children.Add(frame);
