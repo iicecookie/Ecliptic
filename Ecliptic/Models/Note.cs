@@ -8,60 +8,40 @@ namespace Ecliptic.Models
 {
     public class Note : ICloneable
     {
-        public int Id { get; set; }
+        public int NoteId { get; set; }
 
         public string Text { get; set; }
-
         public string Date { get; set; }
-
-        public string Room { get; set; }
-
-        public string Building { get; set; }
-
         public bool   isPublic { get; set; } // общая ли заметтка или нет
 
+        public string Building { get; set; } // может не нужно
+
+        public virtual int? RoomId { get; set; }
+        public virtual Room Room { get; set; }
 
         public virtual int? UserId { get; set; }
         public virtual User User { get; set; }
 
-        public Note()
+      //  public Note() { }
+
+        public Note(string text, string building, bool acsess,
+                    int? roomid = null, int? userid = null, int noteid = 0)
         {
+            NoteId   = noteid;
 
-        }
-
-        // добавление заметок пользователя
-        public Note(int userid, string text, string room, string building, bool acsess)
-        {
-            Text = text;
-
-            Date = DateTime.Today.ToString();
-            Room = room;
-            Building = building;
+            Text     = text;
             isPublic = acsess;
+            Date = DateTime.Today.ToString();
+
+            RoomId = roomid;
             UserId = userid;
-        }
 
-        // добавление общих заметок в NoteData
-        public Note(string text, string room, string building, bool acsess)
-        {
-            Text = text;
-
-            Date = DateTime.Today.ToString();
-            Room = room;
             Building = building;
-            isPublic = acsess;
         }
 
         public object Clone()
         {
-            return new Note
-            {
-                Text = this.Text,
-                Date = this.Date,
-                Room = this.Room,
-                Building = this.Building,
-                isPublic = this.isPublic,
-            };
+            return new Note(Text, Building, isPublic, RoomId);
         }
 
         public override bool Equals(object obj)

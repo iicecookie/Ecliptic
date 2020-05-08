@@ -52,9 +52,9 @@ namespace EclipticTests.DatabaseTests
             DbService.AddNote(new Note("I'm open yesi", "522", "KGU", true));
             DbService.AddNote(new Note("I'm open noby", "231", "KGU", true));
             DbService.AddNote(new Note("I'm open puko", "409", "KGU", true));
-            DbService.AddNote(new Note(1, "I'm user puko", "409", "KGU", true));
-            DbService.AddNote(new Note(1, "I'm user yesi", "409", "KGU", true));
-            DbService.AddNote(new Note(1, "I'm user okey", "409", "KGU", true));
+            DbService.AddNote(new Note("I'm user puko", "409", "KGU", true, 1));
+            DbService.AddNote(new Note("I'm user yesi", "409", "KGU", true, 1));
+            DbService.AddNote(new Note("I'm user okey", "409", "KGU", true, 1));
 
             // Act   -----------------------------------------     
             var result = DbService.LoadAllPublicNotes();

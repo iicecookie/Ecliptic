@@ -40,14 +40,14 @@ namespace Ecliptic.Data
             return false;
         }
 
-        public static bool isThatRoom(string room)
+        public static Room isThatRoom(string room)
         {
             foreach (var i in Rooms)
             {
                 if (i.Name == room)
-                    return true;
+                    return i;
             }
-            return false;
+            return null;
         }
     }
 }

@@ -29,10 +29,10 @@ namespace Ecliptic.Repository
 
         public static void LoadAll()
         {
-            NoteData.Notes     = LoadAllPublicNotes();
             WorkerData.Workers = RelationsWorkersRoom();
             RoomData.Rooms     = RelationsRoomsWorker();
 
+            NoteData.Notes     = LoadAllPublicNotes();
 
             FloorData.Floors       = db.Floors.ToList();
             BuildingData.Buildings = db.Buildings.ToList();
@@ -311,9 +311,10 @@ namespace Ecliptic.Repository
 
         public static void LoadSample()
         {
-            LoadSampleNotes();
             LoadSampleRooms();
             LoadSampleWorkers();
+
+            LoadSampleNotes();
 
             LoadSampleFloors();
             LoadSampleBuildings();
@@ -340,11 +341,11 @@ namespace Ecliptic.Repository
 
         public static void LoadSampleNotes()
         {
-            AddNote(new Note("I'm open note", "213", "KGU", true));
-            AddNote(new Note("I'm open okey", "213", "KGU", true));
-            AddNote(new Note("I'm open yesi", "522", "KGU", true));
-            AddNote(new Note("I'm open noby", "231", "KGU", true));
-            AddNote(new Note("I'm open puko", "409", "KGU", true));
+            AddNote(new Note("I'm open note", "KGU", true, roomid: 1));
+            AddNote(new Note("I'm open okey", "KGU", true, roomid: 1));
+            AddNote(new Note("I'm open yesi", "KGU", true, roomid: 2));
+            AddNote(new Note("I'm open noby", "KGU", true, roomid: 2));
+            AddNote(new Note("I'm open puko", "KGU", true, roomid: 3));
         }
 
         public static void LoadSampleRooms()
@@ -530,12 +531,12 @@ namespace Ecliptic.Repository
 
             // загружаю в базу данных
             DbService.SaveUser(User.CurrentUser);
-            
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка1", "213", "KGU", false));
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка2", "200", "KGU", true));
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка3", "201", "KGU", false));
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка4", "203", "KGU", false));
-            DbService.AddNote(new Note(User.CurrentUser.UserId, "заметка5", "202", "KGU", false));
+
+            DbService.AddNote(new Note("заметка1", "KGU", false, roomid: 1, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка2", "KGU", true,  roomid: 1, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка3", "KGU", false, roomid: 2, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка4", "KGU", false, roomid: 2, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка5", "KGU", false, roomid: 3, userid: User.CurrentUser.UserId));
 
             DbService.AddFavoriteRoom(
                 new FavoriteRoom("213",

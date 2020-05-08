@@ -106,12 +106,15 @@ namespace Ecliptic.Views.UserNote
 
         async void OnButtonSaveClicked(object sender, EventArgs args)
         {
+            Room room = RoomData.isThatRoom(NoteControls.Room.Text);
+
             if (WebData.istest)
             {
-                DbService.AddNote(new Note(User.CurrentUser.UserId,
-                                                       NoteControls.Text.Text,
-                                                       NoteControls.Room.Text,
-                                                       NoteControls.Building.Text, false));
+                DbService.AddNote(new Note(NoteControls.Text.Text,
+                                           NoteControls.Building.Text, 
+                                           false,
+                                           roomid: room?.RoomId,
+                                           userid: User.CurrentUser.UserId));
 
                 await Navigation.PopAsync();
 
@@ -132,17 +135,16 @@ namespace Ecliptic.Views.UserNote
             }
 
             NoteService noteService = new NoteService();
-            Note note = await noteService.Add(new Note(User.CurrentUser.UserId,
-                                                       NoteControls.Text.Text,
-                                                       NoteControls.Room.Text,
-                                                       NoteControls.Building.Text, false));
+            Note note = await noteService.Add(new Note(NoteControls.Text.Text,
+                                                       NoteControls.Building.Text, 
+                                                       false,
+                                                       roomid: room?.RoomId,
+                                                       userid: User.CurrentUser.UserId));
 
             // если сервер вернул данные по заметке - загрузить в пользователя
             if (note != null)
             {
-                DbService.AddNote(note); // сохранили заметку
-
-                // DbService.LoadUser();
+                DbService.AddNote(note); // сохранили полученую заметку с данными
 
                 await Navigation.PopAsync();
 

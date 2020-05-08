@@ -85,7 +85,7 @@ namespace Ecliptic.Models
             // удалить с сервера если общая
             for (int i = 0; i < CurrentUser.Notes.Count; i++)
             {
-                if (CurrentUser.Notes[i].Id == id)
+                if (CurrentUser.Notes[i].NoteId == id)
                 {
                     if (!CurrentUser.Notes.Remove(CurrentUser.Notes[i]))
                     {
@@ -103,7 +103,7 @@ namespace Ecliptic.Models
 
             for (int i = 0; i < CurrentUser.Notes.Count; i++)
             {
-                if (CurrentUser.Notes[i].Id == id)
+                if (CurrentUser.Notes[i].NoteId == id)
                 {
                     note = CurrentUser.Notes[i];
                 }

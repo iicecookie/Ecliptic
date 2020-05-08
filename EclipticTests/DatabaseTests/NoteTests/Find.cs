@@ -55,7 +55,7 @@ namespace EclipticTests.DatabaseTests
             Note result = DbService.FindNote(test);
 
             // Assert-----------------------------------------
-            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual(1, result.NoteId);
         }
 
         [TestMethod]

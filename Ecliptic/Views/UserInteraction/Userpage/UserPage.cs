@@ -104,7 +104,7 @@ namespace Ecliptic.Views.UserInteraction
                     IsToggled = i.isPublic,
                     HorizontalOptions = LayoutOptions.End,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
-                    AutomationId = i.Id.ToString(),
+                    AutomationId = i.NoteId.ToString(),
                 };
                 switche.Toggled += OnSwitched;
                 UserPage.Switches.Add(switche);
@@ -127,7 +127,7 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     Text = " " + i.Date.ToString(),
                     FontSize = 14,
-                    AutomationId = i.Id.ToString(),
+                    AutomationId = i.NoteId.ToString(),
                     Style = Device.Styles.TitleStyle,
                 };
                 UserPage.Dates.Add(date);
@@ -138,21 +138,21 @@ namespace Ecliptic.Views.UserInteraction
                     Text = i.Text.ToString() ?? "wot",
                     FontSize = 12,
                     Style = Device.Styles.BodyStyle,
-                    AutomationId = i.Id.ToString(),
+                    AutomationId = i.NoteId.ToString(),
                 };
                 UserPage.Editors.Add(noteEnt);
 
                 ImageButton SaveBtn = new ImageButton
                 {
                     Source = "save.png",
-                    AutomationId = i.Id.ToString(),
+                    AutomationId = i.NoteId.ToString(),
                 }; 
                 SaveBtn.Clicked += OnButtonSaveClicked;
 
                 ImageButton DeleBtn = new ImageButton
                 {
                     Source = "delete.png",
-                    AutomationId = i.Id.ToString(),
+                    AutomationId = i.NoteId.ToString(),
                 };
                 DeleBtn.Clicked += OnButtonDeleteClicked;
                 #endregion
@@ -172,7 +172,7 @@ namespace Ecliptic.Views.UserInteraction
                 Frame frame = new Frame()
                 {
                     BorderColor = Color.ForestGreen,
-                    AutomationId = i.Id.ToString(),
+                    AutomationId = i.NoteId.ToString(),
                     Content = grid,
                 };
 
@@ -241,7 +241,7 @@ namespace Ecliptic.Views.UserInteraction
 
             for (int i = 0; i < User.CurrentUser.Notes.Count; i++)
             {
-                if (User.CurrentUser.Notes[i].Id == note.Id)
+                if (User.CurrentUser.Notes[i].NoteId == note.NoteId)
                 {
                     note = User.CurrentUser.Notes[i];
                     break;

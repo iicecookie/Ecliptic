@@ -49,7 +49,7 @@ namespace Ecliptic.WebInteractions
         public async Task<Note> Update(Note note)
         {
             HttpClient client = GetClient();
-            var response = await client.PutAsync(Url + "/" + note.Id,
+            var response = await client.PutAsync(Url + "/" + note.NoteId,
                 new StringContent(
                     JsonConvert.SerializeObject(note),
                     Encoding.UTF8, "application/json"));

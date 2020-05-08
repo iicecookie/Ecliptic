@@ -41,7 +41,7 @@ namespace Ecliptic.Views.RoomInform
 
 					// Show an alert
 					if (result.Text != null)
-						if (RoomData.isThatRoom(result.Text))
+						if (RoomData.isThatRoom(result.Text)!=null)
 						{
 							await Shell.Current.GoToAsync($"roomdetails?name={result.Text}");
 							zxing.IsScanning  = true;

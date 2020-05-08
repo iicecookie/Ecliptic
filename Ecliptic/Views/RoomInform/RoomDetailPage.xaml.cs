@@ -144,7 +144,7 @@ namespace Ecliptic.Views
 
                     foreach (var i in User.CurrentUser.Notes)
                     {
-                        if (i.Room == Current.Name)// && i.isPublic == false)
+                        if (i.RoomId == Current.RoomId)// && i.isPublic == false)
                         {
                             if (isNote == false)
                                 if (User.CurrentUser.Notes.Count != 0)
@@ -189,7 +189,7 @@ namespace Ecliptic.Views
                                 Text = i.Text.ToString() ?? "wot",
                                 FontSize = 12,
                                 Style = Device.Styles.BodyStyle,
-                                AutomationId = i.Id.ToString(),
+                                AutomationId = i.NoteId.ToString(),
                             };
 
                             grid.Children.Add(noteLab, 0, 0);
@@ -200,7 +200,7 @@ namespace Ecliptic.Views
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.ForestGreen,
-                                AutomationId = i.Id.ToString(),
+                                AutomationId = i.NoteId.ToString(),
                             };
 
                             frame.Content = grid;
@@ -232,7 +232,7 @@ namespace Ecliptic.Views
                     foreach (var i in NoteData.Notes)
                     {
 
-                        if (i.Room == Current.Name && i.User == null)
+                        if (i.RoomId == Current.RoomId && i.User == null)
                         {
                             if (flag)
                             {
@@ -275,7 +275,7 @@ namespace Ecliptic.Views
                                 Text = i.Text.ToString() ?? "wot",
                                 FontSize = 12,
                                 Style = Device.Styles.BodyStyle,
-                                AutomationId = i.Id.ToString(),
+                                AutomationId = i.NoteId.ToString(),
                             };
 
                             grid.Children.Add(noteLab, 0, 0);
@@ -286,7 +286,7 @@ namespace Ecliptic.Views
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.ForestGreen,
-                                AutomationId = i.Id.ToString(),
+                                AutomationId = i.NoteId.ToString(),
                             };
 
                             frame.Content = grid;
