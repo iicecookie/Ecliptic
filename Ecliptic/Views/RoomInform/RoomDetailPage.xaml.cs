@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Linq;
 using Xamarin.Forms;
 using Ecliptic.Data;
@@ -14,6 +14,7 @@ namespace Ecliptic.Views
     [QueryProperty("Name", "name")]
     public partial class RoomDetailPage : ContentPage
     {
+        public Room Current { get; set; }
         public string Name
         {
             get { return Name; }
@@ -24,34 +25,24 @@ namespace Ecliptic.Views
 
                 Title = Current.Name;
 
-                Button button1 = null;
-                Button button2 = null;
-                Label label1 = null;
-                Label label2 = null;
-                Label label3 = null;
-                Label label4 = null;
-                Label label5 = null;
-
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
 
                 if (Current.Name      != null)
                 {
-                    label1 = new Label
+                    Label Namelab = new Label
                     {
                         Text = Current.Name,
                         Style = Device.Styles.TitleStyle,
                         TextColor = Color.Black,
-                        //     FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                        //     VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.Center
                     };
 
-                    stackLayout.Children.Add(label1);
+                    stackLayout.Children.Add(Namelab);
                 }
                 if (Current.Description != null)
                 {
-                    label2 = new Label
+                    Label Descrlab = new Label
                     {
                         Text = Current.Description,
                         TextColor = Color.Black,
@@ -59,11 +50,11 @@ namespace Ecliptic.Views
                         HorizontalOptions = LayoutOptions.Center
                     };
 
-                    stackLayout.Children.Add(label2);
+                    stackLayout.Children.Add(Descrlab);
                 }
                 if (Current.Details   != null)
                 {
-                    label3 = new Label
+                    Label Detailslab = new Label
                     {
                         Text = Current.Details,
                         TextColor = Color.Black,
@@ -71,43 +62,43 @@ namespace Ecliptic.Views
                         HorizontalOptions = LayoutOptions.Fill
                     };
 
-                    stackLayout.Children.Add(label3);
+                    stackLayout.Children.Add(Detailslab);
                 }
                 if (Current.Phone     != null)
                 {
-                    button1 = new Button
+                    Button Phonebut = new Button
                     {
                         Text = "Позвонить " + Current.Phone,
+                        HeightRequest = 40,
+                        VerticalOptions = LayoutOptions.Center,
+                        FontSize = 12,
+                        Style = Device.Styles.BodyStyle,
                         TextColor = Color.Black,
                         BackgroundColor = Color.FromHex("#6866A6"),
-                        VerticalOptions = LayoutOptions.Center,
-                        Style = Device.Styles.BodyStyle,
-                        FontSize = 12,
-                        HeightRequest = 40,
                     };
-                    button1.Clicked += clickphone;
+                    Phonebut.Clicked += clickphone;
 
-                    stackLayout.Children.Add(button1);
+                    stackLayout.Children.Add(Phonebut);
                 }
                 if (Current.Site      != null)
                 {
-                    button2 = new Button
+                    Button Sitebut = new Button
                     {
                         Text = "Открыть сайт",
+                        HeightRequest = 40,
+                        VerticalOptions = LayoutOptions.Center,
+                        FontSize = 12,
+                        Style = Device.Styles.BodyStyle,
                         TextColor = Color.Black,
                         BackgroundColor = Color.FromHex("#6866A6"),
-                        VerticalOptions = LayoutOptions.Center,
-                        Style = Device.Styles.BodyStyle,
-                        FontSize = 12,
-                        HeightRequest = 40,
                     };
-                    button2.Clicked += clickSite;
+                    Sitebut.Clicked += clickSite;
 
-                    stackLayout.Children.Add(button2);
+                    stackLayout.Children.Add(Sitebut);
                 }
                 if (Current.Timetable != null)
                 {
-                    label5 = new Label
+                    Label Timelab = new Label
                     {
                         Text = Current.Timetable,
                         TextColor = Color.Black,
@@ -115,27 +106,26 @@ namespace Ecliptic.Views
                         HorizontalOptions = LayoutOptions.Start
                     };
 
-                    stackLayout.Children.Add(label5);
+                    stackLayout.Children.Add(Timelab);
                 }
-
+                
+                // работники помещения
                 if (Current.Workers.Count > 0)
                 {
-                    Label labeq = new Label
+                    Label Workerslab = new Label
                     {
                         Text = "Ответственные лица:",
                         Style = Device.Styles.BodyStyle,
                         HorizontalOptions = LayoutOptions.Center
-
-
                     };
 
-                    stackLayout.Children.Add(labeq);
+                    stackLayout.Children.Add(Workerslab);
 
                     foreach (var i in Current.Workers)
                     {
-                        Button buttpers = new Button
+                        Button Workerbut = new Button
                         {
-                            Text = i.ToString() ?? "wot",
+                            Text = i.ToString(),
                             TextColor = Color.Black,
                             BackgroundColor = Color.FromHex("#6866A6"),
                             VerticalOptions = LayoutOptions.Center,
@@ -143,34 +133,27 @@ namespace Ecliptic.Views
                             FontSize = 12,
                             HeightRequest = 40,
                         };
-                        buttpers.Clicked += clickWorker;
+                        Workerbut.Clicked += clickWorker;
 
-                        stackLayout.Children.Add(buttpers);
+                        stackLayout.Children.Add(Workerbut);
                     }
                 }
 
-                // персональные заметки (только приватные)
-                if (User.CurrentUser!=null)
+                // заметки пользователя
+                if (User.CurrentUser != null)
                 {
-                    bool isNote = false;
+                    Label Notelab = new Label
+                    {
+                        Text = "Заметки " + User.CurrentUser.Name + ":",
+                        Style = Device.Styles.BodyStyle,
+                        HorizontalOptions = LayoutOptions.Center
+                    };
+                    stackLayout.Children.Add(Notelab);
 
                     foreach (var i in User.CurrentUser.Notes)
                     {
-                        if (i.RoomId == Current.RoomId)// && i.isPublic == false)
+                        if (i.RoomId == Current.RoomId) 
                         {
-                            if (isNote == false)
-                                if (User.CurrentUser.Notes.Count != 0)
-                                {
-                                    Label labelN = new Label
-                                    {
-                                        Text = "Заметки " + User.CurrentUser.Name + ":",
-                                        Style = Device.Styles.BodyStyle,
-                                        HorizontalOptions = LayoutOptions.Center
-                                    };
-                                    stackLayout.Children.Add(labelN);
-                                    isNote = true;
-                                }
-
                             Grid grid = new Grid
                             {
                                 RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
@@ -182,22 +165,20 @@ namespace Ecliptic.Views
                                 RowSpacing = 10,
                             };
 
-                            Label noteLab = new Label
+                            // возможно здание будет заменено на пользователя
+                            Label Userlab = new Label
                             {
-                                // возможно здание будет заменено на пользователя
                                 Text = "Добавил: " + i.User.Name.ToString(),
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
-
-                            Label noteDat = new Label
+                            Label Datalab = new Label
                             {
                                 Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
-
-                            Label noteEnt = new Label
+                            Label Textlab = new Label
                             {
                                 Text = i.Text.ToString() ?? "wot",
                                 HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -206,30 +187,30 @@ namespace Ecliptic.Views
                                 AutomationId = i.NoteId.ToString(),
                             };
 
-                            grid.Children.Add(noteLab, 0, 0);
-                            grid.Children.Add(noteDat, 1, 0);
-                            grid.Children.Add(noteEnt, 0, 1);
-
-                            Grid.SetColumnSpan(noteEnt, 2);
+                            grid.Children.Add(Userlab, 0, 0);
+                            grid.Children.Add(Datalab, 1, 0);
+                            grid.Children.Add(Textlab, 0, 1);
+                            Grid.SetColumnSpan(Textlab, 2);
 
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.FromHex("#04006A"),
                                 BackgroundColor = Color.FromHex("#B4B3D2"),
                                 AutomationId = i.NoteId.ToString(),
+                                Content = grid,
                             };
-                            frame.Content = grid;
 
                             stackLayout.Children.Add(frame);
                         }
                     }
 
+                    #region toolbarStar
                     ToolbarItem item = new ToolbarItem();
                     item.Clicked += OnfaviriteClicked;
-                    item.Order = ToolbarItemOrder.Default;
+                    item.Order    = ToolbarItemOrder.Default;
                     item.Priority = 1;
 
-                    if (User.isRoomFavoit(Current)!=null)
+                    if (User.isRoomFavoit(Current) != null)
                     {
                         item.IconImageSource = "@drawable/stared.png";
                     }
@@ -239,30 +220,24 @@ namespace Ecliptic.Views
                     }
 
                     this.ToolbarItems.Add(item);
+                    #endregion
                 }
 
                 // публичные заметки
-                if (NoteData.Notes.Count != 0)
+                if (Current.Notes.Count != 0)
                 {
-                    bool flag = true;
+                    Label PublicNotelab = new Label
+                    {
+                        Text = "Общие заметки:",
+                        Style = Device.Styles.BodyStyle,
+                        HorizontalOptions = LayoutOptions.Center
+                    };
+                    stackLayout.Children.Add(PublicNotelab);
 
                     foreach (var i in NoteData.Notes)
                     {
-
                         if (i.RoomId == Current.RoomId && i.User == null)
                         {
-                            if (flag)
-                            {
-                                Label labelON = new Label
-                                {
-                                    Text = "Общие заметки:",
-                                    Style = Device.Styles.BodyStyle,
-                                    HorizontalOptions = LayoutOptions.Center
-                                };
-                                stackLayout.Children.Add(labelON);
-                                flag = false;
-                            }
-
                             Grid grid = new Grid
                             {
                                 RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
@@ -270,26 +245,24 @@ namespace Ecliptic.Views
 
                                 ColumnDefinitions =  { new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
                                                        new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Auto) }, },
-                                ColumnSpacing  =10,
+                                ColumnSpacing = 10,
                                 RowSpacing = 10,
                             };
 
-                            Label noteLab = new Label
+                            // возможно здание будет заменено на пользователя
+                            Label Userlab = new Label
                             {
-                                // возможно здание будет заменено на пользователя
                                 Text = "Добавил: " + i.Building.ToString(),
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
-                            
-                            Label noteDat = new Label
+                            Label Datalab = new Label
                             {
                                 Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
-
-                            Label noteEnt = new Label
+                            Label Textlab = new Label
                             {
                                 Text = i.Text.ToString() ?? "wot",
                                 HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -298,33 +271,27 @@ namespace Ecliptic.Views
                                 AutomationId = i.NoteId.ToString(),
                             };
 
-                            grid.Children.Add(noteLab, 0, 0);
-                            grid.Children.Add(noteDat, 1, 0);
-                            grid.Children.Add(noteEnt, 0, 1);
-
-                            Grid.SetColumnSpan(noteEnt, 2);
+                            grid.Children.Add(Userlab, 0, 0);
+                            grid.Children.Add(Datalab, 1, 0);
+                            grid.Children.Add(Textlab, 0, 1);
+                            Grid.SetColumnSpan(Textlab, 2);
 
                             Frame frame = new Frame()
                             {
-                                BorderColor     = Color.FromHex("#04006A"),
+                                BorderColor = Color.FromHex("#04006A"),
                                 BackgroundColor = Color.FromHex("#B4B3D2"),
                                 AutomationId = i.NoteId.ToString(),
+                                Content = grid,
                             };
-                            frame.Content = grid;
 
                             stackLayout.Children.Add(frame);
                         }
                     }
                 }
 
-                ScrollView scrollView = new ScrollView();
-                scrollView.Content = stackLayout;
-
-                this.Content = scrollView;
+                this.Content = new ScrollView { Content = stackLayout };
             }
         }
-
-        public Room Current { get; set; }
 
         public RoomDetailPage()
         {
@@ -346,7 +313,8 @@ namespace Ecliptic.Views
             }
         }
 
-        // Buttons on page
+        #region Buttons
+
         void clickphone(object sender, EventArgs args)
         {
             try
@@ -386,7 +354,8 @@ namespace Ecliptic.Views
             await Navigation.PushAsync(new WorkerDetailPage(words));
         }
 
-        // Star click
+        #endregion
+
         async void OnfaviriteClicked(object sender, EventArgs args)
         {
             if (User.CurrentUser != null)
@@ -442,7 +411,8 @@ namespace Ecliptic.Views
             }
         }
 
-        // Toolbar
+        #region Toolbar
+
         async void OnButton1Clicked(object sender, EventArgs args)
         {
             await DisplayAlert("Alert", "You have 1 been alerted", "OK");
@@ -466,5 +436,7 @@ namespace Ecliptic.Views
         {
             await DisplayAlert("Alert", "You have 4 been alerted", "OK");
         }
+
+        #endregion
     }
 }

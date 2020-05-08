@@ -19,11 +19,12 @@ namespace Ecliptic.Models
         public string Site { get; set; } // сайт
 
         public virtual List<Worker> Workers { get; set; } // работники 
+        public virtual List<Note> Notes     { get; set; } // публичные заметки 
 
         public Room()
         {
-            Description = " ";
             Workers = new List<Worker>();
+            Notes = new List<Note>();
         }
 
         public Room(string name, int floor, 

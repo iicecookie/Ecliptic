@@ -147,11 +147,6 @@
     <AndroidResource Include="Resources\drawable\slpash_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\android_button.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\stared.png" />
   </ItemGroup>
   <ItemGroup>

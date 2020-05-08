@@ -30,7 +30,6 @@ namespace Ecliptic.Views
 
         public WorkerDetailPage(string[] words) : this()
         {
-
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
 
@@ -39,57 +38,44 @@ namespace Ecliptic.Views
             else
                 Current = WorkerData.GetWorker(words[0], words[1], words[2]);
 
-            Button button1 = null;
-            Button button2 = null;
-            Label label1 = null;
-            Label label2 = null;
-            Label label3 = null;
-            Label label4 = null;
+            Title = Current.FirstName + " " + Current.SecondName;
 
             if (Current != null)
             {
-                label1 = new Label
+                Label FIOlab = new Label
                 {
                     Text = Current.FirstName + " " + Current.SecondName + " " + Current.LastName,
-
                     TextColor = Color.Black,
                     Style = Device.Styles.TitleStyle,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                stackLayout.Children.Add(label1);
+                stackLayout.Children.Add(FIOlab);
             }
-
-            if (Current.Status != null)
+            if (Current.Status  != null)
             {
-
-                label2 = new Label
+                Label Statuslab = new Label
                 {
                     Text = Current.Status,
-
                     TextColor = Color.Black,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                stackLayout.Children.Add(label2);
+                stackLayout.Children.Add(Statuslab);
             }
-
             if (Current.Details != null)
             {
-
-                label3 = new Label
+                Label Detailslab = new Label
                 {
                     Text = Current.Details,
-
                     TextColor = Color.Black,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
-                stackLayout.Children.Add(label3);
+                stackLayout.Children.Add(Detailslab);
             }
-
-            if (Current.Email != null)
+            if (Current.Email   != null)
             {
-                Button mailBtn = new Button
+                Button Emailbut = new Button
                 {
                     Text = "Написать " + Current.Email,
                     TextColor = Color.Black,
@@ -99,13 +85,12 @@ namespace Ecliptic.Views
                     FontSize = 12,
                     HeightRequest = 40,
                 };
-                mailBtn.Clicked += clickmail;
-                stackLayout.Children.Add(mailBtn);
+                Emailbut.Clicked += clickmail;
+                stackLayout.Children.Add(Emailbut);
             }
-
-            if (Current.Phone != null)
+            if (Current.Phone   != null)
             {
-                button1 = new Button
+                Button Phonebut = new Button
                 {
                     Text = "Позвонить " + Current.Phone,
                     TextColor = Color.Black,
@@ -115,14 +100,12 @@ namespace Ecliptic.Views
                     FontSize = 12,
                     HeightRequest = 40,
                 };
-                button1.Clicked += clickphone;
-
-                stackLayout.Children.Add(button1);
+                Phonebut.Clicked += clickphone;
+                stackLayout.Children.Add(Phonebut);
             }
-
-            if (Current.Site != null)
+            if (Current.Site    != null)
             {
-                button2 = new Button
+                Button Sitebut = new Button
                 {
                     Text = "Открыть сайт",
                     TextColor = Color.Black,
@@ -132,22 +115,47 @@ namespace Ecliptic.Views
                     FontSize = 12,
                     HeightRequest = 40,
                 };
-                button2.Clicked += clickSite;
-
-                stackLayout.Children.Add(button2);  
+                Sitebut.Clicked += clickSite;
+                stackLayout.Children.Add(Sitebut);  
             }
 
-
-            ScrollView scrollView = new ScrollView();
-            scrollView.Content = stackLayout;
-
-            this.Content = scrollView;
+            this.Content = new ScrollView { Content = stackLayout };
         }
 
         protected override void OnAppearing()
         {
 
 
+        }
+
+        void clickphone(object sender, EventArgs args)
+        {
+            try
+            {
+                PhoneDialer.Open(Current.Phone);
+            }
+            catch (ArgumentNullException anEx)
+            {
+                // Number was null or white space
+                DependencyService.Get<IToast>().Show("Неверный номер " + anEx.Message);
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                // Phone Dialer is not supported on this device.
+                DependencyService.Get<IToast>().Show("Не потдерживается на вашем телефоне" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                DependencyService.Get<IToast>().Show("Неизвесная ошибка " + ex.Message);
+            }
+        }
+
+        void clickSite (object sender, EventArgs args)
+        {
+            new System.Threading.Thread(() =>
+            {
+                Launcher.OpenAsync(new Uri(Current.Site));
+            }).Start();
         }
 
         async void clickmail(object sender, System.EventArgs e)
@@ -178,37 +186,6 @@ namespace Ecliptic.Views
             {
                 DependencyService.Get<IToast>().Show("Произошла ошибка");
             }
-        }
-
-        // Buttons on page
-        void clickphone(object sender, EventArgs args)
-        {
-            try
-            {
-                PhoneDialer.Open(Current.Phone);
-            }
-            catch (ArgumentNullException anEx)
-            {
-                // Number was null or white space
-                DependencyService.Get<IToast>().Show("Неверный номер " + anEx.Message);
-            }
-            catch (FeatureNotSupportedException ex)
-            {
-                // Phone Dialer is not supported on this device.
-                DependencyService.Get<IToast>().Show("Не потдерживается на вашем телефоне" + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                DependencyService.Get<IToast>().Show("Неизвесная ошибка " + ex.Message);
-            }
-        }
-
-        void clickSite (object sender, EventArgs args)
-        {
-            new System.Threading.Thread(() =>
-            {
-                Launcher.OpenAsync(new Uri(Current.Site));
-            }).Start();
         }
     }
 }
