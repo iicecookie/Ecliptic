@@ -17,7 +17,6 @@
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor" 
                                         Value="Black" />
-
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -58,9 +57,11 @@
         <ListView  x:Name="GroupedView"
                    GroupDisplayBinding  ="{Binding Title}"
                    GroupShortNameBinding="{Binding ShortName}"
-                   RefreshControlColor="Black"
-                   BackgroundColor="Silver"
+                   
+                   RefreshControlColor="#1D1A79"
+                   BackgroundColor="#B4B3D2"
                    SeparatorColor="Black"
+                   
                    RowHeight="70"
                    ItemTapped="OnCollectionViewSelectionChanged"
                    IsGroupingEnabled="true">
@@ -82,7 +83,7 @@
                         <StackLayout Orientation="Horizontal" 
                                      
                                      Padding="5,5,5,5" 
-                                     BackgroundColor="Black">
+                                     BackgroundColor="#4F4D97">
 
                             <Button Image="{Binding StateIcon}"
                                     BackgroundColor="Transparent"

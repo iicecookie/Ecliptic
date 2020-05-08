@@ -5,7 +5,7 @@
              xmlns:data="clr-namespace:Ecliptic.Data"
              xmlns:views="clr-namespace:Ecliptic.Views"
              x:Class="Ecliptic.Views.FindWayPage"
-             BackgroundColor="AliceBlue"
+             BackgroundColor="#F5E9F4"
              Title="Поиск маршрута">
 
     <ContentPage.Resources>
@@ -61,12 +61,18 @@
     <ScrollView>
         <StackLayout>
 
+            <Label FontSize="Large"
+                   FontAttributes="Bold"
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center"
+                   Text="Построить  маршрут"/>
+
             <Label 
                    VerticalTextAlignment="Center" 
                    HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="From:" FontSize="Large" FontAttributes="Bold"/>
+                        <Span Text="Начало:" FontSize="Medium" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -109,7 +115,7 @@
             <Label HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="To:" FontSize="Large" FontAttributes="Bold"/>
+                        <Span Text="Конец:" FontSize="Medium" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -144,13 +150,14 @@
             </StackLayout>
 
             <!-- ____________________________________________________________________________________________ -->
+            <Label/>
 
             <Button
                 Text="Построить маршрут"
                 VerticalOptions="Start"
                 HorizontalOptions="Fill"
-                Clicked="Button_Clicked">
-            </Button>
+                Clicked="Button_Clicked"/>
+
 
         </StackLayout>
     </ScrollView>

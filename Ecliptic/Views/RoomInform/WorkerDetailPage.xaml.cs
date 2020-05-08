@@ -99,6 +99,7 @@ namespace Ecliptic.Views
 
                 stackLayout.Children.Add(label4);
             }
+
             if (Current.Phone != null)
             {
                 button1 = new Button
@@ -109,6 +110,7 @@ namespace Ecliptic.Views
 
                 stackLayout.Children.Add(button1);
             }
+
             if (Current.Site != null)
             {
                 button2 = new Button
@@ -125,7 +127,6 @@ namespace Ecliptic.Views
             scrollView.Content = stackLayout;
 
             this.Content = scrollView;
-
         }
 
         protected override void OnAppearing()

@@ -43,18 +43,20 @@ namespace Ecliptic.Views
                     Text = Current.Details,
                     Style = Device.Styles.BodyStyle,
                     VerticalOptions = LayoutOptions.Start,
+                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
                     HorizontalOptions = LayoutOptions.StartAndExpand
                 };
 
                 DownloadBtn = new Button
                 {
                     Text = "Загрузить это здание",
-                    BackgroundColor = Color.FromHex("#B98CC1"),
+                    BackgroundColor = Color.FromHex("#E47766"),
                     BorderColor = Color.Gray,
                     TextColor = Color.Black,
-                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Button)),
                     HorizontalOptions = LayoutOptions.Fill
                 };
+
                 DownloadBtn.Clicked += DownloadBtn_Click;
 
                 stackLayout.Children.Add(Name);

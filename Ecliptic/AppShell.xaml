@@ -39,11 +39,25 @@
                               Value="Black" />
         </Style>
 
-        <Style x:Key="QRShell"
+        <Style x:Key="RoomsShell"
                TargetType="Element"
                BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Shell.BackgroundColor"
-                    Value="#D22C2C" />
+                              Value="#04006A" />
+        </Style>
+
+        <Style x:Key="WayShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#9D2592" />
+        </Style>
+
+        <Style x:Key="BuildingShell"
+               TargetType="Element"
+               BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.BackgroundColor"
+                    Value="#D21D00" />
         </Style>
 
         <Style x:Key="UserShell"
@@ -52,12 +66,12 @@
             <Setter Property="Shell.BackgroundColor"
                     Value="ForestGreen" />
         </Style>
-
-        <Style x:Key="WayShell"
+        
+        <Style x:Key="QRShell"
                TargetType="Element"
                BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Shell.BackgroundColor"
-                    Value="#0c91fa" />
+                    Value="#D22C2C" />
         </Style>
 
         <Style x:Key="AboutShell"
@@ -66,14 +80,7 @@
             <Setter Property="Shell.BackgroundColor"
                     Value="#043951" />
         </Style>
-        
-        <Style x:Key="BuildingShell"
-               TargetType="Element"
-               BasedOn="{StaticResource BaseStyle}">
-            <Setter Property="Shell.BackgroundColor"
-                    Value="#761280" />
-        </Style>
-        
+
     </Shell.Resources>
 
     <Shell.FlyoutHeader>
@@ -91,7 +98,7 @@
                       ContentTemplate="{DataTemplate views:SchemePlanPage}" />
 
         <ShellContent Route="Rooms"
-                      Style= "{StaticResource HomeShell}"
+                      Style= "{StaticResource RoomsShell}"
                       Title="Помещения"
                       Icon="List.png"
                       ContentTemplate="{DataTemplate views:RoomsPage}" />

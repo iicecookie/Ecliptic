@@ -35,7 +35,7 @@
         </controls:BuildingSearchHandler>
     </Shell.SearchHandler>
 
-    <StackLayout BackgroundColor="#F1E8F3">
+    <StackLayout BackgroundColor="#FBE8E6">
 
         <Label Text="Доступные здания" 
                FontSize="Title"
@@ -44,7 +44,7 @@
         <ListView x:Name="BuildingView"
                   ItemsSource="{Binding Building}"
 
-                  BackgroundColor="#F1E8F3"
+                  BackgroundColor="#FBE8E6"
                   SeparatorVisibility="Default"
                   RowHeight="55"
                   
