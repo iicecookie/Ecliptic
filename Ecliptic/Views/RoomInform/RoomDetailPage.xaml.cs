@@ -27,6 +27,7 @@ namespace Ecliptic.Views
 
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
+                Color backcolor = Color.FromHex("#FAFAFA");
 
                 if (Current.Name      != null)
                 {
@@ -74,7 +75,7 @@ namespace Ecliptic.Views
                         FontSize = 12,
                         Style = Device.Styles.BodyStyle,
                         TextColor = Color.Black,
-                        BackgroundColor = Color.FromHex("#6866A6"),
+                        BackgroundColor = backcolor,
                     };
                     Phonebut.Clicked += clickphone;
 
@@ -90,7 +91,7 @@ namespace Ecliptic.Views
                         FontSize = 12,
                         Style = Device.Styles.BodyStyle,
                         TextColor = Color.Black,
-                        BackgroundColor = Color.FromHex("#6866A6"),
+                        BackgroundColor = backcolor,
                     };
                     Sitebut.Clicked += clickSite;
 
@@ -127,7 +128,7 @@ namespace Ecliptic.Views
                         {
                             Text = i.ToString(),
                             TextColor = Color.Black,
-                            BackgroundColor = Color.FromHex("#6866A6"),
+                            BackgroundColor = backcolor,
                             VerticalOptions = LayoutOptions.Center,
                             Style = Device.Styles.BodyStyle,
                             FontSize = 12,
@@ -169,12 +170,14 @@ namespace Ecliptic.Views
                             Label Userlab = new Label
                             {
                                 Text = "Добавил: " + i.User.Name.ToString(),
+                                TextColor = Color.Black,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
                             Label Datalab = new Label
                             {
                                 Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
+                                TextColor = Color.Black,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
@@ -182,6 +185,7 @@ namespace Ecliptic.Views
                             {
                                 Text = i.Text.ToString() ?? "wot",
                                 HorizontalOptions = LayoutOptions.FillAndExpand,
+                                TextColor = Color.Black,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                                 AutomationId = i.NoteId.ToString(),
@@ -195,7 +199,7 @@ namespace Ecliptic.Views
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.FromHex("#04006A"),
-                                BackgroundColor = Color.FromHex("#B4B3D2"),
+                                BackgroundColor = backcolor,
                                 AutomationId = i.NoteId.ToString(),
                                 Content = grid,
                             };
@@ -253,18 +257,21 @@ namespace Ecliptic.Views
                             Label Userlab = new Label
                             {
                                 Text = "Добавил: " + i.Building.ToString(),
+                                TextColor= Color.Black,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
                             Label Datalab = new Label
                             {
                                 Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
+                                TextColor = Color.Black,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
                             Label Textlab = new Label
                             {
                                 Text = i.Text.ToString() ?? "wot",
+                                TextColor = Color.Black,
                                 HorizontalOptions = LayoutOptions.FillAndExpand,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
@@ -279,7 +286,7 @@ namespace Ecliptic.Views
                             Frame frame = new Frame()
                             {
                                 BorderColor = Color.FromHex("#04006A"),
-                                BackgroundColor = Color.FromHex("#B4B3D2"),
+                                BackgroundColor = backcolor,
                                 AutomationId = i.NoteId.ToString(),
                                 Content = grid,
                             };

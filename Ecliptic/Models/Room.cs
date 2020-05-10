@@ -5,20 +5,20 @@ namespace Ecliptic.Models
 {
     public class Room : ICloneable
     {
-        public int RoomId  { get; set; }
+        public int RoomId { get; set; }
 
-        public string Name { get; private set; } 
+        public string Name { get; private set; }
 
         public int    Floor       { get; private set; } // этаж СТАНЕТ ССЫЛКОЙ НА ЭТАЖ
         public string Details     { get; private set; } // ну хз зачем дважды
         public string Description { get; private set; } // описание
 
-        public string Timetable   { get; private set; } // расписание
-        public string Phone       { get; private set; } 
-        public string Site        { get; private set; } 
+        public string Timetable { get; private set; } // расписание
+        public string Phone     { get; private set; }
+        public string Site      { get; private set; }
 
         public virtual List<Worker> Workers { get; set; } // работники 
-        public virtual List<Note>   Notes   { get; set; } // публичные заметки 
+        public virtual List<Note> Notes     { get; set; } // публичные заметки 
 
         public Room()
         {
@@ -27,10 +27,10 @@ namespace Ecliptic.Models
         }
 
         public Room(string name, int floor,
-                    int    roomid = 0,
                     string details   = null, string description = null,
-                    string timetable = null, 
-                    string phone = null, string site = null) : this()
+                    string timetable = null,
+                    string phone = null, string site = null,
+                    int roomid = 0) : this()
         {
             RoomId = roomid;
 

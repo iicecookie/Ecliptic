@@ -7,22 +7,19 @@ namespace Ecliptic.Models
     public class User
     {
         #region Params
-
         public static User CurrentUser { get; private set; }
 
         public int UserId { get; set; }
 
-        public readonly string Name;
-        public readonly string Login;
+        public string Name  { get; private set; }
+        public string Login { get; private set; }
 
         public virtual List<Note> Notes     { get; set; }
 
         public virtual List<FavoriteRoom> Favorites { get; set; }
-
         #endregion
 
         #region Constructors
-
         private User()
         {
             Notes     = new List<Note>();
@@ -47,10 +44,9 @@ namespace Ecliptic.Models
             CurrentUser = new User(id, name, login);
             return CurrentUser;
         }
-
         #endregion
 
-        // sample
+        // for sample
         public static User LoadUser(string login, string password)
         {
             DbService.LoadSampleUser("", "");
@@ -67,36 +63,6 @@ namespace Ecliptic.Models
             CurrentUser = null;
         }
 
-        // TODO with server part
-        public static void AddNote(Note note)
-        {
-            // CurrentUser.Notes.Add(note);
-            
-            DbService.AddNote(note);
-            DbService.LoadUserNotes(CurrentUser);
-            
-            
-            // если note ispublic == true -> отправить на сервер
-        }
-
-        // TODO with server part
-        public static string DeleteNote(int id)
-        {
-            // удалить с сервера если общая
-            for (int i = 0; i < CurrentUser.Notes.Count; i++)
-            {
-                if (CurrentUser.Notes[i].NoteId == id)
-                {
-                    if (!CurrentUser.Notes.Remove(CurrentUser.Notes[i]))
-                    {
-                        return "Не получилось";
-                    }
-                    return "deleted";
-                }
-            }
-            return "not this note";
-        }
-
         public static Note FindNoteById(int id)
         {
             Note note = null;
@@ -110,10 +76,7 @@ namespace Ecliptic.Models
             }
             return note;
         }
-
-        // Мысль - обсудить с Ураевой, возможно все заметки хранить на сервере
-        // но те, что общие, добавлять именно к аудитории
-
+ 
         public static FavoriteRoom isRoomFavoit(Room room)
         {   
             foreach (var favorite in CurrentUser.Favorites)
