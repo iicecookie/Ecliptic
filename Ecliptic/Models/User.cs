@@ -82,7 +82,7 @@ namespace Ecliptic.Models
             foreach (var favorite in CurrentUser.Favorites)
             {
                 if (favorite.Name == room.Name && 
-                    favorite.Details == room.Details || 
+                    favorite.Details == room.Description || 
                     favorite.FavoriteRoomId == room.RoomId)
                 {
                     return favorite;

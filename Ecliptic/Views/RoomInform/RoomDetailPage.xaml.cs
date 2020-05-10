@@ -53,18 +53,6 @@ namespace Ecliptic.Views
 
                     stackLayout.Children.Add(Descrlab);
                 }
-                if (Current.Details   != null)
-                {
-                    Label Detailslab = new Label
-                    {
-                        Text = Current.Details,
-                        TextColor = Color.Black,
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Fill
-                    };
-
-                    stackLayout.Children.Add(Detailslab);
-                }
                 if (Current.Phone     != null)
                 {
                     Button Phonebut = new Button

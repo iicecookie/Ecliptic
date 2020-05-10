@@ -44,7 +44,7 @@
                                        FontSize="15" 
                                        VerticalOptions="StartAndExpand"/>
 
-                                <Label Text="{Binding Floor, StringFormat='{0} Этаж'}" 
+                                <Label Text="{Binding Floor.Level, StringFormat='{0} Этаж'}" 
                                        FontSize="15" 
                                        VerticalOptions="StartAndExpand"/>
                             </StackLayout>

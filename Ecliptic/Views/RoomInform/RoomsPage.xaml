@@ -40,7 +40,7 @@
                                        FontSize="15" 
                                        VerticalOptions="StartAndExpand"/>
 
-                                <Label Text="{Binding Floor, StringFormat='{0} Этаж'}" 
+                                <Label Text="{Binding Floor.Level, StringFormat='{0} Этаж'}" 
                                        FontSize="15" 
                                        VerticalOptions="StartAndExpand"/>
                             </StackLayout>
@@ -69,7 +69,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell Text  ="{Binding Name}"
-                               Detail="{Binding Details}"
+                               Detail="{Binding Description}"
                                ImageSource="{Binding Icon}"
                                TextColor="Black"
                                Height="65"

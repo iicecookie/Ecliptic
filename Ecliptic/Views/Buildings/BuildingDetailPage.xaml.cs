@@ -22,7 +22,7 @@ namespace Ecliptic.Views
                                    .FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
 
                 Label Name = null;
-                Label Details = null;
+                Label Description = null;
                 Button DownloadBtn = null;
 
                 StackLayout stackLayout = new StackLayout();
@@ -38,9 +38,9 @@ namespace Ecliptic.Views
                     HorizontalOptions = LayoutOptions.Center
                 };
 
-                Details = new Label
+                Description = new Label
                 {
-                    Text = Current.Details,
+                    Text = Current.Description,
                     Style = Device.Styles.BodyStyle,
                     VerticalOptions = LayoutOptions.Start,
                     FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
@@ -60,7 +60,7 @@ namespace Ecliptic.Views
                 DownloadBtn.Clicked += DownloadBtn_Click;
 
                 stackLayout.Children.Add(Name);
-                stackLayout.Children.Add(Details);
+                stackLayout.Children.Add(Description);
                 stackLayout.Children.Add(DownloadBtn);
 
                 this.Content = new ScrollView { Content = stackLayout };

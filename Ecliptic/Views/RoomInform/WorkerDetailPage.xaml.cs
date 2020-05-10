@@ -40,6 +40,8 @@ namespace Ecliptic.Views
 
             Title = Current.FirstName + " " + Current.SecondName;
 
+            Color backcolor = Color.FromHex("#FAFAFA");
+
             if (Current != null)
             {
                 Label FIOlab = new Label
@@ -79,7 +81,7 @@ namespace Ecliptic.Views
                 {
                     Text = "Написать " + Current.Email,
                     TextColor = Color.Black,
-                    BackgroundColor = Color.FromHex("#6866A6"),
+                    BackgroundColor = backcolor,
                     VerticalOptions = LayoutOptions.Center,
                     Style = Device.Styles.BodyStyle,
                     FontSize = 12,
@@ -94,7 +96,7 @@ namespace Ecliptic.Views
                 {
                     Text = "Позвонить " + Current.Phone,
                     TextColor = Color.Black,
-                    BackgroundColor = Color.FromHex("#6866A6"),
+                    BackgroundColor = backcolor,
                     VerticalOptions = LayoutOptions.Center,
                     Style = Device.Styles.BodyStyle,
                     FontSize = 12,
@@ -109,7 +111,7 @@ namespace Ecliptic.Views
                 {
                     Text = "Открыть сайт",
                     TextColor = Color.Black,
-                    BackgroundColor = Color.FromHex("#6866A6"),
+                    BackgroundColor = backcolor,
                     VerticalOptions = LayoutOptions.Center,
                     Style = Device.Styles.BodyStyle,
                     FontSize = 12,

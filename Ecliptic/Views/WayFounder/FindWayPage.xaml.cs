@@ -52,8 +52,8 @@ namespace Ecliptic.Views
             }
 
             var searchedrooms = RoomData.Rooms
-                      .Where(room => room.Name   .ToLower().Contains(searchBar1.Text.ToLower()) ||
-                                     room.Details.ToLower().Contains(searchBar1.Text.ToLower()))
+                      .Where(room => room.Name       .ToLower().Contains(searchBar1.Text.ToLower()) ||
+                                     room.Description.ToLower().Contains(searchBar1.Text.ToLower()))
                       .ToList<Room>();
 
             if (searchedrooms.Count == 1) { Way.Begin = searchedrooms.First(); }
@@ -74,8 +74,8 @@ namespace Ecliptic.Views
             }
 
             var searchedrooms = RoomData.Rooms
-                      .Where(room => room.Name   .ToLower().Contains(searchBar2.Text.ToLower()) ||
-                                     room.Details.ToLower().Contains(searchBar2.Text.ToLower()))
+                      .Where(room => room.Name       .ToLower().Contains(searchBar2.Text.ToLower()) ||
+                                     room.Description.ToLower().Contains(searchBar2.Text.ToLower()))
                       .ToList<Room>();
 
             if (searchedrooms.Count == 1) { Way.Begin = searchedrooms.First(); }

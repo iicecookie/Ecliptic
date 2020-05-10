@@ -5,17 +5,18 @@ namespace Ecliptic.Models
 {
     public class Room : ICloneable
     {
-        public int RoomId { get; set; }
+        public int RoomId  { get; set; }
 
         public string Name { get; private set; }
 
-        public int    Floor       { get; private set; } // этаж СТАНЕТ ССЫЛКОЙ НА ЭТАЖ
-        public string Details     { get; private set; } // ну хз зачем дважды
         public string Description { get; private set; } // описание
 
         public string Timetable { get; private set; } // расписание
         public string Phone     { get; private set; }
         public string Site      { get; private set; }
+
+        public virtual int?  FloorId { get; set; }
+        public virtual Floor Floor   { get; set; }
 
         public virtual List<Worker> Workers { get; set; } // работники 
         public virtual List<Note> Notes     { get; set; } // публичные заметки 
@@ -26,17 +27,15 @@ namespace Ecliptic.Models
             Notes = new List<Note>();
         }
 
-        public Room(string name, int floor,
-                    string details   = null, string description = null,
+        public Room(string name, string description = null, 
                     string timetable = null,
                     string phone = null, string site = null,
-                    int roomid = 0) : this()
+                    int floorid = 0, int roomid = 0) : this()
         {
             RoomId = roomid;
 
             Name = name;
-            Floor = floor;
-            Details = details;
+            FloorId = floorid;
             Description = description;
 
             Timetable = timetable;
@@ -44,9 +43,10 @@ namespace Ecliptic.Models
             Site = site;
         }
 
+        // ПРОВЕРИТЬ ЭТУ ЧАСТИ
         public FavoriteRoom ToFavRoom(int Userid)
         {
-            return new FavoriteRoom(Name, Details, "", Userid);
+            return new FavoriteRoom(Name, Description, "", Userid);
         }
 
         public object Clone()
@@ -55,7 +55,6 @@ namespace Ecliptic.Models
             {
                 Name = this.Name,
                 Floor = this.Floor,
-                Details = this.Details,
                 Description = this.Description,
                 Timetable = this.Timetable,
                 Phone = this.Phone,
@@ -69,7 +68,6 @@ namespace Ecliptic.Models
             return obj is Room room &&
                    Name == room.Name &&
                    Floor == room.Floor &&
-                   Details == room.Details &&
                    Description == room.Description &&
                    Timetable == room.Timetable &&
                    Phone == room.Phone &&

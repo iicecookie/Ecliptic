@@ -33,7 +33,7 @@ namespace Ecliptic.Data
             foreach (var room in Rooms)
             {
                 if (room.Name == favorite.Name &&
-                    room.Details == favorite.Details ||
+                    room.Description == favorite.Details ||
                     room.RoomId == favorite.FavoriteRoomId)
                     return true;
             }

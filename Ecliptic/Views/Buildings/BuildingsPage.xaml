@@ -23,7 +23,7 @@
                                        FontSize="15" 
                                        VerticalOptions="StartAndExpand"/>
 
-                                <Label Text="{Binding Details, StringFormat='{0} Этаж'}" 
+                                <Label Text="{Binding Description, StringFormat='{0}'}" 
                                        FontSize="15" 
                                        VerticalOptions="StartAndExpand"/>
                             </StackLayout>
@@ -65,7 +65,7 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="18"/>
+                                <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="18"/>
                             </StackLayout>
                         </StackLayout>
                     </ViewCell>

@@ -119,7 +119,7 @@ namespace Ecliptic.Views.UserNote
                 await Navigation.PopAsync();
 
                 return;
-            }
+            } // что бы тестить без сервера
 
             if (CrossConnectivity.Current.IsConnected == false)
             {

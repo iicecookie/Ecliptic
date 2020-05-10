@@ -61,7 +61,6 @@ namespace Ecliptic.Views
 
     public class RoomGroup : ObservableCollection<Room>, INotifyPropertyChanged
     {
-
         private bool _expanded;
 
         public string Title { get; set; }
@@ -109,20 +108,22 @@ namespace Ecliptic.Views
 
             List<RoomGroup> Floors = new List<RoomGroup>();
 
-            var rooms = RoomData.Rooms.GroupBy(room => room.Floor)
+            var rooms = RoomData.Rooms.GroupBy(room => room.Floor.Level)
                                       .Select (group => group.First())
-                                      .OrderBy(order=>order.Floor);
+                                      .OrderBy(order=>order.Floor.Level);
 
-            foreach (var i in rooms)
-                Floors.Add(new RoomGroup(i.Floor.ToString() + " Этаж", i.Floor.ToString()));
-
-            foreach (var i in RoomData.Rooms)
+            foreach (var room in rooms)
             {
-                foreach (var r in Floors)
+                Floors.Add(new RoomGroup(room.Floor.Level + " Этаж", room.Floor.Level.ToString()));
+            }
+
+            foreach (var room in RoomData.Rooms)
+            {
+                foreach (var floor in Floors)
                 {
-                    if (i.Floor.ToString() == r.ShortName)
+                    if (room.Floor.Level.ToString() == floor.ShortName)
                     {
-                        r.Add(i);
+                        floor.Add(room);
                     }
                 }
             }

@@ -25,8 +25,8 @@ namespace Ecliptic.Controls
             else
             {
                 ItemsSource = RoomData.Rooms
-                    .Where(room => room.Name   .ToLower().Contains(newValue.ToLower())|| 
-                                   room.Details.ToLower().Contains(newValue.ToLower()))
+                    .Where(room => room.Name       .ToLower().Contains(newValue.ToLower())|| 
+                                   room.Description.ToLower().Contains(newValue.ToLower()))
                     .ToList<Room>();
             }
         }
