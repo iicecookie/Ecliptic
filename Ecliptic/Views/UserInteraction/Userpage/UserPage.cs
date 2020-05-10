@@ -111,7 +111,7 @@ namespace Ecliptic.Views.UserInteraction
 
                 Label  noteLab = new Label
                 {
-                    Text = i.Room.Name.ToString(),
+                    Text = i.RoomName.ToString(),
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
@@ -295,13 +295,13 @@ namespace Ecliptic.Views.UserInteraction
                 //  если публичная, то убрать и с сервера
 
                 // если заметка есть в загруженом здании
-                Note buildnote = NoteData.FindNote((Note)note.Clone());
-
-                if (buildnote != null)
-                {
-                    DbService.RemoveNote(buildnote);
-                    NoteData.Notes = DbService.LoadAllPublicNotes();
-                }
+                // Note buildnote = NoteData.FindNote((Note)note.Clone());
+                // 
+                // if (buildnote != null)
+                // {
+                //     DbService.RemoveNote(buildnote);
+                //     NoteData.Notes = DbService.LoadAllPublicNotes();
+                // }
             }
 
             DbService.RemoveNote(note);
@@ -325,11 +325,11 @@ namespace Ecliptic.Views.UserInteraction
 
                 // добавить в общий если добавилось на сервер
 
-                Note buildnote = (Note)note.Clone();
-                if (RoomData.isThatRoom(buildnote.Room))
-                {
-                    DbService.AddNote(buildnote);
-                }
+               // Note buildnote = (Note)note.Clone();
+               // if (RoomData.isThatRoom(buildnote.Room))
+               // {
+               //     DbService.AddNote(buildnote);
+               // }
 
                 NoteData.Notes = DbService.LoadAllPublicNotes();
 
@@ -361,7 +361,7 @@ namespace Ecliptic.Views.UserInteraction
         // Toolbar
         public async void OnNewNoteClicked (object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new NewNotePage("",""));
+            await Navigation.PushAsync(new NewNotePage());
         }
         public async void OnFavRoomsClicked(object sender, EventArgs args)
         {

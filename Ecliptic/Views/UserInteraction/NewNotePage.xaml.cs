@@ -5,6 +5,7 @@ using Ecliptic.WebInteractions;
 using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using Xamarin.Forms;
@@ -13,111 +14,29 @@ namespace Ecliptic.Views.UserNote
 {
     public partial class NewNotePage : ContentPage
     {
-        static public class NoteControls
-        {
-            static public Editor Text { get; set; }
-            static public Entry Room { get; set; }
-            static public Entry Building { get; set; }
-            static public Switch isPublic { get; set; }
-        }
-
         public NewNotePage()
         {
             InitializeComponent();
-        }
 
-        public NewNotePage(string room, string building) : this()
-        {
-            Title = "Новая заметка";
-
-            #region CreateControls
-            NoteControls.Text = new Editor
-            {
-                AutoSize = EditorAutoSizeOption.TextChanges,
-                // FontSize = 12,
-                Style = Device.Styles.BodyStyle,
-            };
-            NoteControls.Room = new Entry
-            {
-                Text = room,
-                Style = Device.Styles.TitleStyle,
-            };
-            NoteControls.Building = new Entry
-            {
-                Text = building,
-                Style = Device.Styles.TitleStyle,
-            };
-            NoteControls.isPublic = new Switch
-            {
-                Style = Device.Styles.TitleStyle,
-            };
-
-            Label Ltext = new Label
-            {
-                Text = "Текст заметки ",
-                FontSize = 14,
-                Style = Device.Styles.TitleStyle,
-            };
-            Label Lroom = new Label
-            {
-                Text = "О каком помещении",
-                FontSize = 14,
-                Style = Device.Styles.TitleStyle,
-            };
-            Label Lbuilding = new Label
-            {
-                Text = "Для какого здания",
-                FontSize = 14,
-                Style = Device.Styles.TitleStyle,
-            };
-            Label Lpublic = new Label
-            {
-                Text = "Общедоступная?",
-                FontSize = 14,
-                Style = Device.Styles.TitleStyle,
-            };
-
-            Button SaveBtn = new Button
-            {
-                Text = "Сохранить заметку",
-                BackgroundColor = Color.FromHex("#BFD9B6"),
-                TextColor = Color.Black,
-                BorderColor = Color.Black,
-            };
-            SaveBtn.Clicked += OnButtonSaveClicked;
-            #endregion
-
-            StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;
-
-            stackLayout.Children.Add(Ltext);
-            stackLayout.Children.Add(NoteControls.Text);
-            stackLayout.Children.Add(Lroom);
-            stackLayout.Children.Add(NoteControls.Room);
-            stackLayout.Children.Add(Lbuilding);
-            stackLayout.Children.Add(NoteControls.Building);
-            stackLayout.Children.Add(SaveBtn);
-            
-            ScrollView scrollView = new ScrollView();
-            scrollView.Content = stackLayout;
-
-            this.Content = scrollView;
+            stackBarRoom.HeightRequest = 1;
+            stackBarBuilding.HeightRequest = 1;
         }
 
         async void OnButtonSaveClicked(object sender, EventArgs args)
-        {
-            Room room = RoomData.isThatRoom(NoteControls.Room.Text);
+        {   
+            Room room = RoomData.isThatRoom(SearchBarRoom.Text);
 
             if (WebData.istest)
             {
-                DbService.AddNote(new Note(NoteControls.Text.Text,
-                                           NoteControls.Building.Text, 
+                DbService.AddNote(new Note(NoteText.Text,
+                                           SearchBarBuilding.Text,
+                                           SearchBarRoom.Text,
                                            false,
                                            roomid: room?.RoomId,
-                                           userid: User.CurrentUser.UserId));
+                                           userid: User.CurrentUser.UserId,
+                                           username: User.CurrentUser.Name));
 
                 await Navigation.PopAsync();
-
                 return;
             } // что бы тестить без сервера
 
@@ -135,19 +54,19 @@ namespace Ecliptic.Views.UserNote
             }
 
             NoteService noteService = new NoteService();
-            Note note = await noteService.Add(new Note(NoteControls.Text.Text,
-                                                       NoteControls.Building.Text, 
+            Note note = await noteService.Add(new Note(NoteText.Text,
+                                                       SearchBarBuilding.Text,
+                                                       SearchBarRoom.Text,
                                                        false,
                                                        roomid: room?.RoomId,
                                                        userid: User.CurrentUser.UserId));
-
+            
             // если сервер вернул данные по заметке - загрузить в пользователя
             if (note != null)
             {
                 DbService.AddNote(note); // сохранили полученую заметку с данными
 
                 await Navigation.PopAsync();
-
                 return;
             }
             else
@@ -155,6 +74,62 @@ namespace Ecliptic.Views.UserNote
                 await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
                 return;
             }
+        }
+
+        void OnTextRoomChanged(object sender, EventArgs e)
+        {
+            SearchBar searchBar = (SearchBar)sender;
+
+            if (SearchBarRoom.Text == "")
+            {
+                searchRoomResults.ItemsSource = new List<Room>();
+                stackBarRoom.HeightRequest = 1;
+                return;
+            }
+
+            var searchedrooms = RoomData.Rooms
+                      .Where(room => room.Name       .ToLower().Contains(SearchBarRoom.Text.ToLower()) ||
+                                     room.Description.ToLower().Contains(SearchBarRoom.Text.ToLower()))
+                      .ToList<Room>();
+
+            stackBarRoom.HeightRequest = searchedrooms.Count() * 50 + 25;
+            searchRoomResults.ItemsSource = searchedrooms;
+        }
+
+        void OnTextBuildingChanged(object sender, EventArgs e)
+        {
+            SearchBar searchBar = (SearchBar)sender;
+
+            if (SearchBarBuilding.Text == "")
+            {
+                searchBuildingResults.ItemsSource = new List<Room>();
+                stackBarBuilding.HeightRequest = 1;
+                return;
+            }
+
+            var searchedbuildings = BuildingData.Buildings
+                      .Where(building => building.Name       .ToLower().Contains(SearchBarBuilding.Text.ToLower()) ||
+                                         building.Description.ToLower().Contains(SearchBarBuilding.Text.ToLower()))
+                      .ToList<Building>();
+
+            stackBarBuilding.HeightRequest = searchedbuildings.Count() * 50 + 25;
+            searchBuildingResults.ItemsSource = searchedbuildings;
+        }
+
+        private void OnRoomTapped(object sender, ItemTappedEventArgs e)
+        {
+            Room room = (e.Item as Room);
+            SearchBarRoom.Text = room.Name;
+            stackBarRoom.HeightRequest = 1;
+            searchRoomResults.ItemsSource = new List<Room>();
+        }
+
+        private void OnBuildingTapped(object sender, ItemTappedEventArgs e)
+        {
+            Building room = (e.Item as Building);
+            SearchBarBuilding.Text = room.Name;
+            stackBarBuilding.HeightRequest = 1;
+            searchBuildingResults.ItemsSource = new List<Building>();
         }
     }
 }

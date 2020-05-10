@@ -3,12 +3,91 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ecliptic.Views.UserNote.NewNotePage"
              BackgroundColor="#FFDAFFCD"
-             Title="New Note">
+             Title="Новая заметка">
 
     <ScrollView>
-        <StackLayout Margin="20">
+        <StackLayout Margin="10">
+
+            <Label Text="Введите данные заметки"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center"/>
+            <!-- ____________________________________________________________________________________________ -->
+
+            <SearchBar x:Name="SearchBarRoom" 
+                       Placeholder="Помещение"
+                       VerticalOptions="Center"
+                       TextChanged="OnTextRoomChanged"/>
+
+            <StackLayout  x:Name="stackBarRoom">
+                <ListView x:Name="searchRoomResults"
+                           ItemsSource="{Binding Room}"
+                           ItemTapped="OnRoomTapped"
+                           SeparatorVisibility="Default"    
+                           RowHeight="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
+                                                    <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="15"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <!-- ____________________________________________________________________________________________ -->
+
+            <SearchBar x:Name="SearchBarBuilding" 
+                       Placeholder="Здание"
+                       VerticalOptions="Center"
+                       TextChanged="OnTextBuildingChanged"/>
+
+            <StackLayout x:Name="stackBarBuilding">
+                <ListView  x:Name="searchBuildingResults"
+                           ItemsSource="{Binding Building}"
+                           ItemTapped="OnBuildingTapped"
+                           SeparatorVisibility="Default"    
+                           RowHeight="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
+                                        <Label Text="{Binding Name,  StringFormat='{0}'} " FontSize="Medium" />
+                                        <Label Text="{Binding Description, StringFormat='{0}'}" FontSize="15"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <!-- ____________________________________________________________________________________________ -->
+
+            <Editor Placeholder="Текст заметки"
+                    x:Name="NoteText"
+                    AutoSize="TextChanges"/>
+
+            <Button
+                Text="Создать заметку"
+                VerticalOptions="Start"
+                HorizontalOptions="Fill"
+                Clicked="OnButtonSaveClicked"/>
+
         </StackLayout>
     </ScrollView>
-    
-    
+
+
 </ContentPage>

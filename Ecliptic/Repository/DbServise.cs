@@ -379,7 +379,7 @@ namespace Ecliptic.Repository
                               floorid: 2));
 
 
-            AddRoom(new Room("202",
+            AddRoom(new Room("199",
                              "The giant panda, also known as panda bear or simply panda, is a bear native to south central China. It is easily recognized by the large, distinctive black patches around its eyes, over the ears, and across its round body. The name giant panda is sometimes used to distinguish it from the unrelated red panda. Though it belongs to the order Carnivora, the giant panda's diet is over 99% bamboo. Giant pandas in the wild will occasionally eat other grasses, wild tubers, or even meat in the form of birds, rodents, or carrion. In captivity, they may receive honey, eggs, fish, yams, shrub leaves, oranges, or bananas along with specially prepared food.",
                               floorid: 2));
 
@@ -490,11 +490,11 @@ namespace Ecliptic.Repository
 
         public static void LoadSampleNotes()
         {
-            AddNote(new Note("I'm open note", "KGU", true, roomid: 1));
-            AddNote(new Note("I'm open okey", "KGU", true, roomid: 1));
-            AddNote(new Note("I'm open yesi", "KGU", true, roomid: 2));
-            AddNote(new Note("I'm open noby", "KGU", true, roomid: 2));
-            AddNote(new Note("I'm open puko", "KGU", true, roomid: 3));
+            AddNote(new Note("I'm open note", "KGU", "213", true, roomid: 1));
+            AddNote(new Note("I'm open okey", "KGU", "213", true, roomid: 1));
+            AddNote(new Note("I'm open yesi", "KGU", "200", true, roomid: 2));
+            AddNote(new Note("I'm open noby", "KGU", "200", true, roomid: 2));
+            AddNote(new Note("I'm open puko", "KGU", "202", true, roomid: 3));
         }
 
         public static User LoadSampleUser(string login, string password)
@@ -505,11 +505,11 @@ namespace Ecliptic.Repository
             // загружаю в базу данных
             DbService.SaveUser(User.CurrentUser);
 
-            DbService.AddNote(new Note("заметка1", "KGU", false, roomid: 1, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка2", "KGU", true,  roomid: 1, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка3", "KGU", false, roomid: 2, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка4", "KGU", false, roomid: 2, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка5", "KGU", false, roomid: 3, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка1", "KGU", "213", false, roomid: 1, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка2", "KGU", "213", true,  roomid: 1, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка3", "KGU", "200", false, roomid: 2, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка4", "KGU", "200", false, roomid: 2, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка5", "KGU", "202", false, roomid: 3, userid: User.CurrentUser.UserId));
 
             DbService.AddFavoriteRoom(
                 new FavoriteRoom("213",
