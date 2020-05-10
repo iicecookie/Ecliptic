@@ -23,7 +23,7 @@ namespace Ecliptic.Views
                 Current = RoomData.Rooms
                                    .FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
 
-                Title = Current.Name;
+                Title = Current.Name + "     " + Current.Floor.Level + " Этаж";
 
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
@@ -131,18 +131,23 @@ namespace Ecliptic.Views
                 // заметки пользователя
                 if (User.CurrentUser != null)
                 {
-                    Label Notelab = new Label
-                    {
-                        Text = "Заметки " + User.CurrentUser.Name + ":",
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-                    stackLayout.Children.Add(Notelab);
-
+                    bool isone = false;
                     foreach (var i in User.CurrentUser.Notes)
                     {
                         if (i.RoomId == Current.RoomId) 
                         {
+                            if (!isone)
+                            {
+                                Label Notelab = new Label
+                                {
+                                    Text = "Заметки " + User.CurrentUser.Name + ":",
+                                    Style = Device.Styles.BodyStyle,
+                                    HorizontalOptions = LayoutOptions.Center
+                                };
+                                stackLayout.Children.Add(Notelab);
+                                isone = true;
+                            }
+
                             Grid grid = new Grid
                             {
                                 RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
@@ -368,7 +373,7 @@ namespace Ecliptic.Views
                     if (WebData.istest)
                     {
                         newroom = User.isRoomFavoit(Current);
-                    }
+                    } // test
                     else
                     {
                         newroom = await favRoomService.Add((Current.Clone() as Room)
@@ -388,7 +393,7 @@ namespace Ecliptic.Views
                     if (WebData.istest)
                     {
                         newroom = (Current.Clone() as Room).ToFavRoom(User.CurrentUser.UserId);
-                    }
+                    } // test
                     else
                     {
                         newroom = await favRoomService.Add((Current.Clone() as Room)

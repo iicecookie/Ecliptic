@@ -46,7 +46,7 @@ namespace Ecliptic.Models
         // ПРОВЕРИТЬ ЭТУ ЧАСТИ
         public FavoriteRoom ToFavRoom(int Userid)
         {
-            return new FavoriteRoom(Name, Description, "", Userid);
+            return new FavoriteRoom(Name, Description, "KSU", Userid, RoomId);
         }
 
         public object Clone()

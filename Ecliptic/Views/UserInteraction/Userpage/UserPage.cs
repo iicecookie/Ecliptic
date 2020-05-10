@@ -111,7 +111,7 @@ namespace Ecliptic.Views.UserInteraction
 
                 Label  noteLab = new Label
                 {
-                    Text = i.Room.ToString(),
+                    Text = i.Room.Name.ToString(),
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };

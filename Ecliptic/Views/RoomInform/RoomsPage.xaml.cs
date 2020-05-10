@@ -88,7 +88,7 @@ namespace Ecliptic.Views
 
         public string StateIcon
         {
-            get { return Expanded ? "expanded_blue.png" : "collapsed_blue.png"; }
+            get { return Expanded ? "expanded_white.png" : "collapsed_white.png"; }
         }
 
         public int RoomCount { get; set; }

@@ -34,23 +34,28 @@
                                     ShowsResults="true">
             <controls:RoomSearchHandler.ItemTemplate>
                 <DataTemplate>
-
-                    <Frame OutlineColor="Black"
+                    <Frame OutlineColor="Gray"
                            Padding="5">
-                        <StackLayout Orientation="Horizontal">
-                            <StackLayout>
+                        <Grid BackgroundColor="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="18"></RowDefinition>
+                                <RowDefinition Height="18"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition ></ColumnDefinition>
+                                <ColumnDefinition ></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Name}" 
-                                       FontSize="15" 
-                                       VerticalOptions="StartAndExpand"/>
+                            <Label Grid.Column="0" Grid.Row="0" 
+                                   Text="{Binding Name,  StringFormat='{0} '}" FontSize="15"/>
 
-                                <Label Text="{Binding Floor.Level, StringFormat='{0} Этаж'}" 
-                                       FontSize="15" 
-                                       VerticalOptions="StartAndExpand"/>
-                            </StackLayout>
-                        </StackLayout>
+                            <Label Grid.Column="1" Grid.Row="0"
+                                   Text="{Binding Floor.Level,  StringFormat='{0} Этаж'}" FontSize="15"/>
+
+                            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                   Text="{Binding Description,  StringFormat='{0} '}" FontSize="15"/>
+                        </Grid>
                     </Frame>
-
                 </DataTemplate>
             </controls:RoomSearchHandler.ItemTemplate>
         </controls:RoomSearchHandler>
@@ -97,11 +102,11 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                                    <Span Text="{Binding Floor, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
+                                                    <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="15"/>
+                                        <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="15"/>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell>

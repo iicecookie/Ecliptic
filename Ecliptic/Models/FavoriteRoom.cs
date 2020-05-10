@@ -7,11 +7,11 @@ namespace Ecliptic.Models
     {
         public int FavoriteRoomId { get; set; }
 
-        public string Name { get; set; }
+        public string Name     { get; set; }
         public string Building { get; set; }
-        public string Details { get; set; }
+        public string Details  { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User User   { get; set; }
         public virtual int? UserId { get; set; }
 
 
