@@ -7,6 +7,7 @@ using Ecliptic.Models;
 using Xamarin.Essentials;
 using Ecliptic.Views.WayFounder;
 using Ecliptic.Repository;
+using System.Collections.Generic;
 
 namespace Ecliptic.Views
 {
@@ -20,48 +21,83 @@ namespace Ecliptic.Views
             {
                 Current = BuildingData.Buildings
                                    .FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
-
-                Label Name = null;
-                Label Description = null;
-                Button DownloadBtn = null;
+                Title = "Здание" + Current.Name;
 
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
+                stackLayout.Spacing = 10;
 
-                Name = new Label
+                Label NameLab = new Label
                 {
                     Text = Current.Name,
-
+                    TextColor = Color.Black,
                     Style = Device.Styles.TitleStyle,
-                    FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.Center
+                    HorizontalOptions = LayoutOptions.Center,
+                    FontSize = Device.GetNamedSize(NamedSize.Title, typeof(Label)),
                 };
+                stackLayout.Children.Add(NameLab);
 
-                Description = new Label
+                Label DescriptionLab = new Label
                 {
                     Text = Current.Description,
+                    TextColor = Color.Black,
                     Style = Device.Styles.BodyStyle,
-                    VerticalOptions = LayoutOptions.Start,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.StartAndExpand,
                     FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-                    HorizontalOptions = LayoutOptions.StartAndExpand
                 };
+                stackLayout.Children.Add(DescriptionLab);
 
-                DownloadBtn = new Button
+                Label AddreesLab = new Label
+                {
+                    Text = Current.Addrees,
+                    TextColor = Color.Black,
+                    Style = Device.Styles.BodyStyle,
+                    HorizontalOptions = LayoutOptions.StartAndExpand,
+                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+                };
+                stackLayout.Children.Add(AddreesLab);
+
+                if (Current.TimeTable != null)
+                {
+                    Label TimeTableLab = new Label
+                    {
+                        Text = Current.TimeTable,
+                        TextColor = Color.Black,
+                        Style = Device.Styles.BodyStyle,
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+                    };
+                    stackLayout.Children.Add(TimeTableLab);
+                }
+                if (Current.Site      != null)
+                {
+                    Button SiteBut = new Button
+                    {
+                        Text = Current.Site,
+                        FontSize = 13,
+                        FontAttributes = FontAttributes.Bold,
+                        BorderColor = Color.Gray,
+                        TextColor   = Color.Black,
+                        BackgroundColor = Color.FromHex("#FFC7C7"),
+                        HeightRequest = 40,
+                    };
+                    SiteBut.Clicked += clickSite;
+                    stackLayout.Children.Add(SiteBut);
+                }
+
+                Button DownloadBut = new Button
                 {
                     Text = "Загрузить это здание",
-                    BackgroundColor = Color.FromHex("#E47766"),
+                    FontSize = 13,
+                    FontAttributes = FontAttributes.Bold,
                     BorderColor = Color.Gray,
-                    TextColor = Color.Black,
-                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Button)),
-                    HorizontalOptions = LayoutOptions.Fill
+                    TextColor   = Color.Black,
+                    BackgroundColor = Color.FromHex("#FFC7C7"),
+                    HeightRequest = 40,
                 };
-
-                DownloadBtn.Clicked += DownloadBtn_Click;
-
-                stackLayout.Children.Add(Name);
-                stackLayout.Children.Add(Description);
-                stackLayout.Children.Add(DownloadBtn);
+                DownloadBut.Clicked += DownloadBut_Click;
+                stackLayout.Children.Add(DownloadBut);
 
                 this.Content = new ScrollView { Content = stackLayout };
             }
@@ -74,9 +110,25 @@ namespace Ecliptic.Views
             InitializeComponent();
         }
 
-        void DownloadBtn_Click(Object sender, EventArgs e)
+        void DownloadBut_Click(Object sender, EventArgs e)
         {
 
+        }
+
+        void clickSite(object sender, EventArgs args)
+        {
+            try
+            {
+                new System.Threading.Thread(() =>
+                {
+                    Launcher.OpenAsync(new Uri(Current.Site));
+                }).Start();
+            }
+            catch (Exception e)
+            {
+                DependencyService.Get<IToast>().Show("Не удалось открыть сайт " + e.Message);
+            }
+            
         }
     }
 }

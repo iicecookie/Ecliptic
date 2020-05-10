@@ -16,7 +16,6 @@ namespace Ecliptic.Views
             InitializeComponent();
 
             Title = "Доступные зданиия";
-
         }
 
         private async void BuildingView_ItemTapped(object sender, ItemTappedEventArgs e)

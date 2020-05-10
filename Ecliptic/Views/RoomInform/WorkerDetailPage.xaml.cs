@@ -152,14 +152,6 @@ namespace Ecliptic.Views
             }
         }
 
-        void clickSite (object sender, EventArgs args)
-        {
-            new System.Threading.Thread(() =>
-            {
-                Launcher.OpenAsync(new Uri(Current.Site));
-            }).Start();
-        }
-
         async void clickmail(object sender, System.EventArgs e)
         {
             List<string> toAddress = new List<string>();
@@ -189,5 +181,13 @@ namespace Ecliptic.Views
                 DependencyService.Get<IToast>().Show("Произошла ошибка");
             }
         }
+        void clickSite (object sender, EventArgs args)
+        {
+            new System.Threading.Thread(() =>
+            {
+                Launcher.OpenAsync(new Uri(Current.Site));
+            }).Start();
+        }
+
     }
 }

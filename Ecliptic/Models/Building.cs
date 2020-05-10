@@ -14,7 +14,7 @@ namespace Ecliptic.Models
 
         public string Addrees     { get; private set; }
         public string TimeTable   { get; private set; }
-        public string Email       { get; private set; }
+        public string Site        { get; private set; }
 
         public List<Floor> Floors { get; set; }
 
@@ -25,7 +25,7 @@ namespace Ecliptic.Models
 
         public Building(string name, string description = null,
                         string addrees = null, string timetable = null,
-                        string email = null, int buildingid = 0) : this()
+                        string site = null,    int buildingid = 0) : this()
         {
             BuildingId = buildingid;
 
@@ -34,7 +34,7 @@ namespace Ecliptic.Models
             
             Addrees   = addrees;
             TimeTable = timetable;
-            Email     = email;
+            Site      = site;
         }
     }
 }

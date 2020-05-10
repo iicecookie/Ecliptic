@@ -325,7 +325,10 @@ namespace Ecliptic.Repository
 
         public static void LoadSampleBuildings()
         {
-            db.Buildings.Add(new Building("KSU", buildingid: 1, description: "sadsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd"));
+            db.Buildings.Add(new Building("KSU", buildingid: 1,
+                                          site: "http://hui.com/", timetable: "открыто всегда",
+                                          addrees: "Курская ул блалала",
+                                          description: "sadsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd"));
             db.Buildings.Add(new Building("MGU", buildingid: 2, description: "asdasd"));
             db.Buildings.Add(new Building("GPU", buildingid: 3, description: "s21adsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd"));
         }
@@ -438,6 +441,7 @@ namespace Ecliptic.Repository
                              site: "okasdjasdk",
                              floorid: 4));
         }
+
         public static void LoadSampleWorkers()
         {
             AddWorker(new Worker
