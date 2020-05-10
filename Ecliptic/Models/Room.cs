@@ -5,21 +5,20 @@ namespace Ecliptic.Models
 {
     public class Room : ICloneable
     {
-        public int RoomId { get; set; }
+        public int RoomId  { get; set; }
 
-        public string Name { get; set; } // Имя аудитории +
+        public string Name { get; private set; } 
 
+        public int    Floor       { get; private set; } // этаж СТАНЕТ ССЫЛКОЙ НА ЭТАЖ
+        public string Details     { get; private set; } // ну хз зачем дважды
+        public string Description { get; private set; } // описание
 
-        public int    Floor { get; set; } // этаж
-        public string Details { get; set; } //
-        public string Description { get; set; } // описание
-
-        public string Timetable { get; set; } // расписание
-        public string Phone { get; set; } // телефон
-        public string Site { get; set; } // сайт
+        public string Timetable   { get; private set; } // расписание
+        public string Phone       { get; private set; } 
+        public string Site        { get; private set; } 
 
         public virtual List<Worker> Workers { get; set; } // работники 
-        public virtual List<Note> Notes     { get; set; } // публичные заметки 
+        public virtual List<Note>   Notes   { get; set; } // публичные заметки 
 
         public Room()
         {
@@ -27,22 +26,22 @@ namespace Ecliptic.Models
             Notes = new List<Note>();
         }
 
-        public Room(string name, int floor, 
-                    string details=null, string description=null, string timetable=null, 
-                    string phone=null,   string site=null,  List<Worker> workers = null) : this()
+        public Room(string name, int floor,
+                    int    roomid = 0,
+                    string details   = null, string description = null,
+                    string timetable = null, 
+                    string phone = null, string site = null) : this()
         {
-           // RoomId = roomId;
+            RoomId = roomid;
+
             Name = name;
             Floor = floor;
             Details = details;
             Description = description;
+
             Timetable = timetable;
             Phone = phone;
             Site = site;
-
-            if (workers != null)
-                Workers = workers;
-
         }
 
         public FavoriteRoom ToFavRoom(int Userid)
