@@ -1,4 +1,5 @@
-﻿using Ecliptic.Models;
+﻿using Android.Util;
+using Ecliptic.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -37,13 +38,22 @@ namespace Ecliptic.WebInteractions
             return JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
         }
 
+        private class WebUser
+        {
+            public string Name{get;set; }
+            public string Login { get; set; }
+            public string Pass { get; set; }
+        }
+
         // добавляем пользоваетля
         public async Task<User> Register(string name, string login, string pass)
         {
+            WebUser user = new WebUser { Name = name, Login = login, Pass = pass };
+
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
                 new StringContent(
-                    JsonConvert.SerializeObject(new { Name = name, Login = login, Pass = pass }),
+                    JsonConvert.SerializeObject(user),
                     Encoding.UTF8, "application/json"));
 
             if (response.StatusCode != HttpStatusCode.OK)

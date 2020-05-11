@@ -20,10 +20,25 @@ namespace Ecliptic.Views.UserNote
 
             stackBarRoom.HeightRequest = 1;
             stackBarBuilding.HeightRequest = 1;
+            SearchBarRoom.Text = "";
+            SearchBarBuilding.Text = "";
+            NoteText.Text = "";
         }
 
         async void OnButtonSaveClicked(object sender, EventArgs args)
-        {   
+        {
+            if (NoteText.Text == "")
+            {
+                DependencyService.Get<IToast>().Show("Ну и зачем так делать?");
+                return;
+            }
+
+          // if (SearchBarRoom.Text == "" || SearchBarBuilding.Text == "" || NoteText.Text == "")
+          // {
+          //     DependencyService.Get<IToast>().Show("Не все поля заполнены");
+          //     return;
+          // }
+
             Room room = RoomData.isThatRoom(SearchBarRoom.Text);
 
             if (WebData.istest)
@@ -92,7 +107,7 @@ namespace Ecliptic.Views.UserNote
                                      room.Description.ToLower().Contains(SearchBarRoom.Text.ToLower()))
                       .ToList<Room>();
 
-            stackBarRoom.HeightRequest = searchedrooms.Count() * 50 + 25;
+            stackBarRoom.HeightRequest    = searchedrooms.Count() > 5 ? 250 : searchedrooms.Count() * 50;
             searchRoomResults.ItemsSource = searchedrooms;
         }
 
@@ -112,7 +127,7 @@ namespace Ecliptic.Views.UserNote
                                          building.Description.ToLower().Contains(SearchBarBuilding.Text.ToLower()))
                       .ToList<Building>();
 
-            stackBarBuilding.HeightRequest = searchedbuildings.Count() * 50 + 25;
+            stackBarBuilding.HeightRequest    = searchedbuildings.Count() > 5 ? 250 : searchedbuildings.Count() * 50;
             searchBuildingResults.ItemsSource = searchedbuildings;
         }
 

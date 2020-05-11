@@ -66,16 +66,32 @@
     <ScrollView>
         <StackLayout>
 
+            <Label FontSize="Large"
+                   FontAttributes="Bold"
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center"
+                   Text="Построить  маршрут"/>
+
+            <Label 
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Начало:" FontSize="Medium" FontAttributes="Bold"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
             <SearchBar x:Name="searchBar1" 
                        VerticalOptions="Center"
                        TextChanged="OnTextFromChanged"/>
 
-            <StackLayout x:Name="stackBar1">
+            <StackLayout x:Name="stackBar1" 
+                         Margin="10">
                 <ListView  x:Name="searchResults1"
-                           
                            ItemsSource="{Binding Room}"
                            ItemTapped="OnRoomFromTapped"
-                           SeparatorVisibility="Default"    
+                           SeparatorVisibility="Default"   
                            RowHeight="50">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -101,6 +117,14 @@
 
             <!-- ____________________________________________________________________________________________ -->
 
+            <Label HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Конец:" FontSize="Medium" FontAttributes="Bold"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            
             <SearchBar x:Name="searchBar2" TextChanged="OnTextToChanged"/>
 
             <StackLayout x:Name="stackBar2">
@@ -117,11 +141,11 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                                    <Span Text="{Binding Floor, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
+                                                    <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="15"/>
+                                        <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="15"/>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell>
@@ -131,14 +155,12 @@
             </StackLayout>
 
             <!-- ____________________________________________________________________________________________ -->
-            <Label/>
 
-            <Button
-                Text="Создать заметку"
+            <Button 
+                Text="Построить маршрут"
                 VerticalOptions="Start"
                 HorizontalOptions="Fill"
                 Clicked="Button_Clicked"/>
-
 
         </StackLayout>
     </ScrollView>

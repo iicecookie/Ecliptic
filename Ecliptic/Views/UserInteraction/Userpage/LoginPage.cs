@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.ComponentModel;
 using System.Windows.Input;
+using Xamarin.Essentials;
 
 namespace Ecliptic.Views.UserInteraction
 {
@@ -33,8 +34,8 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     Text = "Вход",
                     Style = Device.Styles.TitleStyle,
-                    HorizontalOptions = LayoutOptions.Center
-                };
+                    HorizontalOptions = LayoutOptions.Center,
+                }; 
 
                 LoginBox = new Entry
                 {
@@ -44,7 +45,6 @@ namespace Ecliptic.Views.UserInteraction
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                    // FontAttributes = FontAttributes.Italic,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
@@ -90,15 +90,17 @@ namespace Ecliptic.Views.UserInteraction
             LoginPage.RegisBtn.Clicked += ToRegistrationPage;
 
             StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;
-
+            stackLayout.Margin = 20;      
+ 
+            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
             stackLayout.Children.Add(LoginPage.labelMessage);
             stackLayout.Children.Add(LoginPage.LoginBox);
             stackLayout.Children.Add(LoginPage.PasswBox);
             stackLayout.Children.Add(LoginPage.LoginBtn);
             stackLayout.Children.Add(LoginPage.RegisBtn);
+            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
 
-            this.Content = new ScrollView { Content = stackLayout };
+            this.Content = stackLayout;
         }
 
         public async void LoginIn(object sender, EventArgs e)

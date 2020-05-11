@@ -13,6 +13,7 @@ namespace Ecliptic.Models
 
         public string Name  { get; private set; }
         public string Login { get; private set; }
+        public string Pass  { get; private set; }
 
         public virtual List<Note> Notes     { get; set; }
 

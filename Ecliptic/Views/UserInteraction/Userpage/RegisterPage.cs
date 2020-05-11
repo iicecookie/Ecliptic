@@ -116,6 +116,7 @@ namespace Ecliptic.Views.UserInteraction
             RegisrationPage.RegisBtn.Clicked += RegistrUser;
             RegisrationPage.LoginBtn.Clicked += ToLoginPage;
 
+            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
             stackLayout.Children.Add(RegisrationPage.labelMessage);
             stackLayout.Children.Add(RegisrationPage.NameBox);
             stackLayout.Children.Add(RegisrationPage.LoginBox);
@@ -123,6 +124,7 @@ namespace Ecliptic.Views.UserInteraction
             stackLayout.Children.Add(RegisrationPage.PasswCheckBox);
             stackLayout.Children.Add(RegisrationPage.RegisBtn);
             stackLayout.Children.Add(RegisrationPage.LoginBtn);
+            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
 
             this.Content = new ScrollView { Content = stackLayout };
         }

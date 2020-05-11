@@ -51,14 +51,15 @@ namespace Ecliptic.Views
                 return;
             }
 
-            var searchedrooms = RoomData.Rooms
-                      .Where(room => room.Name       .ToLower().Contains(searchBar1.Text.ToLower()) ||
-                                     room.Description.ToLower().Contains(searchBar1.Text.ToLower()))
-                      .ToList<Room>();
+            var searchedrooms = RoomData.Rooms.Where(room => room.Name.ToLower().Contains(searchBar1.Text.ToLower()) ||
+                                                     room .Description.ToLower().Contains(searchBar1.Text.ToLower())).ToList<Room>();
 
-            if (searchedrooms.Count == 1) { Way.Begin = searchedrooms.First(); }
+            if (searchedrooms.Count == 1)
+            {
+                Way.Begin = searchedrooms.First();
+            }
 
-            stackBar1.HeightRequest    = searchedrooms.Count() * 50 + 25;
+            stackBar1.HeightRequest    = searchedrooms.Count() > 10 ? 200 : searchedrooms.Count() * 50;
             searchResults1.ItemsSource = searchedrooms;
         }
         void OnTextToChanged(object sender, EventArgs e)
@@ -73,16 +74,16 @@ namespace Ecliptic.Views
                 return;
             }
 
-            var searchedrooms = RoomData.Rooms
-                      .Where(room => room.Name       .ToLower().Contains(searchBar2.Text.ToLower()) ||
-                                     room.Description.ToLower().Contains(searchBar2.Text.ToLower()))
-                      .ToList<Room>();
+            var searchedrooms = RoomData.Rooms.Where(room => room.Name.ToLower().Contains(searchBar2.Text.ToLower()) ||
+                                                     room .Description.ToLower().Contains(searchBar2.Text.ToLower())).ToList<Room>();
 
-            if (searchedrooms.Count == 1) { Way.Begin = searchedrooms.First(); }
+            if (searchedrooms.Count == 1)
+            {
+                Way.End = searchedrooms.First();
+            }
 
-            stackBar2.HeightRequest    = searchedrooms.Count() * 50 + 25;
+            stackBar2.HeightRequest = searchedrooms.Count() > 10 ? 200 : searchedrooms.Count() * 50;
             searchResults2.ItemsSource = searchedrooms;
-
         }
         #endregion
 
@@ -108,8 +109,17 @@ namespace Ecliptic.Views
         
         private void Button_Clicked(object sender, EventArgs e)
         {
+            if (searchBar1.Text == null || searchBar1.Text == "") { DependencyService.Get<IToast>().Show("Начало маршрута не задано"); return; }
+            if (Way.Begin == null) { DependencyService.Get<IToast>().Show("Начало маршрута неоднозначно"); return; }
+
+            if (searchBar2.Text == null || searchBar2.Text == "") { DependencyService.Get<IToast>().Show("Конец маршрута не задан");   return; }
+            if (Way.End   == null) { DependencyService.Get<IToast>().Show("Конец маршрута неоднозначен");  return; }
+
+            if (Way.End.Equals(Way.Begin)) { DependencyService.Get<IToast>().Show("Вы находитесь в месте назначения"); return; } 
             // сначала проверить, есть ли записаные аудитории в базе данных
             // вывести предупреждение если нет
+
+
 
             // если все окей - производить поиск
 

@@ -61,8 +61,7 @@
         </controls:RoomSearchHandler>
     </Shell.SearchHandler>
 
-    <Grid     RowSpacing="0"
-              ColumnSpacing="0">
+    <Grid RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto"/>
@@ -70,16 +69,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
 
-        <Grid BackgroundColor="Snow"
-              
+        <Grid BackgroundColor="Snow"       
               Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="4">
-
             <skia:SKCanvasView x:Name="canvasView"
                                PaintSurface="OnCanvasViewPaintSurface" />
             <Grid.Effects>
@@ -89,69 +86,47 @@
         </Grid>
 
         <BoxView 
-                Grid.Row="1" 
-                Grid.Column="0" 
+                Grid.Row="1" Grid.Column="0" 
                 Grid.ColumnSpan="4"
-            
                 BackgroundColor="Black"/>
-
-        <Label  Text=" Этаж:" 
-               
-                Grid.Row="1"
-                Grid.Column="0"
-               
-                Margin="0,8,0,0"
-               
+  
+        <Label  Text=" Этаж:"  
+                Grid.Row="1" Grid.Column="0"
                 FontSize="20"
-               
+                Margin="0,1,0,0"
+                VerticalOptions="CenterAndExpand"
                 BackgroundColor="Black"
                 TextColor="White"/>
 
         <Picker x:Name="FloorPicker"
                 Title="Выбор этажа"
-                
-                Grid.Row="1"
-                Grid.Column="1"
-                
+                Grid.Row="1" Grid.Column="1"
                 SelectedIndexChanged="OnFloorPickerSelected"
-                
                 ItemDisplayBinding="{Binding Level}"
                 ItemsSource       ="{Binding Floors}"
-                
-                FontSize="Medium"
-                
+                FontSize  ="Medium"
                 TitleColor="Black"
-                TextColor="White"
+                TextColor ="White"
                 BackgroundColor="Black"/>
-
-        <Button x:Name="FloorDownStep"
+        
+        <ImageButton 
+                x:Name="FloorDownStep"
+                Source="minus.png"
                 Clicked="OnStepedDown"
-                Text="-"
-                BackgroundColor="White"
-                TextColor="Black"
-                BorderColor="Green"
-                
-                HeightRequest="20"
-                WidthRequest="40"
-                Margin="5,5,5,5"
-                
-                Grid.Row="1"
-                Grid.Column="2"/>
+                HeightRequest="30"
+                WidthRequest ="30"
+                VerticalOptions  ="Center"
+                HorizontalOptions="Center"
+                Grid.Row="1" Grid.Column="2"/>
 
-        <Button x:Name="FloorUpStep"
+        <ImageButton 
+                x:Name="FloorUpStep"
+                Source="plus.png"
                 Clicked="OnStepedUp"
-                Text="+"
-                
-                BackgroundColor="White"
-                TextColor="Black"
-                
-                HeightRequest="20"
-                WidthRequest="40"
-                Margin="5,5,5,5"
-                
-                Grid.Row="1"
-                Grid.Column="3"/>
-
+                HeightRequest="30"
+                WidthRequest ="30"
+                VerticalOptions  ="Center"
+                HorizontalOptions="Center"
+                Grid.Row="1" Grid.Column="3"/> 
     </Grid>
-    
 </ContentPage>
