@@ -25,6 +25,8 @@ namespace Ecliptic.Views.UserNote
             NoteText.Text = "";
         }
 
+        Room roomnote = null;
+
         async void OnButtonSaveClicked(object sender, EventArgs args)
         {
             if (NoteText.Text == "")
@@ -32,12 +34,6 @@ namespace Ecliptic.Views.UserNote
                 DependencyService.Get<IToast>().Show("Ну и зачем так делать?");
                 return;
             }
-
-          // if (SearchBarRoom.Text == "" || SearchBarBuilding.Text == "" || NoteText.Text == "")
-          // {
-          //     DependencyService.Get<IToast>().Show("Не все поля заполнены");
-          //     return;
-          // }
 
             Room room = RoomData.isThatRoom(SearchBarRoom.Text);
 
@@ -94,6 +90,8 @@ namespace Ecliptic.Views.UserNote
         void OnTextRoomChanged(object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;
+            if (tapped == false) {
+                roomnote = null; }
 
             if (SearchBarRoom.Text == "")
             {
@@ -109,6 +107,7 @@ namespace Ecliptic.Views.UserNote
 
             stackBarRoom.HeightRequest    = searchedrooms.Count() > 5 ? 250 : searchedrooms.Count() * 50;
             searchRoomResults.ItemsSource = searchedrooms;
+            tapped = false;
         }
 
         void OnTextBuildingChanged(object sender, EventArgs e)
@@ -127,20 +126,25 @@ namespace Ecliptic.Views.UserNote
                                          building.Description.ToLower().Contains(SearchBarBuilding.Text.ToLower()))
                       .ToList<Building>();
 
+            
+
             stackBarBuilding.HeightRequest    = searchedbuildings.Count() > 5 ? 250 : searchedbuildings.Count() * 50;
             searchBuildingResults.ItemsSource = searchedbuildings;
         }
 
+        public bool tapped = false;
         private void OnRoomTapped(object sender, ItemTappedEventArgs e)
         {
-            Room room = (e.Item as Room);
-            SearchBarRoom.Text = room.Name;
+            tapped = true;
+            roomnote = (Room)e.Item;
+            SearchBarRoom.Text = roomnote.Name;
             stackBarRoom.HeightRequest = 1;
             searchRoomResults.ItemsSource = new List<Room>();
         }
 
         private void OnBuildingTapped(object sender, ItemTappedEventArgs e)
         {
+            tapped = true;
             Building room = (e.Item as Building);
             SearchBarBuilding.Text = room.Name;
             stackBarBuilding.HeightRequest = 1;

@@ -41,7 +41,10 @@ namespace Ecliptic.Views
         #region TextChanged
         void OnTextFromChanged(object sender, EventArgs e)
         {
-            Way.Begin = null;
+            if (taped == false)
+            {
+                Way.Begin = null;
+            }
             SearchBar searchBar = (SearchBar)sender;
 
             if (searchBar1.Text == "")
@@ -61,10 +64,14 @@ namespace Ecliptic.Views
 
             stackBar1.HeightRequest    = searchedrooms.Count() > 10 ? 200 : searchedrooms.Count() * 50;
             searchResults1.ItemsSource = searchedrooms;
+            taped = false;
         }
         void OnTextToChanged(object sender, EventArgs e)
         {
-            Way.End = null;
+            if (taped == false)
+            {
+                Way.End = null;
+            }
             SearchBar searchBar = (SearchBar)sender;
 
             if (searchBar2.Text == "")
@@ -75,7 +82,7 @@ namespace Ecliptic.Views
             }
 
             var searchedrooms = RoomData.Rooms.Where(room => room.Name.ToLower().Contains(searchBar2.Text.ToLower()) ||
-                                                     room .Description.ToLower().Contains(searchBar2.Text.ToLower())).ToList<Room>();
+                                                     room.Description.ToLower().Contains(searchBar2.Text.ToLower())).ToList<Room>();
 
             if (searchedrooms.Count == 1)
             {
@@ -84,21 +91,24 @@ namespace Ecliptic.Views
 
             stackBar2.HeightRequest = searchedrooms.Count() > 10 ? 200 : searchedrooms.Count() * 50;
             searchResults2.ItemsSource = searchedrooms;
+            taped = false;
         }
         #endregion
 
         #region ItemTapped
+        public bool taped   = false;
         private void OnRoomFromTapped(object sender, ItemTappedEventArgs e)
         {
+            taped = true;
             Room room = (e.Item as Room);
             Way.Begin = room;
             searchBar1.Text = room.Name;
             stackBar1.HeightRequest = 1;
             searchResults1.ItemsSource = new List<Room>();
         }
-
-        private void OnRoomToTapped(object sender, ItemTappedEventArgs e)
+        private void OnRoomToTapped  (object sender, ItemTappedEventArgs e)
         {
+            taped = true;
             Room room = (e.Item as Room); 
             Way.End = room;
             searchBar2.Text = room.Name;
@@ -107,7 +117,7 @@ namespace Ecliptic.Views
         }
         #endregion
         
-        private void Button_Clicked(object sender, EventArgs e)
+        private void Button_Clicked  (object sender, EventArgs e)
         {
             if (searchBar1.Text == null || searchBar1.Text == "") { DependencyService.Get<IToast>().Show("Начало маршрута не задано"); return; }
             if (Way.Begin == null) { DependencyService.Get<IToast>().Show("Начало маршрута неоднозначно"); return; }
@@ -125,5 +135,4 @@ namespace Ecliptic.Views
 
         }
     }
-
 }
