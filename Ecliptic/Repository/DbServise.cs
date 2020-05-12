@@ -29,13 +29,16 @@ namespace Ecliptic.Repository
 
         public static void LoadAll()
         {
+            BuildingData.Buildings = db.Buildings.ToList();
+            FloorData.Floors       = db.Floors.ToList();
+
             WorkerData.Workers = RelationsWorkersRoom();
             RoomData.Rooms     = RelationsRoomsWorker();
 
             NoteData.Notes     = LoadAllPublicNotes();
 
-            FloorData.Floors       = db.Floors.ToList();
-            BuildingData.Buildings = db.Buildings.ToList();
+            PointData.Points = LoadAllPoints();
+            EdgeData.Edges   = LoadAllEdges();
 
             if (db.User.Count() > 0)
             {
@@ -60,6 +63,208 @@ namespace Ecliptic.Repository
 
         #endregion
 
+        #region Building
+
+        public static void AddBuilding(Building building)
+        {
+            db.Buildings.Add(building);
+        }
+
+        public static List<Building> LoadAllBuildings()
+        {
+            return db.Buildings.ToList();
+        }
+
+        #endregion
+
+        #region Floor
+        public static void AddFloor(Floor floor)
+        {
+            if (floor == null) return;
+            db.Floors.Add(floor);
+            db.SaveChanges();
+        }
+        public static void AddFloor(List<Floor> floors)
+        {
+            if (floors == null) return;
+            foreach (var floor in floors)
+                db.Floors.Add(floor);
+            db.SaveChanges();
+        }
+
+        public static void RemoveFloor(Floor floor)
+        {
+            if (floor == null) return;
+            db.Floors.Remove(floor);
+
+            db.SaveChanges();
+        }
+        public static void RemoveFloor(List<Floor> floors)
+        {
+            foreach (var floor in floors)
+            {
+                db.Floors.Remove(floor);
+            }
+            db.SaveChanges();
+        }
+
+        public static List<Floor> LoadAllFloors()
+        {
+            return db.Floors.ToList();
+        }
+        #endregion
+
+        #region Rooms
+        public static void AddRoom(Room room)
+        {
+            if (room == null) return;
+            db.Rooms.Add(room);
+            db.SaveChanges();
+        }
+
+        public static void AddRoom(List<Room> rooms)
+        {
+            if (rooms == null) return;
+            foreach (var room in rooms)
+                db.Rooms.Add(room);
+            db.SaveChanges();
+        }
+
+        public static void RemoveRoom(Room room)
+        {
+            if (room == null) return;
+            db.Rooms.Remove(room);
+
+            db.SaveChanges();
+        }
+
+        public static void RemoveRoom(List<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                db.Rooms.Remove(room);
+            }
+            db.SaveChanges();
+        }
+
+        public static List<Room> RelationsRoomsWorker()
+        {
+            return db.Rooms.Include(u => u.Workers).ToList();
+        }
+
+        public static List<Room> LoadAllRooms()
+        {
+            return db.Rooms.ToList();
+        }
+
+        #endregion
+
+        #region Workers
+
+        public static void AddWorker(Worker worker)
+        {
+            if (worker == null) return;
+            db.Workers.Add(worker);
+            db.SaveChanges();
+        }
+
+        public static void AddWorker(List<Worker> workers)
+        {
+            if (workers == null) return;
+            foreach (var worker in workers)
+                db.Workers.Add(worker);
+            db.SaveChanges();
+        }
+
+        public static List<Worker> RelationsWorkersRoom()
+        {
+            return db.Workers.Include(u => u.Room).ToList();
+        }
+
+        public static List<Worker> LoadAllWorkers()
+        {
+            return db.Workers.ToList();
+        }
+
+        #endregion
+
+
+        #region Points
+        public static void AddPoing(PointM point)
+        {
+            if (point == null) return;
+            db.Points.Add(point);
+            db.SaveChanges();
+        }
+        public static void AddPoing(List<PointM> points)
+        {
+            if (points == null) return;
+            foreach (var point in points)
+                db.Points.Add(point);
+            db.SaveChanges();
+        }
+
+        public static void RemovePoint(PointM point)
+        {
+            if (point == null) return;
+            db.Points.Remove(point);
+
+            db.SaveChanges();
+        }
+        public static void RemovePoint(List<PointM> points)
+        {
+            foreach (var point in points)
+            {
+                db.Points.Remove(point);
+            }
+            db.SaveChanges();
+        }
+
+        public static List<PointM> LoadAllPoints()
+        {
+            return db.Points.ToList();
+        }
+        #endregion
+
+        #region Edges
+        public static void AddEdge(EdgeM edge)
+        {
+            if (edge == null) return;
+            db.Edges.Add(edge);
+            db.SaveChanges();
+        }
+        public static void AddEdge(List<EdgeM> edges)
+        {
+            if (edges == null) return;
+            foreach (var edge in edges)
+                db.Edges.Add(edge);
+            db.SaveChanges();
+        }
+
+        public static void RemoveEdge(EdgeM edge)
+        {
+            if (edge == null) return;
+            db.Edges.Remove(edge);
+
+            db.SaveChanges();
+        }
+        public static void RemoveEdge(List<EdgeM> edges)
+        {
+            foreach (var edge in edges)
+            {
+                db.Edges.Remove(edge);
+            }
+            db.SaveChanges();
+        }
+
+        public static List<EdgeM> LoadAllEdges()
+        {
+            return db.Edges.ToList();
+        }
+        #endregion
+
+
+
         #region Notes
 
         public static void AddNote(Note note)
@@ -81,7 +286,7 @@ namespace Ecliptic.Repository
         public static void RemoveNote(Note note)
         {
             if (note == null) return;
-         //   if (db.Notes.Find(note) == null) return;
+            //   if (db.Notes.Find(note) == null) return;
             db.Notes.Remove(note);
 
             db.SaveChanges();
@@ -133,49 +338,6 @@ namespace Ecliptic.Repository
 
         #endregion
 
-        #region Building
-
-        public static void AddBuilding(Building building)
-        {
-            db.Buildings.Add(building);
-        }
-
-        public static List<Building> LoadAllBuildings()
-        {
-            return db.Buildings.ToList();
-        }
-
-        #endregion
-
-        #region Workers
-
-        public static void AddWorker(Worker worker)
-        {
-            if (worker == null) return;
-            db.Workers.Add(worker);
-            db.SaveChanges();
-        }
-
-        public static void AddWorker(List<Worker> workers)
-        {
-            if (workers == null) return;
-            foreach (var worker in workers)
-                db.Workers.Add(worker);
-            db.SaveChanges();
-        }
-
-        public static List<Worker> RelationsWorkersRoom()
-        {
-            return db.Workers.Include(u => u.Room).ToList();
-        }
-
-        public static List<Worker> LoadAllWorkers()
-        {
-            return db.Workers.ToList();
-        }
-
-        #endregion
-
         #region Favs
         public static void AddFavoriteRoom(FavoriteRoom favRoom)
         {
@@ -209,51 +371,6 @@ namespace Ecliptic.Repository
             }
             db.SaveChanges();
         }
-        #endregion
-
-        #region Rooms
-        public static void AddRoom(Room room)
-        {
-            if (room == null) return;
-            db.Rooms.Add(room);
-            db.SaveChanges();
-        }
-
-        public static void AddRoom(List<Room> rooms)
-        {
-            if (rooms == null) return;
-            foreach (var room in rooms)
-                db.Rooms.Add(room);
-            db.SaveChanges();
-        }
-
-        public static void RemoveRoom(Room room)
-        {
-            if (room == null) return;
-            db.Rooms.Remove(room);
-
-            db.SaveChanges();
-        }
-
-        public static void RemoveRoom(List<Room> rooms)
-        {
-            foreach (var room in rooms)
-            {
-                db.Rooms.Remove(room);
-            }
-            db.SaveChanges();
-        }
-
-        public static List<Room> RelationsRoomsWorker()
-        {
-            return db.Rooms.Include(u => u.Workers).ToList();
-        }
-
-        public static List<Room> LoadAllRooms()
-        {
-            return db.Rooms.ToList();
-        }
-
         #endregion
 
         #region User
@@ -311,14 +428,15 @@ namespace Ecliptic.Repository
 
         public static void LoadSample()
         {
-            LoadSampleBuildings();
-            LoadSampleFloors();
-            LoadSampleRooms();
-            LoadSampleWorkers();
+            LoadSampleBuildings(); db.SaveChanges();
+            LoadSampleFloors();    db.SaveChanges();
+            LoadSampleRooms();     db.SaveChanges();
+            LoadSampleWorkers();   db.SaveChanges();
 
-            LoadSampleNotes();
+            LoadSampleNotes();  db.SaveChanges();
 
-            db.SaveChanges();
+            LoadSamplePoints(); db.SaveChanges();
+            LoadSampleEdges();  db.SaveChanges();
 
             LoadAll();
         }
@@ -487,6 +605,37 @@ namespace Ecliptic.Repository
                 RoomId = 2,
             });
         }
+
+
+
+        public static void LoadSamplePoints()
+        {
+            db.Points.Add(new PointM(0,  0,  floorId: 1));
+            db.Points.Add(new PointM(50, 0,  floorId: 1));
+            db.Points.Add(new PointM(50, 50, floorId: 1));
+            db.Points.Add(new PointM(0,  50, floorId: 1));
+
+
+            db.Points.Add(new PointM(0, 0, floorId: 2));
+            db.Points.Add(new PointM(100, 0, floorId: 2));
+            db.Points.Add(new PointM(100, 100, floorId: 2));
+            db.Points.Add(new PointM(0, 100, floorId: 2));
+        }
+
+        public static void LoadSampleEdges()
+        {
+              db.Edges.Add(new EdgeM(0, pointFirId: 1, pointSecId: 2, edgeId: 1));
+              db.Edges.Add(new EdgeM(0, pointFirId: 2, pointSecId: 3, edgeId: 2));
+              db.Edges.Add(new EdgeM(0, pointFirId: 3, pointSecId: 4, edgeId: 3));
+              db.Edges.Add(new EdgeM(0, pointFirId: 4, pointSecId: 1, edgeId: 4));
+
+              db.Edges.Add(new EdgeM(0, pointFirId: 5, pointSecId: 6, edgeId: 5));
+              db.Edges.Add(new EdgeM(0, pointFirId: 6, pointSecId: 7, edgeId: 6));
+              db.Edges.Add(new EdgeM(0, pointFirId: 7, pointSecId: 8, edgeId: 7));
+              db.Edges.Add(new EdgeM(0, pointFirId: 8, pointSecId: 5, edgeId: 8));
+        }
+
+
 
         public static void LoadSampleNotes()
         {

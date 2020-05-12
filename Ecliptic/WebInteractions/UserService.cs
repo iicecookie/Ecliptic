@@ -12,7 +12,7 @@ namespace Ecliptic.WebInteractions
 {
     class UserService
     { 
-        const string Url = WebData.ADRESS + "/api/user/";
+        const string Url = WebData.ADRESS + "/api/";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -27,10 +27,10 @@ namespace Ecliptic.WebInteractions
         {
             HttpClient client = GetClient();
 
-            var response = await client.PostAsync(Url,
-                new StringContent(
-                    JsonConvert.SerializeObject(new { Login = login, Pass = pass }),
-                    Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await client.PostAsync(Url,
+                                new StringContent(
+                                    JsonConvert.SerializeObject(new { Login = login, Pass = pass }),
+                                    Encoding.UTF8, "application/json"));
 
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
@@ -38,28 +38,24 @@ namespace Ecliptic.WebInteractions
             return JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
         }
 
-        private class WebUser
-        {
-            public string Name{get;set; }
-            public string Login { get; set; }
-            public string Pass { get; set; }
-        }
-
         // добавляем пользоваетля
-        public async Task<User> Register(string name, string login, string pass)
+        public async Task<Dictionary<string, string>> Register(string name, string login, string pass)
         {
-            WebUser user = new WebUser { Name = name, Login = login, Pass = pass };
+            Dictionary<string, string> user = new Dictionary<string, string>();
+            user.Add("Name", name);
+            user.Add("Login", login);
+            user.Add("Pass", pass);
 
             HttpClient client = GetClient();
-            var response = await client.PostAsync(Url,
-                new StringContent(
-                    JsonConvert.SerializeObject(user),
-                    Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await client.PostAsync(Url + "Register",
+                                new StringContent(
+                                    JsonConvert.SerializeObject(user),
+                                    Encoding.UTF8, "application/json"));
 
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;    
 
-            return JsonConvert.DeserializeObject<User>(
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(
                 await response.Content.ReadAsStringAsync());
         }
     }

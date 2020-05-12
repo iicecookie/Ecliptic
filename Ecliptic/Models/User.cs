@@ -12,8 +12,7 @@ namespace Ecliptic.Models
         public int UserId { get; set; }
 
         public string Name  { get; private set; }
-        public string Login { get; private set; }
-        public string Pass  { get; private set; }
+        public string Login { get; private set; }   
 
         public virtual List<Note> Notes     { get; set; }
 
@@ -48,9 +47,9 @@ namespace Ecliptic.Models
         #endregion
 
         // for sample
-        public static User LoadUser(string login, string password)
+        public static User LoadUser(string login, string name)
         {
-            DbService.LoadSampleUser("", "");
+            DbService.LoadSampleUser("Maxim", "Bi");
             return User.CurrentUser;
         }
 

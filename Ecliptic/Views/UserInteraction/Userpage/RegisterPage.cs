@@ -151,36 +151,37 @@ namespace Ecliptic.Views.UserInteraction
                 return;
             }
 
-            bool isRemoteReachable = await CrossConnectivity.Current.IsReachable("ecliptic.geo.com");
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
             if (!isRemoteReachable)
             {
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
 
                 // для теста 2 строки
-                User.LoadUser(RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
-                GetUserPage();
+                // User.LoadUser(RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
+                // GetUserPage();
 
                 return;
             }
 
             UserService userService = new UserService();
 
-            User user = await userService.Register(RegisrationPage.NameBox.Text, LoginPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
+            var user = await userService.Register(RegisrationPage.NameBox.Text, LoginPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
 
+            int a = 5;
             // если сервер вернул данные пользователя - загрузить в пользователя
-            if (user != null)
-            {
-                DbService.SaveUser(user); // сохранили пользователя
-                DbService.LoadUser();
-
-                GetUserPage();
-                return;
-            }
-            else
-            {
-                await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
-                return;
-            }
+           // if (user != null)
+           // {
+           //     DbService.SaveUser(user); // сохранили пользователя
+           //     DbService.LoadUser();
+           //
+           //     GetUserPage();
+           //     return;
+           // }
+           // else
+           // {
+           //     await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
+           //     return;
+           // }
         }
 
         private void ToLoginPage(object sender, EventArgs e)

@@ -32,20 +32,20 @@ namespace Ecliptic.Views.UserInteraction
                 {
                     Text = User.CurrentUser.Name,
                     Style = Device.Styles.TitleStyle,
-                    HorizontalOptions = LayoutOptions.Start
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
                 Login = new Label
                 {
                     Text = User.CurrentUser.Login,
                     Style = Device.Styles.TitleStyle,
-                    HorizontalOptions = LayoutOptions.Start
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
 
                 NoteCount = new Label
                 {
                     Text = "У вас " + User.CurrentUser.Notes.Count + " заметок и " + User.CurrentUser.Favorites.Count + " избраных помещений",
                     Style = Device.Styles.ListItemTextStyle,
-                    HorizontalOptions = LayoutOptions.Start
+                    HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
                 LoginOutBtn = new Button
                 {
@@ -109,16 +109,17 @@ namespace Ecliptic.Views.UserInteraction
                 switche.Toggled += OnSwitched;
                 UserPage.Switches.Add(switche);
 
-                Label  noteLab = new Label
+                Label noteLab = new Label
                 {
                     Text = i.RoomName.ToString(),
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
 
-                Label  noteBui = new Label
+
+                Label noteBui = new Label
                 {
-                    Text = "Здание "  + i.Building.ToString(),
+                    Text = i.Building != "" ? "Здание " + i.Building.ToString() : "",
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };

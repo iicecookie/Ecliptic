@@ -35,15 +35,13 @@ namespace Ecliptic.Views.UserNote
                 return;
             }
 
-            Room room = RoomData.isThatRoom(SearchBarRoom.Text);
-
             if (WebData.istest)
             {
                 DbService.AddNote(new Note(NoteText.Text,
                                            SearchBarBuilding.Text,
                                            SearchBarRoom.Text,
                                            false,
-                                           roomid: room?.RoomId,
+                                           roomid: roomnote?.RoomId,
                                            userid: User.CurrentUser.UserId,
                                            username: User.CurrentUser.Name));
 
@@ -69,7 +67,7 @@ namespace Ecliptic.Views.UserNote
                                                        SearchBarBuilding.Text,
                                                        SearchBarRoom.Text,
                                                        false,
-                                                       roomid: room?.RoomId,
+                                                       roomid: roomnote?.RoomId,
                                                        userid: User.CurrentUser.UserId));
             
             // если сервер вернул данные по заметке - загрузить в пользователя
@@ -87,7 +85,8 @@ namespace Ecliptic.Views.UserNote
             }
         }
 
-        void OnTextRoomChanged(object sender, EventArgs e)
+        #region textchange
+        void OnTextRoomChanged    (object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;
             if (tapped == false) {
@@ -109,7 +108,6 @@ namespace Ecliptic.Views.UserNote
             searchRoomResults.ItemsSource = searchedrooms;
             tapped = false;
         }
-
         void OnTextBuildingChanged(object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;
@@ -126,14 +124,14 @@ namespace Ecliptic.Views.UserNote
                                          building.Description.ToLower().Contains(SearchBarBuilding.Text.ToLower()))
                       .ToList<Building>();
 
-            
-
             stackBarBuilding.HeightRequest    = searchedbuildings.Count() > 5 ? 250 : searchedbuildings.Count() * 50;
             searchBuildingResults.ItemsSource = searchedbuildings;
         }
+        #endregion
 
+        #region tappedivents
         public bool tapped = false;
-        private void OnRoomTapped(object sender, ItemTappedEventArgs e)
+        private void OnRoomTapped    (object sender, ItemTappedEventArgs e)
         {
             tapped = true;
             roomnote = (Room)e.Item;
@@ -141,7 +139,6 @@ namespace Ecliptic.Views.UserNote
             stackBarRoom.HeightRequest = 1;
             searchRoomResults.ItemsSource = new List<Room>();
         }
-
         private void OnBuildingTapped(object sender, ItemTappedEventArgs e)
         {
             tapped = true;
@@ -150,5 +147,6 @@ namespace Ecliptic.Views.UserNote
             stackBarBuilding.HeightRequest = 1;
             searchBuildingResults.ItemsSource = new List<Building>();
         }
+        #endregion
     }
 }
