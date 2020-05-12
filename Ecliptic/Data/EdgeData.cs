@@ -11,9 +11,12 @@ namespace Ecliptic.Models
     {
         public static List<EdgeM> Edges { get; set; }
 
+        public static List<EdgeM> CurrentFloorEdges { get; set; }
+
         static EdgeData()
         {
             Edges = new List<EdgeM>();
+            CurrentFloorEdges = new List<EdgeM>();
         }
     }
 }

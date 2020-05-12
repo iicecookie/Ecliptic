@@ -7,6 +7,8 @@ using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using TouchTracking;
 using Ecliptic.Models;
+using Android.InputMethodServices;
+using System.Linq;
 
 namespace Ecliptic.Views
 {
@@ -38,9 +40,13 @@ namespace Ecliptic.Views
             base.OnAppearing();
         }
 
+
         void OnFloorPickerSelected(object sender, EventArgs args)
         {
             // селектнули - отрисовали  
+            EdgeData.CurrentFloorEdges = EdgeData.Edges
+                .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
+
             canvasView.InvalidateSurface();
         }
 
@@ -87,6 +93,8 @@ namespace Ecliptic.Views
                 DependencyService.Get<IToast>().Show("Вы на последнем этаже");
             }
         }
+
+
 
         void OnTouchEffectAction(object sender, TouchActionEventArgs args)
         {

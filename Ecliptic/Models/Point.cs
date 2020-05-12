@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using Xamarin.Forms;
+﻿using System.Collections.Generic;
 
 namespace Ecliptic.Models
 {
@@ -13,7 +9,7 @@ namespace Ecliptic.Models
 		public double X { get; private set; }
 		public double Y { get; private set; }
 
-		public bool IsWaypoint { get; private set; }
+		public bool  IsWaypoint { get; private set; }
 
 		public int?  FloorId { get; set; }
 		public Floor Floor   { get; set; }

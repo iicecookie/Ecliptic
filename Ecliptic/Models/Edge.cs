@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-
-namespace Ecliptic.Models
+﻿namespace Ecliptic.Models
 {
 	public class EdgeM
 	{
 		public int Id { get; set; }
 
-		public double Weight { get; private set; }
+		public double  Weight   { get; private set; }
 
-		public int? PointFromId { get; set; }
-		public virtual PointM PointFrom   { get; set; }
+		public int?    PointFromId      { get; set; }
+		public virtual PointM PointFrom { get; set; }
 
-		public int? PointToId { get; set; }
+		public int?    PointToId        { get; set; }
 		public virtual PointM PointTo   { get; set; }
 
 		public EdgeM() { }

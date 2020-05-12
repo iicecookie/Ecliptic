@@ -610,16 +610,15 @@ namespace Ecliptic.Repository
 
         public static void LoadSamplePoints()
         {
-            db.Points.Add(new PointM(0,  0,  floorId: 1));
-            db.Points.Add(new PointM(50, 0,  floorId: 1));
-            db.Points.Add(new PointM(50, 50, floorId: 1));
-            db.Points.Add(new PointM(0,  50, floorId: 1));
+            db.Points.Add(new PointM(0,  0,    floorId: 1, pointId: 1));
+            db.Points.Add(new PointM(250, 0,   floorId: 1, pointId: 2));
+            db.Points.Add(new PointM(250, 250, floorId: 1, pointId: 3));
+            db.Points.Add(new PointM(0, 250,   floorId: 1, pointId: 4));
 
-
-            db.Points.Add(new PointM(0, 0, floorId: 2));
-            db.Points.Add(new PointM(100, 0, floorId: 2));
-            db.Points.Add(new PointM(100, 100, floorId: 2));
-            db.Points.Add(new PointM(0, 100, floorId: 2));
+            db.Points.Add(new PointM(0, 0,     floorId: 2, pointId: 5));
+            db.Points.Add(new PointM(100, 0,   floorId: 2, pointId: 6));
+            db.Points.Add(new PointM(100, 100, floorId: 2, pointId: 7));
+            db.Points.Add(new PointM(0, 100,   floorId: 2, pointId: 8));
         }
 
         public static void LoadSampleEdges()

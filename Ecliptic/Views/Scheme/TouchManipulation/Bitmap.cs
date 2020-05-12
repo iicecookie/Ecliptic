@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Ecliptic.Models;
 using SkiaSharp;
 
 using TouchTracking;
@@ -38,35 +38,25 @@ namespace Ecliptic.Views
             {
                 Color = SKColors.Black,
                 TextSize = 75,
+                StrokeWidth = 10,
                 TextAlign = SKTextAlign.Center
             };
 
             canvas.Concat(ref matrix);
             canvas.DrawBitmap(bitmap, 0, 0);
 
+            // canvas.DrawText("213", 250, 250, paint);
+            // canvas.DrawLine(0, 0, 500, 0, paint);
+            // canvas.DrawLine(500, 0, 500, 500, paint);
+            // canvas.DrawLine(500, 500, 0, 500, paint);
+            // canvas.DrawLine(0, 500, 0, 0, paint);
+            // canvas.DrawLine(0, 200, 500, 200, paint);
+            // canvas.DrawLine(250, 200, 250, 0, paint);
 
-            if (floor == 1)
+            foreach (var edge in EdgeData.CurrentFloorEdges)
             {
-                canvas.DrawText("213", 250, 250, paint);
-                canvas.DrawLine(0, 0, 500, 0, paint);
-                canvas.DrawLine(500, 0, 500, 500, paint);
-                canvas.DrawLine(500, 500, 0, 500, paint);
-                canvas.DrawLine(0, 500, 0, 0, paint);
-                canvas.DrawLine(0, 200, 500, 200, paint);
-                canvas.DrawLine(250, 200, 250, 0, paint);
-            }
-            else
-            {
-                canvas.DrawLine(0, 0, 500, 0, paint);
-                canvas.DrawLine(500, 0, 500, 500, paint);
-                canvas.DrawLine(500, 500, 0, 500, paint);
-                canvas.DrawLine(0, 500, 0, 0, paint);
-                canvas.DrawLine(0, 200, 500, 200, paint);
-                canvas.DrawLine(250, 200, 250, 0, paint);
-
-                canvas.DrawLine(500, 500, 500, 700, paint);
-                canvas.DrawLine(500, 700, 300, 700, paint);
-                canvas.DrawLine(300, 700, 300, 500, paint);
+                canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
+                                (float)edge.PointTo.X, (float)edge.PointTo.Y, paint);
             }
 
             canvas.Restore();
@@ -91,7 +81,7 @@ namespace Ecliptic.Views
                 SKRect rect = new SKRect(0, 0, bitmap.Width, bitmap.Height);
                 return rect.Contains(transformedPoint);
             }
-            return false; 
+            return false;
         }
 
         public void ProcessTouchEvent(long id, TouchActionType type, SKPoint location)
@@ -160,5 +150,4 @@ namespace Ecliptic.Views
             Matrix = matrix;
         }
     }
-
 }
