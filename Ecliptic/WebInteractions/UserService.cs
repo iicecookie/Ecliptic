@@ -12,7 +12,7 @@ namespace Ecliptic.WebInteractions
 {
     class UserService
     { 
-        const string Url = WebData.ADRESS + "/api/";
+        const string Url = WebData.ADRESS + "api/Clients";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -38,6 +38,17 @@ namespace Ecliptic.WebInteractions
             return JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
         }
 
+        // получаем пользователя for ttesting dont serilaze back
+        public async Task<string> Get()
+        {
+            HttpClient client = GetClient();
+            string result = await client.GetStringAsync("http://ecliptic.somee.com/api/Clients");
+
+            var d = JsonConvert.DeserializeObject<string>(result);
+
+            return d;
+        }
+
         // добавляем пользоваетля
         public async Task<Dictionary<string, string>> Register(string name, string login, string pass)
         {
@@ -46,14 +57,16 @@ namespace Ecliptic.WebInteractions
             user.Add("Login", login);
             user.Add("Pass", pass);
 
+            var v = JsonConvert.SerializeObject(user);
+
             HttpClient client = GetClient();
-            HttpResponseMessage response = await client.PostAsync(Url + "Register",
+            HttpResponseMessage response = await client.PostAsync(Url,
                                 new StringContent(
-                                    JsonConvert.SerializeObject(user),
+                                    v,
                                     Encoding.UTF8, "application/json"));
 
-            if (response.StatusCode != HttpStatusCode.OK)
-                return null;    
+          //      if (response.StatusCode != HttpStatusCode.OK)
+          //          return null;    
 
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(
                 await response.Content.ReadAsStringAsync());

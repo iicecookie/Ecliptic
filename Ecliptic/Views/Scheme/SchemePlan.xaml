@@ -11,19 +11,10 @@
              Title="Building Plan">
 
     <ContentPage.ToolbarItems>
-        
-        <ToolbarItem Text="Название"
-                     IconImageSource="back.png"
-                     Order="Secondary"
-                     Priority="1" />
 
-        <ToolbarItem Text="Положение"
+        <ToolbarItem Text="Вернуться в начало"
+                     Clicked="RefrashMatrix"
                      IconImageSource="back.png"
-                     Order="Secondary"
-                     Priority="1" />
-
-        <ToolbarItem Text="Этаж"
-                     IconImageSource="stared.png"
                      Order="Secondary"
                      Priority="1" />
 

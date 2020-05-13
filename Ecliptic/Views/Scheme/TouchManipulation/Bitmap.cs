@@ -53,7 +53,7 @@ namespace Ecliptic.Views
             // canvas.DrawLine(0, 200, 500, 200, paint);
             // canvas.DrawLine(250, 200, 250, 0, paint);
 
-            foreach (var edge in EdgeData.CurrentFloorEdges)
+            foreach (var edge in EdgeData.CurrentFloorWalls)
             {
                 canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
                                 (float)edge.PointTo.X, (float)edge.PointTo.Y, paint);

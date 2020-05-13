@@ -11,12 +11,17 @@ namespace Ecliptic.Models
     {
         public static List<EdgeM> Edges { get; set; }
 
-        public static List<EdgeM> CurrentFloorEdges { get; set; }
+        // для стен
+        public static List<EdgeM> CurrentFloorWalls { get; set; }
+
+        // для маршрутов
+        public static List<EdgeM> CurrentFloorWays { get; set; }
 
         static EdgeData()
         {
             Edges = new List<EdgeM>();
-            CurrentFloorEdges = new List<EdgeM>();
+            CurrentFloorWalls = new List<EdgeM>();
+            CurrentFloorWays = new List<EdgeM>();
         }
     }
 }

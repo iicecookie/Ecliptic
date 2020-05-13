@@ -14,19 +14,19 @@ namespace Ecliptic.Views.UserInteraction
     {
         public  class RegisrationContrioolers
         {
-            public Label labelMessage { get; set; }
-            public Entry NameBox { get; set; }
-            public Entry LoginBox { get; set; }
-            public Entry PasswBox { get; set; }
+            public Label labelMessage  { get; set; }
 
+            public Entry NameBox       { get; set; }
+            public Entry LoginBox      { get; set; }
+            public Entry PasswBox      { get; set; }
             public Entry PasswCheckBox { get; set; }
 
-            public Button RegisBtn { get; set; }
-            public Button LoginBtn { get; set; }
+            public Button RegisBtn     { get; set; }
+            public Button LoginBtn     { get; set; }
 
             public RegisrationContrioolers()
             {
-                labelMessage = new Label
+                labelMessage  = new Label
                 {
                     Text = "Заполните поля",
                     Style = Device.Styles.TitleStyle,
@@ -34,7 +34,8 @@ namespace Ecliptic.Views.UserInteraction
                     //     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                NameBox = new Entry
+
+                NameBox       = new Entry
                 {
                     Text = "",
                     Placeholder = "Имя пользователя",
@@ -46,10 +47,10 @@ namespace Ecliptic.Views.UserInteraction
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
-                LoginBox = new Entry
+                LoginBox      = new Entry
                 {
                     Text = "",
-                    Placeholder = "Имя",
+                    Placeholder = "Логин",
                     Keyboard = Keyboard.Default,
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
@@ -58,7 +59,7 @@ namespace Ecliptic.Views.UserInteraction
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
-                PasswBox = new Entry
+                PasswBox      = new Entry
                 {
                     Text = "",
                     Placeholder = "Пароль",
@@ -140,32 +141,26 @@ namespace Ecliptic.Views.UserInteraction
             if (RegisrationPage.NameBox.Text  == "" || RegisrationPage.LoginBox.Text == "" ||
                 RegisrationPage.PasswBox.Text == "" || RegisrationPage.PasswCheckBox.Text == "")
             {
-
-                DependencyService.Get<IToast>().Show("Не все поля заполнены");
-                return;
+                DependencyService.Get<IToast>().Show("Не все поля заполнены"); return;
             }
 
             if (RegisrationPage.PasswBox.Text != RegisrationPage.PasswCheckBox.Text)
             {
-                DependencyService.Get<IToast>().Show("Пароли не совпадают");
-                return;
+                DependencyService.Get<IToast>().Show("Пароли не совпадают");   return;
             }
 
             bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
             if (!isRemoteReachable)
             {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
-
-                // для теста 2 строки
-                // User.LoadUser(RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
-                // GetUserPage();
-
-                return;
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
             UserService userService = new UserService();
 
-            var user = await userService.Register(RegisrationPage.NameBox.Text, LoginPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
+            // var ass = await userService.Get();
+
+            var user = await userService.
+                Register(RegisrationPage.NameBox.Text, RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
 
             int a = 5;
             // если сервер вернул данные пользователя - загрузить в пользователя

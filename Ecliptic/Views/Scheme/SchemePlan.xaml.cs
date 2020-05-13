@@ -40,18 +40,17 @@ namespace Ecliptic.Views
             base.OnAppearing();
         }
 
-
+        #region FloorChange
         void OnFloorPickerSelected(object sender, EventArgs args)
         {
             // селектнули - отрисовали  
-            EdgeData.CurrentFloorEdges = EdgeData.Edges
+            EdgeData.CurrentFloorWalls = EdgeData.Edges
                 .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
 
             canvasView.InvalidateSurface();
         }
 
-        // переход на следующий этаж
-        private void OnStepedDown(object sender, EventArgs args)
+        private void OnStepedDown (object sender, EventArgs args)
         {
             if (FloorPicker.SelectedItem == null)
             {
@@ -71,9 +70,8 @@ namespace Ecliptic.Views
                 DependencyService.Get<IToast>().Show("Вы на нижнем этаже");
             }
         }
-        
-        // переход на предэдущий этаж
-        private void OnStepedUp(object sender, EventArgs args)
+                                  
+        private void OnStepedUp   (object sender, EventArgs args)
         {
             if (FloorPicker.SelectedItem == null)
             {
@@ -93,8 +91,7 @@ namespace Ecliptic.Views
                 DependencyService.Get<IToast>().Show("Вы на последнем этаже");
             }
         }
-
-
+        #endregion
 
         void OnTouchEffectAction(object sender, TouchActionEventArgs args)
         {
@@ -153,6 +150,15 @@ namespace Ecliptic.Views
             matrixDisplay.Paint(canvas, bitmap.Matrix,
                 new SKPoint(info.Width  - matrixSize.Width,
                             info.Height - matrixSize.Height));
+        }
+
+
+        void RefrashMatrix(object sender, EventArgs args)
+        {
+            // селектнули - отрисовали  
+            bitmap.Matrix = SKMatrix.MakeIdentity();
+
+            canvasView.InvalidateSurface();
         }
     }
 }
