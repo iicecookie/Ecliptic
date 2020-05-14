@@ -22,7 +22,7 @@ namespace Ecliptic.Views.UserInteraction
     {
         public class LoginControls
         {
-            public Label labelMessage { get; set; }
+            public Label TitleLab { get; set; }
             public Entry LoginBox { get; set; }
             public Entry PasswBox { get; set; }
             public Button LoginBtn { get; set; }
@@ -30,7 +30,7 @@ namespace Ecliptic.Views.UserInteraction
 
             public LoginControls()
             {
-                labelMessage = new Label
+                TitleLab = new Label
                 {
                     Text = "Вход",
                     Style = Device.Styles.TitleStyle,
@@ -93,7 +93,7 @@ namespace Ecliptic.Views.UserInteraction
             stackLayout.Margin = 20;      
  
             stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
-            stackLayout.Children.Add(LoginPage.labelMessage);
+            stackLayout.Children.Add(LoginPage.TitleLab);
             stackLayout.Children.Add(LoginPage.LoginBox);
             stackLayout.Children.Add(LoginPage.PasswBox);
             stackLayout.Children.Add(LoginPage.LoginBtn);

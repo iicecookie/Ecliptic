@@ -12,7 +12,7 @@ namespace Ecliptic.Views.UserInteraction
 {
     public partial class Authorization : ContentPage
     {
-        public  class RegisrationContrioolers
+        public class RegisrationContrioolers
         {
             public Label labelMessage  { get; set; }
 

@@ -144,7 +144,8 @@ namespace Ecliptic.Views
             if (FloorPicker.SelectedItem != null)
                 bitmap.Paint(canvas, ((Floor)FloorPicker.SelectedItem).Level);
 
-            // Display the matrix in the lower-right corner
+
+            // Отрисовка матрицы преобразования
             SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
 
             matrixDisplay.Paint(canvas, bitmap.Matrix,
@@ -152,7 +153,7 @@ namespace Ecliptic.Views
                             info.Height - matrixSize.Height));
         }
 
-
+        #region Toolbar
         void RefrashMatrix(object sender, EventArgs args)
         {
             // селектнули - отрисовали  
@@ -160,5 +161,6 @@ namespace Ecliptic.Views
 
             canvasView.InvalidateSurface();
         }
+        #endregion
     }
 }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Xamarin.Forms;
-
+using System.Linq;
 
 namespace Ecliptic.Views.UserInteraction
 {
@@ -16,37 +16,38 @@ namespace Ecliptic.Views.UserInteraction
     {
         public class UserControls
         {
-            public Label labelMessage { get; set; }
-            public Label Login { get; set; }
-            public Label Pass { get; set; }
-            public Label NoteCount { get; set; }
-            public Button LoginOutBtn { get; set; }
+            public Label NameLab  { get; set; }
+            public Label LoginLab { get; set; }
 
-            public List<Editor> Editors { get; set; }
+            public Label NoteCount { get; set; }
+
+            public List<Editor> Editors  { get; set; }
             public List<Switch> Switches { get; set; }
-            public List<Label>  Dates { get; set; }
+            public List<Label>  Dates    { get; set; }
+
+            public Button LoginOutBtn { get; set; }
 
             public UserControls()
             {
-                labelMessage = new Label
+                NameLab   = new Label
                 {
                     Text = User.CurrentUser.Name,
                     Style = Device.Styles.TitleStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
-                Login = new Label
+                LoginLab  = new Label
                 {
                     Text = User.CurrentUser.Login,
                     Style = Device.Styles.TitleStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
-
                 NoteCount = new Label
                 {
                     Text = "У вас " + User.CurrentUser.Notes.Count + " заметок и " + User.CurrentUser.Favorites.Count + " избраных помещений",
                     Style = Device.Styles.ListItemTextStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
+
                 LoginOutBtn = new Button
                 {
                     Text = "Login Out",
@@ -54,9 +55,10 @@ namespace Ecliptic.Views.UserInteraction
                     TextColor = Color.Black,
                     BorderColor = Color.Black,
                 };
-                Editors = new List<Editor>();
+
+                Editors  = new List<Editor>();
                 Switches = new List<Switch>();
-                Dates = new List<Label>();
+                Dates    = new List<Label> ();
             }
         }
 
@@ -66,22 +68,21 @@ namespace Ecliptic.Views.UserInteraction
         {
             Title = "Профиль " + User.CurrentUser.Name;
 
+            LoginPage       = null;
             RegisrationPage = null;
-            LoginPage = null;
 
             UserPage = new UserControls();
             UserPage.LoginOutBtn.Clicked += GoLoginPage;
 
-
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
 
-            stackLayout.Children.Add(UserPage.labelMessage);
-            stackLayout.Children.Add(UserPage.Login);
+            stackLayout.Children.Add(UserPage.NameLab);
+            stackLayout.Children.Add(UserPage.LoginLab);
             stackLayout.Children.Add(UserPage.NoteCount);
 
-            // create user notes
-            foreach (var i in User.CurrentUser.Notes)
+            // заметки пользователя
+            foreach (var note in User.CurrentUser.Notes)
             {
                 Grid grid = new Grid
                 {
@@ -99,81 +100,79 @@ namespace Ecliptic.Views.UserInteraction
                 };
 
                 #region onenote
-                Switch switche = new Switch
+                Switch switchaccses = new Switch
                 {
-                    IsToggled = i.isPublic,
+                    IsToggled = note.isPublic,
                     HorizontalOptions = LayoutOptions.End,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
-                    AutomationId = i.NoteId.ToString(),
+                    AutomationId = note.NoteId.ToString(),
                 };
-                switche.Toggled += OnSwitched;
-                UserPage.Switches.Add(switche);
 
-                Label noteLab = new Label
+                Label roomname     = new Label
                 {
-                    Text = i.RoomName.ToString(),
+                    Text = note.RoomName.ToString(),
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
-
-
-                Label noteBui = new Label
+                Label buildingname = new Label
                 {
-                    Text = i.Building != "" ? "Здание " + i.Building.ToString() : "",
+                    Text = note.Building != "" ? "Здание " + note.Building.ToString() : "",
                     FontSize = 14,
                     Style = Device.Styles.TitleStyle,
                 };
-
-                Label  date = new Label
+                Label datechanges  = new Label
                 {
-                    Text = " " + i.Date.ToString(),
+                    Text = " " + note.Date.ToString(),
                     FontSize = 14,
-                    AutomationId = i.NoteId.ToString(),
+                    AutomationId = note.NoteId.ToString(),
                     Style = Device.Styles.TitleStyle,
                 };
-                UserPage.Dates.Add(date);
 
-                Editor noteEnt = new Editor
+                Editor text = new Editor
                 {
                     AutoSize = EditorAutoSizeOption.TextChanges,
-                    Text = i.Text.ToString() ?? "wot",
+                    Text = note.Text.ToString() ?? "wot",
                     FontSize = 12,
                     Style = Device.Styles.BodyStyle,
-                    AutomationId = i.NoteId.ToString(),
+                    AutomationId = note.NoteId.ToString(),
                 };
-                UserPage.Editors.Add(noteEnt);
 
-                ImageButton SaveBtn = new ImageButton
+                ImageButton SaveBut = new ImageButton
                 {
                     Source = "save.png",
-                    AutomationId = i.NoteId.ToString(),
-                }; 
-                SaveBtn.Clicked += OnButtonSaveClicked;
-
-                ImageButton DeleBtn = new ImageButton
+                    AutomationId = note.NoteId.ToString(),
+                };
+                ImageButton DeleBut = new ImageButton
                 {
                     Source = "delete.png",
-                    AutomationId = i.NoteId.ToString(),
+                    AutomationId = note.NoteId.ToString(),
                 };
-                DeleBtn.Clicked += OnButtonDeleteClicked;
+
+                UserPage.Switches.Add(switchaccses);
+                UserPage.Dates   .Add(datechanges);
+                UserPage.Editors .Add(text);
+
+                switchaccses.Toggled += OnSwitched;
+                SaveBut.Clicked      += OnButtonSaveClicked;
+                DeleBut.Clicked      += OnButtonDeleteClicked;
                 #endregion
 
                 #region addingrid
-                grid.Children.Add(noteLab, 0, 0);
-                grid.Children.Add(switche, 1, 0);
-                grid.Children.Add(SaveBtn, 2, 0);
-                grid.Children.Add(DeleBtn, 3, 0);
-                grid.Children.Add(date, 1, 1);
-                Grid.SetColumnSpan(date, 2);
-                grid.Children.Add(noteBui, 0, 1);
-                grid.Children.Add(noteEnt, 0, 2);
-                Grid.SetColumnSpan(noteEnt, 4);   // растягиваем на 4 столбца
+                grid.Children.Add (roomname,     0, 0);
+                grid.Children.Add (switchaccses, 1, 0);
+                grid.Children.Add (SaveBut,      2, 0);
+                grid.Children.Add (DeleBut,      3, 0);
+                grid.Children.Add (datechanges,  1, 1);
+                Grid.SetColumnSpan(datechanges,  2);
+                grid.Children.Add (buildingname, 0, 1);
+                grid.Children.Add (text, 0, 2);
+                Grid.SetColumnSpan(text, 4);
                 #endregion
 
                 Frame frame = new Frame()
                 {
                     BorderColor = Color.ForestGreen,
-                    AutomationId = i.NoteId.ToString(),
+                    AutomationId = note.NoteId.ToString(),
                     Content = grid,
                 };
 
@@ -272,7 +271,7 @@ namespace Ecliptic.Views.UserInteraction
             DbService.UpdateNote(note);
 
             // hide in tests
-            DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " изменена");
+            DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " изменена");
 
             // отправить на сервер
          
@@ -287,9 +286,27 @@ namespace Ecliptic.Views.UserInteraction
             Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
             if  (note == null) return;
 
-            // hide in tests
-            DependencyService.Get<IToast>().Show("Заметка о " + note?.Room + " удалена");
+            DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " удалена");
 
+
+            List<Frame> v = ((StackLayout)((ScrollView)Content).Content).Children
+                 .Where(x => x is Frame)
+                 .Select(view => view as Frame)
+                 .Where(f => f.AutomationId != btn.AutomationId)
+                 .ToList();
+
+            StackLayout stackLayout = new StackLayout();
+            stackLayout.Margin = 20;
+            stackLayout.Children.Add(UserPage.NameLab);
+            stackLayout.Children.Add(UserPage.LoginLab);
+            stackLayout.Children.Add(UserPage.NoteCount);
+            foreach (var frame in v)
+            {
+                stackLayout.Children.Add(frame);
+            }
+            stackLayout.Children.Add(UserPage.LoginOutBtn);
+
+            ((ScrollView)Content).Content = stackLayout;
 
             if (note.isPublic)
             {
@@ -307,7 +324,7 @@ namespace Ecliptic.Views.UserInteraction
 
             DbService.RemoveNote(note);
 
-            GetUserPage();
+            // GetUserPage();
         }
 
         public void OnSwitched(object sender, EventArgs args)
@@ -335,7 +352,7 @@ namespace Ecliptic.Views.UserInteraction
                 NoteData.Notes = DbService.LoadAllPublicNotes();
 
                 // hide in test
-                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала публичной");
+                DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " стала публичной");
             }
             else
             {
@@ -343,7 +360,7 @@ namespace Ecliptic.Views.UserInteraction
 
                 // удалить из общиз если удалилось с сервера
                 Note buildnote = NoteData.FindNote(note);
-                if (buildnote != null)
+                if  (buildnote != null)
                 {
                     DbService.RemoveNote(NoteData.FindNote(note));
                 }
