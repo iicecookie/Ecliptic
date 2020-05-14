@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class FavRoomService
     {
-        const string Url = WebData.ADRESS + "/api/favroom/";
+        const string Url = WebData.ADRESS + "/api/FavRooms";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -21,15 +21,15 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все избраные аудитории пользователя
-        public async Task<List<FavoriteRoom>> Get(int Userid)
+        // получаем все избраные помещения
+        public async Task<List<FavoriteRoom>> Get(int userid)
         {
             HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url + "/" + Userid);
+            string result = await client.GetStringAsync(Url + "/" + userid);
             return JsonConvert.DeserializeObject<List<FavoriteRoom>>(result);
         }
 
-        // добавляем одну избраную аудиторию
+        // добавляем одного друга
         public async Task<FavoriteRoom> Add(FavoriteRoom note)
         {
             HttpClient client = GetClient();
@@ -45,7 +45,23 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
-        // удаляем одну избраную аудиторию
+        // обновляем заметку
+        public async Task<FavoriteRoom> Update(FavoriteRoom note)
+        {
+            HttpClient client = GetClient();
+            var response = await client.PutAsync(Url + "/" + note.FavoriteRoomId,
+                new StringContent(
+                    JsonConvert.SerializeObject(note),
+                    Encoding.UTF8, "application/json"));
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                return null;
+
+            return JsonConvert.DeserializeObject<FavoriteRoom>(
+                await response.Content.ReadAsStringAsync());
+        }
+
+        // удаляем заметку
         public async Task<FavoriteRoom> Delete(int id)
         {
             HttpClient client = GetClient();

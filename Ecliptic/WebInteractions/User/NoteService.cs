@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class NoteService
     {
-        const string Url = WebData.ADRESS + "/api/note/";
+        const string Url = WebData.ADRESS + "/api/Notes";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -21,11 +21,19 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все заметки пользователя
-        public async Task<List<Note>> Get(int Userid)
+        // получаем все заметки
+        public async Task<List<Note>> Get()
         {
             HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url + "/" + Userid);
+            string result = await client.GetStringAsync(Url);
+            return JsonConvert.DeserializeObject<List<Note>>(result);
+        }
+
+        // получаем все заметки пользователя
+        public async Task<List<Note>> Get(int userid)
+        {
+            HttpClient client = GetClient();
+            string result = await client.GetStringAsync(Url + "/" + userid);
             return JsonConvert.DeserializeObject<List<Note>>(result);
         }
 

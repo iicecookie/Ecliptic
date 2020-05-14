@@ -4,6 +4,7 @@ using Ecliptic.Models;
 using SkiaSharp;
 
 using TouchTracking;
+using Xamarin.Essentials;
 
 namespace Ecliptic.Views
 {
@@ -21,7 +22,11 @@ namespace Ecliptic.Views
         {
             this.bitmap = bitmap;
 
-            Matrix = SKMatrix.MakeIdentity();
+            // Matrix = SKMatrix.MakeIdentity();
+
+            float height = (float)DeviceDisplay.MainDisplayInfo.Height / 1280;
+
+            Matrix = SKMatrix.MakeScale(height, height);
 
             TouchManager = new TouchManipulationManager
             {
@@ -32,6 +37,7 @@ namespace Ecliptic.Views
         public void Paint(SKCanvas canvas, int floor)
         {
             canvas.Save();
+
             SKMatrix matrix = Matrix;
 
             SKPaint paint = new SKPaint
@@ -39,19 +45,13 @@ namespace Ecliptic.Views
                 Color = SKColors.Black,
                 TextSize = 75,
                 StrokeWidth = 10,
+                Style = SKPaintStyle.Stroke,
+                StrokeCap = SKStrokeCap.Square,
                 TextAlign = SKTextAlign.Center
             };
 
             canvas.Concat(ref matrix);
             canvas.DrawBitmap(bitmap, 0, 0);
-
-            // canvas.DrawText("213", 250, 250, paint);
-            // canvas.DrawLine(0, 0, 500, 0, paint);
-            // canvas.DrawLine(500, 0, 500, 500, paint);
-            // canvas.DrawLine(500, 500, 0, 500, paint);
-            // canvas.DrawLine(0, 500, 0, 0, paint);
-            // canvas.DrawLine(0, 200, 500, 200, paint);
-            // canvas.DrawLine(250, 200, 250, 0, paint);
 
             foreach (var edge in EdgeData.CurrentFloorWalls)
             {
