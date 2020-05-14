@@ -40,7 +40,7 @@ namespace Ecliptic.Views
 
             SKMatrix matrix = Matrix;
 
-            SKPaint paint = new SKPaint
+            SKPaint  paint  = new SKPaint
             {
                 Color = SKColors.Black,
                 TextSize = 75,
@@ -121,7 +121,7 @@ namespace Ecliptic.Views
             touchDictionary.Values.CopyTo(infos, 0);
             SKMatrix touchMatrix = SKMatrix.MakeIdentity();
 
-            if (infos.Length == 1)
+            if      (infos.Length == 1)
             {
                 SKPoint prevPoint = infos[0].PreviousPoint;
                 SKPoint newPoint = infos[0].NewPoint;
@@ -143,9 +143,18 @@ namespace Ecliptic.Views
             SKMatrix.PostConcat(ref matrix, touchMatrix);
 
             // что бы не уменьшить ниже нижнего
-            // осторожно
-            // if (matrix.ScaleX < 0.01) { matrix.ScaleX = 0.01F; }
-            // if (matrix.ScaleY < 0.01) { matrix.ScaleY = 0.01F; }
+            if (Math.Abs(matrix.ScaleX) < 0.1 &&
+                Math.Abs(matrix.ScaleY) < 0.1 &&
+                Math.Abs(matrix.SkewX ) < 0.1 &&
+                Math.Abs(matrix.SkewY ) < 0.1)
+            { return; }
+
+            // что бы не поднивать выше верхнего
+            if (Math.Abs(matrix.ScaleX) > 4.0 &&
+                Math.Abs(matrix.ScaleY) > 4.0 ||
+                Math.Abs(matrix.SkewX)  > 4.0 &&
+                Math.Abs(matrix.SkewY)  > 4.0)
+            { return; }
 
             Matrix = matrix;
         }
