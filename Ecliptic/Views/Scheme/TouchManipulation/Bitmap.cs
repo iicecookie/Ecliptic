@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Android.Graphics;
 using Ecliptic.Models;
+using Ecliptic.Views.WayFounder;
 using SkiaSharp;
 
 using TouchTracking;
@@ -40,7 +42,7 @@ namespace Ecliptic.Views
 
             SKMatrix matrix = Matrix;
 
-            SKPaint  paint  = new SKPaint
+            SKPaint wallpaint = new SKPaint
             {
                 Color = SKColors.Black,
                 TextSize = 75,
@@ -50,13 +52,53 @@ namespace Ecliptic.Views
                 TextAlign = SKTextAlign.Center
             };
 
+            SKPaint textpaint = new SKPaint
+            {
+                TextSize = 36,
+                IsAntialias = true,
+                Color = SKColors.Blue,
+                TextScaleX = 1.0f,
+                TextAlign = SKTextAlign.Center,
+            };
+
+            SKPaint waypaint = new SKPaint
+            {
+                TextSize = 64.0f,
+                IsAntialias = true,
+                Color = SKColors.Red,
+                TextScaleX = 1.0f,
+                TextAlign = SKTextAlign.Center,
+            };
+
             canvas.Concat(ref matrix);
             canvas.DrawBitmap(bitmap, 0, 0);
 
+            // рисуем стены
             foreach (var edge in EdgeData.CurrentFloorWalls)
             {
                 canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
-                                (float)edge.PointTo.X, (float)edge.PointTo.Y, paint);
+                                (float)edge.PointTo.X, (float)edge.PointTo.Y, wallpaint);
+
+            }
+
+            // рисуем имяна помещений
+            foreach (var point in PointData.RoomPoints)
+            {
+                if (point.Floor.Level == floor)
+                {
+                    canvas.DrawText(point.Room.Name, (float)point.X, (float)point.Y, waypaint);
+                }
+            }
+
+            // рисуем маршрут если есть
+            if (EdgeData.Ways.Count > 0)
+            {
+                foreach (var edge in EdgeData.Ways)
+                {
+                    if (edge.PointFrom.Floor.Level == floor)
+                        canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
+                                        (float)edge.PointTo.X, (float)edge.PointTo.Y, waypaint);
+                }
             }
 
             canvas.Restore();

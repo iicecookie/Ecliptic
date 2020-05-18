@@ -125,14 +125,14 @@ namespace Ecliptic.Views
             if (searchBar2.Text == null || searchBar2.Text == "") { DependencyService.Get<IToast>().Show("Конец маршрута не задан");   return; }
             if (Way.End   == null) { DependencyService.Get<IToast>().Show("Конец маршрута неоднозначен");  return; }
 
-            if (Way.End.Equals(Way.Begin)) { DependencyService.Get<IToast>().Show("Вы находитесь в месте назначения"); return; } 
-            // сначала проверить, есть ли записаные аудитории в базе данных
-            // вывести предупреждение если нет
-
-
+            if (Way.End.Equals(Way.Begin)) { DependencyService.Get<IToast>().Show("Вы находитесь в месте назначения"); return; }
 
             // если все окей - производить поиск
+            List<PointM> path = new Dijkstra().
+                                            FindShortestPath(PointData.Find(Way.Begin),
+                                                             PointData.Find(Way.End));
 
+            EdgeData.ConvertPathToWay(path);
         }
     }
 }

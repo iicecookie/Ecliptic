@@ -21,5 +21,14 @@
 			PointFromId = pointFirId;
 			PointToId   = pointSecId;
 		}
+
+		public bool isThatEdge(PointM first,PointM second)
+		{
+			if (PointFrom == first && PointTo == second)
+				return true;
+			if (PointFrom == second && PointTo == first)
+				return true;
+			return false;
+		}
 	}
 }

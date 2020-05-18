@@ -9,6 +9,7 @@ using TouchTracking;
 using Ecliptic.Models;
 using Android.InputMethodServices;
 using System.Linq;
+using Ecliptic.Views.WayFounder;
 
 namespace Ecliptic.Views
 {
@@ -25,14 +26,16 @@ namespace Ecliptic.Views
             InitializeComponent();
 
             SKBitmap bitmap = new SKBitmap(600, 600);
-            
-            this.bitmap = new TouchManipulationBitmap(bitmap);
 
+            this.bitmap = new TouchManipulationBitmap(bitmap);
             this.bitmap.TouchManager.Mode = TouchManipulationMode.ScaleRotate;
 
             FloorPicker.ItemsSource  = FloorData.Floors;
+            FloorPicker.SelectedItem = FloorData.GetFloor(4);
 
-            FloorPicker.SelectedItem = FloorData.GetFloor(1);
+            PointData.RoomPoints = PointData.Points
+                        .Where(p => p.IsWaypoint == true)
+                        .Where(c => c.Room != null).ToList();
         }
 
         protected override void OnAppearing()
@@ -43,10 +46,17 @@ namespace Ecliptic.Views
         #region FloorChange
         void OnFloorPickerSelected(object sender, EventArgs args)
         {
-            // селектнули - отрисовали  
+            // загрузили стены
             EdgeData.CurrentFloorWalls = EdgeData.Edges
-                .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
+                .Where(e => e.PointFrom.IsWaypoint == false)
+                .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level)
+                .ToList();
 
+            // загрузили маршруты
+            // EdgeData.CurrentFloorWays = EdgeData.Edges.Where(e => e.PointFrom.IsWaypoint == true)
+            //     .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
+
+            // селектнули - отрисовали  
             canvasView.InvalidateSurface();
         }
 

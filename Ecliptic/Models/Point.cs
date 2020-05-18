@@ -28,7 +28,7 @@ namespace Ecliptic.Models
 
 		public PointM(double x, double y, 
 					  bool isWaypoint = false, int pointId = 0, 
-					  int? floorId    = null,  int? roomId = null)
+					  int? floorId    = null,  int? roomId = null):this()
 		{
 			Id = pointId;
 			X = x;
@@ -36,6 +36,33 @@ namespace Ecliptic.Models
 			IsWaypoint = isWaypoint;
 			FloorId = floorId;
 			RoomId = roomId;
+		}
+
+		public PointM(PointM point) : this()
+		{
+			Id = point.Id;
+			X  = point.X;
+			Y  = point.Y;
+			IsWaypoint = point.IsWaypoint;
+			Floor    = point.Floor;
+			FloorId  = point.FloorId;
+			Room     = point.Room;
+			RoomId   = point.RoomId;
+			EdgesIn  = point.EdgesIn;
+			EdgesOut = point.EdgesOut;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is PointM m &&
+				   Id == m.Id &&
+				   IsWaypoint == m.IsWaypoint &&
+				   FloorId == m.FloorId;
+		}
+
+		public override string ToString()
+		{
+			return Id + " ";
 		}
 	}
 }

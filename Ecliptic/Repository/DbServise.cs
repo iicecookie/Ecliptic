@@ -15,7 +15,7 @@ namespace Ecliptic.Repository
         public static void RefrashDb(bool delete = false)
         {
             // Удаляем бд, если она существуеты
-             if (delete) 
+            if (delete)
                 db.Database.EnsureDeleted();
 
             // Создаем бд, если она отсутствует
@@ -30,12 +30,12 @@ namespace Ecliptic.Repository
         public static void LoadAll()
         {
             BuildingData.Buildings = db.Buildings.ToList();
-            FloorData.Floors       = db.Floors.ToList();
+            FloorData.Floors = db.Floors.ToList();
 
             WorkerData.Workers = RelationsWorkersRoom();
-            RoomData.Rooms     = RelationsRoomsWorker();
+            RoomData.Rooms    = RelationsRoomsWorker();
 
-            NoteData.Notes     = LoadAllPublicNotes();
+            NoteData.Notes = LoadAllPublicNotes();
 
             PointData.Points = LoadAllPoints();
             EdgeData.Edges   = LoadAllEdges();
@@ -48,7 +48,7 @@ namespace Ecliptic.Repository
             }
         }
 
-        public static void ClearAll()   
+        public static void ClearAll()
         {
             if (db.Rooms.Count() > 0)
                 db.Rooms.RemoveRange(db.Rooms);
@@ -188,7 +188,6 @@ namespace Ecliptic.Repository
 
         #endregion
 
-
         #region Points
         public static void AddPoing(PointM point)
         {
@@ -262,8 +261,6 @@ namespace Ecliptic.Repository
             return db.Edges.ToList();
         }
         #endregion
-
-
 
         #region Notes
 
@@ -384,10 +381,10 @@ namespace Ecliptic.Repository
         public static User LoadUser()
         {
             if (db.User.Count() == 0) return null;
-            
+
             User.setUser(db.User.First());
 
-            User.CurrentUser.Notes     = db.Notes.Include(note => note.UserId).ToList();
+            User.CurrentUser.Notes = db.Notes.Include(note => note.UserId).ToList();
             User.CurrentUser.Favorites = db.FavoriteRooms.Include(note => note.UserId).ToList();
 
             return db.User.ToList().First();
@@ -403,7 +400,7 @@ namespace Ecliptic.Repository
         {
             if (user == null) return;
             db.User.Add(user);
-            db.SaveChanges();   
+            db.SaveChanges();
         }
 
         public static void RemoveUser(User user)
@@ -432,11 +429,13 @@ namespace Ecliptic.Repository
             LoadSampleFloors();    db.SaveChanges();
             LoadSampleRooms();     db.SaveChanges();
             LoadSampleWorkers();   db.SaveChanges();
+             
+            LoadSampleNotes();     db.SaveChanges();
 
-            LoadSampleNotes();  db.SaveChanges();
+            LoadSamplePoints();    db.SaveChanges();
+            LoadSampleEdges();     db.SaveChanges();
 
-            LoadSamplePoints(); db.SaveChanges();
-            LoadSampleEdges();  db.SaveChanges();
+            LoadSampleWays();      db.SaveChanges();
 
             LoadAll();
         }
@@ -456,7 +455,8 @@ namespace Ecliptic.Repository
             db.Floors.Add(new Floor(1,  floorid: 1, buildingid: 1));
             db.Floors.Add(new Floor(2,  floorid: 2, buildingid: 1));
             db.Floors.Add(new Floor(3,  floorid: 3, buildingid: 1));
-            db.Floors.Add(new Floor(-1, floorid: 4, buildingid: 1));
+            db.Floors.Add(new Floor(4,  floorid: 4, buildingid: 1));
+            db.Floors.Add(new Floor(-1, floorid: 5, buildingid: 1));
         }
 
         public static void LoadSampleRooms()
@@ -472,7 +472,7 @@ namespace Ecliptic.Repository
                                             "             понедельник 10:00–22:00",
                              "8(906)6944309",
                              "xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
-                             floorid: 1));
+                             floorid: 4));
 
             AddRoom(new Room("200",
                               "The Asian black bear, also known as the moon bear and the white-chested bear, is a medium-sized bear species native to Asia and largely adapted to arboreal life. It lives in the Himalayas, in the northern parts of the Indian subcontinent, Korea, northeastern China, the Russian Far East, the Honshū and Shikoku islands of Japan, and Taiwan. It is classified as vulnerable by the International Union for Conservation of Nature (IUCN), mostly because of deforestation and hunting for its body parts.",
@@ -485,36 +485,36 @@ namespace Ecliptic.Repository
                                             "             понедельник 10:00–22:00",
                              "8(906)6944309",
                              "http://xn--80afqpaigicolm.xn--p1ai/csharp/csharp-otkryt-url-v-browser/",
-                              floorid: 1));
+                              floorid: 4));
 
             AddRoom(new Room("202",
                              "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
-                              floorid: 2));
+                              floorid: 4));
 
 
             AddRoom(new Room("201",
                              "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
-                              floorid: 2));
+                              floorid: 4));
 
 
             AddRoom(new Room("199",
                              "The giant panda, also known as panda bear or simply panda, is a bear native to south central China. It is easily recognized by the large, distinctive black patches around its eyes, over the ears, and across its round body. The name giant panda is sometimes used to distinguish it from the unrelated red panda. Though it belongs to the order Carnivora, the giant panda's diet is over 99% bamboo. Giant pandas in the wild will occasionally eat other grasses, wild tubers, or even meat in the form of birds, rodents, or carrion. In captivity, they may receive honey, eggs, fish, yams, shrub leaves, oranges, or bananas along with specially prepared food.",
-                              floorid: 2));
+                              floorid: 4));
 
             AddRoom(new Room("203",
                              "A grizzly–polar bear hybrid is a rare ursid hybrid that has occurred both in captivity and in the wild. In 2006, the occurrence of this hybrid in nature was confirmed by testing the DNA of a unique-looking bear that had been shot near Sachs Harbour, Northwest Territories on Banks Island in the Canadian Arctic. The number of confirmed hybrids has since risen to eight, all of them descending from the same female polar bear.",
                              phone: "8(906)6944309",
-                             floorid: 3));
+                             floorid: 4));
 
             AddRoom(new Room("204",
                              "The sloth bear is an insectivorous bear species native to the Indian subcontinent. It is listed as Vulnerable on the IUCN Red List, mainly because of habitat loss and degradation. It has also been called labiated bear because of its long lower lip and palate used for sucking insects. Compared to brown and black bears, the sloth bear is lankier, has a long, shaggy fur and a mane around the face, and long, sickle-shaped claws. It evolved from the ancestral brown bear during the Pleistocene and through convergent evolution shares features found in insect-eating mammals.",
-                             floorid: 3));
+                             floorid: 4));
 
 
             AddRoom(new Room("205",
                              "The sun bear is a bear species occurring in tropical forest habitats of Southeast Asia. It is listed as Vulnerable on the IUCN Red List. The global population is thought to have declined by more than 30% over the past three bear generations. Suitable habitat has been dramatically reduced due to the large-scale deforestation that has occurred throughout Southeast Asia over the past three decades. The sun bear is also known as the honey bear, which refers to its voracious appetite for honeycombs and honey.",
                              phone: "8(906)6944309",
-                             floorid: 3));
+                             floorid: 4));
 
             AddRoom(new Room("206",
                              "The polar bear is a hypercarnivorous bear whose native range lies largely within the Arctic Circle, encompassing the Arctic Ocean, its surrounding seas and surrounding land masses. It is a large bear, approximately the same size as the omnivorous Kodiak bear. A boar (adult male) weighs around 350–700 kg (772–1,543 lb), while a sow (adult female) is about half that size. Although it is the sister species of the brown bear, it has evolved to occupy a narrower ecological niche, with many body characteristics adapted for cold temperatures, for moving across snow, ice and open water, and for hunting seals, which make up most of its diet. Although most polar bears are born on land, they spend most of their time on the sea ice. Their scientific name means maritime bear and derives from this fact. Polar bears hunt their preferred food of seals from the edge of sea ice, often living off fat reserves when no sea ice is present. Because of their dependence on the sea ice, polar bears are classified as marine mammals.",
@@ -533,12 +533,12 @@ namespace Ecliptic.Repository
             AddRoom(new Room("209",
                              "The short-faced bears is an extinct bear genus that inhabited North America during the Pleistocene epoch from about 1.8 Mya until 11,000 years ago. It was the most common early North American bear and was most abundant in California. There are two recognized species: Arctodus pristinus and Arctodus simus, with the latter considered to be one of the largest known terrestrial mammalian carnivores that has ever existed. It has been hypothesized that their extinction coincides with the Younger Dryas period of global cooling commencing around 10,900 BC.",
                              phone: "8(906)6944309",
-                             floorid: 4));
+                             floorid: 3));
 
             AddRoom(new Room("409",
                              description: "The California grizzly bear is an extinct subspecies of the grizzly bear, the very large North American brown bear. Grizzly could have meant grizzled (that is, with golden and grey tips of the hair) or fear-inspiring. Nonetheless, after careful study, naturalist George Ord formally classified it in 1815 – not for its hair, but for its character – as Ursus horribilis (terrifying bear). Genetically, North American grizzlies are closely related; in size and coloring, the California grizzly bear was much like the grizzly bear of the southern coast of Alaska. In California, it was particularly admired for its beauty, size and strength. The grizzly became a symbol of the Bear Flag Republic, a moniker that was attached to the short-lived attempt by a group of American settlers to break away from Mexico in 1846. Later, this rebel flag became the basis for the state flag of California, and then California was known as the Bear State.",
                              phone: "8(906)6944309",
-                             floorid: 4));
+                             floorid: 3));
 
             AddRoom(new Room("309",
                              description: "The California grizzly bear is an extinct subspecies of the grizzly bear, the very large North American brown bear. Grizzly could have meant grizzled (that is, with golden and grey tips of the hair) or fear-inspiring. Nonetheless, after careful study, naturalist George Ord formally classified it in 1815 – not for its hair, but for its character – as Ursus horribilis (terrifying bear). Genetically, North American grizzlies are closely related; in size and coloring, the California grizzly bear was much like the grizzly bear of the southern coast of Alaska. In California, it was particularly admired for its beauty, size and strength. The grizzly became a symbol of the Bear Flag Republic, a moniker that was attached to the short-lived attempt by a group of American settlers to break away from Mexico in 1846. Later, this rebel flag became the basis for the state flag of California, and then California was known as the Bear State.",
@@ -552,12 +552,12 @@ namespace Ecliptic.Repository
                                         "суббота     10:00–22:00 \n" +
                                         "воскресенье 10:00–22:00 \n" +
                                         "понедельник 10:00–22:00 \n",
-                             floorid: 4));
+                             floorid: 3));
 
             AddRoom(new Room("219",
                              description: "The California grizzly bear is an extinct subspecies of the grizzly bear, the very large North American brown bear. Grizzly could have meant grizzled (that is, with golden and grey tips of the hair) or fear-inspiring. Nonetheless, after careful study, naturalist George Ord formally classified it in 1815 – not for its hair, but for its character – as Ursus horribilis (terrifying bear). Genetically, North American grizzlies are closely related; in size and coloring, the California grizzly bear was much like the grizzly bear of the southern coast of Alaska. In California, it was particularly admired for its beauty, size and strength. The grizzly became a symbol of the Bear Flag Republic, a moniker that was attached to the short-lived attempt by a group of American settlers to break away from Mexico in 1846. Later, this rebel flag became the basis for the state flag of California, and then California was known as the Bear State.",
                              site: "okasdjasdk",
-                             floorid: 4));
+                             floorid: 3));
         }
 
         public static void LoadSampleWorkers()
@@ -606,35 +606,262 @@ namespace Ecliptic.Repository
             });
         }
 
-
-
         public static void LoadSamplePoints()
         {
-            db.Points.Add(new PointM(0,  0,    floorId: 1, pointId: 1));
-            db.Points.Add(new PointM(250, 0,   floorId: 1, pointId: 2));
-            db.Points.Add(new PointM(250, 250, floorId: 1, pointId: 3));
-            db.Points.Add(new PointM(0, 250,   floorId: 1, pointId: 4));
+            #region 4thFloor
+            db.Points.Add(new PointM(0, 0,       floorId: 4, pointId: 1));
+            db.Points.Add(new PointM(0, 500,     floorId: 4, pointId: 2));
+            db.Points.Add(new PointM(250, 0,     floorId: 4, pointId: 3));
+            db.Points.Add(new PointM(250, 210,   floorId: 4, pointId: 4));
+            db.Points.Add(new PointM(250, 290,   floorId: 4, pointId: 5));
+            db.Points.Add(new PointM(250, 500,   floorId: 4, pointId: 6));
+            db.Points.Add(new PointM(400, 0,     floorId: 4, pointId: 7));
+            db.Points.Add(new PointM(400, 210,   floorId: 4, pointId: 8));
+            db.Points.Add(new PointM(400, 290,   floorId: 4, pointId: 9));
+            db.Points.Add(new PointM(400, 500,   floorId: 4, pointId: 10));
+            db.Points.Add(new PointM(820, 0,     floorId: 4, pointId: 11));
+            db.Points.Add(new PointM(820, 210,   floorId: 4, pointId: 12));
+            db.Points.Add(new PointM(820, 290,   floorId: 4, pointId: 13));
+            db.Points.Add(new PointM(820, 500,   floorId: 4, pointId: 14));
+            db.Points.Add(new PointM(1270, 0,    floorId: 4, pointId: 15));
+            db.Points.Add(new PointM(1270, 210,  floorId: 4, pointId: 16));
+            db.Points.Add(new PointM(1270, 290,  floorId: 4, pointId: 17));
+            db.Points.Add(new PointM(1270, 500,  floorId: 4, pointId: 18));
+            db.Points.Add(new PointM(1270, -730, floorId: 4, pointId: 19));
+            db.Points.Add(new PointM(1270, -900, floorId: 4, pointId: 20));
+            db.Points.Add(new PointM(1350, 0,    floorId: 4, pointId: 21));
+            db.Points.Add(new PointM(1350, 210,  floorId: 4, pointId: 22));
+            db.Points.Add(new PointM(1520, 290,  floorId: 4, pointId: 23));
+            db.Points.Add(new PointM(1520, 500,  floorId: 4, pointId: 24));
+            db.Points.Add(new PointM(1350, -200, floorId: 4, pointId: 25));
+            db.Points.Add(new PointM(1350, -400, floorId: 4, pointId: 26));
+            db.Points.Add(new PointM(1350, -730, floorId: 4, pointId: 27));
+            db.Points.Add(new PointM(1700, 0,    floorId: 4, pointId: 28));
+            db.Points.Add(new PointM(1700, 210,  floorId: 4, pointId: 29));
+            db.Points.Add(new PointM(1700, 290,  floorId: 4, pointId: 30));
+            db.Points.Add(new PointM(1700, 500,  floorId: 4, pointId: 31));
+            db.Points.Add(new PointM(1700, -200, floorId: 4, pointId: 32));
+            db.Points.Add(new PointM(1700, -400, floorId: 4, pointId: 33));
+            db.Points.Add(new PointM(1700, -730, floorId: 4, pointId: 34));
+            db.Points.Add(new PointM(1700, -900, floorId: 4, pointId: 35));
+            db.Points.Add(new PointM(1900, 0,    floorId: 4, pointId: 36));
+            db.Points.Add(new PointM(1900, 500,  floorId: 4, pointId: 37));
 
-            db.Points.Add(new PointM(0, 0,     floorId: 2, pointId: 5));
-            db.Points.Add(new PointM(100, 0,   floorId: 2, pointId: 6));
-            db.Points.Add(new PointM(100, 100, floorId: 2, pointId: 7));
-            db.Points.Add(new PointM(0, 100,   floorId: 2, pointId: 8));
+            #endregion
+            db.SaveChanges();
+
+            #region 3thFloor
+            db.Points.Add(new PointM(0, 0,      floorId: 3, pointId: 51));
+            db.Points.Add(new PointM(0, 500,    floorId: 3, pointId: 52));
+            db.Points.Add(new PointM(250, 0,    floorId: 3, pointId: 53));
+            db.Points.Add(new PointM(250, 210,  floorId: 3, pointId: 54));
+            db.Points.Add(new PointM(250, 290,  floorId: 3, pointId: 55));
+            db.Points.Add(new PointM(250, 500,  floorId: 3, pointId: 56));
+            db.Points.Add(new PointM(400, 0,    floorId: 3, pointId: 57));
+            db.Points.Add(new PointM(400, 210,  floorId: 3, pointId: 58));
+            db.Points.Add(new PointM(400, 290,  floorId: 3, pointId: 59));
+            db.Points.Add(new PointM(400, 500,  floorId: 3, pointId: 60));
+            db.Points.Add(new PointM(820, 0,    floorId: 3, pointId: 61));
+            db.Points.Add(new PointM(820, 210,  floorId: 3, pointId: 62));
+            db.Points.Add(new PointM(820, 290,  floorId: 3, pointId: 63));
+            db.Points.Add(new PointM(820, 500,  floorId: 3, pointId: 64));
+            db.Points.Add(new PointM(1270, 0,   floorId: 3, pointId: 65));
+            db.Points.Add(new PointM(1270, 210, floorId: 3, pointId: 66));
+            db.Points.Add(new PointM(1270, 290, floorId: 3, pointId: 67));
+            db.Points.Add(new PointM(1270, 500, floorId: 3, pointId: 68));
+            db.Points.Add(new PointM(1350, 0,   floorId: 3, pointId: 69));
+            db.Points.Add(new PointM(1350, 210, floorId: 3, pointId: 70));
+            db.Points.Add(new PointM(1520, 290, floorId: 3, pointId: 71));
+            db.Points.Add(new PointM(1520, 500, floorId: 3, pointId: 72));
+            db.Points.Add(new PointM(1700, 0,   floorId: 3, pointId: 73));
+            db.Points.Add(new PointM(1700, 210, floorId: 3, pointId: 74));
+            db.Points.Add(new PointM(1700, 290, floorId: 3, pointId: 75));
+            db.Points.Add(new PointM(1700, 500, floorId: 3, pointId: 76));
+            db.Points.Add(new PointM(1900, 0,   floorId: 3, pointId: 77));
+            db.Points.Add(new PointM(1900, 500, floorId: 3, pointId: 78));
+            #endregion
+            db.SaveChanges();
         }
 
         public static void LoadSampleEdges()
         {
-              db.Edges.Add(new EdgeM(0, pointFirId: 1, pointSecId: 2, edgeId: 1));
-              db.Edges.Add(new EdgeM(0, pointFirId: 2, pointSecId: 3, edgeId: 2));
-              db.Edges.Add(new EdgeM(0, pointFirId: 3, pointSecId: 4, edgeId: 3));
-              db.Edges.Add(new EdgeM(0, pointFirId: 4, pointSecId: 1, edgeId: 4));
+            #region 4thFloor
+            db.Edges.Add(new EdgeM(0, pointFirId: 1, pointSecId: 3, edgeId: 1));
+            db.Edges.Add(new EdgeM(0, pointFirId: 1, pointSecId: 2, edgeId: 2));
+            db.Edges.Add(new EdgeM(0, pointFirId: 2, pointSecId: 6, edgeId: 3));
+            db.Edges.Add(new EdgeM(0, pointFirId: 3, pointSecId: 4, edgeId: 4));
+            db.Edges.Add(new EdgeM(0, pointFirId: 4, pointSecId: 5, edgeId: 5));
+            db.Edges.Add(new EdgeM(0, pointFirId: 5, pointSecId: 6, edgeId: 6));
+            db.Edges.Add(new EdgeM(0, pointFirId: 6,  pointSecId: 10, edgeId: 7));
+            db.Edges.Add(new EdgeM(0, pointFirId: 10, pointSecId: 9,  edgeId: 8));
+            db.Edges.Add(new EdgeM(0, pointFirId: 9,  pointSecId: 5,  edgeId: 9));
+            db.Edges.Add(new EdgeM(0, pointFirId: 4,  pointSecId: 8,  edgeId: 11));
+            db.Edges.Add(new EdgeM(0, pointFirId: 8,  pointSecId: 7,  edgeId: 12));
+            db.Edges.Add(new EdgeM(0, pointFirId: 7,  pointSecId: 3,  edgeId: 13));
+            db.Edges.Add(new EdgeM(0, pointFirId: 7,  pointSecId: 11, edgeId: 14));
+            db.Edges.Add(new EdgeM(0, pointFirId: 11, pointSecId: 12, edgeId: 15));
+            db.Edges.Add(new EdgeM(0, pointFirId: 12, pointSecId: 8,  edgeId: 16));
+            db.Edges.Add(new EdgeM(0, pointFirId: 11, pointSecId: 15, edgeId: 17));
+            db.Edges.Add(new EdgeM(0, pointFirId: 15, pointSecId: 16, edgeId: 18));
+            db.Edges.Add(new EdgeM(0, pointFirId: 16, pointSecId: 12, edgeId: 19));
+            db.Edges.Add(new EdgeM(0, pointFirId: 16, pointSecId: 19, edgeId: 20));
+            db.Edges.Add(new EdgeM(0, pointFirId: 19, pointSecId: 20, edgeId: 21));
+            db.Edges.Add(new EdgeM(0, pointFirId: 20, pointSecId: 35, edgeId: 22));
+            db.Edges.Add(new EdgeM(0, pointFirId: 35, pointSecId: 34, edgeId: 23));
+            db.Edges.Add(new EdgeM(0, pointFirId: 34, pointSecId: 27, edgeId: 24));
+            db.Edges.Add(new EdgeM(0, pointFirId: 27, pointSecId: 19, edgeId: 25));
+            db.Edges.Add(new EdgeM(0, pointFirId: 34, pointSecId: 33, edgeId: 26));
+            db.Edges.Add(new EdgeM(0, pointFirId: 33, pointSecId: 32, edgeId: 27));
+            db.Edges.Add(new EdgeM(0, pointFirId: 32, pointSecId: 28, edgeId: 28));
+            db.Edges.Add(new EdgeM(0, pointFirId: 28, pointSecId: 36, edgeId: 29));
+            db.Edges.Add(new EdgeM(0, pointFirId: 37, pointSecId: 36, edgeId: 30));
+            db.Edges.Add(new EdgeM(0, pointFirId: 37, pointSecId: 31, edgeId: 31));
+            db.Edges.Add(new EdgeM(0, pointFirId: 31, pointSecId: 24, edgeId: 32));
+            db.Edges.Add(new EdgeM(0, pointFirId: 24, pointSecId: 18, edgeId: 33));
+            db.Edges.Add(new EdgeM(0, pointFirId: 18, pointSecId: 14, edgeId: 34));
+            db.Edges.Add(new EdgeM(0, pointFirId: 14, pointSecId: 10, edgeId: 35));
+            db.Edges.Add(new EdgeM(0, pointFirId: 9,  pointSecId: 13, edgeId: 36));
+            db.Edges.Add(new EdgeM(0, pointFirId: 13, pointSecId: 17, edgeId: 37));
+            db.Edges.Add(new EdgeM(0, pointFirId: 17, pointSecId: 23, edgeId: 38));
+            db.Edges.Add(new EdgeM(0, pointFirId: 23, pointSecId: 30, edgeId: 39));
+            db.Edges.Add(new EdgeM(0, pointFirId: 13, pointSecId: 14, edgeId: 41));
+            db.Edges.Add(new EdgeM(0, pointFirId: 17, pointSecId: 18, edgeId: 42));
+            db.Edges.Add(new EdgeM(0, pointFirId: 23, pointSecId: 24, edgeId: 43));
+            db.Edges.Add(new EdgeM(0, pointFirId: 31, pointSecId: 30, edgeId: 44));
+            db.Edges.Add(new EdgeM(0, pointFirId: 30, pointSecId: 29, edgeId: 45));
+            db.Edges.Add(new EdgeM(0, pointFirId: 29, pointSecId: 28, edgeId: 46));
+            db.Edges.Add(new EdgeM(0, pointFirId: 22, pointSecId: 29, edgeId: 47));
+            db.Edges.Add(new EdgeM(0, pointFirId: 21, pointSecId: 28, edgeId: 48));
+            db.Edges.Add(new EdgeM(0, pointFirId: 25, pointSecId: 32, edgeId: 49));
+            db.Edges.Add(new EdgeM(0, pointFirId: 26, pointSecId: 33, edgeId: 50));
+            db.Edges.Add(new EdgeM(0, pointFirId: 27, pointSecId: 26, edgeId: 51));
+            db.Edges.Add(new EdgeM(0, pointFirId: 26, pointSecId: 25, edgeId: 52));
+            db.Edges.Add(new EdgeM(0, pointFirId: 25, pointSecId: 21, edgeId: 53));
+            db.Edges.Add(new EdgeM(0, pointFirId: 21, pointSecId: 22, edgeId: 54));
+            #endregion
+            db.SaveChanges();
 
-              db.Edges.Add(new EdgeM(0, pointFirId: 5, pointSecId: 6, edgeId: 5));
-              db.Edges.Add(new EdgeM(0, pointFirId: 6, pointSecId: 7, edgeId: 6));
-              db.Edges.Add(new EdgeM(0, pointFirId: 7, pointSecId: 8, edgeId: 7));
-              db.Edges.Add(new EdgeM(0, pointFirId: 8, pointSecId: 5, edgeId: 8));
+            #region 3thFloor
+            db.Edges.Add(new EdgeM(0, pointFirId: 51, pointSecId: 53, edgeId: 61));
+            db.Edges.Add(new EdgeM(0, pointFirId: 51, pointSecId: 52, edgeId: 62));
+            db.Edges.Add(new EdgeM(0, pointFirId: 52, pointSecId: 56, edgeId: 63));
+            db.Edges.Add(new EdgeM(0, pointFirId: 53, pointSecId: 54, edgeId: 64));
+            db.Edges.Add(new EdgeM(0, pointFirId: 54, pointSecId: 55, edgeId: 65));
+            db.Edges.Add(new EdgeM(0, pointFirId: 55, pointSecId: 56, edgeId: 66));
+            db.Edges.Add(new EdgeM(0, pointFirId: 56, pointSecId: 60, edgeId: 67));
+            db.Edges.Add(new EdgeM(0, pointFirId: 60, pointSecId: 59, edgeId: 68));
+            db.Edges.Add(new EdgeM(0, pointFirId: 59, pointSecId: 55, edgeId: 69));
+            db.Edges.Add(new EdgeM(0, pointFirId: 54, pointSecId: 58, edgeId: 70));
+            db.Edges.Add(new EdgeM(0, pointFirId: 58, pointSecId: 57, edgeId: 71));
+            db.Edges.Add(new EdgeM(0, pointFirId: 57, pointSecId: 53, edgeId: 72));
+            db.Edges.Add(new EdgeM(0, pointFirId: 57, pointSecId: 51, edgeId: 73));
+            db.Edges.Add(new EdgeM(0, pointFirId: 51, pointSecId: 77, edgeId: 74));
+            db.Edges.Add(new EdgeM(0, pointFirId: 77, pointSecId: 78, edgeId: 75));
+            db.Edges.Add(new EdgeM(0, pointFirId: 78, pointSecId: 52, edgeId: 76));
+            db.Edges.Add(new EdgeM(0, pointFirId: 61, pointSecId: 62, edgeId: 80)); 
+            db.Edges.Add(new EdgeM(0, pointFirId: 63, pointSecId: 64, edgeId: 81));
+            db.Edges.Add(new EdgeM(0, pointFirId: 65, pointSecId: 66, edgeId: 82));
+            db.Edges.Add(new EdgeM(0, pointFirId: 67, pointSecId: 68, edgeId: 83));
+            db.Edges.Add(new EdgeM(0, pointFirId: 73, pointSecId: 76, edgeId: 84));
+            db.Edges.Add(new EdgeM(0, pointFirId: 69, pointSecId: 70, edgeId: 85));
+            db.Edges.Add(new EdgeM(0, pointFirId: 71, pointSecId: 72, edgeId: 86));
+            db.Edges.Add(new EdgeM(0, pointFirId: 54, pointSecId: 66, edgeId: 87));//
+            db.Edges.Add(new EdgeM(0, pointFirId: 55, pointSecId: 71, edgeId: 88));
+            db.Edges.Add(new EdgeM(0, pointFirId: 75, pointSecId: 71, edgeId: 89));
+            db.Edges.Add(new EdgeM(0, pointFirId: 70, pointSecId: 74, edgeId: 90));
+
+            #endregion
+            db.SaveChanges();
         }
 
+        public static void LoadSampleWays()
+        {
+            #region 4thFloor
+            // 4 этаж точки комнат
+            db.Points.Add(new PointM(125, 250,   pointId:101, isWaypoint: true, floorId: 4, roomId: 1));
+            db.Points.Add(new PointM(600, 120,   pointId:102, isWaypoint: true, floorId: 4, roomId: 2));
+            db.Points.Add(new PointM(600, 400,   pointId:103, isWaypoint: true, floorId: 4, roomId: 3));
+            db.Points.Add(new PointM(1000, 120,  pointId:104, isWaypoint: true, floorId: 4, roomId: 4));
+            db.Points.Add(new PointM(1000, 400,  pointId:105, isWaypoint: true, floorId: 4, roomId: 5));
+            db.Points.Add(new PointM(1500, -800, pointId:106, isWaypoint: true, floorId: 4, roomId: 6));
+            db.Points.Add(new PointM(1520, -500, pointId:107, isWaypoint: true, floorId: 4, roomId: 7));
+            db.Points.Add(new PointM(1520, -300, pointId:108, isWaypoint: true, floorId: 4, roomId: 8));
+            db.Points.Add(new PointM(1520, -100, pointId:109, isWaypoint: true, floorId: 4, roomId: 9));
+            db.Points.Add(new PointM(1800, 300,  pointId:110, isWaypoint: true, floorId: 4, roomId: 10));
+            db.Points.Add(new PointM(1350, 400,  pointId:111, isWaypoint: true, floorId: 4, roomId: 11));
+            // 4 этаж точки связи                         
+            db.Points.Add(new PointM(600, 250,   pointId:112, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(900, 250,   pointId:113, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(1300, 250,  pointId:114, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(1600, 250,  pointId:115, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(1300, 120,  pointId:116, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(1300, -300, pointId:117, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(1300, -500, pointId:118, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(1520, 100,  pointId:119, isWaypoint: true, floorId: 4));
 
+            db.SaveChanges();
+            #endregion
+
+            #region 3thFloor
+            // 3 этаж токи комнат
+            db.Points.Add(new PointM(125, 250,  pointId: 120,  isWaypoint: true, floorId: 3, roomId: 12));
+            db.Points.Add(new PointM(600, 120,  pointId: 121,  isWaypoint: true, floorId: 3, roomId: 13));
+            db.Points.Add(new PointM(600, 400,  pointId: 122,  isWaypoint: true, floorId: 3, roomId: 14));
+            db.Points.Add(new PointM(1000, 120, pointId: 123,  isWaypoint: true, floorId: 3, roomId: 15));
+            // 3 этаж точки связи             
+            db.Points.Add(new PointM(600, 250,  pointId: 124, isWaypoint: true, floorId: 3));
+            db.Points.Add(new PointM(900, 250,  pointId: 125, isWaypoint: true, floorId: 3));
+            db.Points.Add(new PointM(1300, 250, pointId: 126, isWaypoint: true, floorId: 3));
+            db.Points.Add(new PointM(1600, 250, pointId: 127, isWaypoint: true, floorId: 3));
+            db.Points.Add(new PointM(1300, 120, pointId: 128, isWaypoint: true, floorId: 3));
+            db.Points.Add(new PointM(1520, 100, pointId: 131, isWaypoint: true, floorId: 3));
+            db.SaveChanges();
+            #endregion
+
+            #region 4thFloorEdge
+            // 4 этаж связи комнат
+            db.Edges.Add(new EdgeM(10, pointFirId: 101, pointSecId: 112, edgeId: 101));
+            db.Edges.Add(new EdgeM(10, pointFirId: 112, pointSecId: 102, edgeId: 102));
+            db.Edges.Add(new EdgeM(10, pointFirId: 112, pointSecId: 103, edgeId: 103));
+            db.Edges.Add(new EdgeM(10, pointFirId: 112, pointSecId: 113, edgeId: 104));
+            db.Edges.Add(new EdgeM(10, pointFirId: 113, pointSecId: 104, edgeId: 105));
+            db.Edges.Add(new EdgeM(10, pointFirId: 113, pointSecId: 105, edgeId: 106));
+            db.Edges.Add(new EdgeM(10, pointFirId: 113, pointSecId: 114, edgeId: 107));
+            db.Edges.Add(new EdgeM(10, pointFirId: 114, pointSecId: 111, edgeId: 108));
+            db.Edges.Add(new EdgeM(10, pointFirId: 114, pointSecId: 115, edgeId: 109));
+            db.Edges.Add(new EdgeM(10, pointFirId: 115, pointSecId: 110, edgeId: 110));
+            db.Edges.Add(new EdgeM(10, pointFirId: 114, pointSecId: 116, edgeId: 111));
+            db.Edges.Add(new EdgeM(10, pointFirId: 116, pointSecId: 119, edgeId: 112));
+            db.Edges.Add(new EdgeM(10, pointFirId: 116, pointSecId: 117, edgeId: 113));
+            db.Edges.Add(new EdgeM(10, pointFirId: 117, pointSecId: 108, edgeId: 114));
+            db.Edges.Add(new EdgeM(10, pointFirId: 117, pointSecId: 109, edgeId: 115));
+            db.Edges.Add(new EdgeM(10, pointFirId: 117, pointSecId: 118, edgeId: 116));
+            db.Edges.Add(new EdgeM(10, pointFirId: 118, pointSecId: 107, edgeId: 117));
+            db.Edges.Add(new EdgeM(10, pointFirId: 118, pointSecId: 106, edgeId: 118));
+
+            db.SaveChanges();
+            #endregion
+
+            #region 3thFloorEdge
+            // 3 этаж связи комнат 
+            db.Edges.Add(new EdgeM(10, pointFirId: 120, pointSecId: 124, edgeId: 120));
+            db.Edges.Add(new EdgeM(10, pointFirId: 124, pointSecId: 121, edgeId: 121));
+            db.Edges.Add(new EdgeM(10, pointFirId: 124, pointSecId: 122, edgeId: 122));
+            db.Edges.Add(new EdgeM(10, pointFirId: 124, pointSecId: 125, edgeId: 123));
+            db.Edges.Add(new EdgeM(10, pointFirId: 125, pointSecId: 123, edgeId: 124));
+            db.Edges.Add(new EdgeM(10, pointFirId: 125, pointSecId: 126, edgeId: 125));
+            db.Edges.Add(new EdgeM(10, pointFirId: 126, pointSecId: 128, edgeId: 126));
+            db.Edges.Add(new EdgeM(10, pointFirId: 128, pointSecId: 131, edgeId: 127));
+            db.Edges.Add(new EdgeM(10, pointFirId: 126, pointSecId: 127, edgeId: 128));
+
+            db.Edges.Add(new EdgeM(10, pointFirId: 131, pointSecId: 119, edgeId: 130)); // elevator
+
+            db.SaveChanges();
+            #endregion
+
+            // cвязь этажей
+            db.SaveChanges();
+        }
 
         public static void LoadSampleNotes()
         {
