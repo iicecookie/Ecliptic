@@ -2,8 +2,8 @@
 
 namespace Ecliptic.Models
 {
-    public class PointM
-    {
+	public class PointM
+	{
 		public int Id { get; set; }
 
 		public double X { get; private set; }
@@ -17,18 +17,18 @@ namespace Ecliptic.Models
 		public int?  RoomId  { get; set; }
 		public Room  Room    { get; set; }
 
-		 public virtual List<EdgeM> EdgesIn  { get; set; }
-		 public virtual List<EdgeM> EdgesOut { get; set; }
+		public virtual List<EdgeM> EdgesIn  { get; set; }
+		public virtual List<EdgeM> EdgesOut { get; set; }
 
 		public PointM()
 		{
-			EdgesIn  = new List<EdgeM>();
+			EdgesIn = new List<EdgeM>();
 			EdgesOut = new List<EdgeM>();
 		}
 
-		public PointM(double x, double y, 
-					  bool isWaypoint = false, int pointId = 0, 
-					  int? floorId    = null,  int? roomId = null):this()
+		public PointM(double x, double y,
+					  bool isWaypoint = false, int pointId = 0,
+					  int? floorId = null, int? roomId = null) : this()
 		{
 			Id = pointId;
 			X = x;
@@ -41,14 +41,14 @@ namespace Ecliptic.Models
 		public PointM(PointM point) : this()
 		{
 			Id = point.Id;
-			X  = point.X;
-			Y  = point.Y;
+			X = point.X;
+			Y = point.Y;
 			IsWaypoint = point.IsWaypoint;
-			Floor    = point.Floor;
-			FloorId  = point.FloorId;
-			Room     = point.Room;
-			RoomId   = point.RoomId;
-			EdgesIn  = point.EdgesIn;
+			Floor = point.Floor;
+			FloorId = point.FloorId;
+			Room = point.Room;
+			RoomId = point.RoomId;
+			EdgesIn = point.EdgesIn;
 			EdgesOut = point.EdgesOut;
 		}
 
