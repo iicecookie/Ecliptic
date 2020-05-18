@@ -52,10 +52,6 @@ namespace Ecliptic.Views
                 .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level)
                 .ToList();
 
-            // загрузили маршруты
-            // EdgeData.CurrentFloorWays = EdgeData.Edges.Where(e => e.PointFrom.IsWaypoint == true)
-            //     .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
-
             // селектнули - отрисовали  
             canvasView.InvalidateSurface();
         }

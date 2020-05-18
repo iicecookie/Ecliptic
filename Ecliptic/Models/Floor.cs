@@ -17,13 +17,13 @@ namespace Ecliptic.Models
 
 		public List<Room> Rooms { get; private set; }
 
-		// public List<Point> Points { get; set; }
+		public List<PointM> Points { get; set; }
 
 
 		public Floor()
 		{
-			Rooms = new List<Room>();
-			// Points = new List<Point>();
+			Rooms  = new List<Room>();
+			Points = new List<PointM>();
 		}
 
 		public Floor(int level, int floorid = 0, int buildingid = 0) : this()

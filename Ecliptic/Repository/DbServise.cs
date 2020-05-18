@@ -452,11 +452,11 @@ namespace Ecliptic.Repository
 
         public static void LoadSampleFloors()
         {
-            db.Floors.Add(new Floor(1,  floorid: 1, buildingid: 1));
-            db.Floors.Add(new Floor(2,  floorid: 2, buildingid: 1));
-            db.Floors.Add(new Floor(3,  floorid: 3, buildingid: 1));
-            db.Floors.Add(new Floor(4,  floorid: 4, buildingid: 1));
-            db.Floors.Add(new Floor(-1, floorid: 5, buildingid: 1));
+            // db.Floors.Add(new Floor(1,  floorid: 1, buildingid: 1));
+            // db.Floors.Add(new Floor(2,  floorid: 2, buildingid: 1));
+            db.Floors.Add(new Floor(3, floorid: 3, buildingid: 1));
+            db.Floors.Add(new Floor(4, floorid: 4, buildingid: 1));
+            // db.Floors.Add(new Floor(-1, floorid: 5, buildingid: 1));
         }
 
         public static void LoadSampleRooms()

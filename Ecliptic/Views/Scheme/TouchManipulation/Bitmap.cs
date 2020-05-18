@@ -67,6 +67,7 @@ namespace Ecliptic.Views
                 IsAntialias = true,
                 Color = SKColors.Red,
                 TextScaleX = 1.0f,
+                StrokeWidth = 5,
                 TextAlign = SKTextAlign.Center,
             };
 
@@ -77,8 +78,15 @@ namespace Ecliptic.Views
             foreach (var edge in EdgeData.CurrentFloorWalls)
             {
                 canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
-                                (float)edge.PointTo.X, (float)edge.PointTo.Y, wallpaint);
+                                (float)edge.PointTo.X,   (float)edge.PointTo.Y,   wallpaint);
+            }
 
+            // рисуем маршрут если есть
+            foreach (var edge in EdgeData.Ways)
+            {
+                if (edge.PointFrom.Floor.Level == floor)
+                    canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
+                                    (float)edge.PointTo.X,   (float)edge.PointTo.Y, waypaint);
             }
 
             // рисуем имяна помещений
@@ -86,18 +94,7 @@ namespace Ecliptic.Views
             {
                 if (point.Floor.Level == floor)
                 {
-                    canvas.DrawText(point.Room.Name, (float)point.X, (float)point.Y, waypaint);
-                }
-            }
-
-            // рисуем маршрут если есть
-            if (EdgeData.Ways.Count > 0)
-            {
-                foreach (var edge in EdgeData.Ways)
-                {
-                    if (edge.PointFrom.Floor.Level == floor)
-                        canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
-                                        (float)edge.PointTo.X, (float)edge.PointTo.Y, waypaint);
+                    canvas.DrawText(point.Room.Name, (float)point.X, (float)point.Y, textpaint);
                 }
             }
 
