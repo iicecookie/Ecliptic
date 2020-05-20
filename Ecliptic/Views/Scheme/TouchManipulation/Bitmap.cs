@@ -51,7 +51,6 @@ namespace Ecliptic.Views
                 StrokeCap = SKStrokeCap.Square,
                 TextAlign = SKTextAlign.Center
             };
-
             SKPaint textpaint = new SKPaint
             {
                 TextSize = 36,
@@ -60,8 +59,7 @@ namespace Ecliptic.Views
                 TextScaleX = 1.0f,
                 TextAlign = SKTextAlign.Center,
             };
-
-            SKPaint waypaint = new SKPaint
+            SKPaint waypaint  = new SKPaint
             {
                 TextSize = 64.0f,
                 IsAntialias = true,
@@ -106,21 +104,26 @@ namespace Ecliptic.Views
             throw new NotImplementedException();
         }
 
-        public bool HitTest(SKPoint location)
+        public Room HitTest(SKPoint location)
         {
-            // Инвертировать матрицу
             SKMatrix inverseMatrix;
 
             if (Matrix.TryInvert(out inverseMatrix))
             {
-                // Преобразование точки, используя инвертированную матрицу
                 SKPoint transformedPoint = inverseMatrix.MapPoint(location);
 
-                // Проверка, находится ли она в нетрансформированном прямоугольнике
-                SKRect rect = new SKRect(0, 0, bitmap.Width, bitmap.Height);
-                return rect.Contains(transformedPoint);
+                foreach (var r in PointData.CurrentFloorRoomPoints)
+                {
+                    // сделать скелинг от матрицы, иначе при разных масштабах хер попадешь
+                    SKRect rect = SKRect.Create((float)r.X - 25, (float)r.Y - 25, 50, 50);
+
+                    if (rect.Contains(transformedPoint))
+                    {
+                        return r.Room;
+                    }
+                }
             }
-            return false;
+            return null;
         }
 
         public void ProcessTouchEvent(long id, TouchActionType type, SKPoint location)
@@ -131,7 +134,7 @@ namespace Ecliptic.Views
                     touchDictionary.Add(id, new TouchManipulationInfo
                     {
                         PreviousPoint = location,
-                        NewPoint = location
+                        NewPoint      = location
                     });
                     break;
 

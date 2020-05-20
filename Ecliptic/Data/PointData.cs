@@ -13,11 +13,13 @@ namespace Ecliptic.Models
         public static List<PointM> Points     { get; set; }
 
         public static List<PointM> RoomPoints { get; set; }
+        public static List<PointM> CurrentFloorRoomPoints { get; set; }
 
         static PointData()
         {
             Points = new List<PointM>();
             RoomPoints = new List<PointM>();
+            CurrentFloorRoomPoints = new List<PointM>();
         }
 
         static public PointM Find(int id)

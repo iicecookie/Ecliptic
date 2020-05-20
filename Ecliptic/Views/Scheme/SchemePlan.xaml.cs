@@ -52,6 +52,10 @@ namespace Ecliptic.Views
                 .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level)
                 .ToList();
 
+            PointData.CurrentFloorRoomPoints = PointData.Points
+                .Where(p => p.Room != null)
+                .Where(p => p.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
+
             // селектнули - отрисовали  
             canvasView.InvalidateSurface();
         }
@@ -114,6 +118,9 @@ namespace Ecliptic.Views
                     {
                         touchIds.Add(args.Id);
                         bitmap.ProcessTouchEvent(args.Id, args.Type, point);
+
+                        Room room = bitmap.HitTest(point);
+                        if (room != null) { Shell.Current.GoToAsync($"roomdetails?name={room.Name}"); }
                         break;
                     }
                    // break;
