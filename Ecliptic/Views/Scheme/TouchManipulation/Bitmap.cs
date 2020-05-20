@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.Graphics;
+using Android.Text.Format;
 using Ecliptic.Models;
 using Ecliptic.Views.WayFounder;
 using SkiaSharp;
@@ -15,31 +16,23 @@ namespace Ecliptic.Views
         public SKBitmap bitmap;
         public SKMatrix Matrix { set; get; }
 
-        public TouchManipulationManager TouchManager { set; get; }
-
-        Dictionary<long, TouchManipulationInfo> touchDictionary =
-                         new Dictionary<long, TouchManipulationInfo>();
+        public TouchManipulationManager TouchManager { set; get; } 
+        Dictionary<long, TouchManipulationInfo> touchDictionary = new Dictionary<long, TouchManipulationInfo>();
 
         public TouchManipulationBitmap(SKBitmap bitmap)
         {
             this.bitmap = bitmap;
 
-            // Matrix = SKMatrix.MakeIdentity();
-
             float height = (float)DeviceDisplay.MainDisplayInfo.Height / 1280;
 
             Matrix = SKMatrix.MakeScale(height, height);
 
-            TouchManager = new TouchManipulationManager
-            {
-                Mode = TouchManipulationMode.ScaleRotate
-            };
+            TouchManager = new TouchManipulationManager { Mode = TouchManipulationMode.ScaleRotate };
         }
 
         public void Paint(SKCanvas canvas, int floor)
         {
-            canvas.Save();
-
+            canvas.Save(); 
             SKMatrix matrix = Matrix;
 
             SKPaint wallpaint = new SKPaint
@@ -92,7 +85,35 @@ namespace Ecliptic.Views
             {
                 if (point.Floor.Level == floor)
                 {
+                    canvas.Save();
+
+                         if (matrix.Values[0] > matrix.Values[1] &&
+                             matrix.Values[4] > matrix.Values[3] &&
+                             matrix.Values[0] > 0 && matrix.Values[1] > 0)
+                    {
+                        canvas.RotateDegrees(0, (float)point.X, (float)point.Y);
+                    }
+                    else if (matrix.Values[0] > matrix.Values[1] &&
+                             matrix.Values[3] > matrix.Values[4] &&
+                             matrix.Values[1] < 0 && matrix.Values[3] > 0)
+                    {
+                        canvas.RotateDegrees(270, (float)point.X, (float)point.Y);
+                    }
+                    else if (matrix.Values[0] < matrix.Values[1] &&
+                             matrix.Values[3] < matrix.Values[4] &&
+                             matrix.Values[2] > 0 && matrix.Values[3] < 0)
+                    {
+                        canvas.RotateDegrees(90, (float)point.X, (float)point.Y);
+                    }
+                    else if (matrix.Values[0] < matrix.Values[1] &&
+                             matrix.Values[3] > matrix.Values[4] &&
+                             matrix.Values[0] < 0 && matrix.Values[4] < 0)
+                    {
+                        canvas.RotateDegrees(180, (float)point.X, (float)point.Y);
+                    }
+
                     canvas.DrawText(point.Room.Name, (float)point.X, (float)point.Y, textpaint);
+                    canvas.Restore();
                 }
             }
 
@@ -165,8 +186,8 @@ namespace Ecliptic.Views
 
             if      (infos.Length == 1)
             {
-                SKPoint prevPoint = infos[0].PreviousPoint;
-                SKPoint newPoint = infos[0].NewPoint;
+                SKPoint prevPoint  = infos[0].PreviousPoint;
+                SKPoint newPoint   = infos[0].NewPoint;
                 SKPoint pivotPoint = Matrix.MapPoint(bitmap.Width / 2, bitmap.Height / 2);
 
                 touchMatrix = TouchManager.OneFingerManipulate(prevPoint, newPoint, pivotPoint);
@@ -175,8 +196,8 @@ namespace Ecliptic.Views
             {
                 int pivotIndex = infos[0].NewPoint == infos[0].PreviousPoint ? 0 : 1;
                 SKPoint pivotPoint = infos[pivotIndex].NewPoint;
-                SKPoint newPoint = infos[1 - pivotIndex].NewPoint;
-                SKPoint prevPoint = infos[1 - pivotIndex].PreviousPoint;
+                SKPoint newPoint   = infos[1 - pivotIndex].NewPoint;
+                SKPoint prevPoint  = infos[1 - pivotIndex].PreviousPoint;
 
                 touchMatrix = TouchManager.TwoFingerManipulate(prevPoint, newPoint, pivotPoint);
             }

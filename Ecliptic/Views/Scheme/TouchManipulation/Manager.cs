@@ -20,7 +20,7 @@ namespace Ecliptic.Views
             if (Mode == TouchManipulationMode.ScaleDualRotate)  // One-finger rotation
             {
                 SKPoint oldVector = prevPoint - pivotPoint;
-                SKPoint newVector = newPoint - pivotPoint;
+                SKPoint newVector = newPoint  - pivotPoint;
 
                 // Avoid rotation if fingers are too close to center
                 if (Magnitude(newVector) > 25 && Magnitude(oldVector) > 25)
@@ -51,8 +51,8 @@ namespace Ecliptic.Views
         public SKMatrix TwoFingerManipulate(SKPoint prevPoint, SKPoint newPoint, SKPoint pivotPoint)
         {
             SKMatrix touchMatrix = SKMatrix.MakeIdentity();
-            SKPoint oldVector = prevPoint - pivotPoint;
-            SKPoint newVector = newPoint - pivotPoint;
+            SKPoint  oldVector = prevPoint - pivotPoint;
+            SKPoint  newVector = newPoint  - pivotPoint;
 
             if (Mode == TouchManipulationMode.ScaleRotate ||
                 Mode == TouchManipulationMode.ScaleDualRotate)
@@ -63,6 +63,7 @@ namespace Ecliptic.Views
 
                 // Calculate rotation matrix
                 float angle = newAngle - oldAngle;
+
                 touchMatrix = SKMatrix.MakeRotation(angle, pivotPoint.X, pivotPoint.Y);
 
                 // Effectively rotate the old vector
@@ -74,11 +75,10 @@ namespace Ecliptic.Views
             float scaleX = 1;
             float scaleY = 1;
 
-            if (Mode == TouchManipulationMode.AnisotropicScale)
+            if      (Mode == TouchManipulationMode.AnisotropicScale)
             {
                 scaleX = newVector.X / oldVector.X;
                 scaleY = newVector.Y / oldVector.Y;
-
             }
             else if (Mode == TouchManipulationMode.IsotropicScale ||
                      Mode == TouchManipulationMode.ScaleRotate ||

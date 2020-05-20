@@ -21,14 +21,6 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все заметки
-        public async Task<List<Note>> Get()
-        {
-            HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url);
-            return JsonConvert.DeserializeObject<List<Note>>(result);
-        }
-
         // получаем все заметки пользователя
         public async Task<List<Note>> Get(int userid)
         {

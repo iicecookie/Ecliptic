@@ -43,7 +43,7 @@ namespace Ecliptic.WebInteractions
 
             HttpClient client = GetClient();
 
-            HttpResponseMessage response = await client.PostAsync(Url,
+            HttpResponseMessage response = await client.PostAsync(Url + "/PostAuthorization",
                                 new StringContent(
                                     JsonConvert.SerializeObject(user),
                                     Encoding.UTF8, "application/json"));
@@ -62,8 +62,10 @@ namespace Ecliptic.WebInteractions
             user.Add("Login", login);
             user.Add("Pass",  pass);
 
+            var v = JsonConvert.SerializeObject(user);
+
             HttpClient client = GetClient();
-            HttpResponseMessage response = await client.PostAsync(Url,
+            HttpResponseMessage response = await client.PostAsync(Url + "/PostRegister",
                                 new StringContent(
                                     JsonConvert.SerializeObject(user),
                                     Encoding.UTF8, "application/json"));
