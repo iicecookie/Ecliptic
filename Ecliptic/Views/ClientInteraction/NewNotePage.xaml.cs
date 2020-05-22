@@ -49,16 +49,16 @@ namespace Ecliptic.Views.ClientNote
 
             NoteService noteService = new NoteService();
             Note note = await noteService.Add(new Note(NoteText.Text,
-                                                       SearchBarBuilding.Text,
                                                        SearchBarRoom.Text,
-                                                       false,
-                                                       roomid: roomnote?.RoomId,
-                                                       clientid: Client.CurrentClient.ClientId));
+                                                       roomid:    roomnote?.RoomId,
+                                                       building:  SearchBarBuilding.Text,
+                                                       clientid:  Client.CurrentClient.ClientId,
+                                                       clientname:Client.CurrentClient.Name));
             
             // если сервер вернул данные по заметке - загрузить в пользователя
             if (note != null)
             {
-                DbService.AddNote(note); // сохранили полученую заметку с данными
+                DbService.AddNote(note); 
 
                 await Navigation.PopAsync();
                 return;
@@ -74,8 +74,10 @@ namespace Ecliptic.Views.ClientNote
         void OnTextRoomChanged    (object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;
-            if (tapped == false) {
-                roomnote = null; }
+            if (tapped == false)
+            {
+                roomnote = null;
+            }
 
             if (SearchBarRoom.Text == "")
             {
@@ -93,6 +95,7 @@ namespace Ecliptic.Views.ClientNote
             searchRoomResults.ItemsSource = searchedrooms;
             tapped = false;
         }
+
         void OnTextBuildingChanged(object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;

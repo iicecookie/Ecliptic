@@ -21,20 +21,31 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все заметки пользователя
-        public async Task<List<Note>> Get(int userid)
+        // получаем все заметки пользвоателя
+        public async Task<List<Note>> GetPublic(int id) // переделать
         {
             HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url + "/" + userid);
+            string result = await client.GetStringAsync(Url + "/" + id);
             return JsonConvert.DeserializeObject<List<Note>>(result);
         }
 
-        // добавляем одну заметку
+        public async Task<List<Note>> GetClient(int id)
+        {
+            HttpClient client = GetClient();
+            var response = await client.PostAsync(Url + "/PostClientNote",
+                new StringContent(
+                    JsonConvert.SerializeObject(id),
+                    Encoding.UTF8, "application/json"));
+
+            if (response.StatusCode != HttpStatusCode.Created)
+                return null;
+
+            return JsonConvert.DeserializeObject<List<Note>>(
+                await response.Content.ReadAsStringAsync());
+        }
+
         public async Task<Note> Add(Note note)
         {
-            var v =
-                    JsonConvert.SerializeObject(note);
-
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
                 new StringContent(
@@ -48,9 +59,9 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
-        // обновляем заметку
         public async Task<Note> Update(Note note)
         {
+            note.Client = null;
             HttpClient client = GetClient();
             var response = await client.PutAsync(Url + "/" + note.NoteId,
                 new StringContent(
@@ -64,7 +75,6 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
-        // удаляем заметку
         public async Task<Note> Delete(int id)
         {
             HttpClient client = GetClient();

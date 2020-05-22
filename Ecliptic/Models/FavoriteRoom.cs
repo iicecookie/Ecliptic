@@ -15,13 +15,11 @@ namespace Ecliptic.Models
         public virtual int? ClientId { get; set; }
 
 
-        public FavoriteRoom()
-        {
+        public FavoriteRoom() { }
 
-        }
-
-        public FavoriteRoom(string name, string details, string building = "",
-                            int clientid = 0, int roomId = 0)
+        public FavoriteRoom(string name, string details, 
+                            string building,
+                            int clientid, int roomId)
         {
             Name = name;
             Building = building;
@@ -29,7 +27,6 @@ namespace Ecliptic.Models
             Details = details;
 
             ClientId = clientid;
-
             FavoriteRoomId = roomId;
         }
     }

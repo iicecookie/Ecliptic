@@ -123,31 +123,22 @@ namespace Ecliptic.Views.ClientInteraction
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            ClientService clientService = new ClientService();
-
-            var client = await clientService.Authrization
-               (LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
+            var client = await new ClientService().Authrization(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
 
             if (client != null) // если сервер вернул данные пользователя - загрузить в пользователя
             {
                 Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
-                DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
+                    DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
-                // NoteService    noteService    = new NoteService();
-                // FavRoomService favRoomService = new FavRoomService();
-                // 
-                // DbService.SaveUser(user); // сохранили пользователя
-                // DbService.AddNote        (await noteService   .Get(user.UserId)); // сохранили его заметки
-                // DbService.AddFavoriteRoom(await favRoomService.Get(user.UserId)); // и избраные помещения
+                DbService.AddNote     (await new NoteService().GetClient(Client.CurrentClient.ClientId));
+                DbService.AddFavoriteRoom(await new FavRoomService().Get(Client.CurrentClient.ClientId));
 
-                // DbService.LoadUser();
                 GetClientPage();
-
                 return;
             }
             else
             {
-                await DisplayAlert("Ошибка", "Данные с сервера не получены", "OK");
+                await DisplayAlert("Ошибка", "Неверный логин или пароль", "OK");
                 return;
             }
         }

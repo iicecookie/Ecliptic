@@ -46,21 +46,12 @@ namespace Ecliptic.Models
         // ПРОВЕРИТЬ ЭТУ ЧАСТИ
         public FavoriteRoom ToFavRoom(int Clientid)
         {
-            return new FavoriteRoom(Name, Description, "KSU", Clientid, RoomId);
+            return new FavoriteRoom(Name, Description, Floor.Building.Name, Clientid, RoomId);
         }
 
         public object Clone()
         {
-            return new Room
-            {
-                Name = this.Name,
-                Floor = this.Floor,
-                Description = this.Description,
-                Timetable = this.Timetable,
-                Phone = this.Phone,
-                Site = this.Site,
-                Workers = this.Workers,
-            };
+            return this.MemberwiseClone();
         }
 
         public override bool Equals(object obj)

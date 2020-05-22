@@ -430,13 +430,13 @@ namespace Ecliptic.Repository
             LoadSampleRooms();     db.SaveChanges();
             LoadSampleWorkers();   db.SaveChanges();
              
-            LoadSampleNotes();     db.SaveChanges();
+         //   LoadSampleNotes();     db.SaveChanges();
 
-            LoadSamplePoints();    db.SaveChanges();
-            LoadSampleEdges();     db.SaveChanges();
-
-            LoadSampleWays();      db.SaveChanges();
-
+          //  LoadSamplePoints();    db.SaveChanges();
+          //  LoadSampleEdges();     db.SaveChanges();
+          //
+          //  LoadSampleWays();      db.SaveChanges();
+          
             LoadAll();
         }
 

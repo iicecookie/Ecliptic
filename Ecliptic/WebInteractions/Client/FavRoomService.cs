@@ -11,9 +11,8 @@ namespace Ecliptic.WebInteractions
 {
     class FavRoomService
     {
-        const string Url = WebData.ADRESS + "/api/FavRooms";
+        const string Url = WebData.ADRESS + "/api/FavoriteRooms";
 
-        // настройка клиента
         private HttpClient GetClient()
         {
             HttpClient client = new HttpClient();
@@ -21,56 +20,40 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все избраные помещения
-        public async Task<List<FavoriteRoom>> Get(int userid)
+        public async Task<List<FavoriteRoom>> Get(int id)
         {
             HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url + "/" + userid);
+            string result = await client.GetStringAsync(Url + "/" + id);
             return JsonConvert.DeserializeObject<List<FavoriteRoom>>(result);
         }
 
-        // добавляем одного друга
-        public async Task<FavoriteRoom> Add(FavoriteRoom note)
+        public async Task<FavoriteRoom> Add(FavoriteRoom room)
         {
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
                 new StringContent(
-                    JsonConvert.SerializeObject(note),
+                    JsonConvert.SerializeObject(room),
                     Encoding.UTF8, "application/json"));
 
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode != HttpStatusCode.Created)
                 return null;
 
             return JsonConvert.DeserializeObject<FavoriteRoom>(
                 await response.Content.ReadAsStringAsync());
         }
 
-        // обновляем заметку
-        public async Task<FavoriteRoom> Update(FavoriteRoom note)
-        {
-            HttpClient client = GetClient();
-            var response = await client.PutAsync(Url + "/" + note.FavoriteRoomId,
-                new StringContent(
-                    JsonConvert.SerializeObject(note),
-                    Encoding.UTF8, "application/json"));
-
-            if (response.StatusCode != HttpStatusCode.OK)
-                return null;
-
-            return JsonConvert.DeserializeObject<FavoriteRoom>(
-                await response.Content.ReadAsStringAsync());
-        }
-
-        // удаляем заметку
-        public async Task<FavoriteRoom> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             HttpClient client = GetClient();
             var response = await client.DeleteAsync(Url + "/" + id);
-            if (response.StatusCode != HttpStatusCode.OK)
-                return null;
 
-            return JsonConvert.DeserializeObject<FavoriteRoom>(
-               await response.Content.ReadAsStringAsync());
+            if (response.StatusCode == HttpStatusCode.OK)
+                return true;
+
+            return false;
+
+            // return JsonConvert.DeserializeObject<FavoriteRoom>(
+            //   await response.Content.ReadAsStringAsync());  
         }
     }
 }

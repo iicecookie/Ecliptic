@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic; 
 using Xamarin.Forms;
 using System.Linq;
+using Ecliptic.WebInteractions;
 
 namespace Ecliptic.Views.ClientInteraction
 {
@@ -227,150 +228,123 @@ namespace Ecliptic.Views.ClientInteraction
             GetLoginPage();
         }
 
-        public void OnButtonSaveClicked(object sender, EventArgs args)
+        public async void OnButtonSaveClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
             if (btn.AutomationId == "0") { return; }
 
-            // сохранить в пользователе 
             Note note = Client.FindNoteById(Int32.Parse(btn.AutomationId));
+            if  (note == null) return;
 
-            if (note == null) return;
+            Note send = (Note)note.Clone();
 
-            for (int i = 0; i < Client.CurrentClient.Notes.Count; i++)
-            {
-                if (Client.CurrentClient.Notes[i].NoteId == note.NoteId)
-                {
-                    note = Client.CurrentClient.Notes[i];
-                    break;
-                }
-            }
+            // это было если публичные заметки отдельно хранятся
+            // for (int i = 0; i < Client.CurrentClient.Notes.Count; i++)
+            // {
+            //     if (Client.CurrentClient.Notes[i].NoteId == note.NoteId)
+            //     {
+            //         note = Client.CurrentClient.Notes[i];
+            //         break;
+            //     }
+            // }
 
             foreach (var editor in ClientPage.Editors)
             {
                 if (editor.AutomationId == btn.AutomationId)
                 {
-                    note.Text = editor.Text;
+                    send.Text = editor.Text;
                     break;
                 }
             }
-
             foreach (var date   in ClientPage.Dates)
             {
                 if (date.AutomationId == btn.AutomationId)
                 {
-                    date.Text = DateTime.Today.ToString();
+                    send.Date = DateTime.Now.ToString("dd/MM/yyyy");
+                    date.Text = send.Date;
                     break;
                 }
             }
 
-            note.Date = DateTime.Today.ToString();
+            Note getnote = await new NoteService().Update(send);
 
-            DbService.UpdateNote(note);
+            if (getnote != null) // если обновлена на вервере
+            {
+                note.Text = send.Text;
+                note.Date = send.Date;
+                DbService.UpdateNote(note);
 
-            // hide in tests
-            DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " изменена");
-
-            // отправить на сервер
-         
+                DependencyService.Get<IToast>().Show("Текст заметки обновлен");
+                GetClientPage();
+                return;
+            }
+            DependencyService.Get<IToast>().Show("Не удалось сохранить заметку");
         }
 
-        public void OnButtonDeleteClicked(object sender, EventArgs args)
+        public async void OnButtonDeleteClicked(object sender, EventArgs args)
         {
             ImageButton btn = (ImageButton)sender;
             if (btn.AutomationId == "0") { return; }
 
-            // сохранить в пользователе 
             Note note = Client.FindNoteById(Int32.Parse(btn.AutomationId));
             if  (note == null) return;
 
-            DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " удалена");
+            Note getnote = await new NoteService().Delete(note.NoteId);
 
-
-            List<Frame> v = ((StackLayout)((ScrollView)Content).Content).Children
-                 .Where(x => x is Frame)
-                 .Select(view => view as Frame)
-                 .Where(f => f.AutomationId != btn.AutomationId)
-                 .ToList();
-
-            StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;
-            stackLayout.Children.Add(ClientPage.NameLab);
-            stackLayout.Children.Add(ClientPage.LoginLab);
-            stackLayout.Children.Add(ClientPage.NoteCount);
-            foreach (var frame in v)
+            if (getnote != null) // если удалена с сервера
             {
-                stackLayout.Children.Add(frame);
-            }
-            stackLayout.Children.Add(ClientPage.LoginOutBtn);
+                DbService.RemoveNote(note);
 
-            ((ScrollView)Content).Content = stackLayout;
-
-            if (note.isPublic)
-            {
-                //  если публичная, то убрать и с сервера
-
-                // если заметка есть в загруженом здании
-                // Note buildnote = NoteData.FindNote((Note)note.Clone());
-                // 
-                // if (buildnote != null)
-                // {
-                //     DbService.RemoveNote(buildnote);
-                //     NoteData.Notes = DbService.LoadAllPublicNotes();
-                // }
+                DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " удалена");
+                GetClientPage();
+                return;
             }
 
-            DbService.RemoveNote(note);
+            DependencyService.Get<IToast>().Show("Не удалось удалить заметку");
 
-            // GetUserPage();
+            // List<Frame> v = ((StackLayout)((ScrollView)Content).Content).Children
+            //                                                    .Where(x => x is Frame)
+            //                                                    .Select(view => view as Frame)
+            //                                                    .Where(f => f.AutomationId != btn.AutomationId)
+            //                                                    .ToList();
+            //
+            // StackLayout stackLayout = new StackLayout();
+            // stackLayout.Margin = 20;
+            // stackLayout.Children.Add(ClientPage.NameLab);
+            // stackLayout.Children.Add(ClientPage.LoginLab);
+            // stackLayout.Children.Add(ClientPage.NoteCount);
+            // foreach (var frame in v)
+            // {
+            //     stackLayout.Children.Add(frame);
+            // }
+            // stackLayout.Children.Add(ClientPage.LoginOutBtn);
+            //
+            // ((ScrollView)Content).Content = stackLayout;
         }
 
-        public void OnSwitched(object sender, EventArgs args)
+        public async void OnSwitched(object sender, EventArgs args)
         {
             Switch switcher = (Switch)sender;
             if (switcher.AutomationId == "0") { return; }
 
             Note note = Client.FindNoteById(Int32.Parse(switcher.AutomationId));
-            if (note == null) return;
+            if  (note == null) return;
 
-            if (switcher.IsToggled) // сделал публичной
+            Note send = (Note)note.Clone();
+            send.isPublic = switcher.IsToggled;
+        
+            Note getnote = await new NoteService().Update(send);
+
+            if (getnote != null) // если обновлена на вервере
             {
-                note.isPublic = true;
+                note.isPublic = send.isPublic;
+                DbService.UpdateNote(note);
 
-                // отпрвыить на сервер
+                if (note.isPublic) { DependencyService.Get<IToast>().Show("Заметка стала публичной"); }
+                else { DependencyService.Get<IToast>().Show("Заметка стала приватной"); }
 
-                // добавить в общий если добавилось на сервер
-
-               // Note buildnote = (Note)note.Clone();
-               // if (RoomData.isThatRoom(buildnote.Room))
-               // {
-               //     DbService.AddNote(buildnote);
-               // }
-
-                NoteData.Notes = DbService.LoadAllPublicNotes();
-
-                // hide in test
-                DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " стала публичной");
-            }
-            else
-            {
-                // удалить с сервера
-
-                // удалить из общиз если удалилось с сервера
-                Note buildnote = NoteData.FindNote(note);
-                if  (buildnote != null)
-                {
-                    DbService.RemoveNote(NoteData.FindNote(note));
-                }
-
-                note.isPublic = false;
-
-                DbService.SaveDb();
-
-                NoteData.Notes = DbService.LoadAllPublicNotes();
-                
-                // hide in test
-                DependencyService.Get<IToast>().Show("Заметка о " + note.Room + " стала приватной");
+                GetClientPage();
+                return;
             }
         }
 
