@@ -38,7 +38,7 @@ namespace Ecliptic.Views.FavoriteRoomList
         {
             base.OnAppearing();
             RoomView.ItemsSource = null;
-            RoomView.ItemsSource = User.CurrentUser.Favorites;
+            RoomView.ItemsSource = Client.CurrentClient.Favorites;
         }
     }
 }

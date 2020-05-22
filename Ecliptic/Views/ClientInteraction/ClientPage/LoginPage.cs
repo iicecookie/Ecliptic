@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Essentials;
 
-namespace Ecliptic.Views.UserInteraction
+namespace Ecliptic.Views.ClientInteraction
 {
     public partial class Authorization : ContentPage
     {
@@ -111,42 +111,37 @@ namespace Ecliptic.Views.UserInteraction
                 return;
             }
 
-            // тестовый пользователь
-            if (WebData.istest)
-            {
-                User.LoadUser(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
-                GetUserPage();
-                return;
-            }
-
             if (CrossConnectivity.Current.IsConnected == false)
             {
                 DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
                 return;
             }
 
-            bool isRemoteReachable = await CrossConnectivity.Current.IsReachable("ecliptic.geo.com");
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
             if (!isRemoteReachable)
-            { 
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
-                return;
+            {
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            UserService userService = new UserService();
-            User user = await userService.Get(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
-                 
-            // если сервер вернул данные пользователя - загрузить в пользователя
-            if (user != null)
+            ClientService clientService = new ClientService();
+
+            var client = await clientService.Authrization
+               (LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
+
+            if (client != null) // если сервер вернул данные пользователя - загрузить в пользователя
             {
-                NoteService    noteService    = new NoteService();
-                FavRoomService favRoomService = new FavRoomService();
+                Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
+                DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
-                DbService.SaveUser(user); // сохранили пользователя
-                DbService.AddNote        (await noteService   .Get(user.UserId)); // сохранили его заметки
-                DbService.AddFavoriteRoom(await favRoomService.Get(user.UserId)); // и избраные помещения
+                // NoteService    noteService    = new NoteService();
+                // FavRoomService favRoomService = new FavRoomService();
+                // 
+                // DbService.SaveUser(user); // сохранили пользователя
+                // DbService.AddNote        (await noteService   .Get(user.UserId)); // сохранили его заметки
+                // DbService.AddFavoriteRoom(await favRoomService.Get(user.UserId)); // и избраные помещения
 
-                DbService.LoadUser();
-                GetUserPage();
+                // DbService.LoadUser();
+                GetClientPage();
 
                 return;
             }

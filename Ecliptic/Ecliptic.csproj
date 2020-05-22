@@ -42,13 +42,13 @@
     <Compile Update="Views\WayFounder\FindWayPage.xaml.cs">
       <DependentUpon>FindWayPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\UserInteraction\Userpage\AuthorizationPage.xaml.cs">
+    <Compile Update="Views\ClientInteraction\ClientPage\AuthorizationPage.xaml.cs">
       <DependentUpon>AuthorizationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\UserInteraction\FavoriteRooms.xaml.cs">
+    <Compile Update="Views\ClientInteraction\FavoriteRooms.xaml.cs">
       <DependentUpon>FavoriteRooms.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\UserInteraction\NewNotePage.xaml.cs">
+    <Compile Update="Views\ClientInteraction\NewNotePage.xaml.cs">
       <DependentUpon>NewNotePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

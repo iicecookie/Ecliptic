@@ -1,20 +1,18 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
 using Ecliptic.Repository;
-using Ecliptic.Views.UserNote;
+using Ecliptic.Views.ClientNote;
 using Ecliptic.Views.FavoriteRoomList;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+using System.Collections.Generic; 
 using Xamarin.Forms;
 using System.Linq;
 
-namespace Ecliptic.Views.UserInteraction
+namespace Ecliptic.Views.ClientInteraction
 {
     public partial class Authorization : ContentPage
     {
-        public class UserControls
+        public class ClientControls
         {
             public Label NameLab  { get; set; }
             public Label LoginLab { get; set; }
@@ -27,23 +25,23 @@ namespace Ecliptic.Views.UserInteraction
 
             public Button LoginOutBtn { get; set; }
 
-            public UserControls()
+            public ClientControls()
             {
                 NameLab   = new Label
                 {
-                    Text = User.CurrentUser.Name,
+                    Text = Client.CurrentClient.Name,
                     Style = Device.Styles.TitleStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
                 LoginLab  = new Label
                 {
-                    Text = User.CurrentUser.Login,
+                    Text = Client.CurrentClient.Login,
                     Style = Device.Styles.TitleStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
                 NoteCount = new Label
                 {
-                    Text = "У вас " + User.CurrentUser.Notes.Count + " заметок и " + User.CurrentUser.Favorites.Count + " избраных помещений",
+                    Text = "У вас " + Client.CurrentClient.Notes.Count + " заметок и " + Client.CurrentClient.Favorites.Count + " избраных помещений",
                     Style = Device.Styles.ListItemTextStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
@@ -62,27 +60,27 @@ namespace Ecliptic.Views.UserInteraction
             }
         }
 
-        public UserControls UserPage;
+        public ClientControls ClientPage;
 
-        public void GetUserPage()
+        public void GetClientPage()
         {
-            Title = "Профиль " + User.CurrentUser.Name;
+            Title = "Профиль " + Client.CurrentClient.Name;
 
             LoginPage       = null;
             RegisrationPage = null;
 
-            UserPage = new UserControls();
-            UserPage.LoginOutBtn.Clicked += GoLoginPage;
+            ClientPage = new ClientControls();
+            ClientPage.LoginOutBtn.Clicked += GoLoginPage;
 
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
 
-            stackLayout.Children.Add(UserPage.NameLab);
-            stackLayout.Children.Add(UserPage.LoginLab);
-            stackLayout.Children.Add(UserPage.NoteCount);
+            stackLayout.Children.Add(ClientPage.NameLab);
+            stackLayout.Children.Add(ClientPage.LoginLab);
+            stackLayout.Children.Add(ClientPage.NoteCount);
 
             // заметки пользователя
-            foreach (var note in User.CurrentUser.Notes)
+            foreach (var note in Client.CurrentClient.Notes)
             {
                 Grid grid = new Grid
                 {
@@ -148,9 +146,9 @@ namespace Ecliptic.Views.UserInteraction
                     AutomationId = note.NoteId.ToString(),
                 };
 
-                UserPage.Switches.Add(switchaccses);
-                UserPage.Dates   .Add(datechanges);
-                UserPage.Editors .Add(text);
+                ClientPage.Switches.Add(switchaccses);
+                ClientPage.Dates   .Add(datechanges);
+                ClientPage.Editors .Add(text);
 
                 switchaccses.Toggled += OnSwitched;
                 SaveBut.Clicked      += OnButtonSaveClicked;
@@ -179,7 +177,7 @@ namespace Ecliptic.Views.UserInteraction
                 stackLayout.Children.Add(frame);
             }
 
-            stackLayout.Children.Add(UserPage.LoginOutBtn);
+            stackLayout.Children.Add(ClientPage.LoginOutBtn);
 
             this.Content = new ScrollView { Content = stackLayout };
 
@@ -221,11 +219,11 @@ namespace Ecliptic.Views.UserInteraction
         {
             this.ToolbarItems.Clear();
 
-            if (User.CurrentUser != null)
+            if (Client.CurrentClient != null)
             {
-                User.LoginOut();
+                Client.LoginOut();
             }
-            UserPage = null;
+            ClientPage = null;
             GetLoginPage();
         }
 
@@ -235,20 +233,20 @@ namespace Ecliptic.Views.UserInteraction
             if (btn.AutomationId == "0") { return; }
 
             // сохранить в пользователе 
-            Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
+            Note note = Client.FindNoteById(Int32.Parse(btn.AutomationId));
 
             if (note == null) return;
 
-            for (int i = 0; i < User.CurrentUser.Notes.Count; i++)
+            for (int i = 0; i < Client.CurrentClient.Notes.Count; i++)
             {
-                if (User.CurrentUser.Notes[i].NoteId == note.NoteId)
+                if (Client.CurrentClient.Notes[i].NoteId == note.NoteId)
                 {
-                    note = User.CurrentUser.Notes[i];
+                    note = Client.CurrentClient.Notes[i];
                     break;
                 }
             }
 
-            foreach (var editor in UserPage.Editors)
+            foreach (var editor in ClientPage.Editors)
             {
                 if (editor.AutomationId == btn.AutomationId)
                 {
@@ -257,7 +255,7 @@ namespace Ecliptic.Views.UserInteraction
                 }
             }
 
-            foreach (var date   in UserPage.Dates)
+            foreach (var date   in ClientPage.Dates)
             {
                 if (date.AutomationId == btn.AutomationId)
                 {
@@ -283,7 +281,7 @@ namespace Ecliptic.Views.UserInteraction
             if (btn.AutomationId == "0") { return; }
 
             // сохранить в пользователе 
-            Note note = User.FindNoteById(Int32.Parse(btn.AutomationId));
+            Note note = Client.FindNoteById(Int32.Parse(btn.AutomationId));
             if  (note == null) return;
 
             DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " удалена");
@@ -297,14 +295,14 @@ namespace Ecliptic.Views.UserInteraction
 
             StackLayout stackLayout = new StackLayout();
             stackLayout.Margin = 20;
-            stackLayout.Children.Add(UserPage.NameLab);
-            stackLayout.Children.Add(UserPage.LoginLab);
-            stackLayout.Children.Add(UserPage.NoteCount);
+            stackLayout.Children.Add(ClientPage.NameLab);
+            stackLayout.Children.Add(ClientPage.LoginLab);
+            stackLayout.Children.Add(ClientPage.NoteCount);
             foreach (var frame in v)
             {
                 stackLayout.Children.Add(frame);
             }
-            stackLayout.Children.Add(UserPage.LoginOutBtn);
+            stackLayout.Children.Add(ClientPage.LoginOutBtn);
 
             ((ScrollView)Content).Content = stackLayout;
 
@@ -332,7 +330,7 @@ namespace Ecliptic.Views.UserInteraction
             Switch switcher = (Switch)sender;
             if (switcher.AutomationId == "0") { return; }
 
-            Note note = User.FindNoteById(Int32.Parse(switcher.AutomationId));
+            Note note = Client.FindNoteById(Int32.Parse(switcher.AutomationId));
             if (note == null) return;
 
             if (switcher.IsToggled) // сделал публичной

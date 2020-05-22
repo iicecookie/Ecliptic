@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Ecliptic.Views.UserInteraction
+namespace Ecliptic.Views.ClientInteraction
 {
     public partial class Authorization : ContentPage
     {
@@ -21,13 +21,13 @@ namespace Ecliptic.Views.UserInteraction
 
         protected override void OnAppearing()
         {
-            if (User.CurrentUser == null)
+            if (Client.CurrentClient == null)
             {
                 GetLoginPage();
             }
             else
             {
-                GetUserPage();
+                GetClientPage();
             }
         }
     }

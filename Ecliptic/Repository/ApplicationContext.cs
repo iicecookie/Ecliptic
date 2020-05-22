@@ -9,7 +9,7 @@ namespace Ecliptic.Repository
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<User>    User     { get; set; }
+        public DbSet<Client>    Client     { get; set; }
         public DbSet<Note>    Notes    { get; set; }
         public DbSet<FavoriteRoom> FavoriteRooms { get; set; }
 

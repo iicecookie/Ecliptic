@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ecliptic.WebInteractions
 {
-    class UserService
+    class ClientService
     { 
         const string Url = WebData.ADRESS + "api/Clients";
 
@@ -21,7 +21,6 @@ namespace Ecliptic.WebInteractions
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             return client;
         }
-
 
         // получаем пользователя for ttesting dont serilaze back
         public async Task<string> Get()
@@ -35,7 +34,7 @@ namespace Ecliptic.WebInteractions
         }
 
         // получаем пользователя
-        public async Task<User> Get(string login, string pass)
+        public async Task<Dictionary<string, string>> Authrization(string login, string pass)
         {
             Dictionary<string, string> user = new Dictionary<string, string>();
             user.Add("Login", login);
@@ -51,7 +50,8 @@ namespace Ecliptic.WebInteractions
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
 
-            return JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(
+               await response.Content.ReadAsStringAsync());
         }
 
         // добавляем пользоваетля
@@ -61,8 +61,6 @@ namespace Ecliptic.WebInteractions
             user.Add("Name",  name);
             user.Add("Login", login);
             user.Add("Pass",  pass);
-
-            var v = JsonConvert.SerializeObject(user);
 
             HttpClient client = GetClient();
             HttpResponseMessage response = await client.PostAsync(Url + "/PostRegister",

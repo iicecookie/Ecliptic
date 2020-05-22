@@ -4,13 +4,12 @@ using System.Collections.Generic;
 
 namespace Ecliptic.Models
 {
-    public class User
+    public class Client
     {
         #region Params
-        public static User CurrentUser { get; private set; }
+        public static Client CurrentClient { get; private set; }
 
-        public int UserId { get; set; }
-
+        public int ClientId { get; set; }
         public string Name  { get; private set; }
         public string Login { get; private set; }   
 
@@ -20,58 +19,58 @@ namespace Ecliptic.Models
         #endregion
 
         #region Constructors
-        private User()
+        private Client()
         {
             Notes     = new List<Note>();
             Favorites = new List<FavoriteRoom>();
         }
 
-        private User(int id, string Name, string login) : this()
+        private Client(int id, string Name, string login) : this()
         {
-            this.UserId = id;
+            this.ClientId = id;
             this.Name = Name;
             this.Login = login;
         }
 
-        public static User setUser(User user)
+        public static Client setClient(Client client)
         {
-            CurrentUser = user;
-            return CurrentUser;
+            CurrentClient = client;
+            return CurrentClient;
         }
 
-        public static User setUser(int id, string name, string login)
+        public static Client setClient (int id, string name, string login)
         {
-            CurrentUser = new User(id, name, login);
-            return CurrentUser;
+            CurrentClient = new Client(id, name, login);
+            return CurrentClient;
         }
         #endregion
 
         // for sample
-        public static User LoadUser(string login, string name)
+        public static Client LoadClient(string login, string name)
         {
-            DbService.LoadSampleUser("Maxim", "Bi");
-            return User.CurrentUser;
+            DbService.LoadSampleClient("Maxim", "Bi");
+            return Client.CurrentClient;
         }
 
         public static void LoginOut()
         {
-            DbService.RemoveFavoriteRoom(CurrentUser.Favorites);
-            DbService.RemoveNote(CurrentUser.Notes);
+            DbService.RemoveFavoriteRoom(CurrentClient.Favorites);
+            DbService.RemoveNote(CurrentClient.Notes);
 
-            DbService.RemoveUser(CurrentUser);
+            DbService.RemoveClient(CurrentClient);
 
-            CurrentUser = null;
+            CurrentClient = null;
         }
 
         public static Note FindNoteById(int id)
         {
             Note note = null;
 
-            for (int i = 0; i < CurrentUser.Notes.Count; i++)
+            for (int i = 0; i < CurrentClient.Notes.Count; i++)
             {
-                if (CurrentUser.Notes[i].NoteId == id)
+                if (CurrentClient.Notes[i].NoteId == id)
                 {
-                    note = CurrentUser.Notes[i];
+                    note = CurrentClient.Notes[i];
                 }
             }
             return note;
@@ -79,7 +78,7 @@ namespace Ecliptic.Models
  
         public static FavoriteRoom isRoomFavoit(Room room)
         {   
-            foreach (var favorite in CurrentUser.Favorites)
+            foreach (var favorite in CurrentClient.Favorites)
             {
                 if (favorite.Name == room.Name && 
                     favorite.Details == room.Description || 

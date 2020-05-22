@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using Xamarin.Forms;
 
-namespace Ecliptic.Views.UserNote
+namespace Ecliptic.Views.ClientNote
 {
     public partial class NewNotePage : ContentPage
     {
@@ -35,31 +35,16 @@ namespace Ecliptic.Views.UserNote
                 return;
             }
 
-            if (WebData.istest)
-            {
-                DbService.AddNote(new Note(NoteText.Text,
-                                           SearchBarBuilding.Text,
-                                           SearchBarRoom.Text,
-                                           false,
-                                           roomid: roomnote?.RoomId,
-                                           userid: User.CurrentUser.UserId,
-                                           username: User.CurrentUser.Name));
-
-                await Navigation.PopAsync();
-                return;
-            } // что бы тестить без сервера
-
             if (CrossConnectivity.Current.IsConnected == false)
             {
                 DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
                 return;
             }
 
-            bool isRemoteReachable = await CrossConnectivity.Current.IsReachable(WebData.ADRESS);
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
             if (!isRemoteReachable)
             {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK");
-                return;
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
             NoteService noteService = new NoteService();
@@ -68,7 +53,7 @@ namespace Ecliptic.Views.UserNote
                                                        SearchBarRoom.Text,
                                                        false,
                                                        roomid: roomnote?.RoomId,
-                                                       userid: User.CurrentUser.UserId));
+                                                       clientid: Client.CurrentClient.ClientId));
             
             // если сервер вернул данные по заметке - загрузить в пользователя
             if (note != null)

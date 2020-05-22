@@ -40,11 +40,11 @@ namespace Ecliptic.Repository
             PointData.Points = LoadAllPoints();
             EdgeData.Edges   = LoadAllEdges();
 
-            if (db.User.Count() > 0)
+            if (db.Client.Count() > 0)
             {
-                User.setUser(LoadUserFromDb());
-                User.CurrentUser.Favorites = db.FavoriteRooms.ToList();
-                LoadUserNotes(User.CurrentUser);
+                Client.setClient(LoadClientFromDb());
+                Client.CurrentClient.Favorites = db.FavoriteRooms.ToList();
+                LoadClientNotes(Client.CurrentClient);
             }
         }
 
@@ -56,8 +56,8 @@ namespace Ecliptic.Repository
                 db.Notes.RemoveRange(db.Notes);
             if (db.Workers.Count() > 0)
                 db.Workers.RemoveRange(db.Workers);
-            if (db.User.Count() > 0)
-                db.User.RemoveRange(db.User);
+            if (db.Client.Count() > 0)
+                db.Client.RemoveRange(db.Client);
             db.SaveChanges();
         }
 
@@ -316,7 +316,7 @@ namespace Ecliptic.Repository
                                        s.Building == note.Building &&
                                        s.Room == note.Room &&
                                        s.isPublic == note.isPublic &&
-                                       s.UserId == note.UserId
+                                       s.ClientId == note.ClientId
                                        );
             if (notes.Count() > 0)
                 return notes.First();
@@ -330,7 +330,7 @@ namespace Ecliptic.Repository
 
         public static List<Note> LoadAllPublicNotes()
         {
-            return db.Notes.Where(s => s.isPublic == true && s.User == null).ToList();
+            return db.Notes.Where(s => s.isPublic == true && s.Client == null).ToList();
         }
 
         #endregion
@@ -370,53 +370,53 @@ namespace Ecliptic.Repository
         }
         #endregion
 
-        #region User
+        #region Client
 
-        public static bool isSavedUser()
+        public static bool isSavedClient()
         {
-            if (db.User.Count() > 0) return true;
+            if (db.Client.Count() > 0) return true;
             return false;
         }
 
-        public static User LoadUser()
+        public static Client LoadClient()
         {
-            if (db.User.Count() == 0) return null;
+            if (db.Client.Count() == 0) return null;
 
-            User.setUser(db.User.First());
+            Client.setClient(db.Client.First());
 
-            User.CurrentUser.Notes = db.Notes.Include(note => note.UserId).ToList();
-            User.CurrentUser.Favorites = db.FavoriteRooms.Include(note => note.UserId).ToList();
+            Client.CurrentClient.Notes = db.Notes.Include(note => note.ClientId).ToList();
+            Client.CurrentClient.Favorites = db.FavoriteRooms.Include(note => note.ClientId).ToList();
 
-            return db.User.ToList().First();
+            return db.Client.ToList().First();
         }
 
-        public static User LoadUserFromDb()
+        public static Client LoadClientFromDb()
         {
-            if (db.User.Count() == 0) return null;
-            return db.User.ToList().First();
+            if (db.Client.Count() == 0) return null;
+            return db.Client.ToList().First();
         }
 
-        public static void SaveUser(User user)
+        public static void SaveClient(Client client)
         {
-            if (user == null) return;
-            db.User.Add(user);
+            if (client == null) return;
+            db.Client.Add(client);
             db.SaveChanges();
         }
 
-        public static void RemoveUser(User user)
+        public static void RemoveClient(Client client)
         {
-            if (user == null) return;
-            db.User.Remove(user);
+            if (client == null) return;
+            db.Client.Remove(client);
             db.SaveChanges();
         }
 
-        public static List<Note> LoadUserNotes(User user)
+        public static List<Note> LoadClientNotes(Client client)
         {
             foreach (var i in db.Notes)
-                if (i.UserId == user.UserId)
+                if (i.ClientId == client.ClientId)
                 {
                 }
-            return User.CurrentUser.Notes;
+            return Client.CurrentClient.Notes;
         }
 
         #endregion
@@ -872,38 +872,38 @@ namespace Ecliptic.Repository
             AddNote(new Note("I'm open puko", "KGU", "202", true, roomid: 3));
         }
 
-        public static User LoadSampleUser(string login, string password)
+        public static Client LoadSampleClient(string login, string password)
         {
             // записываю в пользователя
-            User.setUser(1, password, login);
+            Client.setClient(1, password, login);
 
             // загружаю в базу данных
-            DbService.SaveUser(User.CurrentUser);
+            DbService.SaveClient(Client.CurrentClient);
 
-            DbService.AddNote(new Note("заметка1", "KGU", "213", false, roomid: 1, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка2", "KGU", "213", true,  roomid: 1, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка3", "KGU", "200", false, roomid: 2, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка4", "KGU", "200", false, roomid: 2, userid: User.CurrentUser.UserId));
-            DbService.AddNote(new Note("заметка5", "KGU", "202", false, roomid: 3, userid: User.CurrentUser.UserId));
+            DbService.AddNote(new Note("заметка1", "KGU", "213", false, roomid: 1, clientid: Client.CurrentClient.ClientId));
+            DbService.AddNote(new Note("заметка2", "KGU", "213", true,  roomid: 1, clientid: Client.CurrentClient.ClientId));
+            DbService.AddNote(new Note("заметка3", "KGU", "200", false, roomid: 2, clientid: Client.CurrentClient.ClientId));
+            DbService.AddNote(new Note("заметка4", "KGU", "200", false, roomid: 2, clientid: Client.CurrentClient.ClientId));
+            DbService.AddNote(new Note("заметка5", "KGU", "202", false, roomid: 3, clientid: Client.CurrentClient.ClientId));
 
             DbService.AddFavoriteRoom(
                 new FavoriteRoom("213",
                             "The American black bear is a medium-sized bear native to North America. It is the continent's smallest and most widely distributed bear species. American black bears are omnivores, with their diets varying greatly depending on season and location. They typically live in largely forested areas, but do leave forests in search of food. Sometimes they become attracted to human communities because of the immediate availability of food. The American black bear is the world's most common bear species.",
-                            "", User.CurrentUser.UserId, 1));
+                            "", Client.CurrentClient.ClientId, 1));
 
             DbService.AddFavoriteRoom(
                  new FavoriteRoom("200",
                              "The Asian black bear, also known as the moon bear and the white-chested bear, is a medium-sized bear species native to Asia and largely adapted to arboreal life. It lives in the Himalayas, in the northern parts of the Indian subcontinent, Korea, northeastern China, the Russian Far East, the Honshū and Shikoku islands of Japan, and Taiwan. It is classified as vulnerable by the International Union for Conservation of Nature (IUCN), mostly because of deforestation and hunting for its body parts.",
-                             "", User.CurrentUser.UserId, 2));
+                             "", Client.CurrentClient.ClientId, 2));
 
             DbService.AddFavoriteRoom(
                  new FavoriteRoom("202",
                              "The brown bear is a bear that is found across much of northern Eurasia and North America. In North America the population of brown bears are often called grizzly bears. It is one of the largest living terrestrial members of the order Carnivora, rivaled in size only by its closest relative, the polar bear, which is much less variable in size and slightly larger on average. The brown bear's principal range includes parts of Russia, Central Asia, China, Canada, the United States, Scandinavia and the Carpathian region, especially Romania, Anatolia and the Caucasus. The brown bear is recognized as a national and state animal in several European countries.",
-                             "", User.CurrentUser.UserId, 3));
+                             "", Client.CurrentClient.ClientId, 3));
             
             db.SaveChanges();
 
-            return User.CurrentUser;
+            return Client.CurrentClient;
         }
 
         #endregion

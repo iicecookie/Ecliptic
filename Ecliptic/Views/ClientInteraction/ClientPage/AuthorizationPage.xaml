@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              
              BackgroundColor="#FFDAFFCD"
-             x:Class="Ecliptic.Views.UserInteraction.Authorization"
+             x:Class="Ecliptic.Views.ClientInteraction.Authorization"
              Title="Войти как пользователь">
 
     

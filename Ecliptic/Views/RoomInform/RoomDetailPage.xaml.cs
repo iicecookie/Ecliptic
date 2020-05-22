@@ -129,10 +129,10 @@ namespace Ecliptic.Views
                 }
 
                 // заметки пользователя
-                if (User.CurrentUser != null)
+                if (Client.CurrentClient != null)
                 {
                     bool isone = false;
-                    foreach (var i in User.CurrentUser.Notes)
+                    foreach (var i in Client.CurrentClient.Notes)
                     {
                         if (i.RoomId == Current.RoomId) 
                         {
@@ -140,7 +140,7 @@ namespace Ecliptic.Views
                             {
                                 Label Notelab = new Label
                                 {
-                                    Text = "Заметки " + User.CurrentUser.Name + ":",
+                                    Text = "Заметки " + Client.CurrentClient.Name + ":",
                                     Style = Device.Styles.BodyStyle,
                                     HorizontalOptions = LayoutOptions.Center
                                 };
@@ -160,9 +160,9 @@ namespace Ecliptic.Views
                             };
 
                             // возможно здание будет заменено на пользователя
-                            Label Userlab = new Label
+                            Label Clientlab = new Label
                             {
-                                Text = "Добавил: " + i.User.Name.ToString(),
+                                Text = "Добавил: " + i.Client.Name.ToString(),
                                 TextColor = Color.Black,
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
@@ -184,7 +184,7 @@ namespace Ecliptic.Views
                                 AutomationId = i.NoteId.ToString(),
                             };
 
-                            grid.Children.Add(Userlab, 0, 0);
+                            grid.Children.Add(Clientlab, 0, 0);
                             grid.Children.Add(Datalab, 1, 0);
                             grid.Children.Add(Textlab, 0, 1);
                             Grid.SetColumnSpan(Textlab, 2);
@@ -207,7 +207,7 @@ namespace Ecliptic.Views
                     item.Order    = ToolbarItemOrder.Default;
                     item.Priority = 1;
 
-                    if (User.isRoomFavoit(Current) != null)
+                    if (Client.isRoomFavoit(Current) != null)
                     {
                         item.IconImageSource = "@drawable/stared.png";
                     }
@@ -233,7 +233,7 @@ namespace Ecliptic.Views
 
                     foreach (var i in NoteData.Notes)
                     {
-                        if (i.RoomId == Current.RoomId && i.User == null)
+                        if (i.RoomId == Current.RoomId && i.Client == null)
                         {
                             Grid grid = new Grid
                             {
@@ -247,7 +247,7 @@ namespace Ecliptic.Views
                             };
 
                             // возможно здание будет заменено на пользователя
-                            Label Userlab = new Label
+                            Label Clientlab = new Label
                             {
                                 Text = "Добавил: " + i.Building.ToString(),
                                 TextColor= Color.Black,
@@ -271,7 +271,7 @@ namespace Ecliptic.Views
                                 AutomationId = i.NoteId.ToString(),
                             };
 
-                            grid.Children.Add(Userlab, 0, 0);
+                            grid.Children.Add(Clientlab, 0, 0);
                             grid.Children.Add(Datalab, 1, 0);
                             grid.Children.Add(Textlab, 0, 1);
                             Grid.SetColumnSpan(Textlab, 2);
@@ -300,9 +300,9 @@ namespace Ecliptic.Views
 
         protected override void OnAppearing()
         {
-            if (User.CurrentUser != null)
+            if (Client.CurrentClient != null)
             {
-                if (User.isRoomFavoit(Current) != null)
+                if (Client.isRoomFavoit(Current) != null)
                 {
                     ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
                 }
@@ -358,11 +358,11 @@ namespace Ecliptic.Views
 
         async void OnfaviriteClicked(object sender, EventArgs args)
         {
-            if (User.CurrentUser != null)
+            if (Client.CurrentClient != null)
             {
                 ToolbarItem item = (ToolbarItem)sender;
 
-                var room = User.isRoomFavoit(Current);
+                var room = Client.isRoomFavoit(Current);
 
                 FavRoomService favRoomService = new FavRoomService();
 
@@ -372,18 +372,18 @@ namespace Ecliptic.Views
                      
                     if (WebData.istest)
                     {
-                        newroom = User.isRoomFavoit(Current);
+                        newroom = Client.isRoomFavoit(Current);
                     } // test
                     else
                     {
                         newroom = await favRoomService.Add((Current.Clone() as Room)
-                                                                   .ToFavRoom(User.CurrentUser.UserId));
+                                                                   .ToFavRoom(Client.CurrentClient.ClientId));
                     }
 
                     if (newroom != null)
                     {
                         ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
-                        User.CurrentUser.Favorites.Remove(newroom);
+                        Client.CurrentClient.Favorites.Remove(newroom);
                     }
                 }
                 else
@@ -392,17 +392,17 @@ namespace Ecliptic.Views
 
                     if (WebData.istest)
                     {
-                        newroom = (Current.Clone() as Room).ToFavRoom(User.CurrentUser.UserId);
+                        newroom = (Current.Clone() as Room).ToFavRoom(Client.CurrentClient.ClientId);
                     } // test
                     else
                     {
                         newroom = await favRoomService.Add((Current.Clone() as Room)
-                                                                   .ToFavRoom(User.CurrentUser.UserId));
+                                                                   .ToFavRoom(Client.CurrentClient.ClientId));
                     }
 
                     if (newroom != null)
                     {
-                        User.CurrentUser.Favorites.Add(newroom);
+                        Client.CurrentClient.Favorites.Add(newroom);
                         ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
                     }
                 }

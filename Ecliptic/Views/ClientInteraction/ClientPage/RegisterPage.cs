@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using Xamarin.Forms;
 
-namespace Ecliptic.Views.UserInteraction
+namespace Ecliptic.Views.ClientInteraction
 {
     public partial class Authorization : ContentPage
     {
@@ -114,7 +114,7 @@ namespace Ecliptic.Views.UserInteraction
             stackLayout.Margin = 20;
 
 
-            RegisrationPage.RegisBtn.Clicked += RegistrUser;
+            RegisrationPage.RegisBtn.Clicked += RegistrClient;
             RegisrationPage.LoginBtn.Clicked += ToLoginPage;
 
             stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
@@ -130,7 +130,7 @@ namespace Ecliptic.Views.UserInteraction
             this.Content = new ScrollView { Content = stackLayout };
         }
 
-        public async void RegistrUser(object sender, EventArgs e)
+        public async void RegistrClient(object sender, EventArgs e)
         {
             if (CrossConnectivity.Current.IsConnected == false)
             {
@@ -155,28 +155,27 @@ namespace Ecliptic.Views.UserInteraction
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            UserService userService = new UserService();
+            ClientService clientService = new ClientService();
 
-            // var ass = await userService.Get();
-
-            var user = await userService.
+            var client = await clientService.
                 Register(RegisrationPage.NameBox.Text, RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
 
-            int a = 5;
+
             // если сервер вернул данные пользователя - загрузить в пользователя
-           // if (user != null)
-           // {
-           //     DbService.SaveUser(user); // сохранили пользователя
-           //     DbService.LoadUser();
-           //
-           //     GetUserPage();
-           //     return;
-           // }
-           // else
-           // {
-           //     await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
-           //     return;
-           // }
+            if (client != null)
+            {
+                Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
+                DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
+                                                          // DbService.LoadUser();
+
+                GetClientPage();
+                return;
+            }
+            else
+            {
+                await DisplayAlert("Ошибка", "Сервер не вернул данные", "OK");
+                return;
+            }
         }
 
         private void ToLoginPage(object sender, EventArgs e)

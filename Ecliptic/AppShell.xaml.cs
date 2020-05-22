@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Ecliptic.Data;
 using Ecliptic.Views;
-using Ecliptic.Views.UserInteraction;
+using Ecliptic.Views.ClientInteraction;
 using Ecliptic.Models;
 
 namespace Ecliptic

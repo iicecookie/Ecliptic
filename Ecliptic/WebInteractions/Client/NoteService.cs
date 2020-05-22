@@ -32,13 +32,16 @@ namespace Ecliptic.WebInteractions
         // добавляем одну заметку
         public async Task<Note> Add(Note note)
         {
+            var v =
+                    JsonConvert.SerializeObject(note);
+
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
                 new StringContent(
                     JsonConvert.SerializeObject(note),
                     Encoding.UTF8, "application/json"));
 
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode != HttpStatusCode.Created)
                 return null;
 
             return JsonConvert.DeserializeObject<Note>(

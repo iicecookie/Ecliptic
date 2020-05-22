@@ -11,8 +11,8 @@ namespace Ecliptic.Models
         public string Building { get; set; }
         public string Details  { get; set; }
 
-        public virtual User User   { get; set; }
-        public virtual int? UserId { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual int? ClientId { get; set; }
 
 
         public FavoriteRoom()
@@ -21,14 +21,14 @@ namespace Ecliptic.Models
         }
 
         public FavoriteRoom(string name, string details, string building = "",
-                            int userid = 0, int roomId = 0)
+                            int clientid = 0, int roomId = 0)
         {
             Name = name;
             Building = building;
 
             Details = details;
 
-            UserId = userid;
+            ClientId = clientid;
 
             FavoriteRoomId = roomId;
         }
