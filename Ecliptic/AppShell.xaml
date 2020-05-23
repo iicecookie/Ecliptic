@@ -2,15 +2,14 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:controls="clr-namespace:Ecliptic.Controls"
-       xmlns:views="clr-namespace:Ecliptic.Views"
-
-       xmlns:room="clr-namespace:Ecliptic.Views.RoomInform"
-       xmlns:client="clr-namespace:Ecliptic.Views.ClientInteraction"
+       xmlns:views   ="clr-namespace:Ecliptic.Views"
+       xmlns:room    ="clr-namespace:Ecliptic.Views.RoomInform"
+       xmlns:client  ="clr-namespace:Ecliptic.Views.ClientInteraction"
        FlyoutBackgroundColor="#EAEAEA"
        FlyoutBackgroundImageAspect="AspectFill"
        FlyoutHeaderBehavior="CollapseOnScroll"
        Navigating="OnNavigating"
-       Navigated="OnNavigated"
+       Navigated ="OnNavigated"
        x:Class="Ecliptic.AppShell">
 
     <Shell.Resources>
@@ -141,5 +140,4 @@
                   IconImageSource="help.png"
                   Command="{Binding HelpCommand}"
                   CommandParameter="https://vk.com/progksu" />
-
 </Shell>
