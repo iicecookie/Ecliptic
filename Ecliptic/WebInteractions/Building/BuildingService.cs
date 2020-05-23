@@ -22,18 +22,10 @@ namespace Ecliptic.WebInteractions
         }
 
         // получаем все здания системы
-        public async Task<List<Building>> Get()
+        public async Task<List<Building>> GetBuilding()  
         {
             HttpClient client = GetClient();
             string result = await client.GetStringAsync(Url);
-            return JsonConvert.DeserializeObject<List<Building>>(result);
-        }
-
-        // получаем все здания системы
-        public async Task<List<Building>> Get(int buildingid)
-        {
-            HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url + buildingid);
             return JsonConvert.DeserializeObject<List<Building>>(result);
         }
     }

@@ -47,17 +47,24 @@ namespace Ecliptic.Repository
                 LoadClientNotes(Client.CurrentClient);
             }
         }
-
-        public static void ClearAll()
+        public static void RemoveBuildings()
         {
-            if (db.Rooms.Count() > 0)
-                db.Rooms.RemoveRange(db.Rooms);
-            if (db.Notes.Count() > 0)
-                db.Notes.RemoveRange(db.Notes);
-            if (db.Workers.Count() > 0)
-                db.Workers.RemoveRange(db.Workers);
-            if (db.Client.Count() > 0)
-                db.Client.RemoveRange(db.Client);
+            if (db.Buildings.Count() > 0) db.Buildings.RemoveRange(db.Buildings);
+
+            db.SaveChanges();
+        }
+
+        public static void RemoveCurrentBuilding()
+        {
+            if (db.Floors .Count() > 0) db.Floors .RemoveRange(db.Floors);
+            if (db.Rooms  .Count() > 0) db.Rooms  .RemoveRange(db.Rooms);
+            if (db.Workers.Count() > 0) db.Workers.RemoveRange(db.Workers);
+            if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points);
+            if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);
+
+            if (Client.CurrentClient == null) db.Notes.RemoveRange(db.Notes);
+            else db.Notes.RemoveRange(db.Notes.Where(n => n.ClientId != Client.CurrentClient.ClientId));
+
             db.SaveChanges();
         }
 
@@ -67,7 +74,15 @@ namespace Ecliptic.Repository
 
         public static void AddBuilding(Building building)
         {
-            db.Buildings.Add(building);
+            db.Buildings.Add(building); 
+            db.SaveChanges();
+        }
+
+        public static void AddBuilding(List<Building> buildings)
+        {
+            foreach (var building in buildings)
+                db.Buildings.Add(building);
+            db.SaveChanges();
         }
 
         public static List<Building> LoadAllBuildings()

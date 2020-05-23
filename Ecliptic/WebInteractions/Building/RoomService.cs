@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Ecliptic.WebInteractions
 {
-    class FloorService
+    class RoomService
     {
-        const string Url = WebData.ADRESS + "/api/Floors/";
+        const string Url = WebData.ADRESS + "/api/Rooms/";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -21,12 +21,12 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все этажи здания
-        public async Task<List<Floor>> GetFloors(int buildingid)
+        // получаем все помещения системы
+        public async Task<List<Room>> GetRooms(int buildingid)
         {
             HttpClient client = GetClient();
             string result = await client.GetStringAsync(Url + buildingid);
-            return JsonConvert.DeserializeObject<List<Floor>>(result);
+            return JsonConvert.DeserializeObject<List<Room>>(result);
         }
     }
 }

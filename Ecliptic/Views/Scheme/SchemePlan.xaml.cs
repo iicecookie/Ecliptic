@@ -36,6 +36,11 @@ namespace Ecliptic.Views
             PointData.RoomPoints = PointData.Points
                         .Where(p => p.IsWaypoint == true)
                         .Where(c => c.Room != null).ToList();
+
+           // if (PointData.Points.Count == 0)
+           // {
+           //     Shell.Current.GoToAsync($"buildings");
+           // }
         }
 
         protected override void OnAppearing()

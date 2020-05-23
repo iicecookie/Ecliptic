@@ -38,6 +38,7 @@
     <StackLayout BackgroundColor="#FBE8E6">
 
         <Label Text="Доступные здания" 
+               x:Name="BuildingTitle"
                FontSize="Title"
                HorizontalOptions="CenterAndExpand"/>
         

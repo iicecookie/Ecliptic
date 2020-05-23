@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using Xamarin.Forms;
-using Ecliptic.Data;
-using System.Threading.Tasks;
+﻿using Xamarin.Forms;
 using Ecliptic.Models;
-using Xamarin.Essentials;
 using Ecliptic.Repository;
+using Plugin.Connectivity;
+using Ecliptic.WebInteractions;
 
 namespace Ecliptic.Views
 {
@@ -25,11 +22,34 @@ namespace Ecliptic.Views
             await Shell.Current.GoToAsync($"buildingdetails?name={building.Name}");
         }
 
-        protected override void OnAppearing()
+        async protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return;
+            }
+
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
+            if (!isRemoteReachable)
+            {
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
+            }
+
+            DbService.RemoveBuildings();
+            BuildingData.Buildings = DbService.LoadAllBuildings();
+
+            DbService.AddBuilding(await new BuildingService().GetBuilding());
+
             BuildingView.ItemsSource = null;
             BuildingView.ItemsSource = BuildingData.Buildings;
+
+            if (BuildingData.Buildings.Count == 0)
+            {
+                BuildingTitle.Text = "Нет доступных зданий";
+            }
         }
     }
 }

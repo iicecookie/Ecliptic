@@ -128,7 +128,7 @@ namespace Ecliptic.Views.ClientInteraction
             if (client != null) // если сервер вернул данные пользователя - загрузить в пользователя
             {
                 Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
-                    DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
+                DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
                 DbService.AddNote     (await new NoteService().GetClient(Client.CurrentClient.ClientId));
                 DbService.AddFavoriteRoom(await new FavRoomService().Get(Client.CurrentClient.ClientId));

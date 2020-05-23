@@ -12,13 +12,13 @@ namespace Ecliptic.Models
         public string SecondName { get; set; }
         public string LastName   { get; set; }
 
-        public string Status { get; set; } 
+        public string Status  { get; set; } 
 
         public string Details { get; set; } 
 
-        public string Email { get; set; }
-        public string Phone { get; set; }   
-        public string Site  { get; set; }    
+        public string Email   { get; set; }
+        public string Phone   { get; set; }   
+        public string Site    { get; set; }    
 
         public virtual Room Room { get; set; }
         public virtual int? RoomId { get; set; }

@@ -8,6 +8,8 @@ using Xamarin.Essentials;
 using Ecliptic.Views.WayFounder;
 using Ecliptic.Repository;
 using System.Collections.Generic;
+using Ecliptic.WebInteractions;
+using Plugin.Connectivity;
 
 namespace Ecliptic.Views
 {
@@ -110,8 +112,36 @@ namespace Ecliptic.Views
             InitializeComponent();
         }
 
-        void DownloadBut_Click(Object sender, EventArgs e)
+        async void DownloadBut_Click(Object sender, EventArgs e)
         {
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return;
+            }
+
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
+            if (!isRemoteReachable)
+            {
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
+            }
+
+            DbService.RemoveCurrentBuilding();
+
+            // DbService.AddBuilding(await new BuildingService().GetBuilding());
+
+            // List<Floor>  floors  = await new FloorService().GetFloors  (Current.BuildingId);
+            // List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
+            // List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
+            // List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
+            // List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
+
+
+            DbService.AddFloor (await new FloorService( ).GetFloors (Current.BuildingId));
+            DbService.AddRoom  (await new RoomService(  ).GetRooms  (Current.BuildingId));
+            DbService.AddWorker(await new WorkerService().GetWorkers(Current.BuildingId));
+            DbService.AddPoing (await new PointService( ).GetPoints (Current.BuildingId));
+            DbService.AddEdge  (await new EdgeService(  ).GetEdges  (Current.BuildingId));
 
         }
 
