@@ -23,6 +23,15 @@ namespace Ecliptic.Views
             UpdateListContent();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            RoomGroup.UpdateList();
+            allGroups = RoomGroup.All;
+            UpdateListContent();
+        }
+
         private void HeaderTapped(object sender, EventArgs args)
         {
             int selectedIndex = expandedGroups.IndexOf(
@@ -41,9 +50,9 @@ namespace Ecliptic.Views
                 newGroup.RoomCount = group.Count;
                 if (group.Expanded)
                 {
-                    foreach (Room food in group)
+                    foreach (Room room in group)
                     {
-                        newGroup.Add(food);
+                        newGroup.Add(room);
                     }
                 }
                 expandedGroups.Add(newGroup);
@@ -72,7 +81,7 @@ namespace Ecliptic.Views
 
         public string ShortName { get; set; }
 
-        public bool Expanded
+        public bool   Expanded
         {
             get { return _expanded; }
             set
@@ -104,13 +113,18 @@ namespace Ecliptic.Views
 
         static RoomGroup()
         {
+            UpdateList();
+        }
+
+        public static void UpdateList()
+        {
             ObservableCollection<RoomGroup> Groups = new ObservableCollection<RoomGroup>();
 
             List<RoomGroup> Floors = new List<RoomGroup>();
 
             var rooms = RoomData.Rooms.GroupBy(room => room.Floor.Level)
-                                      .Select (group => group.First())
-                                      .OrderBy(order=>order.Floor.Level);
+                                      .Select(group => group.First())
+                                      .OrderBy(order => order.Floor.Level);
 
             foreach (var room in rooms)
             {

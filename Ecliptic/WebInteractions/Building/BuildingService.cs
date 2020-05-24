@@ -1,17 +1,14 @@
 ﻿using Ecliptic.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Ecliptic.WebInteractions
 {
-    class BuildingService
+    public class BuildingService
     {
-        const string Url = WebData.ADRESS + "/api/Buildings/";
+        const string Url = WebData.ADRESS + "api/Buildings/";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -22,7 +19,7 @@ namespace Ecliptic.WebInteractions
         }
 
         // получаем все здания системы
-        public async Task<List<Building>> GetBuilding()  
+        public async Task<List<Building>> GetBuildings()
         {
             HttpClient client = GetClient();
             string result = await client.GetStringAsync(Url);

@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class NoteService
     {
-        const string Url = WebData.ADRESS + "/api/Notes";
+        const string Url = WebData.ADRESS + "api/Notes";
 
         // настройка клиента
         private HttpClient GetClient()
@@ -22,22 +22,25 @@ namespace Ecliptic.WebInteractions
         }
 
         // получаем все заметки пользвоателя
-        public async Task<List<Note>> GetPublic(int id) // переделать
+        public async Task<List<Note>> GetPublic(int buildingid) // переделать
         {
             HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url + "/" + id);
+            string result = await client.GetStringAsync(Url + "/" + buildingid);
             return JsonConvert.DeserializeObject<List<Note>>(result);
         }
 
         public async Task<List<Note>> GetClient(int id)
         {
+            Dictionary<string, int> req = new Dictionary<string, int>();
+            req.Add("id", id);
+
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url + "/PostClientNote",
                 new StringContent(
-                    JsonConvert.SerializeObject(id),
+                    JsonConvert.SerializeObject(req),
                     Encoding.UTF8, "application/json"));
 
-            if (response.StatusCode != HttpStatusCode.Created)
+            if (response.StatusCode != HttpStatusCode.OK)
                 return null;
 
             return JsonConvert.DeserializeObject<List<Note>>(
@@ -47,12 +50,12 @@ namespace Ecliptic.WebInteractions
         public async Task<Note> Add(Note note)
         {
             HttpClient client = GetClient();
-            var response = await client.PostAsync(Url,
+            var response = await client.PostAsync(Url + "/PostAddNote",
                 new StringContent(
                     JsonConvert.SerializeObject(note),
                     Encoding.UTF8, "application/json"));
 
-            if (response.StatusCode != HttpStatusCode.Created)
+            if (response.StatusCode != HttpStatusCode.OK)
                 return null;
 
             return JsonConvert.DeserializeObject<Note>(

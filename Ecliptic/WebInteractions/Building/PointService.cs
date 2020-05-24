@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class PointService
     {
-        const string Url = WebData.ADRESS + "/api/Points/";
+        const string Url = WebData.ADRESS + "api/PointMs/";
 
         // настройка клиента
         private HttpClient GetClient()

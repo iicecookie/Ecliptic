@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class EdgeService
     {
-        const string Url = WebData.ADRESS + "/api/Edges/";
+        const string Url = WebData.ADRESS + "api/EdgeMs/";
 
         // настройка клиента
         private HttpClient GetClient()

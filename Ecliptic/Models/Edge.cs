@@ -4,7 +4,7 @@
 	{
 		public int Id { get; set; }
 
-		public double  Weight   { get; private set; }
+		public double  Weight   { get; set; }
 
 		public int?    PointFromId      { get; set; }
 		public virtual PointM PointFrom { get; set; }

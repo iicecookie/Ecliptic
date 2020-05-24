@@ -74,12 +74,14 @@ namespace Ecliptic.Repository
 
         public static void AddBuilding(Building building)
         {
+            if (building == null) return;
             db.Buildings.Add(building); 
             db.SaveChanges();
         }
 
         public static void AddBuilding(List<Building> buildings)
         {
+            if (buildings == null) return;
             foreach (var building in buildings)
                 db.Buildings.Add(building);
             db.SaveChanges();
@@ -288,6 +290,7 @@ namespace Ecliptic.Repository
 
         public static void AddNote(List<Note> notes)
         {
+            if (notes == null) return;
             foreach (var note in notes)
             {
                 db.Notes.Add(note);

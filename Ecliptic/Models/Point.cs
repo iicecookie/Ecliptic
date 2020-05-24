@@ -6,10 +6,10 @@ namespace Ecliptic.Models
 	{
 		public int Id { get; set; }
 
-		public double X { get; private set; }
-		public double Y { get; private set; }
+		public double X { get; set; }
+		public double Y { get; set; }
 
-		public bool  IsWaypoint { get; private set; }
+		public bool  IsWaypoint { get; set; }
 
 		public int?  FloorId { get; set; }
 		public Floor Floor   { get; set; }
@@ -22,7 +22,7 @@ namespace Ecliptic.Models
 
 		public PointM()
 		{
-			EdgesIn = new List<EdgeM>();
+			EdgesIn  = new List<EdgeM>();
 			EdgesOut = new List<EdgeM>();
 		}
 

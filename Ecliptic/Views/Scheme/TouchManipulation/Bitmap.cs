@@ -32,7 +32,7 @@ namespace Ecliptic.Views
 
         public void Paint(SKCanvas canvas, int floor)
         {
-            canvas.Save(); 
+            canvas.Save();
             SKMatrix matrix = Matrix;
 
             SKPaint wallpaint = new SKPaint
@@ -52,7 +52,7 @@ namespace Ecliptic.Views
                 TextScaleX = 1.0f,
                 TextAlign = SKTextAlign.Center,
             };
-            SKPaint waypaint  = new SKPaint
+            SKPaint waypaint = new SKPaint
             {
                 TextSize = 64.0f,
                 IsAntialias = true,

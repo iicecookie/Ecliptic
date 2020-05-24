@@ -130,7 +130,7 @@ namespace Ecliptic.Views.ClientInteraction
                 Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
                 DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
-                DbService.AddNote     (await new NoteService().GetClient(Client.CurrentClient.ClientId));
+                DbService.AddNote(await new NoteService().GetClient(Client.CurrentClient.ClientId));
                 DbService.AddFavoriteRoom(await new FavRoomService().Get(Client.CurrentClient.ClientId));
 
                 GetClientPage();

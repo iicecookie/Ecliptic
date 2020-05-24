@@ -12,7 +12,7 @@ namespace Ecliptic
         {
             InitializeComponent();
 
-            DbService.RefrashDb(true);
+            DbService.RefrashDb(false);
 
              DbService.LoadAll();
 

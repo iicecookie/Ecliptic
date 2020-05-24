@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class WorkerService
     {
-        const string Url = WebData.ADRESS + "/api/Workers/";
+        const string Url = WebData.ADRESS + "api/Workers/";
 
         // настройка клиента
         private HttpClient GetClient()

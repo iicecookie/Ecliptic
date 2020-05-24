@@ -3,6 +3,7 @@ using Ecliptic.Models;
 using Ecliptic.Repository;
 using Plugin.Connectivity;
 using Ecliptic.WebInteractions;
+using System.Collections.Generic;
 
 namespace Ecliptic.Views
 {
@@ -39,9 +40,11 @@ namespace Ecliptic.Views
             }
 
             DbService.RemoveBuildings();
-            BuildingData.Buildings = DbService.LoadAllBuildings();
 
-            DbService.AddBuilding(await new BuildingService().GetBuilding());
+            List<Building> buildings = await new BuildingService().GetBuildings();
+
+            DbService.AddBuilding(buildings);
+            BuildingData.Buildings = DbService.LoadAllBuildings();
 
             BuildingView.ItemsSource = null;
             BuildingView.ItemsSource = BuildingData.Buildings;

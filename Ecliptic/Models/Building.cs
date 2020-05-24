@@ -9,12 +9,12 @@ namespace Ecliptic.Models
     {
         public int    BuildingId  { get; set; }
 
-        public string Name        { get; private set; }
-        public string Description { get; private set; }
+        public string Name        { get; set; }
+        public string Description { get; set; }
 
-        public string Addrees     { get; private set; }
-        public string TimeTable   { get; private set; }
-        public string Site        { get; private set; }
+        public string Addrees     { get; set; }
+        public string TimeTable   { get; set; }
+        public string Site        { get; set; }
 
         public List<Floor> Floors { get; set; }
 

@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class FloorService
     {
-        const string Url = WebData.ADRESS + "/api/Floors/";
+        const string Url = WebData.ADRESS + "api/Floors/";
 
         // настройка клиента
         private HttpClient GetClient()

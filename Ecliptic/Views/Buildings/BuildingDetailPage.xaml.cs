@@ -23,7 +23,7 @@ namespace Ecliptic.Views
             {
                 Current = BuildingData.Buildings
                                    .FirstOrDefault(m => m.Name == Uri.UnescapeDataString(value));
-                Title = "Здание" + Current.Name;
+                Title = "Здание " + Current.Name;
 
                 StackLayout stackLayout = new StackLayout();
                 stackLayout.Margin = 20;
@@ -128,21 +128,37 @@ namespace Ecliptic.Views
 
             DbService.RemoveCurrentBuilding();
 
-            // DbService.AddBuilding(await new BuildingService().GetBuilding());
+            FloorData.Floors   = DbService.LoadAllFloors();
+            RoomData.Rooms     = DbService.LoadAllRooms();
+            WorkerData.Workers = DbService.LoadAllWorkers();
 
-            // List<Floor>  floors  = await new FloorService().GetFloors  (Current.BuildingId);
-            // List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
-            // List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
-            // List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
-            // List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
+            PointData.Points = new List<PointM>();
+            PointData.RoomPoints = new List<PointM>();
+            PointData.CurrentFloorRoomPoints = new List<PointM>();
 
+            EdgeData.Edges = new List<EdgeM>();
+            EdgeData.Ways = new List<EdgeM>();
+            EdgeData.CurrentFloorWalls = new List<EdgeM>();
 
-            DbService.AddFloor (await new FloorService( ).GetFloors (Current.BuildingId));
-            DbService.AddRoom  (await new RoomService(  ).GetRooms  (Current.BuildingId));
-            DbService.AddWorker(await new WorkerService().GetWorkers(Current.BuildingId));
-            DbService.AddPoing (await new PointService( ).GetPoints (Current.BuildingId));
-            DbService.AddEdge  (await new EdgeService(  ).GetEdges  (Current.BuildingId));
+            List<Floor>  floors  = await new FloorService( ).GetFloors (Current.BuildingId);
+            List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
+            List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
+            List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
+            List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
 
+            DbService.AddFloor (floors);
+            DbService.AddRoom  (rooms);
+            DbService.AddWorker(workers);
+            DbService.AddPoing (points);
+            DbService.AddEdge  (edges);
+
+            FloorData.Floors   = DbService.LoadAllFloors();
+            RoomData.Rooms     = DbService.LoadAllRooms();
+            WorkerData.Workers = DbService.LoadAllWorkers();
+            PointData.Points   = DbService.LoadAllPoints();
+            EdgeData.Edges     = DbService.LoadAllEdges();
+
+            DependencyService.Get<IToast>().Show("Здание загружено");
         }
 
         void clickSite(object sender, EventArgs args)

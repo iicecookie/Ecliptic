@@ -11,7 +11,7 @@ namespace Ecliptic.WebInteractions
 {
     class RoomService
     {
-        const string Url = WebData.ADRESS + "/api/Rooms/";
+        const string Url = WebData.ADRESS + "api/Rooms/";
 
         // настройка клиента
         private HttpClient GetClient()

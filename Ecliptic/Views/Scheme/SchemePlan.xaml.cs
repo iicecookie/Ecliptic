@@ -30,22 +30,26 @@ namespace Ecliptic.Views
             this.bitmap = new TouchManipulationBitmap(bitmap);
             this.bitmap.TouchManager.Mode = TouchManipulationMode.ScaleRotate;
 
-            FloorPicker.ItemsSource  = FloorData.Floors;
-            FloorPicker.SelectedItem = FloorData.GetFloor(4);
-
-            PointData.RoomPoints = PointData.Points
-                        .Where(p => p.IsWaypoint == true)
-                        .Where(c => c.Room != null).ToList();
-
-           // if (PointData.Points.Count == 0)
-           // {
-           //     Shell.Current.GoToAsync($"buildings");
-           // }
+            // if (PointData.Points.Count == 0)
+            // {
+            //     Shell.Current.GoToAsync($"buildings");
+            // }
         }
 
         protected override void OnAppearing()
         {   
             base.OnAppearing();
+
+            FloorPicker.ItemsSource = FloorData.Floors;
+
+            if (FloorPicker.SelectedItem == null && FloorData.Floors.Count > 0)
+            {
+                FloorPicker.SelectedItem = FloorData.Floors.First();
+            }
+
+            PointData.RoomPoints = PointData.Points
+                        .Where(p => p.IsWaypoint == true)
+                        .Where(c => c.Room != null).ToList();
         }
 
         #region FloorChange
@@ -67,7 +71,7 @@ namespace Ecliptic.Views
 
         private void OnStepedDown (object sender, EventArgs args)
         {
-            if (FloorPicker.SelectedItem == null)
+            if (FloorPicker.ItemsSource.Count == 0)
             {
                 DependencyService.Get<IToast>().Show("Здание не загружено");
                 return;
@@ -88,7 +92,7 @@ namespace Ecliptic.Views
                                   
         private void OnStepedUp   (object sender, EventArgs args)
         {
-            if (FloorPicker.SelectedItem == null)
+            if (FloorPicker.ItemsSource.Count == 0)
             {
                 DependencyService.Get<IToast>().Show("Здание не загружено");
                 return;
@@ -166,9 +170,9 @@ namespace Ecliptic.Views
             // Отрисовка матрицы преобразования
             SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
 
-            matrixDisplay.Paint(canvas, bitmap.Matrix,
-                new SKPoint(info.Width  - matrixSize.Width,
-                            info.Height - matrixSize.Height));
+           // matrixDisplay.Paint(canvas, bitmap.Matrix,
+           //     new SKPoint(info.Width  - matrixSize.Width,
+           //                 info.Height - matrixSize.Height));
         }
 
         #region Toolbar

@@ -8,14 +8,14 @@ namespace Ecliptic.Models
 {
 	public class Floor
 	{
-		public int FloorId { get; private set; }
+		public int FloorId { get;  set; }
 
-		public int Level   { get; private set; }
+		public int Level   { get;  set; }
 
-		public Building Building   { get; private set; }
-		public int?     BuildingId { get; private set; }
+		public Building Building   { get;  set; }
+		public int?     BuildingId { get;  set; }
 
-		public List<Room> Rooms { get; private set; }
+		public List<Room> Rooms { get;  set; }
 
 		public List<PointM> Points { get; set; }
 

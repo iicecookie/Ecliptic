@@ -7,13 +7,13 @@ namespace Ecliptic.Models
     {
         public int RoomId  { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get;  set; }
 
-        public string Description { get; private set; } // описание
+        public string Description { get;  set; } // описание
 
-        public string Timetable { get; private set; } // расписание
-        public string Phone     { get; private set; }
-        public string Site      { get; private set; }
+        public string Timetable { get; set; } // расписание
+        public string Phone     { get; set; }
+        public string Site      { get; set; }
 
         public virtual int?  FloorId { get; set; }
         public virtual Floor Floor   { get; set; }

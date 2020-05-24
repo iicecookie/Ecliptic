@@ -135,6 +135,7 @@ namespace Ecliptic.Views
                                                              PointData.Find(Way.End));
 
             EdgeData.ConvertPathToWay(path);
+            DependencyService.Get<IToast>().Show("Маршрут установлен");
         }
     }
 }

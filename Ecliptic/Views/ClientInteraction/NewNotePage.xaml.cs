@@ -55,8 +55,7 @@ namespace Ecliptic.Views.ClientNote
                                                        clientid:  Client.CurrentClient.ClientId,
                                                        clientname:Client.CurrentClient.Name));
             
-            // если сервер вернул данные по заметке - загрузить в пользователя
-            if (note != null)
+            if (note != null) // если сервер вернул данные по заметке - загрузить в пользователя
             {
                 DbService.AddNote(note); 
 
