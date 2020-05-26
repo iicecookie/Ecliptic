@@ -47,6 +47,12 @@ namespace Ecliptic.Views.ClientNote
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
+            if (BuildingData.CurrentBuilding.Name == SearchBarBuilding.Text &&
+                RoomData.isThatRoom(SearchBarRoom.Text) != null)
+            {
+                roomnote = RoomData.isThatRoom(SearchBarRoom.Text);
+            }
+
             NoteService noteService = new NoteService();
             Note note = await noteService.Add(new Note(NoteText.Text,
                                                        SearchBarRoom.Text,

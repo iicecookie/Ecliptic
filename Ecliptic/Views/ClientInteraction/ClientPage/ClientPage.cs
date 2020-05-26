@@ -236,17 +236,8 @@ namespace Ecliptic.Views.ClientInteraction
             Note note = Client.FindNoteById(Int32.Parse(btn.AutomationId));
             if  (note == null) return;
 
-            Note send = (Note)note.Clone();
-
-            // это было если публичные заметки отдельно хранятся
-            // for (int i = 0; i < Client.CurrentClient.Notes.Count; i++)
-            // {
-            //     if (Client.CurrentClient.Notes[i].NoteId == note.NoteId)
-            //     {
-            //         note = Client.CurrentClient.Notes[i];
-            //         break;
-            //     }
-            // }
+            Note send = (Note)note.Clone(); 
+            send.Room = null;
 
             foreach (var editor in ClientPage.Editors)
             {
@@ -296,30 +287,33 @@ namespace Ecliptic.Views.ClientInteraction
                 DbService.RemoveNote(note);
 
                 DependencyService.Get<IToast>().Show("Заметка о " + note?.RoomName + " удалена");
-                GetClientPage();
+
+                // что бы не происходил скролл в начало страницы, обновляю только контент
+                List<Frame> v = ((StackLayout)((ScrollView)Content).Content).Children
+                                                                   .Where(x => x is Frame)
+                                                                   .Select(view => view as Frame)
+                                                                   .Where(f => f.AutomationId != btn.AutomationId)
+                                                                   .ToList();
+                
+                StackLayout stackLayout = new StackLayout();
+                stackLayout.Margin = 20;
+                stackLayout.Children.Add(ClientPage.NameLab);
+                stackLayout.Children.Add(ClientPage.LoginLab);
+                stackLayout.Children.Add(ClientPage.NoteCount);
+                foreach (var frame in v)
+                {
+                    stackLayout.Children.Add(frame);
+                }
+                stackLayout.Children.Add(ClientPage.LoginOutBtn);
+                
+                ((ScrollView)Content).Content = stackLayout;
+
+                // GetClientPage();
+
                 return;
             }
 
             DependencyService.Get<IToast>().Show("Не удалось удалить заметку");
-
-            // List<Frame> v = ((StackLayout)((ScrollView)Content).Content).Children
-            //                                                    .Where(x => x is Frame)
-            //                                                    .Select(view => view as Frame)
-            //                                                    .Where(f => f.AutomationId != btn.AutomationId)
-            //                                                    .ToList();
-            //
-            // StackLayout stackLayout = new StackLayout();
-            // stackLayout.Margin = 20;
-            // stackLayout.Children.Add(ClientPage.NameLab);
-            // stackLayout.Children.Add(ClientPage.LoginLab);
-            // stackLayout.Children.Add(ClientPage.NoteCount);
-            // foreach (var frame in v)
-            // {
-            //     stackLayout.Children.Add(frame);
-            // }
-            // stackLayout.Children.Add(ClientPage.LoginOutBtn);
-            //
-            // ((ScrollView)Content).Content = stackLayout;
         }
 
         public async void OnSwitched(object sender, EventArgs args)
@@ -331,6 +325,7 @@ namespace Ecliptic.Views.ClientInteraction
             if  (note == null) return;
 
             Note send = (Note)note.Clone();
+            send.Room = null;
             send.isPublic = switcher.IsToggled;
         
             Note getnote = await new NoteService().Update(send);
