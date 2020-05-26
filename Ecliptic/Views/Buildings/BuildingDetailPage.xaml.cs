@@ -112,8 +112,17 @@ namespace Ecliptic.Views
             InitializeComponent();
         }
 
-        async void DownloadBut_Click(Object sender, EventArgs e)
+        void DownloadBut_Click(Object sender, EventArgs e)
         {
+            if (!loading)
+                Load();
+        }
+
+        bool loading = false;
+
+        public async void Load()
+        {
+            loading = true;
             if (CrossConnectivity.Current.IsConnected == false)
             {
                 DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
@@ -126,39 +135,46 @@ namespace Ecliptic.Views
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            DbService.RemoveCurrentBuilding();
+            DependencyService.Get<IToast>().Show("Загрузка здания");
 
-            FloorData.Floors   = DbService.LoadAllFloors();
-            RoomData.Rooms     = DbService.LoadAllRooms();
-            WorkerData.Workers = DbService.LoadAllWorkers();
-
-            PointData.Points = new List<PointM>();
-            PointData.RoomPoints = new List<PointM>();
+            FloorData .Floors  = new List<Floor>();
+            RoomData  .Rooms   = new List<Room>();
+            WorkerData.Workers = new List<Worker>();
+            PointData.Points                 = new List<PointM>();
+            PointData.RoomPoints             = new List<PointM>();
             PointData.CurrentFloorRoomPoints = new List<PointM>();
-
-            EdgeData.Edges = new List<EdgeM>();
-            EdgeData.Ways = new List<EdgeM>();
+            EdgeData.Edges             = new List<EdgeM>();
+            EdgeData.Ways              = new List<EdgeM>();
             EdgeData.CurrentFloorWalls = new List<EdgeM>();
 
-            List<Floor>  floors  = await new FloorService( ).GetFloors (Current.BuildingId);
-            List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
-            List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
-            List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
-            List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
+            DbService.RemoveCurrentBuilding();
 
-            DbService.AddFloor (floors);
-            DbService.AddRoom  (rooms);
-            DbService.AddWorker(workers);
-            DbService.AddPoing (points);
-            DbService.AddEdge  (edges);
+            // List<Floor>  floors  = await new FloorService( ).GetFloors (Current.BuildingId);
+            // List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
+            // List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
+            // List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
+            // List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
 
-            FloorData.Floors   = DbService.LoadAllFloors();
-            RoomData.Rooms     = DbService.LoadAllRooms();
+            DbService.AddFloor (await new FloorService( ).GetFloors (Current.BuildingId));
+            DbService.AddRoom  (await new RoomService(  ).GetRooms  (Current.BuildingId));
+            DbService.AddWorker(await new WorkerService().GetWorkers(Current.BuildingId));
+            DbService.AddPoing (await new PointService( ).GetPoints (Current.BuildingId));
+            DbService.AddEdge  (await new EdgeService(  ).GetEdges  (Current.BuildingId));
+
+            FloorData .Floors  = DbService.LoadAllFloors();
+            RoomData  .Rooms   = DbService.LoadAllRooms();
             WorkerData.Workers = DbService.LoadAllWorkers();
-            PointData.Points   = DbService.LoadAllPoints();
-            EdgeData.Edges     = DbService.LoadAllEdges();
+            PointData .Points  = DbService.LoadAllPoints();
+            EdgeData  .Edges   = DbService.LoadAllEdges();
+
+            BuildingData.CurrentBuilding = Current;
+
+            PointData.RoomPoints = PointData.Points
+                        .Where(p => p.IsWaypoint == true)
+                        .Where(c => c.Room != null).ToList();
 
             DependencyService.Get<IToast>().Show("Здание загружено");
+            loading = false;
         }
 
         void clickSite(object sender, EventArgs args)

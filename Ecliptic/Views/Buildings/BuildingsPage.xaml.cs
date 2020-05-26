@@ -4,6 +4,7 @@ using Ecliptic.Repository;
 using Plugin.Connectivity;
 using Ecliptic.WebInteractions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ecliptic.Views
 {
@@ -23,9 +24,14 @@ namespace Ecliptic.Views
             await Shell.Current.GoToAsync($"buildingdetails?name={building.Name}");
         }
 
-        async protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            if (BuildingData.CurrentBuilding != null)
+            {
+                BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
+            }
 
             if (CrossConnectivity.Current.IsConnected == false)
             {
@@ -43,7 +49,7 @@ namespace Ecliptic.Views
 
             List<Building> buildings = await new BuildingService().GetBuildings();
 
-            DbService.AddBuilding(buildings);
+            DbService.AddBuilding(buildings.Where(b => b.BuildingId != BuildingData.CurrentBuilding?.BuildingId).ToList());
             BuildingData.Buildings = DbService.LoadAllBuildings();
 
             BuildingView.ItemsSource = null;

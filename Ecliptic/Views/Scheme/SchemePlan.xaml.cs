@@ -46,24 +46,24 @@ namespace Ecliptic.Views
             {
                 FloorPicker.SelectedItem = FloorData.Floors.First();
             }
-
-            PointData.RoomPoints = PointData.Points
-                        .Where(p => p.IsWaypoint == true)
-                        .Where(c => c.Room != null).ToList();
         }
 
         #region FloorChange
         void OnFloorPickerSelected(object sender, EventArgs args)
         {
+            int? selectedfloor = (FloorPicker?.SelectedItem as Floor)?.Level;
+            if ( selectedfloor == null) return;
+
             // загрузили стены
             EdgeData.CurrentFloorWalls = EdgeData.Edges
                 .Where(e => e.PointFrom.IsWaypoint == false)
-                .Where(c => c.PointTo.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level)
+                .Where(c => c.PointTo.Floor.Level == selectedfloor)
                 .ToList();
 
+            // 
             PointData.CurrentFloorRoomPoints = PointData.Points
                 .Where(p => p.Room != null)
-                .Where(p => p.Floor.Level == ((Floor)FloorPicker.SelectedItem).Level).ToList();
+                .Where(p => p.Floor.Level == selectedfloor).ToList();
 
             // селектнули - отрисовали  
             canvasView.InvalidateSurface();

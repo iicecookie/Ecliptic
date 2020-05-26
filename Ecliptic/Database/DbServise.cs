@@ -49,7 +49,11 @@ namespace Ecliptic.Repository
         }
         public static void RemoveBuildings()
         {
-            if (db.Buildings.Count() > 0) db.Buildings.RemoveRange(db.Buildings);
+            foreach (var building in BuildingData.Buildings)
+            {
+                if (building.BuildingId != BuildingData.CurrentBuilding?.BuildingId)
+                    db.Buildings.Remove(building);
+            }
 
             db.SaveChanges();
         }
@@ -61,6 +65,7 @@ namespace Ecliptic.Repository
             if (db.Workers.Count() > 0) db.Workers.RemoveRange(db.Workers);
             if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points);
             if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);
+            BuildingData.CurrentBuilding = null;
 
             if (Client.CurrentClient == null) db.Notes.RemoveRange(db.Notes);
             else db.Notes.RemoveRange(db.Notes.Where(n => n.ClientId != Client.CurrentClient.ClientId));

@@ -11,6 +11,8 @@ namespace Ecliptic.Models
     {
         public static List<Building> Buildings { get; set; }
 
+        public static Building CurrentBuilding { get; set; }
+ 
         static BuildingData()
         {
             Buildings = new List<Building>();
