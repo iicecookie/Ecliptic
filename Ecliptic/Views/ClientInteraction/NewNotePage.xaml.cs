@@ -21,7 +21,7 @@ namespace Ecliptic.Views.ClientNote
             stackBarRoom.HeightRequest = 1;
             stackBarBuilding.HeightRequest = 1;
             SearchBarRoom.Text = "";
-            SearchBarBuilding.Text = "";
+            SearchBarBuilding.Text = BuildingData.CurrentBuilding != null ? BuildingData.CurrentBuilding.Name : "";
             NoteText.Text = "";
         }
 

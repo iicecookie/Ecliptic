@@ -12,11 +12,9 @@ namespace Ecliptic
         {
             InitializeComponent();
 
-            DbService.RefrashDb(true);
+            DbService.RefrashDb(false);
 
-             DbService.LoadAll();
-
-           // DbService.LoadSample();
+            DbService.LoadAll();
 
             MainPage = new AppShell();
         }

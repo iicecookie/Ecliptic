@@ -81,7 +81,7 @@ namespace Ecliptic.Views
             }
 
             // рисуем имяна помещений
-            foreach (var point in PointData.RoomPoints)
+            foreach (var point in PointData.CurrentFloorRoomPoints)
             {
                 if (point.Floor.Level == floor)
                 {

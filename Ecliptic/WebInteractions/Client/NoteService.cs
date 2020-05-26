@@ -21,7 +21,7 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем все заметки пользвоателя
+        // получаем все заметки здания
         public async Task<List<Note>> GetPublic(int buildingid) // переделать
         {
             HttpClient client = GetClient();

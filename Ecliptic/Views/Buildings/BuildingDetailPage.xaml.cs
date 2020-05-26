@@ -147,25 +147,23 @@ namespace Ecliptic.Views
             EdgeData.Ways              = new List<EdgeM>();
             EdgeData.CurrentFloorWalls = new List<EdgeM>();
 
-            DbService.RemoveCurrentBuilding();
+            NoteData.Notes = new List<Note>();
 
-            // List<Floor>  floors  = await new FloorService( ).GetFloors (Current.BuildingId);
-            // List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
-            // List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
-            // List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
-            // List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
+            DbService.RemoveCurrentBuilding();
 
             DbService.AddFloor (await new FloorService( ).GetFloors (Current.BuildingId));
             DbService.AddRoom  (await new RoomService(  ).GetRooms  (Current.BuildingId));
             DbService.AddWorker(await new WorkerService().GetWorkers(Current.BuildingId));
             DbService.AddPoing (await new PointService( ).GetPoints (Current.BuildingId));
             DbService.AddEdge  (await new EdgeService(  ).GetEdges  (Current.BuildingId));
+            DbService.AddNote  (await new NoteService(  ).GetPublic (Current.BuildingId));
 
             FloorData .Floors  = DbService.LoadAllFloors();
             RoomData  .Rooms   = DbService.LoadAllRooms();
             WorkerData.Workers = DbService.LoadAllWorkers();
             PointData .Points  = DbService.LoadAllPoints();
             EdgeData  .Edges   = DbService.LoadAllEdges();
+            NoteData  .Notes   = DbService.LoadAllNotes();
 
             BuildingData.CurrentBuilding = Current;
 

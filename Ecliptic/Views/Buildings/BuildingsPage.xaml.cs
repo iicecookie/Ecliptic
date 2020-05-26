@@ -45,9 +45,9 @@ namespace Ecliptic.Views
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            DbService.RemoveBuildings();
-
             List<Building> buildings = await new BuildingService().GetBuildings();
+
+            DbService.RemoveBuildings();
 
             DbService.AddBuilding(buildings.Where(b => b.BuildingId != BuildingData.CurrentBuilding?.BuildingId).ToList());
             BuildingData.Buildings = DbService.LoadAllBuildings();

@@ -45,13 +45,6 @@ namespace Ecliptic.Models
         }
         #endregion
 
-        // for sample
-        public static Client LoadClient(string login, string name)
-        {
-            DbService.LoadSampleClient("Maxim", "Bi");
-            return Client.CurrentClient;
-        }
-
         public static void LoginOut()
         {
             DbService.RemoveFavoriteRoom(CurrentClient.Favorites);
