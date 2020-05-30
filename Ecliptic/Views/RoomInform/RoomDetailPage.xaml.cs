@@ -387,11 +387,6 @@ namespace Ecliptic.Views
 
         #region Toolbar
 
-        async void OnButton1Clicked(object sender, EventArgs args)
-        {
-            await DisplayAlert("Alert", "You have 1 been alerted", "OK");
-        }
-
         void OnButton2Clicked(object sender, EventArgs args)
         {
             Way.Begin = Current;
@@ -406,11 +401,11 @@ namespace Ecliptic.Views
             DependencyService.Get<IToast>().Show("Конец маршрута установлен");
         }
 
-        async void OnButton4Clicked(object sender, EventArgs args)
-        {
-            await DisplayAlert("Alert", "You have 4 been alerted", "OK");
-        }
-
         #endregion
+
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ecliptic.Models.Building">
+    <Position X="6" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAggAgAAAAAAAQAAABAAAACAAAAAAEAAAA=</HashCode>
+      <FileName>Models\Building.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Models.Client">
+    <Position X="9.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgDAAAAAAAAAAAgAABAAQAAAAAAACQAACQAAAAAAA=</HashCode>
+      <FileName>Models\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Models.EdgeM">
+    <Position X="3.25" Y="19" Width="1.5" />
+    <AssociationLine Name="PointFrom" Type="Ecliptic.Models.PointM" FixedFromPoint="true">
+      <Path>
+        <Point X="3.25" Y="19.688" />
+        <Point X="2.25" Y="19.688" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="PointTo" Type="Ecliptic.Models.PointM" FixedFromPoint="true">
+      <Path>
+        <Point X="3.25" Y="20.562" />
+        <Point X="2.25" Y="20.562" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>CABCQIAAAAAAAAAAAAAAAAAAACAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Edge.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PointFrom" />
+      <Property Name="PointTo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Models.FavoriteRoom">
+    <Position X="9.5" Y="19.75" Width="1.5" />
+    <AssociationLine Name="Client" Type="Ecliptic.Models.Client" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.5" Y="20.375" />
+        <Point X="9.178" Y="20.375" />
+        <Point X="9.178" Y="19.25" />
+        <Point X="9.5" Y="19.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.323" Y="-0.517" Height="0.182" Width="0.716" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAABAAAAgAAAAAQAAAAAAAAAAAQAAAAAAAQ=</HashCode>
+      <FileName>Models\FavoriteRoom.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Client" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Models.Floor">
+    <Position X="2.75" Y="16" Width="1.5" />
+    <AssociationLine Name="Building" Type="Ecliptic.Models.Building" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="16.25" />
+        <Point X="6.75" Y="16.25" />
+        <Point X="6.75" Y="15.959" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.573" Y="0.069" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAgAAAAAAAAAACAAAAAAABAAAAAAGAAAA=</HashCode>
+      <FileName>Models\Floor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Building" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Models.Note" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="17" Width="1.5" />
+    <AssociationLine Name="Room" Type="Ecliptic.Models.Room" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="18.438" />
+        <Point X="7.26" Y="18.438" />
+        <Point X="7.26" Y="18.438" />
+        <Point X="7" Y="18.438" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.03" Y="0.082" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Client" Type="Ecliptic.Models.Client" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="9" Y="17.25" />
+        <Point X="9.24" Y="17.25" />
+        <Point X="9.24" Y="17.25" />
+        <Point X="9.5" Y="17.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.059" Y="0.25" Height="0.182" Width="0.699" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABACAAAAAAAAgBAAAAAAACAAAAAhQAAACBAAABQ=</HashCode>
+      <FileName>Models\Note.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Room" />
+      <Property Name="Client" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Ecliptic.Models.PointM">
+    <Position X="0.75" Y="18.5" Width="1.5" />
+    <AssociationLine Name="Floor" Type="Ecliptic.Models.Floor" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="18.625" />
+        <Point X="3.5" Y="18.625" />
+        <Point X="3.5" Y="18.324" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Room" Type="Ecliptic.Models.Room" FixedFromPoint="true">
+      <Path>
+        <Point X="2.25" Y="18.812" />
+        <Point X="5.5" Y="18.812" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ABACAAACAAAAAAgEgBAAAAAAAAAAAAAAAEAAACCAYAA=</HashCode>
+      <FileName>Models\Point.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Floor" />
+      <Property Name="Room" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Models.Room" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="16.75" Width="1.5" />
+    <AssociationLine Name="Floor" Type="Ecliptic.Models.Floor" FixedFromPoint="true">
+      <Path>
+        <Point X="5.5" Y="17.125" />
+        <Point X="4.25" Y="17.125" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAgQAACAAAggAgAgAAAAAQAAAAAAAAEAAAgIACAABA=</HashCode>
+      <FileName>Models\Room.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Floor" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Ecliptic.Models.Worker">
+    <Position X="7.75" Y="13.25" Width="1.5" />
+    <AssociationLine Name="Room" Type="Ecliptic.Models.Room" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.75" Y="16.375" />
+        <Point X="6.938" Y="16.375" />
+        <Point X="6.938" Y="16.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.673" Y="0.43" Height="0.182" Width="0.722" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAEgGACABgAAEABAAAAAAAAAAAAAAAAAAIAAAAAg=</HashCode>
+      <FileName>Models\Worker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Room" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Models.BuildingData">
+    <Position X="4.25" Y="13.25" Width="1.5" />
+    <AssociationLine Name="CurrentBuilding" Type="Ecliptic.Models.Building" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="14.805" />
+        <Point X="4.5" Y="15.121" />
+        <Point X="6" Y="15.121" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.113" Y="0.049" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Data\BuildingData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentBuilding" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Models.EdgeData">
+    <Position X="11.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAgAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Data\EdgeData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Models.FloorData">
+    <Position X="7.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAABAACAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Data\FloorData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Models.PointData">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAgAAAAAAAAIAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Data\PointData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Data.NoteData">
+    <Position X="9.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Data\NoteData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Data.RoomData">
+    <Position X="7.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAiAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\RoomData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Data.WorkerData">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAAAAAA=</HashCode>
+      <FileName>Data\WorkerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Repository.ApplicationContext">
+    <Position X="11.25" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggBAAAQAAgAgAAAAAAAACEQAAAAAAAAEgAAAAAAQ=</HashCode>
+      <FileName>Database\ApplicationContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Repository.DbService">
+    <Position X="11.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAEEAgAgIAAQUgGECQAAEgEBAAIRCEQIBAFgEACIgCM=</HashCode>
+      <FileName>Database\DbServise.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.BuildingService">
+    <Position X="0.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Building\BuildingService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.EdgeService">
+    <Position X="0.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Building\EdgeService .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.FloorService">
+    <Position X="0.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Building\FloorService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.PointService">
+    <Position X="4.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Building\PointService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.RoomService">
+    <Position X="2.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Building\RoomService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.WorkerService">
+    <Position X="2.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Building\WorkerService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.ClientService">
+    <Position X="4.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAABAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Client\ClientService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.FavRoomService">
+    <Position X="0.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAABAAAAAAAAAAAEAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Client\FavRoomService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.NoteService">
+    <Position X="2.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAAAAAEAAEAAAAACAAAAABAAAA=</HashCode>
+      <FileName>WebInteractions\Client\NoteService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.WebInteractions.WebData">
+    <Position X="6" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQCAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebInteractions\WebData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Controls.BuildingSearchHandler">
+    <Position X="7.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\BuildingSearchHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Controls.RoomSearchHandler">
+    <Position X="4.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\RoomSearchHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.BuildingDetailPage">
+    <Position X="0.75" Y="15.5" Width="1.75" />
+    <AssociationLine Name="Current" Type="Ecliptic.Models.Building" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="15.75" />
+        <Point X="4.177" Y="15.75" />
+        <Point X="4.177" Y="15.75" />
+        <Point X="6" Y="15.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.18" Y="0.013" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAABAAAAAAACBAAQAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Buildings\BuildingDetailPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Current" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.BuildingPage">
+    <Position X="11.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Buildings\BuildingsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.RoomDetailPage">
+    <Position X="6" Y="22.5" Width="1.5" />
+    <AssociationLine Name="Current" Type="Ecliptic.Models.Room">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.33" Y="1.723" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAIEAAAhAAAAAAACAACQAAAAAAAAAAACAAAQAAAA=</HashCode>
+      <FileName>Views\RoomInform\RoomDetailPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Current" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.RoomsPage">
+    <Position X="2.5" Y="23" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAIAAAAAgAAAAAAAAAAAAAAAAAAAQAAAAAAAQgAAA=</HashCode>
+      <FileName>Views\RoomInform\RoomsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.RoomGroup" BaseTypeListCollapsed="true">
+    <Position X="6" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAEIAIAAAAAAAgAAEQIAAAICAAAAAAAI=</HashCode>
+      <FileName>Views\RoomInform\RoomsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Ecliptic.Views.WorkerDetailPage">
+    <Position X="9.5" Y="13.25" Width="1.5" />
+    <AssociationLine Name="Current" Type="Ecliptic.Models.Worker" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.312" Y="15.896" />
+        <Point X="10.312" Y="16.125" />
+        <Point X="9.25" Y="16.125" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.211" Y="0.019" Height="0.182" Width="0.754" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAhAAAAAAACAAAAAAgAgAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Views\RoomInform\WorkerDetailPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Current" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.TouchManipulationBitmap">
+    <Position X="3" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAwAIIAAAgAAAAAAAAAACIAAA=</HashCode>
+      <FileName>Views\Scheme\TouchManipulation\Bitmap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.TouchManipulationInfo">
+    <Position X="0.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Views\Scheme\TouchManipulation\Info.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.TouchManipulationManager">
+    <Position X="5.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAICAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAA=</HashCode>
+      <FileName>Views\Scheme\TouchManipulation\Manager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Mode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.SchemePlanPage">
+    <Position X="5.5" Y="2.5" Width="1.5" />
+    <AssociationLine Name="bitmap" Type="Ecliptic.Views.TouchManipulationBitmap">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.622" Y="0.226" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="matrixDisplay" Type="Ecliptic.MatrixDisplay" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="3.312" />
+        <Point X="8.062" Y="3.312" />
+        <Point X="8.062" Y="3.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.035" Y="0.234" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAIAAAAAAAAAgIAAAAAgAQgAAgACIAAAA=</HashCode>
+      <FileName>Views\Scheme\SchemePlan.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="bitmap" />
+      <Field Name="matrixDisplay" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.FindWayPage">
+    <Position X="9.5" Y="22.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAEAgAAAAAABAAAAAAAACAAAAAAAEBAAAAAAA=</HashCode>
+      <FileName>Views\WayFounder\FindWayPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.ClientInteraction.Authorization">
+    <Position X="7.75" Y="20.75" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Ecliptic.Views.ClientInteraction.Authorization.ClientControls" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Views\ClientInteraction\ClientPage\ClientPage.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Ecliptic.Views.ClientInteraction.Authorization.LoginControls" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Views\ClientInteraction\ClientPage\LoginPage.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Ecliptic.Views.ClientInteraction.Authorization.RegisrationContrioolers" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Views\ClientInteraction\ClientPage\RegisterPage.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACSAFCAAAgAEAAAAQAQEBQAAAAAACEAAABAAAACAAA=</HashCode>
+      <FileName>Views\ClientInteraction\ClientPage\AuthorizationPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.FavoriteRoomList.FavoriteRoomsPage">
+    <Position X="9.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ClientInteraction\FavoriteRooms.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.ClientNote.NewNotePage">
+    <Position X="4.25" Y="23" Width="1.5" />
+    <AssociationLine Name="roomnote" Type="Ecliptic.Models.Room" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.625" Y="23" />
+        <Point X="4.625" Y="22.705" />
+        <Point X="5.938" Y="22.705" />
+        <Point X="5.938" Y="20.42" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.082" Y="2.053" Height="0.182" Width="1.104" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAACAAgAAAAABAAAAAAIACAAACAAAAAAAAA=</HashCode>
+      <FileName>Views\ClientInteraction\NewNotePage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="roomnote" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.MatrixDisplay">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAEIAAA=</HashCode>
+      <FileName>Views\Scheme\Matrix\MatrixDisplay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TouchTracking.TouchActionEventArgs">
+    <Position X="9" Y="3.5" Width="2" />
+    <AssociationLine Name="Type" Type="TouchTracking.TouchActionType" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.625" Y="3.5" />
+        <Point X="9.625" Y="3.125" />
+        <Point X="8.656" Y="3.125" />
+        <Point X="8.656" Y="2.316" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.725" Y="0.494" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAABAAIAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Views\Scheme\TouchActions\EventArgs.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TouchTracking.TouchEffect">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Views\Scheme\TouchActions\TouchEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.WayFounder.Way">
+    <Position X="3.25" Y="21.5" Width="1.5" />
+    <AssociationLine Name="Begin" Type="Ecliptic.Models.Room" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="21.688" />
+        <Point X="5.125" Y="21.688" />
+        <Point X="5.125" Y="19.438" />
+        <Point X="5.5" Y="19.438" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.047" Y="0.097" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="End" Type="Ecliptic.Models.Room" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="21.934" />
+        <Point X="5.625" Y="21.934" />
+        <Point X="5.625" Y="20.42" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.039" Y="1.287" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WayFounder\Finder.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Begin" />
+      <Property Name="End" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.WayFounder.GraphVertexInfo">
+    <Position X="0.75" Y="22.25" Width="1.5" />
+    <AssociationLine Name="Vertex" Type="Ecliptic.Models.PointM">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.095" Y="0.191" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="PreviousVertex" Type="Ecliptic.Models.PointM" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="22.938" />
+        <Point X="3.012" Y="22.938" />
+        <Point X="3.012" Y="21.375" />
+        <Point X="2.25" Y="21.375" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.352" Y="-0.787" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAIBAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WayFounder\Finder.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Vertex" />
+      <Property Name="PreviousVertex" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ecliptic.Views.WayFounder.Dijkstra">
+    <Position X="11.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAACAAQAAAAAAAAACABAAAAAAAAEAAQA=</HashCode>
+      <FileName>Views\WayFounder\Finder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.Views.RoomInform.QrScan">
+    <Position X="2.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAACAgAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WayFounder\QrScan.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecliptic.TouchPoint">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgIAAAAAAAAAACAAAEAQAAAAEABAAAAAAAAgAAIAAA=</HashCode>
+      <FileName>Views\Scheme\TouchActions\TouchPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Ecliptic.Views.TouchManipulationMode">
+    <Position X="2.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAACAAIAAAAAgQAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Views\Scheme\TouchManipulation\Mode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TouchTracking.TouchActionType">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADAAAAAAACAAAABAAAAAAAAAAAAAAAEAAAAAAAAEAAA=</HashCode>
+      <FileName>Views\Scheme\TouchActions\Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="TouchTracking.TouchActionEventHandler">
+    <Position X="0.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Scheme\TouchActions\EventHandler.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

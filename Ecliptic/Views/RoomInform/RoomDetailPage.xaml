@@ -9,7 +9,7 @@
     <ContentPage.ToolbarItems>
 
         <ToolbarItem Text="Показать на карте"
-                     Clicked="OnButton1Clicked"
+                     Clicked="ToolbarItem_Clicked"
                      Order="Secondary"
                      Priority="0" />
 
@@ -22,12 +22,6 @@
         <ToolbarItem Text="Конец маршрута"
                      Clicked="OnButton3Clicked"
                      IconImageSource="back.png"
-                     Order="Secondary"
-                     Priority="1" />
-
-        <ToolbarItem Text="Построить маршрут"
-                     Clicked="OnButton4Clicked"
-                     IconImageSource="stared.png"
                      Order="Secondary"
                      Priority="1" />
 

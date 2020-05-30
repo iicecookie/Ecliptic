@@ -10,6 +10,7 @@ using Ecliptic.Repository;
 using System.Collections.Generic;
 using Ecliptic.WebInteractions;
 using Plugin.Connectivity;
+using Android.InputMethodServices;
 
 namespace Ecliptic.Views
 {
@@ -149,14 +150,31 @@ namespace Ecliptic.Views
 
             NoteData.Notes = new List<Note>();
 
+            List<Floor>  floors  = await new FloorService( ).GetFloors (Current.BuildingId);
+            List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
+            List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
+            List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
+            List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
+            List<Note>   notes   = await new NoteService(  ).GetPublic (Current.BuildingId);
+
             DbService.RemoveCurrentBuilding();
 
-            DbService.AddFloor (await new FloorService( ).GetFloors (Current.BuildingId));
-            DbService.AddRoom  (await new RoomService(  ).GetRooms  (Current.BuildingId));
-            DbService.AddWorker(await new WorkerService().GetWorkers(Current.BuildingId));
-            DbService.AddPoing (await new PointService( ).GetPoints (Current.BuildingId));
-            DbService.AddEdge  (await new EdgeService(  ).GetEdges  (Current.BuildingId));
-            DbService.AddNote  (await new NoteService(  ).GetPublic (Current.BuildingId));
+            try
+            { 
+                DbService.AddFloor(floors);
+                DbService.AddRoom(rooms);
+                DbService.AddWorker(workers);
+                DbService.AddPoing(points);
+                DbService.AddEdge(edges);
+                DbService.AddNote(notes);
+            }
+            catch (Exception e)
+            {
+                DbService.RemoveCurrentBuilding();
+                DependencyService.Get<IToast>().Show("Загруженые здания некорректны");
+                loading = false;
+                return;
+            }
 
             FloorData .Floors  = DbService.LoadAllFloors();
             RoomData  .Rooms   = DbService.LoadAllRooms();

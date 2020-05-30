@@ -1,4 +1,5 @@
-﻿using Ecliptic.Data;
+﻿using Android.InputMethodServices;
+using Ecliptic.Data;
 using Ecliptic.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -64,10 +65,10 @@ namespace Ecliptic.Repository
 
         public static void RemoveCurrentBuilding()
         {
-            if (db.Floors .Count() > 0) db.Floors .RemoveRange(db.Floors);
-            if (db.Rooms  .Count() > 0) db.Rooms  .RemoveRange(db.Rooms);
-            if (db.Workers.Count() > 0) db.Workers.RemoveRange(db.Workers);
-            if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points);
+            if (db.Floors .Count() > 0) db.Floors .RemoveRange(db.Floors); db.SaveChanges();
+            if (db.Rooms  .Count() > 0) db.Rooms  .RemoveRange(db.Rooms); db.SaveChanges();
+            if (db.Workers.Count() > 0) db.Workers.RemoveRange(db.Workers); db.SaveChanges();
+            if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points); db.SaveChanges();
             if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);
             BuildingData.CurrentBuilding = null;
 
@@ -113,9 +114,10 @@ namespace Ecliptic.Repository
         public static void AddFloor(List<Floor> floors)
         {
             if (floors == null) return;
-            foreach (var floor in floors)
+            foreach (var floor in floors) { 
                 db.Floors.Add(floor);
             db.SaveChanges();
+            }
         }
 
         public static void RemoveFloor(Floor floor)
@@ -151,9 +153,16 @@ namespace Ecliptic.Repository
         public static void AddRoom(List<Room> rooms)
         {
             if (rooms == null) return;
-            foreach (var room in rooms)
-                db.Rooms.Add(room);
-            db.SaveChanges();
+
+            for (int i = 0, c = 0; i < rooms.Count; i++)
+            {
+                db.Rooms.Add(rooms[i]);
+                if (c == 50)
+                {
+                    db.SaveChanges();
+                    c = 0;
+                }
+            }
         }
 
         public static void RemoveRoom(Room room)
@@ -196,10 +205,16 @@ namespace Ecliptic.Repository
 
         public static void AddWorker(List<Worker> workers)
         {
-            if (workers == null) return;
-            foreach (var worker in workers)
-                db.Workers.Add(worker);
-            db.SaveChanges();
+            if (workers == null) return; 
+            for (int i = 0, c = 0; i < workers.Count; i++)
+            {
+                db.Workers.Add(workers[i]);
+                if (c == 50)
+                {
+                    db.SaveChanges();
+                    c = 0;
+                }
+            }
         }
 
         public static List<Worker> RelationsWorkersRoom()
@@ -224,9 +239,15 @@ namespace Ecliptic.Repository
         public static void AddPoing(List<PointM> points)
         {
             if (points == null) return;
-            foreach (var point in points)
-                db.Points.Add(point);
-            db.SaveChanges();
+            for (int i = 0, c = 0; i < points.Count; i++)
+            {
+                db.Points.Add(points[i]);
+                if (c == 50)
+                {
+                    db.SaveChanges();
+                    c = 0;
+                }
+            }
         }
 
         public static void RemovePoint(PointM point)
@@ -261,9 +282,15 @@ namespace Ecliptic.Repository
         public static void AddEdge(List<EdgeM> edges)
         {
             if (edges == null) return;
-            foreach (var edge in edges)
-                db.Edges.Add(edge);
-            db.SaveChanges();
+            for (int i = 0, c = 0; i < edges.Count; i++)
+            {
+                db.Edges.Add(edges[i]);
+                if (c == 50)
+                {
+                    db.SaveChanges();
+                    c = 0;
+                }
+            }
         }
 
         public static void RemoveEdge(EdgeM edge)
@@ -279,7 +306,7 @@ namespace Ecliptic.Repository
             {
                 db.Edges.Remove(edge);
             }
-            db.SaveChanges();
+                db.SaveChanges();
         }
 
         public static List<EdgeM> LoadAllEdges()
@@ -300,11 +327,15 @@ namespace Ecliptic.Repository
         public static void AddNote(List<Note> notes)
         {
             if (notes == null) return;
-            foreach (var note in notes)
+            for (int i = 0, c = 0; i < notes.Count; i++)
             {
-                db.Notes.Add(note);
+                db.Notes.Add(notes[i]);
+                if (c == 50)
+                {
+                    db.SaveChanges();
+                    c = 0;
+                }
             }
-            db.SaveChanges();
         }
 
         public static void RemoveNote(Note note)

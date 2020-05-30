@@ -22,17 +22,6 @@ namespace Ecliptic.WebInteractions
             return client;
         }
 
-        // получаем пользователя for ttesting dont serilaze back
-        public async Task<string> Get()
-        {
-            HttpClient client = GetClient();
-            string result = await client.GetStringAsync("http://ecliptic.somee.com/api/Clients");
-
-            var d = JsonConvert.DeserializeObject<string>(result);
-
-            return d;
-        }
-
         // получаем пользователя
         public async Task<Dictionary<string, string>> Authrization(string login, string pass)
         {
