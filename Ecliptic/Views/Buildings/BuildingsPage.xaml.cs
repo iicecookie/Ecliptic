@@ -5,6 +5,7 @@ using Plugin.Connectivity;
 using Ecliptic.WebInteractions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ecliptic.Views
 {
@@ -15,6 +16,7 @@ namespace Ecliptic.Views
             InitializeComponent();
 
             Title = "Доступные зданиия";
+            BuildingView.ItemsSource = BuildingData.Buildings;
         }
 
         private async void BuildingView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -45,20 +47,37 @@ namespace Ecliptic.Views
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            List<Building> buildings = await new BuildingService().GetBuildings();
+            await LoadBuildingsAsync();
 
-            DbService.RemoveBuildings();
-
-            DbService.AddBuilding(buildings.Where(b => b.BuildingId != BuildingData.CurrentBuilding?.BuildingId).ToList());
-            BuildingData.Buildings = DbService.LoadAllBuildings();
-
-            BuildingView.ItemsSource = null;
             BuildingView.ItemsSource = BuildingData.Buildings;
 
             if (BuildingData.Buildings.Count == 0)
             {
                 BuildingTitle.Text = "Нет доступных зданий";
             }
+        }
+
+        public static async Task<List<Building>> LoadBuildingsAsync()
+        {
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                return null;
+            }
+
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
+            if (!isRemoteReachable)
+            {
+                return null;
+            }
+
+            List<Building> buildings = await new BuildingService().GetBuildings();
+
+            DbService.RemoveBuildings();
+
+            DbService.AddBuilding(buildings.Where(b => b.BuildingId != BuildingData.CurrentBuilding?.BuildingId).ToList());
+            
+            BuildingData.Buildings = DbService.LoadAllBuildings();
+            return BuildingData.Buildings;
         }
     }
 }

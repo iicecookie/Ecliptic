@@ -27,7 +27,7 @@ namespace Ecliptic.Models
             Details = details;
 
             ClientId = clientid;
-            FavoriteRoomId = roomId;
+            FavoriteRoomId = 0;
         }
     }
 }

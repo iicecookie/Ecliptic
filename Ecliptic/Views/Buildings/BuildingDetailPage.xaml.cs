@@ -155,7 +155,8 @@ namespace Ecliptic.Views
             List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
             List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
             List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
-            List<Note>   notes   = await new NoteService(  ).GetPublic (Current.BuildingId);
+            //List<Note>   notes   = await new NoteService(  ).GetPublic (Current.BuildingId);
+            // foreach(var n in notes) { n.ClientId = 0; n.RoomId = 0; }
 
             DbService.RemoveCurrentBuilding();
 
@@ -166,10 +167,11 @@ namespace Ecliptic.Views
                 DbService.AddWorker(workers);
                 DbService.AddPoing(points);
                 DbService.AddEdge(edges);
-                DbService.AddNote(notes);
+                DbService.SaveDb();
+               // DbService.AddNote(notes);
             }
-            catch (Exception e)
-            {
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {   
                 DbService.RemoveCurrentBuilding();
                 DependencyService.Get<IToast>().Show("Загруженые здания некорректны");
                 loading = false;

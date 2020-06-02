@@ -70,12 +70,12 @@ namespace Ecliptic.Models
         }
  
         public static FavoriteRoom isRoomFavoit(Room room)
-        {   
+        {
+            if (CurrentClient == null) return null;
             foreach (var favorite in CurrentClient.Favorites)
             {
                 if (favorite.Name == room.Name && 
-                    favorite.Details == room.Description || 
-                    favorite.FavoriteRoomId == room.RoomId)
+                    favorite.Details == room.Description)
                 {
                     return favorite;
                 }

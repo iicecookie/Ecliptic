@@ -1,7 +1,7 @@
 ﻿using Ecliptic.Repository;
+using Ecliptic.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Ecliptic.Models;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Ecliptic
@@ -12,16 +12,16 @@ namespace Ecliptic
         {
             InitializeComponent();
 
-            DbService.RefrashDb(true);
+            DbService.RefrashDb(false);
 
             DbService.LoadAll();
 
             MainPage = new AppShell();
         }
 
-        protected override void OnStart()
+        async protected override void OnStart()
         {
-
+           // await BuildingPage.LoadBuildingsAsync();
         }
 
         protected override void OnSleep()

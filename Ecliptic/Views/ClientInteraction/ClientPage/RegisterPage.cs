@@ -78,7 +78,7 @@ namespace Ecliptic.Views.ClientInteraction
                     Keyboard = Keyboard.Default,
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
-
+                    IsPassword = true,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
                     // FontAttributes = FontAttributes.Italic,
                     Style = Device.Styles.BodyStyle,

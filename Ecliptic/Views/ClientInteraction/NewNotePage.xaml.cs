@@ -56,14 +56,14 @@ namespace Ecliptic.Views.ClientNote
             NoteService noteService = new NoteService();
             Note note = await noteService.Add(new Note(NoteText.Text,
                                                        SearchBarRoom.Text,
-                                                       roomid:    roomnote?.RoomId,
-                                                       building:  SearchBarBuilding.Text,
-                                                       clientid:  Client.CurrentClient.ClientId,
-                                                       clientname:Client.CurrentClient.Name));
-            
+                                                       roomid: roomnote?.RoomId,
+                                                       building: SearchBarBuilding.Text,
+                                                       clientid: Client.CurrentClient.ClientId,
+                                                       clientname: Client.CurrentClient.Name));
+
             if (note != null) // если сервер вернул данные по заметке - загрузить в пользователя
             {
-                DbService.AddNote(note); 
+                DbService.AddNote(note);
 
                 await Navigation.PopAsync();
                 return;

@@ -203,6 +203,7 @@ namespace Ecliptic.Views
 
                     #region toolbarStar
                     ToolbarItem item = new ToolbarItem();
+                    item.Text = "fav";
                     item.Clicked += OnfaviriteClicked;
                     item.Order    = ToolbarItemOrder.Default;
                     item.Priority = 1;
@@ -302,13 +303,20 @@ namespace Ecliptic.Views
         {
             if (Client.CurrentClient != null)
             {
-                if (Client.isRoomFavoit(Current) != null)
+                foreach(var item in this.ToolbarItems)
                 {
-                    ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                }
-                else
-                {
-                    ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                    if (item.Text == "fav")
+                    {
+                        if (Client.isRoomFavoit(Current) != null)
+                        {
+                            item.IconImageSource = "@drawable/stared.png";
+                        }
+                        else
+                        {
+                            item.IconImageSource = "@drawable/unstared.png";
+                        }
+                        break;
+                    }
                 }
             }
         }
@@ -361,25 +369,30 @@ namespace Ecliptic.Views
             if (Client.CurrentClient != null)
             {
                 FavoriteRoom room = Client.isRoomFavoit(Current);
-
-                if (room == null) // add
+                foreach (var item in this.ToolbarItems)
                 {
-                    FavoriteRoom newroom = await new FavRoomService().Add((Current.Clone() as Room).ToFavRoom(Client.CurrentClient.ClientId));
-
-                    if (newroom != null)
+                    if (item.Text == "fav")
                     {
-                        DbService.AddFavoriteRoom(newroom);
-                        ToolbarItems.Last().IconImageSource = "@drawable/stared.png";
-                    }
-                }
-                else // remove
-                {
-                    bool deleted = await new FavRoomService().Delete(room.FavoriteRoomId);
+                        if (room == null) // add
+                        {
+                            FavoriteRoom newroom = await new FavRoomService().Add((Current.Clone() as Room).ToFavRoom(Client.CurrentClient.ClientId));
 
-                    if  (deleted)
-                    {
-                        DbService.RemoveFavoriteRoom(room);
-                        ToolbarItems.Last().IconImageSource = "@drawable/unstared.png";
+                            if (newroom != null)
+                            {
+                                DbService.AddFavoriteRoom(newroom);
+                                item.IconImageSource = "@drawable/stared.png";
+                            }
+                        }
+                        else // remove
+                        {
+                            bool deleted = await new FavRoomService().Delete(room.FavoriteRoomId);
+
+                            if (deleted)
+                            {
+                                DbService.RemoveFavoriteRoom(room);
+                                item.IconImageSource = "@drawable/unstared.png";
+                            }
+                        }
                     }
                 }
             }

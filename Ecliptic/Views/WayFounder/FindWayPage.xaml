@@ -124,7 +124,7 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            
+
             <SearchBar x:Name="searchBar2" TextChanged="OnTextToChanged"/>
 
             <StackLayout x:Name="stackBar2">
@@ -162,6 +162,21 @@
                 HorizontalOptions="Fill"
                 Clicked="Button_Clicked"/>
 
+            <Label x:Name="WayLarge"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center"
+                   Text=""/>
+
+            <Button 
+                   x:Name="EndWayButton"
+                   Text="Завершить маршрут"
+                   IsVisible="False"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Fill"
+                   Clicked="EndWay_Clicked"/>
+            
         </StackLayout>
     </ScrollView>
 

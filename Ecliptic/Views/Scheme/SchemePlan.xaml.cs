@@ -42,6 +42,8 @@ namespace Ecliptic.Views
 
             FloorPicker.ItemsSource = FloorData.Floors;
 
+            PointData.RoomPoints = PointData.Points.Where(p => p.Room != null).ToList();
+
             if (FloorPicker.SelectedItem == null && FloorData.Floors.Count > 0)
             {
                 FloorPicker.SelectedItem = FloorData.Floors.First();
@@ -165,7 +167,6 @@ namespace Ecliptic.Views
             // Отображение рисунка
             if (FloorPicker.SelectedItem != null)
                 bitmap.Paint(canvas, ((Floor)FloorPicker.SelectedItem).Level);
-
 
             // Отрисовка матрицы преобразования
             SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);

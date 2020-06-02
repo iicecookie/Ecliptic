@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Android.Graphics;
+using Android.OS;
 using Android.Text.Format;
 using Ecliptic.Models;
 using Ecliptic.Views.WayFounder;
@@ -30,37 +32,45 @@ namespace Ecliptic.Views
             TouchManager = new TouchManipulationManager { Mode = TouchManipulationMode.ScaleRotate };
         }
 
+        SKPaint wallpaint = new SKPaint
+        {
+            Color = SKColors.Black,
+            TextSize = 75,
+            StrokeWidth = 10,
+            Style = SKPaintStyle.Stroke,
+            StrokeCap = SKStrokeCap.Square,
+            TextAlign = SKTextAlign.Center
+        };
+        SKPaint textpaint = new SKPaint
+        {
+            TextSize = 36,
+            IsAntialias = true,
+            Color = SKColors.Blue,
+            TextScaleX = 1.0f,
+            TextAlign = SKTextAlign.Center,
+        };
+        SKPaint waypaint  = new SKPaint
+        {
+            TextSize = 64.0f,
+            IsAntialias = true,
+            Color = SKColors.Red,
+            TextScaleX = 1.0f,
+            StrokeWidth = 5,
+            TextAlign = SKTextAlign.Center,
+        };
+        SKPaint starpaint = new SKPaint
+        {
+            Typeface = SKFontManager.Default.MatchCharacter(StringUtilities.GetUnicodeCharacterCode("🚀", SKTextEncoding.Utf32)),
+            TextSize = 36,
+            IsAntialias = true,
+            TextScaleX = 1.0f,
+            TextAlign = SKTextAlign.Center,
+        };
+
         public void Paint(SKCanvas canvas, int floor)
         {
             canvas.Save();
             SKMatrix matrix = Matrix;
-
-            SKPaint wallpaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 75,
-                StrokeWidth = 10,
-                Style = SKPaintStyle.Stroke,
-                StrokeCap = SKStrokeCap.Square,
-                TextAlign = SKTextAlign.Center
-            };
-            SKPaint textpaint = new SKPaint
-            {
-                TextSize = 36,
-                IsAntialias = true,
-                Color = SKColors.Blue,
-                TextScaleX = 1.0f,
-                TextAlign = SKTextAlign.Center,
-            };
-            SKPaint waypaint = new SKPaint
-            {
-                TextSize = 64.0f,
-                IsAntialias = true,
-                Color = SKColors.Red,
-                TextScaleX = 1.0f,
-                StrokeWidth = 5,
-                TextAlign = SKTextAlign.Center,
-            };
 
             canvas.Concat(ref matrix);
             canvas.DrawBitmap(bitmap, 0, 0);
@@ -87,11 +97,11 @@ namespace Ecliptic.Views
                 {
                     canvas.Save();
 
-                         if (matrix.Values[0] > matrix.Values[1] &&
+                    if      (matrix.Values[0] > matrix.Values[1] &&
                              matrix.Values[4] > matrix.Values[3] &&
                              matrix.Values[0] > 0 && matrix.Values[1] > 0)
                     {
-                        canvas.RotateDegrees(0, (float)point.X, (float)point.Y);
+                        //  canvas.RotateDegrees(0, (float)point.X, (float)point.Y);
                     }
                     else if (matrix.Values[0] > matrix.Values[1] &&
                              matrix.Values[3] > matrix.Values[4] &&
@@ -113,6 +123,10 @@ namespace Ecliptic.Views
                     }
 
                     canvas.DrawText(point.Room.Name, (float)point.X, (float)point.Y, textpaint);
+
+                    if (Client.isRoomFavoit(point.Room) != null)
+                        canvas.DrawText("⭐", (float)point.X, (float)point.Y + 42, starpaint);
+
                     canvas.Restore();
                 }
             }

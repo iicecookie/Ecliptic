@@ -135,7 +135,23 @@ namespace Ecliptic.Views
                                                              PointData.Find(Way.End));
 
             EdgeData.ConvertPathToWay(path);
+
+            double way = 0;
+            foreach(var w in EdgeData.Ways) { way += w.Weight; }
+            WayLarge.Text = "Длина пути " + way + " метов";
+            EndWayButton.IsVisible = true;
+
             DependencyService.Get<IToast>().Show("Маршрут установлен");
+        }
+
+
+        private void EndWay_Clicked(object sender, EventArgs e)
+        {
+            EdgeData.Ways= new List<EdgeM>();
+            WayLarge.Text = " ";
+            searchBar1.Text = "";
+            searchBar2.Text = "";
+            EndWayButton.IsVisible = false;
         }
     }
 }

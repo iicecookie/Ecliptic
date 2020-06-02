@@ -114,9 +114,10 @@ namespace Ecliptic.Repository
         public static void AddFloor(List<Floor> floors)
         {
             if (floors == null) return;
-            foreach (var floor in floors) { 
+            foreach (var floor in floors)
+            {
                 db.Floors.Add(floor);
-            db.SaveChanges();
+                db.SaveChanges();
             }
         }
 
@@ -163,6 +164,7 @@ namespace Ecliptic.Repository
                     c = 0;
                 }
             }
+            db.SaveChanges();
         }
 
         public static void RemoveRoom(Room room)
@@ -215,6 +217,8 @@ namespace Ecliptic.Repository
                     c = 0;
                 }
             }
+
+            db.SaveChanges();
         }
 
         public static List<Worker> RelationsWorkersRoom()
@@ -248,6 +252,8 @@ namespace Ecliptic.Repository
                     c = 0;
                 }
             }
+
+            db.SaveChanges();
         }
 
         public static void RemovePoint(PointM point)
@@ -291,6 +297,7 @@ namespace Ecliptic.Repository
                     c = 0;
                 }
             }
+            db.SaveChanges();
         }
 
         public static void RemoveEdge(EdgeM edge)
@@ -306,7 +313,7 @@ namespace Ecliptic.Repository
             {
                 db.Edges.Remove(edge);
             }
-                db.SaveChanges();
+            db.SaveChanges();
         }
 
         public static List<EdgeM> LoadAllEdges()
@@ -330,6 +337,7 @@ namespace Ecliptic.Repository
             for (int i = 0, c = 0; i < notes.Count; i++)
             {
                 db.Notes.Add(notes[i]);
+                db.SaveChanges();
                 if (c == 50)
                 {
                     db.SaveChanges();
@@ -341,17 +349,21 @@ namespace Ecliptic.Repository
         public static void RemoveNote(Note note)
         {
             if (note == null) return;
-            //   if (db.Notes.Find(note) == null) return;
-            db.Notes.Remove(note);
-
+            db.Notes.Remove(note); 
             db.SaveChanges();
         }
 
         public static void RemoveNote(List<Note> notes)
         {
-            foreach (var note in notes)
+            if (notes == null) return;
+            for (int i = 0, c = 0; i < notes.Count; i++)
             {
-                db.Notes.Remove(note);
+                db.Notes.Remove(notes[i]);
+                if (c == 50)
+                {
+                    db.SaveChanges();
+                    c = 0;
+                }
             }
             db.SaveChanges();
         }
