@@ -33,7 +33,7 @@ namespace Ecliptic.Repository
             WorkerData.Workers = RelationsWorkersRoom();
             RoomData  .Rooms   = RelationsRoomsWorker();
 
-            FloorData.Floors       = db.Floors.ToList();  // db.Floors.Include(u => u.Building).ToList();
+            FloorData.Floors       = db.Floors   .ToList(); // db.Floors.Include(u => u.Building).ToList();
             BuildingData.Buildings = db.Buildings.ToList(); // db.Buildings.Include(u => u.Floors).ToList();
 
             NoteData  .Notes   = LoadAllPublicNotes();

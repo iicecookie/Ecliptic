@@ -110,6 +110,9 @@ namespace Ecliptic.Views
         }
 
         public Building Current { get; set; }
+
+        public static bool BuildingLoad = false;
+        
         Button DownloadBut;
 
         public BuildingDetailPage()
@@ -124,21 +127,25 @@ namespace Ecliptic.Views
 
         void DownloadBut_Click(Object sender, EventArgs e)
         {
-            if (!loading)
+            if (BuildingLoad == false)
+            {
                 Load();
+                BuildingPage.lastRequest = DateTime.Now;
+            }
+            else
+            {
+                DependencyService.Get<IToast>().Show("Дождитесь окончания загрузки");
+            }
         }
-
-        bool loading = false;
 
         public async void Load()
         {
-            loading = true;
+            BuildingLoad = true;
             if (CrossConnectivity.Current.IsConnected == false)
             {
                 DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
                 return;
             }
-
             bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
             if (!isRemoteReachable)
             {
@@ -182,7 +189,7 @@ namespace Ecliptic.Views
             {   
                 // DbService.RemoveCurrentBuilding();
                 DependencyService.Get<IToast>().Show("Загруженые здания некорректны");
-                loading = false;
+                BuildingLoad = false;
                 return;
             }
 
@@ -196,12 +203,13 @@ namespace Ecliptic.Views
             BuildingData.CurrentBuilding = Current;
 
             PointData.RoomPoints = PointData.Points
-                        .Where(p => p.IsWaypoint == true)
-                        .Where(c => c.Room != null).ToList();
+                                               .Where(p => p.IsWaypoint == true)
+                                               .Where(c => c.Room != null).ToList();
 
             DependencyService.Get<IToast>().Show("Здание загружено");
             DownloadBut.Text = "Обновить";
-            loading = false;
+            BuildingLoad = false;
+
         }
 
         void clickSite(object sender, EventArgs args)

@@ -6,6 +6,7 @@ using Ecliptic.WebInteractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Ecliptic.Views
 {
@@ -14,13 +15,8 @@ namespace Ecliptic.Views
         public BuildingPage()
         {
             InitializeComponent();
-
             Title = "Доступные зданиия";
-            BuildingView.ItemsSource = BuildingData.Buildings;
-            if (BuildingData.CurrentBuilding != null)
-            {
-                BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
-            }
+            lastRequest = DateTime.Now.AddMinutes(-1);
         }
 
         private async void BuildingView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -30,29 +26,47 @@ namespace Ecliptic.Views
             await Shell.Current.GoToAsync($"buildingdetails?name={building.Name}");
         }
 
+        public static DateTime lastRequest;
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-
-            if (CrossConnectivity.Current.IsConnected == false)
-            {
-                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-                return;
-            }
-
-            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-            if (!isRemoteReachable)
-            {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
-            }
-
-            BuildingView.ItemsSource = await LoadBuildingsAsync();
 
             if (BuildingData.CurrentBuilding != null)
             {
                 BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
             }
 
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                return;
+            }
+            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
+            if (!isRemoteReachable)
+            {
+                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
+            }
+
+            if ((DateTime.Now - lastRequest).TotalSeconds > 20)
+            {
+                DependencyService.Get<IToast>().Show("Обновление списка зданий");
+                BuildingDetailPage.BuildingLoad = true;
+                BuildingView.ItemsSource = null;
+
+                await LoadBuildingsAsync();
+
+                lastRequest = DateTime.Now;
+                BuildingDetailPage.BuildingLoad = false;
+                DependencyService.Get<IToast>().Show("Список обновлен");
+            }
+
+            BuildingView.ItemsSource = BuildingData.Buildings;
+
+            if (BuildingData.CurrentBuilding != null)
+            {
+                BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
+            }
             if (BuildingData.Buildings.Count == 0)
             {
                 BuildingTitle.Text = "Нет доступных зданий";
@@ -65,18 +79,16 @@ namespace Ecliptic.Views
             {
                 return null;
             }
-
             bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
             if (!isRemoteReachable)
             {
                 return null;
             }
 
-            List<Building> buildings = await new BuildingService().GetBuildings();
-
             DbService.RemoveUncurrentBuildings();
             BuildingData.Buildings = new List<Building>();
 
+            List<Building> buildings = await new BuildingService().GetBuildings();
             DbService.AddBuilding(buildings.Where(b => b.BuildingId != BuildingData.CurrentBuilding?.BuildingId).ToList());
 
             var currentloadedbuilding = buildings.Where(b => b.BuildingId == BuildingData.CurrentBuilding?.BuildingId).FirstOrDefault();
@@ -93,8 +105,8 @@ namespace Ecliptic.Views
             BuildingData.Buildings = DbService.LoadAllBuildings();
 
             BuildingData.CurrentBuilding = BuildingData.Buildings
-                                        .Where(b => b.BuildingId == BuildingData.CurrentBuilding?.BuildingId)
-                                        .FirstOrDefault();
+                                             .Where(b => b.BuildingId == currentloadedbuilding?.BuildingId)
+                                             .FirstOrDefault();
 
             return BuildingData.Buildings;
         }
