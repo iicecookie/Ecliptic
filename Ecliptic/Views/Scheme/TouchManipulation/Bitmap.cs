@@ -131,6 +131,30 @@ namespace Ecliptic.Views
                 }
             }
 
+
+            // рисуем ст--------ены
+            // foreach (var edge in EdgeData.Edges)
+            // {
+            //     if (edge.PointFrom.Floor.Level == floor)
+            //     {
+            //         canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
+            //                         (float)edge.PointTo.X, (float)edge.PointTo.Y, starpaint);
+            // 
+            //         canvas.DrawText(edge.PointFrom.EdgesOut.Count.ToString(), 
+            //             (float)edge.PointFrom.X-23, (float)edge.PointFrom.Y, textpaint);
+            // 
+            //         canvas.DrawText(edge.PointFrom.EdgesIn.Count.ToString(),
+            //             (float)edge.PointFrom.X-23, (float)edge.PointFrom.Y+25, textpaint);
+            // 
+            // 
+            //         canvas.DrawText(edge.PointTo.EdgesOut.Count.ToString(),
+            //             (float)edge.PointTo.X, (float)edge.PointTo.Y, textpaint);
+            // 
+            //         canvas.DrawText(edge.PointTo.EdgesIn.Count.ToString(),
+            //             (float)edge.PointTo.X, (float)edge.PointTo.Y + 25, textpaint);
+            //     }
+            // }
+
             canvas.Restore();
         }
 

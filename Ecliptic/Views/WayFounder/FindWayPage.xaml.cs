@@ -131,9 +131,18 @@ namespace Ecliptic.Views
             if (Way.End.Equals(Way.Begin)) { DependencyService.Get<IToast>().Show("Вы находитесь в месте назначения"); return; }
 
             // если все окей - производить поиск
-            List<PointM> path = new Dijkstra().
-                                            FindShortestPath(PointData.Find(Way.Begin),
-                                                             PointData.Find(Way.End));
+            List<PointM> path;
+            try
+            {
+                 path = new Dijkstra().
+                                                FindShortestPath(PointData.Find(Way.Begin),
+                                                                 PointData.Find(Way.End));
+            }
+            catch(NullReferenceException ex)
+            {
+                DependencyService.Get<IToast>().Show("Помещения не связаны");
+                return;
+            }
 
             EdgeData.ConvertPathToWay(path);
 
