@@ -17,6 +17,10 @@ namespace Ecliptic.Views
 
             Title = "Доступные зданиия";
             BuildingView.ItemsSource = BuildingData.Buildings;
+            if (BuildingData.CurrentBuilding != null)
+            {
+                BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
+            }
         }
 
         private async void BuildingView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -30,11 +34,6 @@ namespace Ecliptic.Views
         {
             base.OnAppearing();
 
-            if (BuildingData.CurrentBuilding != null)
-            {
-                BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
-            }
-
             if (CrossConnectivity.Current.IsConnected == false)
             {
                 DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
@@ -47,9 +46,12 @@ namespace Ecliptic.Views
                 await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
             }
 
-            await LoadBuildingsAsync();
+            BuildingView.ItemsSource = await LoadBuildingsAsync();
 
-            BuildingView.ItemsSource = BuildingData.Buildings;
+            if (BuildingData.CurrentBuilding != null)
+            {
+                BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
+            }
 
             if (BuildingData.Buildings.Count == 0)
             {
@@ -72,11 +74,28 @@ namespace Ecliptic.Views
 
             List<Building> buildings = await new BuildingService().GetBuildings();
 
-            DbService.RemoveBuildings();
+            DbService.RemoveUncurrentBuildings();
+            BuildingData.Buildings = new List<Building>();
 
             DbService.AddBuilding(buildings.Where(b => b.BuildingId != BuildingData.CurrentBuilding?.BuildingId).ToList());
-            
+
+            var currentloadedbuilding = buildings.Where(b => b.BuildingId == BuildingData.CurrentBuilding?.BuildingId).FirstOrDefault();
+            if (currentloadedbuilding != null)
+            {
+                BuildingData.CurrentBuilding.Name = currentloadedbuilding.Name;
+                BuildingData.CurrentBuilding.Site = currentloadedbuilding.Site;
+                BuildingData.CurrentBuilding.Addrees = currentloadedbuilding.Addrees;
+                BuildingData.CurrentBuilding.TimeTable = currentloadedbuilding.TimeTable;
+                BuildingData.CurrentBuilding.Description = currentloadedbuilding.Description;
+                DbService.SaveDb();
+            }
+
             BuildingData.Buildings = DbService.LoadAllBuildings();
+
+            BuildingData.CurrentBuilding = BuildingData.Buildings
+                                        .Where(b => b.BuildingId == BuildingData.CurrentBuilding?.BuildingId)
+                                        .FirstOrDefault();
+
             return BuildingData.Buildings;
         }
     }

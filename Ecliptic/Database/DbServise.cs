@@ -30,20 +30,17 @@ namespace Ecliptic.Repository
 
         public static void LoadAll()
         {
-
             WorkerData.Workers = RelationsWorkersRoom();
             RoomData  .Rooms   = RelationsRoomsWorker();
 
-
-            FloorData.Floors = db.Floors.Include(u => u.Building).ToList();
-            BuildingData.Buildings = db.Buildings.Include(u => u.Floors).ToList();
+            FloorData.Floors       = db.Floors.ToList();  // db.Floors.Include(u => u.Building).ToList();
+            BuildingData.Buildings = db.Buildings.ToList(); // db.Buildings.Include(u => u.Floors).ToList();
 
             NoteData  .Notes   = LoadAllPublicNotes();
             PointData .Points  = LoadAllPoints();
             EdgeData  .Edges   = LoadAllEdges();
 
-            if (FloorData.Floors.Count > 0)
-                BuildingData.CurrentBuilding = FloorData.Floors.First().Building;
+            BuildingData.CurrentBuilding = FloorData.Floors.FirstOrDefault()?.Building;
 
             if (db.Client.Count() > 0)
             {
@@ -52,24 +49,30 @@ namespace Ecliptic.Repository
                 LoadClientNotes(Client.CurrentClient);
             }
         }
-        public static void RemoveBuildings()
+        public static void RemoveUncurrentBuildings()
         {
             foreach (var building in BuildingData.Buildings)
             {
-                if (building.BuildingId != BuildingData.CurrentBuilding?.BuildingId)
+                if (building != BuildingData.CurrentBuilding)
                     db.Buildings.Remove(building);
             }
+            db.SaveChanges();
+        }
 
+        public static void UpdateCurrentBuilding(Building building)
+        {
+            if (building == null) return;
+            db.Buildings.Update(building);
             db.SaveChanges();
         }
 
         public static void RemoveCurrentBuilding()
         {
-            if (db.Floors .Count() > 0) db.Floors .RemoveRange(db.Floors); db.SaveChanges();
-            if (db.Rooms  .Count() > 0) db.Rooms  .RemoveRange(db.Rooms); db.SaveChanges();
+            if (db.Floors .Count() > 0) db.Floors .RemoveRange(db.Floors);  db.SaveChanges();
+            if (db.Rooms  .Count() > 0) db.Rooms  .RemoveRange(db.Rooms);   db.SaveChanges();
             if (db.Workers.Count() > 0) db.Workers.RemoveRange(db.Workers); db.SaveChanges();
-            if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points); db.SaveChanges();
-            if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);
+            if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points);  db.SaveChanges();
+            if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);   db.SaveChanges();
             BuildingData.CurrentBuilding = null;
 
             if (Client.CurrentClient == null) db.Notes.RemoveRange(db.Notes);
@@ -92,8 +95,10 @@ namespace Ecliptic.Repository
         public static void AddBuilding(List<Building> buildings)
         {
             if (buildings == null) return;
+
             foreach (var building in buildings)
                 db.Buildings.Add(building);
+
             db.SaveChanges();
         }
 
@@ -337,13 +342,14 @@ namespace Ecliptic.Repository
             for (int i = 0, c = 0; i < notes.Count; i++)
             {
                 db.Notes.Add(notes[i]);
-                db.SaveChanges();
+
                 if (c == 50)
                 {
                     db.SaveChanges();
                     c = 0;
                 }
             }
+            db.SaveChanges();
         }
 
         public static void RemoveNote(Note note)

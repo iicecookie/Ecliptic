@@ -77,7 +77,7 @@ namespace Ecliptic.Views
                 {
                     Button SiteBut = new Button
                     {
-                        Text = Current.Site,
+                        Text = "Открыть сайт",
                         FontSize = 13,
                         FontAttributes = FontAttributes.Bold,
                         BorderColor = Color.Gray,
@@ -89,7 +89,7 @@ namespace Ecliptic.Views
                     stackLayout.Children.Add(SiteBut);
                 }
 
-                Button DownloadBut = new Button
+                DownloadBut = new Button
                 {
                     Text = "Загрузить это здание",
                     FontSize = 13,
@@ -99,6 +99,9 @@ namespace Ecliptic.Views
                     BackgroundColor = Color.FromHex("#FFC7C7"),
                     HeightRequest = 40,
                 };
+                if (BuildingData.CurrentBuilding?.Name == Current.Name)
+                    DownloadBut.Text = "Обновить";
+
                 DownloadBut.Clicked += DownloadBut_Click;
                 stackLayout.Children.Add(DownloadBut);
 
@@ -107,10 +110,16 @@ namespace Ecliptic.Views
         }
 
         public Building Current { get; set; }
+        Button DownloadBut;
 
         public BuildingDetailPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
         }
 
         void DownloadBut_Click(Object sender, EventArgs e)
@@ -141,22 +150,21 @@ namespace Ecliptic.Views
             FloorData .Floors  = new List<Floor>();
             RoomData  .Rooms   = new List<Room>();
             WorkerData.Workers = new List<Worker>();
-            PointData.Points                 = new List<PointM>();
-            PointData.RoomPoints             = new List<PointM>();
-            PointData.CurrentFloorRoomPoints = new List<PointM>();
-            EdgeData.Edges             = new List<EdgeM>();
-            EdgeData.Ways              = new List<EdgeM>();
-            EdgeData.CurrentFloorWalls = new List<EdgeM>();
-
-            NoteData.Notes = new List<Note>();
+            PointData .Points                 = new List<PointM>();
+            PointData .RoomPoints             = new List<PointM>();
+            PointData .CurrentFloorRoomPoints = new List<PointM>();
+            EdgeData  .Edges             = new List<EdgeM>();
+            EdgeData  .Ways              = new List<EdgeM>();
+            EdgeData  .CurrentFloorWalls = new List<EdgeM>();
+            NoteData  .Notes             = new List<Note>();
 
             List<Floor>  floors  = await new FloorService( ).GetFloors (Current.BuildingId);
             List<Room>   rooms   = await new RoomService(  ).GetRooms  (Current.BuildingId);
             List<Worker> workers = await new WorkerService().GetWorkers(Current.BuildingId);
             List<PointM> points  = await new PointService( ).GetPoints (Current.BuildingId);
             List<EdgeM>  edges   = await new EdgeService(  ).GetEdges  (Current.BuildingId);
-            //List<Note>   notes   = await new NoteService(  ).GetPublic (Current.BuildingId);
-            // foreach(var n in notes) { n.ClientId = 0; n.RoomId = 0; }
+            List<Note>   notes   = await new NoteService(  ).GetPublic (Current.BuildingId);
+            foreach(var n in notes) { n.ClientId = null; }
 
             DbService.RemoveCurrentBuilding();
 
@@ -168,11 +176,11 @@ namespace Ecliptic.Views
                 DbService.AddPoing(points);
                 DbService.AddEdge(edges);
                 DbService.SaveDb();
-               // DbService.AddNote(notes);
+                DbService.AddNote(notes);
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {   
-                DbService.RemoveCurrentBuilding();
+                // DbService.RemoveCurrentBuilding();
                 DependencyService.Get<IToast>().Show("Загруженые здания некорректны");
                 loading = false;
                 return;
@@ -192,6 +200,7 @@ namespace Ecliptic.Views
                         .Where(c => c.Room != null).ToList();
 
             DependencyService.Get<IToast>().Show("Здание загружено");
+            DownloadBut.Text = "Обновить";
             loading = false;
         }
 

@@ -171,7 +171,7 @@
 
             <Button 
                    x:Name="EndWayButton"
-                   Text="Завершить маршрут"
+                   Text="Сброс маршрута"
                    IsVisible="False"
                    VerticalOptions="Start"
                    HorizontalOptions="Fill"

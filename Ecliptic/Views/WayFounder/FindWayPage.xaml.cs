@@ -119,6 +119,7 @@ namespace Ecliptic.Views
         
         private void Button_Clicked  (object sender, EventArgs e)
         {
+            taped = true;
             if (RoomData.Rooms.Count == 0) { DependencyService.Get<IToast>().Show("Помещения не загружены"); return; }
 
             if (searchBar1.Text == null || searchBar1.Text == "") { DependencyService.Get<IToast>().Show("Начало маршрута не задано"); return; }
@@ -140,7 +141,7 @@ namespace Ecliptic.Views
             foreach(var w in EdgeData.Ways) { way += w.Weight; }
             WayLarge.Text = "Длина пути " + way + " метов";
             EndWayButton.IsVisible = true;
-
+            taped = false;
             DependencyService.Get<IToast>().Show("Маршрут установлен");
         }
 
