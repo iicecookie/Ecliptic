@@ -50,6 +50,7 @@ namespace Ecliptic.Views
 
             if ((DateTime.Now - lastRequest).TotalSeconds > 20)
             {
+                lastRequest = DateTime.Now;
                 DependencyService.Get<IToast>().Show("Обновление списка зданий");
                 BuildingDetailPage.BuildingLoad = true;
                 BuildingView.ItemsSource = null;

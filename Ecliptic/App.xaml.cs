@@ -1,5 +1,9 @@
-﻿using Ecliptic.Repository;
+﻿using Ecliptic.Database;
+using Ecliptic.Models;
+using Ecliptic.Repository;
 using Ecliptic.Views;
+using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,8 +16,8 @@ namespace Ecliptic
         {
             InitializeComponent();
 
-            DbService.RefrashDb(false);
-
+            DbService.RefrashDb(true);
+         
             DbService.LoadAll();
 
             MainPage = new AppShell();

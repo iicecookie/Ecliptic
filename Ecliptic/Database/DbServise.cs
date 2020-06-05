@@ -1,5 +1,6 @@
 ﻿using Android.InputMethodServices;
 using Ecliptic.Data;
+using Ecliptic.Database;
 using Ecliptic.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,6 +11,17 @@ namespace Ecliptic.Repository
     public static class DbService
     {
         private static ApplicationContext db = new ApplicationContext();
+
+        // реализация паттерна репозиторий
+        // public static Repository<Building> buildings = new Repository<Building>(db);
+        // public static Repository<Floor>    floors    = new Repository<Floor>   (db);
+        // public static Repository<Room>     rooms     = new Repository<Room>    (db);
+        // public static Repository<Worker>   workers   = new Repository<Worker>  (db);
+        // public static Repository<PointM>   points    = new Repository<PointM>  (db);
+        // public static Repository<EdgeM>    edges     = new Repository<EdgeM>   (db);
+        // public static Repository<Client>   clients   = new Repository<Client>  (db);
+        // public static Repository<Note>     notes     = new Repository<Note>    (db);
+        // public static Repository<FavoriteRoom> favorites = new Repository<FavoriteRoom>(db);
 
         #region main
 
@@ -447,24 +459,6 @@ namespace Ecliptic.Repository
         #endregion
 
         #region Client
-
-        public static bool isSavedClient()
-        {
-            if (db.Client.Count() > 0) return true;
-            return false;
-        }
-
-        public static Client LoadClient()
-        {
-            if (db.Client.Count() == 0) return null;
-
-            Client.setClient(db.Client.First());
-
-            Client.CurrentClient.Notes = db.Notes.Include(note => note.ClientId).ToList();
-            Client.CurrentClient.Favorites = db.FavoriteRooms.Include(note => note.ClientId).ToList();
-
-            return db.Client.ToList().First();
-        }
 
         public static Client LoadClientFromDb()
         {
