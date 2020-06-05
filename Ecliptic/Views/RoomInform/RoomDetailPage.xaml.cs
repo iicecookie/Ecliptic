@@ -416,9 +416,9 @@ namespace Ecliptic.Views
 
         #endregion
 
-        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new SchemePlanPage(Current));
         }
     }
 }

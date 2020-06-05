@@ -16,9 +16,7 @@ namespace Ecliptic.Views
     public partial class SchemePlanPage : ContentPage
     {
         TouchManipulationBitmap bitmap;
-
-        List<long> touchIds = new List<long>();
-
+        List<long>    touchIds      = new List<long>();
         MatrixDisplay matrixDisplay = new MatrixDisplay();
 
         public SchemePlanPage()
@@ -35,12 +33,23 @@ namespace Ecliptic.Views
             //     Shell.Current.GoToAsync($"buildings");
             // }
         }
+        public SchemePlanPage(Room room) : this()
+        {
+            FloorPicker.ItemsSource = FloorData.Floors;
+            FloorPicker.SelectedItem = room.Floor;
+
+            // селектнули - двинули  
+            PointM point = PointData.Find(room);
+            bitmap.Matrix = SKMatrix.MakeTranslation((float)(-point.X * 0.75),
+                                                     (float)( point.Y * 0.75));
+        }
 
         protected override void OnAppearing()
         {   
             base.OnAppearing();
 
-            FloorPicker.ItemsSource = FloorData.Floors;
+            if (FloorPicker.ItemsSource == null)
+                FloorPicker.ItemsSource = FloorData.Floors;
 
             PointData.RoomPoints = PointData.Points.Where(p => p.Room != null).ToList();
 
@@ -171,9 +180,9 @@ namespace Ecliptic.Views
             // Отрисовка матрицы преобразования
             SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
 
-           // matrixDisplay.Paint(canvas, bitmap.Matrix,
-           //     new SKPoint(info.Width  - matrixSize.Width,
-           //                 info.Height - matrixSize.Height));
+            matrixDisplay.Paint(canvas, bitmap.Matrix,
+                new SKPoint(info.Width  - matrixSize.Width,
+                            info.Height - matrixSize.Height));
         }
 
         #region Toolbar

@@ -29,10 +29,12 @@ namespace Ecliptic
 
         void RegisterRoutes()
         {
-            routes.Add("roomdetails",     typeof(RoomDetailPage));
-            routes.Add("buildingdetails", typeof(BuildingDetailPage));
+            routes.Add("scheme", typeof(SchemePlanPage));
 
-            routes.Add("buildings",       typeof(BuildingPage));
+            routes.Add("roomdetails", typeof(RoomDetailPage));
+
+            routes.Add("buildings", typeof(BuildingPage));
+            routes.Add("buildingdetails", typeof(BuildingDetailPage));
 
             foreach (var item in routes)
             {
