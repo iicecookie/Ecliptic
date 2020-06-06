@@ -18,7 +18,7 @@ namespace Ecliptic.Models
             Floors = Floors.OrderBy(f => f.Level).ToList();
         }
 
-        public static Floor GetFloor(int level)
+        public static Floor GetFloor(int? level)
         {
             foreach (var floor in Floors)
             {

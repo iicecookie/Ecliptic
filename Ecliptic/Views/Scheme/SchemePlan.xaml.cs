@@ -10,6 +10,7 @@ using Ecliptic.Models;
 using Android.InputMethodServices;
 using System.Linq;
 using Ecliptic.Views.WayFounder;
+using Xamarin.Essentials;
 
 namespace Ecliptic.Views
 {
@@ -40,12 +41,15 @@ namespace Ecliptic.Views
 
             // селектнули - двинули  
             PointM point = PointData.Find(room);
-            bitmap.Matrix = SKMatrix.MakeTranslation((float)(-point.X * 0.75),
-                                                     (float)( point.Y * 0.75));
+            float height = (float)DeviceDisplay.MainDisplayInfo.Height / 4;
+            float width  = (float)DeviceDisplay.MainDisplayInfo.Width / 2;
+
+            bitmap.Matrix = SKMatrix.MakeTranslation((float)(-point.X + width),
+                                                     (float)(-point.Y + height));
         }
 
         protected override void OnAppearing()
-        {   
+        {
             base.OnAppearing();
 
             if (FloorPicker.ItemsSource == null)
@@ -56,6 +60,20 @@ namespace Ecliptic.Views
             if (FloorPicker.SelectedItem == null && FloorData.Floors.Count > 0)
             {
                 FloorPicker.SelectedItem = FloorData.Floors.First();
+            }
+
+            if (FloorPicker.SelectedItem != null)
+            {
+                // загрузили стены
+                EdgeData.CurrentFloorWalls = EdgeData.Edges
+                    .Where(e => e.PointFrom.IsWaypoint == false)
+                    .Where(c => c.PointTo.Floor.Level == (FloorPicker.SelectedItem as Floor)?.Level)
+                    .ToList();
+
+                // 
+                PointData.CurrentFloorRoomPoints = PointData.Points
+                    .Where(p => p.Room != null)
+                    .Where(p => p.Floor.Level == (FloorPicker.SelectedItem as Floor)?.Level).ToList();
             }
         }
 
@@ -88,7 +106,9 @@ namespace Ecliptic.Views
                 return;
             }
 
-            int prevlevel = ((Floor)FloorPicker.SelectedItem).Level - 1;
+            // if (FloorPicker.SelectedItem == null) return;
+
+            int? prevlevel = (FloorPicker.SelectedItem as Floor)?.Level - 1;
             if (prevlevel == 0) prevlevel--;
 
             if (FloorData.GetFloor(prevlevel) != null)
@@ -108,9 +128,10 @@ namespace Ecliptic.Views
                 DependencyService.Get<IToast>().Show("Здание не загружено");
                 return;
             }
+            //  if (FloorPicker.SelectedItem == null) return;
 
-            int nextlevel = ((Floor)FloorPicker.SelectedItem).Level + 1;
-            if (nextlevel == 0) nextlevel++;
+            int? nextlevel = (FloorPicker.SelectedItem as Floor)?.Level + 1;
+            if ( nextlevel == 0) nextlevel++;
 
             if (FloorData.GetFloor(nextlevel) != null)
             {

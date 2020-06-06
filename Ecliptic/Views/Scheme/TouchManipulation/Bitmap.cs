@@ -127,7 +127,8 @@ namespace Ecliptic.Views
                     if (Client.isRoomFavoit(point.Room) != null)
                         canvas.DrawText("⭐", (float)point.X, (float)point.Y + 42, starpaint);
 
-                    // canvas.DrawText(point.X+" "+point.Y, (float)point.X, (float)point.Y + 42, starpaint);
+                    // canvas.DrawText(point.X.ToString() + " " + point.Y.ToString(),
+                    //                 (float)point.X, (float)point.Y + 42, textpaint);
 
                     canvas.Restore();
                 }

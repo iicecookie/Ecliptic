@@ -418,7 +418,11 @@ namespace Ecliptic.Views
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SchemePlanPage(Current));
+            // Shell.Current.GoToAsync($"buildingdetails?name={Current.Name}");
+            // Navigation.PopAsync();
+
+            Navigation.PopToRootAsync();
+            Navigation.PushAsync(new SchemePlanPage(Current));
         }
     }
 }
