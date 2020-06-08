@@ -47,31 +47,18 @@
 
                   BackgroundColor="#FBE8E6"
                   SeparatorVisibility="Default"
-                  RowHeight="55"
+                  RowHeight="60"
                   
                   ItemTapped="BuildingView_ItemTapped">
 
             <ListView.ItemTemplate>
-
                 <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal"
-                                     HeightRequest="100">
-                            <StackLayout>
-                                <Label>
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                            <Span Text="{Binding Id,    StringFormat='      '} " FontAttributes="Bold" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="18"/>
-                            </StackLayout>
-                        </StackLayout>
-                    </ViewCell>
+                    <ImageCell Text  ="{Binding Name}"
+                               Detail="{Binding Description}"
+                               ImageSource="{Binding Icon}"
+                               TextColor="Black"
+                               Height="65"/>
                 </DataTemplate>
-
             </ListView.ItemTemplate>
         </ListView>
 

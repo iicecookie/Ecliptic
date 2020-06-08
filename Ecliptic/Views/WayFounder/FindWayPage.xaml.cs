@@ -154,7 +154,6 @@ namespace Ecliptic.Views
             DependencyService.Get<IToast>().Show("Маршрут установлен");
         }
 
-
         private void EndWay_Clicked(object sender, EventArgs e)
         {
             EdgeData.Ways= new List<EdgeM>();

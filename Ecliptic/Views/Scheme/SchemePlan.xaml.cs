@@ -199,11 +199,11 @@ namespace Ecliptic.Views
                 bitmap.Paint(canvas, ((Floor)FloorPicker.SelectedItem).Level);
 
             // Отрисовка матрицы преобразования
-            SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
+            // SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
 
-            matrixDisplay.Paint(canvas, bitmap.Matrix,
-                new SKPoint(info.Width  - matrixSize.Width,
-                            info.Height - matrixSize.Height));
+            // matrixDisplay.Paint(canvas, bitmap.Matrix,
+            //     new SKPoint(info.Width  - matrixSize.Width,
+            //                 info.Height - matrixSize.Height));
         }
 
         #region Toolbar

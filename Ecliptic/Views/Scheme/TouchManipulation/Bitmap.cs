@@ -97,6 +97,7 @@ namespace Ecliptic.Views
                 {
                     canvas.Save();
 
+                    #region textRotate
                     if      (matrix.Values[0] > matrix.Values[1] &&
                              matrix.Values[4] > matrix.Values[3] &&
                              matrix.Values[0] > 0 && matrix.Values[1] > 0)
@@ -121,6 +122,7 @@ namespace Ecliptic.Views
                     {
                         canvas.RotateDegrees(180, (float)point.X, (float)point.Y);
                     }
+                    #endregion
 
                     canvas.DrawText(point.Room.Name, (float)point.X, (float)point.Y, textpaint);
 

@@ -86,35 +86,34 @@
                        VerticalOptions="Center"
                        TextChanged="OnTextFromChanged"/>
 
-            <StackLayout x:Name="stackBar1" 
-                         Margin="10">
+            <StackLayout x:Name="stackBar1">
                 <ListView  x:Name="searchResults1"
-                           ItemsSource="{Binding Room}"
-                           ItemTapped="OnRoomFromTapped"
-                           SeparatorVisibility="Default"   
-                           RowHeight="50">
+                           ItemTapped="OnRoomFromTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                                    <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="15"/>
-                                    </StackLayout>
-                                </StackLayout>
+                                <Grid>
+                                    <Label Grid.Row="0" 
+                                           MinimumHeightRequest="20">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Name,  StringFormat='  {0} '}" FontAttributes="Bold"/>
+                                                <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label  Grid.Row="1"
+                                            MinimumHeightRequest="20"
+                                            FontSize="12"
+                                            Text="{Binding Description, StringFormat='  {0} '}"/>
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-
+           
             <!-- ____________________________________________________________________________________________ -->
 
             <Label HorizontalTextAlignment="Center">
@@ -129,25 +128,26 @@
 
             <StackLayout x:Name="stackBar2">
                 <ListView  x:Name="searchResults2"
-                           ItemTapped="OnRoomToTapped"
-                           SeparatorVisibility="Default"
-                           RowHeight="50">
+                           ItemTapped="OnRoomToTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                                    <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="15"/>
-                                    </StackLayout>
-                                </StackLayout>
+                                <Grid>
+                                    <Label Grid.Row="0" 
+                                           MinimumHeightRequest="20">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Name,  StringFormat='  {0} '}" FontAttributes="Bold"/>
+                                                <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label  Grid.Row="1"
+                                            MinimumHeightRequest="20"
+                                            FontSize="12"
+                                            Text="{Binding Description, StringFormat='  {0} '}"/>
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
