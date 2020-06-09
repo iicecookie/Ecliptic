@@ -23,25 +23,26 @@
             <StackLayout  x:Name="stackBarRoom">
                 <ListView x:Name="searchRoomResults"
                            ItemsSource="{Binding Room}"
-                           ItemTapped="OnRoomTapped"
-                           SeparatorVisibility="Default"    
-                           RowHeight="50">
+                           ItemTapped="OnRoomTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout>
-                                        <Label>
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                                    <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label Text="{Binding Description, StringFormat='  {0} '}" FontSize="15"/>
-                                    </StackLayout>
-                                </StackLayout>
+                                <Grid>
+                                    <Label Grid.Row="0" 
+                                           MinimumHeightRequest="20">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Name,  StringFormat='  {0} '}"/>
+                                                <Span Text="{Binding Floor.Level, StringFormat='  {0} Этаж'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label  Grid.Row="1"
+                                            MinimumHeightRequest="20"
+                                            FontSize="12"
+                                            Text="{Binding Description, StringFormat='  {0} '}"/>
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -57,19 +58,23 @@
             <StackLayout x:Name="stackBarBuilding">
                 <ListView  x:Name="searchBuildingResults"
                            ItemsSource="{Binding Building}"
-                           ItemTapped="OnBuildingTapped"
-                           SeparatorVisibility="Default"    
-                           RowHeight="50">
+                           ItemTapped="OnBuildingTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout>
-                                        <Label Text="{Binding Name,  StringFormat='{0}'} " FontSize="Medium" />
-                                        <Label Text="{Binding Description, StringFormat='{0}'}" FontSize="15"/>
-                                    </StackLayout>
-                                </StackLayout>
+                                <Grid>
+                                    <Label Grid.Row="0" 
+                                           FontSize="15"
+                                           MinimumHeightRequest="20"
+                                           Text="{Binding Name,  StringFormat='{0}'} " />
+
+                                    <Label  Grid.Row="1"
+                                            FontSize="15"
+                                            MinimumHeightRequest="20"
+                                            Text="{Binding Description, StringFormat='{0}'}"/>
+                                </Grid>
                             </ViewCell>
+                          
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

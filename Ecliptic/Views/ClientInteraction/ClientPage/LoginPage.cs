@@ -15,6 +15,7 @@ using System.Net;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Essentials;
+using Ecliptic.Data;
 
 namespace Ecliptic.Views.ClientInteraction
 {
@@ -40,7 +41,7 @@ namespace Ecliptic.Views.ClientInteraction
                 LoginBox = new Entry
                 {
                     Text = "",
-                    Placeholder = "Имя",
+                    Placeholder = "Логин",
                     Keyboard = Keyboard.Default,
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
@@ -130,7 +131,10 @@ namespace Ecliptic.Views.ClientInteraction
                 Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
                 DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
-                DbService.AddNote(await new NoteService().GetClient(Client.CurrentClient.ClientId));
+                List<Note> clientnotes = await new NoteService().GetClient(Client.CurrentClient.ClientId);
+                RemoveDuplicateNote(clientnotes);
+                DbService.AddNote(clientnotes);
+
                 DbService.AddFavoriteRoom(await new FavRoomService().Get(Client.CurrentClient.ClientId));
 
                 GetClientPage();
@@ -140,6 +144,20 @@ namespace Ecliptic.Views.ClientInteraction
             {
                 await DisplayAlert("Ошибка", "Неверный логин или пароль", "OK");
                 return;
+            }
+        }
+
+        private void RemoveDuplicateNote(List<Note> notes)
+        {
+            foreach (var note in DbService.LoadAllNotes())
+            {
+                foreach (var clientnote in notes)
+                {
+                    if (note.NoteId == clientnote.NoteId)
+                    {
+                        DbService.RemoveNote(note);
+                    }
+                }
             }
         }
 

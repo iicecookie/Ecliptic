@@ -6,33 +6,16 @@
              Title="New Note">
 
     <ListView x:Name="RoomView"
-              ItemsSource="{Binding Room}"
-
-              
+              ItemsSource="{Binding FavoriteRoom}"
               BackgroundColor="#FFDAFFCD"
-              RowHeight="52"
               ItemTapped="RoomView_ItemTapped">
-
         <ListView.ItemTemplate>
-            
             <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout>
-                            <Label>
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Name,  StringFormat='  {0} '} " FontSize="Medium" />
-                                        <Span Text="{Binding Floor, StringFormat='  {0} Этаж'} " FontAttributes="Bold" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Text="{Binding Details, StringFormat='  {0} '}" FontSize="15"/>
-                        </StackLayout>
-                    </StackLayout>
-                </ViewCell>
+                <ImageCell Text  ="{Binding Name}"
+                               Detail="{Binding Details}"
+                               ImageSource="{Binding Icon}"
+                               TextColor="Black"/>
             </DataTemplate>
-            
         </ListView.ItemTemplate>
     </ListView>
 

@@ -42,7 +42,7 @@ namespace Ecliptic.Views.ClientInteraction
                 };
                 NoteCount = new Label
                 {
-                    Text = "У вас " + Client.CurrentClient.Notes.Count + " заметок и " + Client.CurrentClient.Favorites.Count + " избраных помещений",
+                    Text = "У вас " + Client.CurrentClient.Notes.Count + " заметок и " + Client.CurrentClient.Favorites.Count + " избраных",
                     Style = Device.Styles.ListItemTextStyle,
                     HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
