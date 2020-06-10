@@ -37,20 +37,21 @@ namespace Ecliptic.Views.RoomInform
 				{
 					// Stop analysis until we navigate away so we don't keep reading barcodes
 					zxing.IsAnalyzing = false;
-					zxing.IsScanning  = false;
+					// zxing.IsScanning = false;
 
 					// Show an alert
 					if (result.Text != null)
-						if (RoomData.isThatRoom(result.Text)!=null)
+						if (RoomData.isThatRoom(result.Text) != null)
 						{
-							await Shell.Current.GoToAsync($"roomdetails?name={result.Text}");
-							zxing.IsScanning  = true;
-							zxing.IsAnalyzing = true;
+							await Shell.Current.GoToAsync($"roomdetails?name={result.Text}"); zxing.IsAnalyzing = true;
 						}
 						else
 						{
-							await DisplayAlert("Scanned Barcode ", result.Text, "OK");
+							await DisplayAlert("Scanned Barcode ", result.Text, "OK"); zxing.IsAnalyzing = true;
 						}
+
+					// zxing.IsScanning = true;
+					zxing.IsAnalyzing = true;
 				});
 
 			overlay = new ZXingDefaultOverlay
