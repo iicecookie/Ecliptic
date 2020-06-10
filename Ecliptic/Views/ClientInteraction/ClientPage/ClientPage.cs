@@ -158,6 +158,7 @@ namespace Ecliptic.Views.ClientInteraction
 
                 #region addingrid
                 grid.Children.Add (roomname,     0, 0);
+                if(note.RoomId!=null)
                 grid.Children.Add (switchaccses, 1, 0);
                 grid.Children.Add (SaveBut,      2, 0);
                 grid.Children.Add (DeleBut,      3, 0);
@@ -230,6 +231,9 @@ namespace Ecliptic.Views.ClientInteraction
 
         public async void OnButtonSaveClicked(object sender, EventArgs args)
         {
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
+
             ImageButton btn = (ImageButton)sender;
             if (btn.AutomationId == "0") { return; }
 
@@ -274,6 +278,9 @@ namespace Ecliptic.Views.ClientInteraction
 
         public async void OnButtonDeleteClicked(object sender, EventArgs args)
         {
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
+
             ImageButton btn = (ImageButton)sender;
             if (btn.AutomationId == "0") { return; }
 
@@ -320,6 +327,9 @@ namespace Ecliptic.Views.ClientInteraction
         {
             Switch switcher = (Switch)sender;
             if (switcher.AutomationId == "0") { return; }
+
+            bool connect = await WebData.CheckConnection();
+            if  (connect == false) { return; }
 
             Note note = Client.FindNoteById(Int32.Parse(switcher.AutomationId));
             if  (note == null) return;

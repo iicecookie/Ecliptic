@@ -141,18 +141,9 @@ namespace Ecliptic.Views
 
         public async void Load()
         {
-            BuildingLoad = true;
-            WebData.CheckConnection();
-          //  if (CrossConnectivity.Current.IsConnected == false)
-          //  {
-          //      DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-          //      return;
-          //  }
-          //  bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-          //  if (!isRemoteReachable)
-          //  {
-          //      await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
-          //  }
+            BuildingLoad = true; 
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
 
             DependencyService.Get<IToast>().Show("Загрузка здания");
 

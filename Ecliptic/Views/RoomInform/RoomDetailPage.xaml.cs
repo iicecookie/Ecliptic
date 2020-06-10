@@ -232,62 +232,63 @@ namespace Ecliptic.Views
                     };
                     stackLayout.Children.Add(PublicNotelab);
 
-                    foreach (var i in NoteData.Notes)
+                    foreach (var i in Current.Notes)
                     {
-                        if (i.RoomId == Current.RoomId && i.Client == null)
+                        // if (i.RoomId == Current.RoomId// && i.Client == null
+                        //     )
+                        // {
+                        Grid grid = new Grid
                         {
-                            Grid grid = new Grid
-                            {
-                                RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
+                            RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
                                                        new RowDefinition {   Height = new GridLength(1, GridUnitType.Star) } },
 
-                                ColumnDefinitions =  { new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
+                            ColumnDefinitions =  { new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
                                                        new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Auto) }, },
-                                ColumnSpacing = 10,
-                                RowSpacing = 10,
-                            };
+                            ColumnSpacing = 10,
+                            RowSpacing = 10,
+                        };
 
-                            // возможно здание будет заменено на пользователя
-                            Label Clientlab = new Label
-                            {
-                                Text = "Добавил: " + i.Building.ToString(),
-                                TextColor= Color.Black,
-                                FontSize = 14,
-                                Style = Device.Styles.TitleStyle,
-                            };
-                            Label Datalab = new Label
-                            {
-                                Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
-                                TextColor = Color.Black,
-                                FontSize = 14,
-                                Style = Device.Styles.TitleStyle,
-                            };
-                            Label Textlab = new Label
-                            {
-                                Text = i.Text.ToString() ?? "wot",
-                                TextColor = Color.Black,
-                                HorizontalOptions = LayoutOptions.FillAndExpand,
-                                FontSize = 14,
-                                Style = Device.Styles.TitleStyle,
-                                AutomationId = i.NoteId.ToString(),
-                            };
+                        // возможно здание будет заменено на пользователя
+                        Label Clientlab = new Label
+                        {
+                            Text = "Добавил: " + i.Building.ToString(),
+                            TextColor = Color.Black,
+                            FontSize = 14,
+                            Style = Device.Styles.TitleStyle,
+                        };
+                        Label Datalab = new Label
+                        {
+                            Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
+                            TextColor = Color.Black,
+                            FontSize = 14,
+                            Style = Device.Styles.TitleStyle,
+                        };
+                        Label Textlab = new Label
+                        {
+                            Text = i.Text.ToString() ?? "wot",
+                            TextColor = Color.Black,
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                            FontSize = 14,
+                            Style = Device.Styles.TitleStyle,
+                            AutomationId = i.NoteId.ToString(),
+                        };
 
-                            grid.Children.Add(Clientlab, 0, 0);
-                            grid.Children.Add(Datalab, 1, 0);
-                            grid.Children.Add(Textlab, 0, 1);
-                            Grid.SetColumnSpan(Textlab, 2);
+                        grid.Children.Add(Clientlab, 0, 0);
+                        grid.Children.Add(Datalab, 1, 0);
+                        grid.Children.Add(Textlab, 0, 1);
+                        Grid.SetColumnSpan(Textlab, 2);
 
-                            Frame frame = new Frame()
-                            {
-                                BorderColor = Color.FromHex("#04006A"),
-                                BackgroundColor = backcolor,
-                                AutomationId = i.NoteId.ToString(),
-                                Content = grid,
-                            };
+                        Frame frame = new Frame()
+                        {
+                            BorderColor = Color.FromHex("#04006A"),
+                            BackgroundColor = backcolor,
+                            AutomationId = i.NoteId.ToString(),
+                            Content = grid,
+                        };
 
-                            stackLayout.Children.Add(frame);
-                        }
+                        stackLayout.Children.Add(frame);
                     }
+                    //  }
                 }
 
                 this.Content = new ScrollView { Content = stackLayout };
@@ -368,6 +369,9 @@ namespace Ecliptic.Views
 
         async void OnfaviriteClicked(object sender, EventArgs args)
         {
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
+
             if (Client.CurrentClient != null)
             {
                 FavoriteRoom room = Client.isRoomFavoit(Current);

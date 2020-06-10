@@ -37,16 +37,8 @@ namespace Ecliptic.Views
                 BuildingTitle.Text = "Загруженое здание: " + BuildingData.CurrentBuilding.Name.ToString();
             }
 
-            if (CrossConnectivity.Current.IsConnected == false)
-            {
-                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-                return;
-            }
-            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-            if (!isRemoteReachable)
-            {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
-            }
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
 
             if ((DateTime.Now - lastRequest).TotalSeconds > 20)
             {
@@ -76,15 +68,8 @@ namespace Ecliptic.Views
 
         public static async Task<List<Building>> LoadBuildingsAsync()
         {
-            if (CrossConnectivity.Current.IsConnected == false)
-            {
-                return null;
-            }
-            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-            if (!isRemoteReachable)
-            {
-                return null;
-            }
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return null;
 
             DbService.RemoveUncurrentBuildings();
             BuildingData.Buildings = new List<Building>();

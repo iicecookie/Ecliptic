@@ -34,24 +34,15 @@ namespace Ecliptic.Views.ClientNote
                 DependencyService.Get<IToast>().Show("Ну и зачем так делать?");
                 return;
             }
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
 
-            if (CrossConnectivity.Current.IsConnected == false)
-            {
-                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-                return;
-            }
-
-            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-            if (!isRemoteReachable)
-            {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
-            }
-
-            if (BuildingData.CurrentBuilding.Name == SearchBarBuilding.Text &&
-                RoomData.isThatRoom(SearchBarRoom.Text) != null)
-            {
-                roomnote = RoomData.isThatRoom(SearchBarRoom.Text);
-            }
+            if (BuildingData.CurrentBuilding != null)
+                if (BuildingData.CurrentBuilding.Name == SearchBarBuilding.Text &&
+                    RoomData.isThatRoom(SearchBarRoom.Text) != null)
+                {
+                    roomnote = RoomData.isThatRoom(SearchBarRoom.Text);
+                }
 
             NoteService noteService = new NoteService();
             Note note = await noteService.Add(new Note(NoteText.Text,

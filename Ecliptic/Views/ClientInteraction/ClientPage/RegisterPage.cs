@@ -132,12 +132,6 @@ namespace Ecliptic.Views.ClientInteraction
 
         public async void RegistrClient(object sender, EventArgs e)
         {
-            if (CrossConnectivity.Current.IsConnected == false)
-            {
-                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
-                return;
-            }
-
             if (RegisrationPage.NameBox.Text  == "" || RegisrationPage.LoginBox.Text == "" ||
                 RegisrationPage.PasswBox.Text == "" || RegisrationPage.PasswCheckBox.Text == "")
             {
@@ -149,11 +143,8 @@ namespace Ecliptic.Views.ClientInteraction
                 DependencyService.Get<IToast>().Show("Пароли не совпадают");   return;
             }
 
-            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-            if (!isRemoteReachable)
-            {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
-            }
+            bool connect = await WebData.CheckConnection();
+            if (connect == false) return;
 
             ClientService clientService = new ClientService();
 
