@@ -45,8 +45,8 @@ namespace Ecliptic.Repository
             WorkerData.Workers = RelationsWorkersRoom();
             RoomData  .Rooms   = RelationsRoomsWorker();
 
-            FloorData.Floors       = db.Floors   .ToList(); // db.Floors.Include(u => u.Building).ToList();
-            BuildingData.Buildings = db.Buildings.ToList(); // db.Buildings.Include(u => u.Floors).ToList();
+            FloorData   .Floors    = db.Floors   .ToList();
+            BuildingData.Buildings = db.Buildings.ToList();
 
             NoteData  .Notes   = LoadAllPublicNotes();
             PointData .Points  = LoadAllPoints();
@@ -87,8 +87,10 @@ namespace Ecliptic.Repository
             if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);   db.SaveChanges();
             BuildingData.CurrentBuilding = null;
 
-            if (Client.CurrentClient == null) db.Notes.RemoveRange(db.Notes);
-            else db.Notes.RemoveRange(db.Notes.Where(n => n.ClientId != Client.CurrentClient.ClientId));
+          //  if (Client.CurrentClient == null) db.Notes.RemoveRange(db.Notes);
+          //  else db.Notes.RemoveRange(db.Notes.Where(n => n.ClientId != Client.CurrentClient.ClientId));
+
+            db.Notes.RemoveRange(db.Notes);
 
             db.SaveChanges();
         }
@@ -418,7 +420,10 @@ namespace Ecliptic.Repository
 
         public static List<Note> LoadAllPublicNotes()
         {
-            return db.Notes.Where(s => s.isPublic == true && s.Client == null).ToList();
+            return db.Notes.Where(s => s.isPublic == true
+            && s.ClientId == null
+            )
+                .ToList();
         }
 
         #endregion

@@ -36,7 +36,7 @@ namespace Ecliptic.Views.ClientInteraction
                     Text = "Вход",
                     Style = Device.Styles.TitleStyle,
                     HorizontalOptions = LayoutOptions.Center,
-                }; 
+                };
 
                 LoginBox = new Entry
                 {
@@ -91,8 +91,8 @@ namespace Ecliptic.Views.ClientInteraction
             LoginPage.RegisBtn.Clicked += ToRegistrationPage;
 
             StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;      
- 
+            stackLayout.Margin = 20;
+
             stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
             stackLayout.Children.Add(LoginPage.TitleLab);
             stackLayout.Children.Add(LoginPage.LoginBox);
@@ -104,6 +104,8 @@ namespace Ecliptic.Views.ClientInteraction
             this.Content = stackLayout;
         }
 
+        private bool isLoading = false;
+
         public async void LoginIn(object sender, EventArgs e)
         {
             if (LoginPage.LoginBox.Text == "" || LoginPage.PasswBox.Text == "")
@@ -111,44 +113,55 @@ namespace Ecliptic.Views.ClientInteraction
                 DependencyService.Get<IToast>().Show("Введены не все поля");
                 return;
             }
-
-            if (CrossConnectivity.Current.IsConnected == false)
+            if (isLoading)
             {
-                DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+                DependencyService.Get<IToast>().Show("Пользователь уже загружается");
                 return;
             }
-
-            bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
-            if (!isRemoteReachable)
-            {
-                await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
-            }
+            WebData.CheckConnection();
+            // if (CrossConnectivity.Current.IsConnected == false)
+            //  {
+            //      DependencyService.Get<IToast>().Show("Устройство не подключено к сети");
+            //      return;
+            //  }
+            // bool isRemoteReachable = await CrossConnectivity.Current.IsRemoteReachable(WebData.ADRESS);
+            // if (!isRemoteReachable)
+            //  {
+            //      await DisplayAlert("Сервер не доступен", "Повторите попытку позже", "OK"); return;
+            //  }
+            isLoading = true;
 
             var client = await new ClientService().Authrization(LoginPage.LoginBox.Text, LoginPage.PasswBox.Text);
-
             if (client != null) // если сервер вернул данные пользователя - загрузить в пользователя
             {
                 Client.setClient(Int32.Parse(client["Id"]), client["Name"], client["Login"]);
                 DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
                 List<Note> clientnotes = await new NoteService().GetClient(Client.CurrentClient.ClientId);
-                RemoveDuplicateNote(clientnotes);
+                RemoveDuplicateNote  (clientnotes);
+                RemoveNonLoadedRoomId(clientnotes);
+
                 DbService.AddNote(clientnotes);
 
                 DbService.AddFavoriteRoom(await new FavRoomService().Get(Client.CurrentClient.ClientId));
 
+                isLoading = false;
                 GetClientPage();
                 return;
             }
             else
             {
                 await DisplayAlert("Ошибка", "Неверный логин или пароль", "OK");
+                isLoading = false;
                 return;
             }
         }
 
-        private void RemoveDuplicateNote(List<Note> notes)
+        public static void RemoveDuplicateNote  (List<Note> notes)
         {
+            if (notes == null) return;
+            if (DbService.LoadAllNotes().Count == 0 || notes.Count == 0) return;
+
             foreach (var note in DbService.LoadAllNotes())
             {
                 foreach (var clientnote in notes)
@@ -160,9 +173,29 @@ namespace Ecliptic.Views.ClientInteraction
                 }
             }
         }
+        public static void RemoveNonLoadedRoomId(List<Note> notes, List<Room> rooms= null)
+        {
+            if (notes == null) return;
+            if (notes.Count == 0) return;
+            if (rooms == null) { rooms = DbService.LoadAllRooms(); }
+
+            foreach (var note in notes)
+            {
+                // получаю комнату, о которой эта заметка
+                var room = rooms.FirstOrDefault(n => n.RoomId == note.RoomId);
+                // если такой нет - зануляю инедкс
+                if (room == null)
+                    note.RoomId = null;
+            }
+        }
 
         private void ToRegistrationPage(object sender, EventArgs e)
         {
+            if (isLoading)
+            {
+                DependencyService.Get<IToast>().Show("Дождитесь окончания загрузки");
+                return;
+            }
             GetRegistrationPage();
         }
     }

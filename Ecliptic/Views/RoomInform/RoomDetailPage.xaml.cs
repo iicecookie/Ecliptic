@@ -321,6 +321,8 @@ namespace Ecliptic.Views
             }
         }
 
+        // protected override bool OnBackButtonPressed() { Navigation.PopAsync(false); return true; }
+
         #region Buttons
 
         void clickphone(object sender, EventArgs args)
@@ -416,7 +418,7 @@ namespace Ecliptic.Views
 
         #endregion
 
-        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             // Shell.Current.GoToAsync($"buildingdetails?name={Current.Name}");
             // Navigation.PopAsync();
