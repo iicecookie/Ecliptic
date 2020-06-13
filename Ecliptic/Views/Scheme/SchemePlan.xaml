@@ -95,6 +95,7 @@
                             Grid.Row="0" Grid.Column="0"/>
 
                     <Picker x:Name="FloorPicker"
+                            x:FieldModifier="public"
                             Title="Выбор этажа"
                             SelectedIndexChanged="OnFloorPickerSelected"
                             ItemDisplayBinding="{Binding Level}"

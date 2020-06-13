@@ -48,51 +48,56 @@ namespace Ecliptic.Views
                                                      (float)(-point.Y + height));
         }
 
+        Floor CurrentFloor = null;
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (FloorPicker.ItemsSource == null)
-                FloorPicker.ItemsSource = FloorData.Floors;
+            //  if (FloorPicker.ItemsSource == null)
+            FloorPicker.ItemsSource = FloorData.Floors;
+
+            if (BuildingPage.isUpdate && FloorPicker.ItemsSource.Count > 0)
+            {
+                FloorPicker.SelectedIndex = 1;
+            }
 
             PointData.RoomPoints = PointData.Points.Where(p => p.Room != null).ToList();
 
             if (FloorPicker.SelectedItem == null && FloorData.Floors.Count > 0)
             {
-                FloorPicker.SelectedItem = FloorData.Floors.First();
+                CurrentFloor = FloorData.Floors.First();
+                FloorPicker.SelectedItem = CurrentFloor;
             }
 
             if (FloorPicker.SelectedItem != null)
             {
-                // загрузили стены
-                EdgeData.CurrentFloorWalls = EdgeData.Edges
-                    .Where(e => e.PointFrom.IsWaypoint == false)
-                    .Where(c => c.PointTo.Floor.Level == (FloorPicker.SelectedItem as Floor)?.Level)
-                    .ToList();
-
-                // 
-                PointData.CurrentFloorRoomPoints = PointData.Points
-                    .Where(p => p.Room != null)
-                    .Where(p => p.Floor.Level == (FloorPicker.SelectedItem as Floor)?.Level).ToList();
+                LoadFloorMap(CurrentFloor);
             }
         }
 
-        #region FloorChange
-        void OnFloorPickerSelected(object sender, EventArgs args)
-        {
-            int? selectedfloor = (FloorPicker?.SelectedItem as Floor)?.Level;
-            if ( selectedfloor == null) return;
-
+        private void LoadFloorMap(Floor floor)
+        {                
             // загрузили стены
             EdgeData.CurrentFloorWalls = EdgeData.Edges
                 .Where(e => e.PointFrom.IsWaypoint == false)
-                .Where(c => c.PointTo.Floor.Level == selectedfloor)
+                .Where(c => c.PointTo.Floor.Level == floor?.Level)
                 .ToList();
 
             // 
             PointData.CurrentFloorRoomPoints = PointData.Points
                 .Where(p => p.Room != null)
-                .Where(p => p.Floor.Level == selectedfloor).ToList();
+                .Where(p => p.Floor.Level == floor?.Level).ToList();
+        }
+
+        #region FloorChange
+        void OnFloorPickerSelected(object sender, EventArgs args)
+        {
+            CurrentFloor = FloorPicker?.SelectedItem as Floor;
+            int? selectedfloor = CurrentFloor?.Level;
+            if ( selectedfloor == null) return;
+
+            LoadFloorMap(CurrentFloor);
 
             // селектнули - отрисовали  
             canvasView.InvalidateSurface();
@@ -106,14 +111,14 @@ namespace Ecliptic.Views
                 return;
             }
 
-            // if (FloorPicker.SelectedItem == null) return;
+            int? prevlevel = CurrentFloor?.Level - 1;
+            if ( prevlevel == 0) prevlevel--;
 
-            int? prevlevel = (FloorPicker.SelectedItem as Floor)?.Level - 1;
-            if (prevlevel == 0) prevlevel--;
+            CurrentFloor = FloorData.GetFloor(prevlevel);
 
-            if (FloorData.GetFloor(prevlevel) != null)
+            if (CurrentFloor != null)
             {
-                FloorPicker.SelectedItem = FloorData.GetFloor(prevlevel);
+                FloorPicker.SelectedItem = CurrentFloor;
             }
             else
             {
@@ -128,14 +133,15 @@ namespace Ecliptic.Views
                 DependencyService.Get<IToast>().Show("Здание не загружено");
                 return;
             }
-            //  if (FloorPicker.SelectedItem == null) return;
 
-            int? nextlevel = (FloorPicker.SelectedItem as Floor)?.Level + 1;
+            int? nextlevel = CurrentFloor?.Level + 1;
             if ( nextlevel == 0) nextlevel++;
 
-            if (FloorData.GetFloor(nextlevel) != null)
+            CurrentFloor = FloorData.GetFloor(nextlevel);
+
+            if (CurrentFloor != null)
             {
-                FloorPicker.SelectedItem = FloorData.GetFloor(nextlevel);
+                FloorPicker.SelectedItem = CurrentFloor;
             }
             else
             {
@@ -193,10 +199,10 @@ namespace Ecliptic.Views
             SKCanvas canvas = surface.Canvas;
 
             canvas.Clear();
-
+            
             // Отображение рисунка
-            if (FloorPicker.SelectedItem != null)
-                bitmap.Paint(canvas, ((Floor)FloorPicker.SelectedItem).Level);
+            if (CurrentFloor != null)
+                bitmap.Paint(canvas, CurrentFloor.Level);
 
             // Отрисовка матрицы преобразования
             // SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);

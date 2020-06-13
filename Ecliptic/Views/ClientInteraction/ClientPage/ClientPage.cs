@@ -348,7 +348,7 @@ namespace Ecliptic.Views.ClientInteraction
                 if (note.isPublic) { DependencyService.Get<IToast>().Show("Заметка стала публичной"); }
                 else { DependencyService.Get<IToast>().Show("Заметка стала приватной"); }
 
-                GetClientPage();
+                // GetClientPage();
                 return;
             }
         }

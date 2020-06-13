@@ -216,7 +216,7 @@ namespace Ecliptic.Views
             DependencyService.Get<IToast>().Show("Здание загружено");
             DownloadBut.Text = "Обновить";
             BuildingLoad = false;
-
+            BuildingPage.isUpdate = true;
         }
 
         void clickSite(object sender, EventArgs args)

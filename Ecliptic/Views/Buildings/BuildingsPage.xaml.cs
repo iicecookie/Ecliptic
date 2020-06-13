@@ -27,6 +27,7 @@ namespace Ecliptic.Views
         }
 
         public static DateTime lastRequest;
+        public static bool isUpdate = false;
 
         protected async override void OnAppearing()
         {
