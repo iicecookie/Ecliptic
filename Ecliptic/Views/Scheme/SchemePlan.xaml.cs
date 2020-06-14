@@ -37,7 +37,8 @@ namespace Ecliptic.Views
         public SchemePlanPage(Room room) : this()
         {
             FloorPicker.ItemsSource = FloorData.Floors;
-            FloorPicker.SelectedItem = room.Floor;
+            CurrentFloor = room.Floor;
+            FloorPicker.SelectedItem = CurrentFloor;
 
             // селектнули - двинули  
             PointM point = PointData.Find(room);
