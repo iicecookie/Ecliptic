@@ -18,7 +18,11 @@ namespace Ecliptic.Views
         public RoomsPage()
         {
             InitializeComponent();
+
+            RoomGroup.UpdateList();
+
             this.BindingContext = this;
+
             allGroups = RoomGroup.All;
             UpdateListContent();
         }
@@ -26,8 +30,7 @@ namespace Ecliptic.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            RoomGroup.UpdateList();
+            //  RoomGroup.UpdateList();
             allGroups = RoomGroup.All;
             UpdateListContent();
         }
@@ -146,7 +149,7 @@ namespace Ecliptic.Views
             {
                 Groups.Add(r);
             }
-
+            
             All = Groups;
         }
 

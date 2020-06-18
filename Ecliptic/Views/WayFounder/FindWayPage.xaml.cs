@@ -26,12 +26,14 @@ namespace Ecliptic.Views
 
             if (Way.Begin != null)
             {
+                taped = true;
                 searchBar1.Text = Way.Begin.Name;
                 stackBar1.HeightRequest = 1;
                 searchResults1.ItemsSource = new List<Room>();
             }
             if (Way.End != null)
             {
+                taped = true;
                 searchBar2.Text = Way.End?.Name;
                 stackBar2.HeightRequest = 1;
                 searchResults2.ItemsSource = new List<Room>();

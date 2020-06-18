@@ -217,6 +217,8 @@ namespace Ecliptic.Views
             DownloadBut.Text = "Обновить";
             BuildingLoad = false;
             BuildingPage.isUpdate = true;
+
+            RoomGroup.UpdateList();
         }
 
         void clickSite(object sender, EventArgs args)
