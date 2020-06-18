@@ -60,7 +60,8 @@ namespace Ecliptic.Views
 
             if (BuildingPage.isUpdate && FloorPicker.ItemsSource.Count > 0)
             {
-                FloorPicker.SelectedIndex = 1;
+                FloorPicker.SelectedIndex = 1; 
+                BuildingPage.isUpdate = false;
             }
 
             PointData.RoomPoints = PointData.Points.Where(p => p.Room != null).ToList();
