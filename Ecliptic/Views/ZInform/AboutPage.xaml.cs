@@ -10,6 +10,8 @@ namespace Ecliptic.Views
                         new Command<string>(
                             (url) => Xamarin.Essentials.Launcher.CanOpenAsync(url));
 
+        public ICommand HelpCommand => new Command<string>((url) => Device.OpenUri(new Uri(url)));
+
         public AboutPage()
         {
             InitializeComponent();

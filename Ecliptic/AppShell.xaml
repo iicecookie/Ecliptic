@@ -77,7 +77,7 @@
                TargetType="Element"
                BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Shell.BackgroundColor"
-                    Value="#043951" />
+                    Value="#000000" />
         </Style>
 
     </Shell.Resources>
@@ -136,8 +136,11 @@
                   Icon="info.png"
                   ContentTemplate="{DataTemplate views:AboutPage}" />
 
+    <!-- 
     <MenuItem     Text="Техподдержка"
                   IconImageSource="help.png"
                   Command="{Binding HelpCommand}"
                   CommandParameter="https://vk.com/progksu" />
+    -->
+    
 </Shell>
