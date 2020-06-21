@@ -251,7 +251,7 @@ namespace Ecliptic.Views
                         // возможно здание будет заменено на пользователя
                         Label Clientlab = new Label
                         {
-                            Text = "Добавил: " + i.Building.ToString(),
+                            Text = "Добавил: " + i.ClientName?.ToString(),
                             TextColor = Color.Black,
                             FontSize = 14,
                             Style = Device.Styles.TitleStyle,
