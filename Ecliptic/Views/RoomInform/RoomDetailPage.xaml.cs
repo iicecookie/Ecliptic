@@ -251,11 +251,14 @@ namespace Ecliptic.Views
                         // возможно здание будет заменено на пользователя
                         Label Clientlab = new Label
                         {
-                            Text = "Добавил: " + i.ClientName?.ToString(),
+                            Text = "Добавил: ",
                             TextColor = Color.Black,
                             FontSize = 14,
                             Style = Device.Styles.TitleStyle,
                         };
+
+                        Clientlab.Text += i.ClientName == "" ? "Администратор" : i.ClientName;
+
                         Label Datalab = new Label
                         {
                             Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
