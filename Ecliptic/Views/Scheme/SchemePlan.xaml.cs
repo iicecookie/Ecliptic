@@ -116,10 +116,11 @@ namespace Ecliptic.Views
             int? prevlevel = CurrentFloor?.Level - 1;
             if ( prevlevel == 0) prevlevel--;
 
-            CurrentFloor = FloorData.GetFloor(prevlevel);
+            Floor Nextfloor = FloorData.GetFloor(prevlevel);
 
-            if (CurrentFloor != null)
+            if (Nextfloor != null)
             {
+                CurrentFloor = Nextfloor;
                 FloorPicker.SelectedItem = CurrentFloor;
             }
             else
@@ -139,10 +140,11 @@ namespace Ecliptic.Views
             int? nextlevel = CurrentFloor?.Level + 1;
             if ( nextlevel == 0) nextlevel++;
 
-            CurrentFloor = FloorData.GetFloor(nextlevel);
+            Floor Nextfloor = FloorData.GetFloor(nextlevel);
 
-            if (CurrentFloor != null)
+            if (Nextfloor != null)
             {
+                CurrentFloor = Nextfloor;
                 FloorPicker.SelectedItem = CurrentFloor;
             }
             else
