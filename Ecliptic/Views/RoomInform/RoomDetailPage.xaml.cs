@@ -167,6 +167,7 @@ namespace Ecliptic.Views
                                 FontSize = 14,
                                 Style = Device.Styles.TitleStyle,
                             };
+                            Clientlab.Text += i.isPublic ? " (Публиная)" : "";
                             Label Datalab = new Label
                             {
                                 Text = "в: " + string.Join("", i.Date.Take(8).ToArray()),
@@ -224,26 +225,34 @@ namespace Ecliptic.Views
                 // публичные заметки
                 if (Current.Notes.Count != 0)
                 {
-                    Label PublicNotelab = new Label
-                    {
-                        Text = "Общие заметки:",
-                        Style = Device.Styles.BodyStyle,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-                    stackLayout.Children.Add(PublicNotelab);
+                    bool title = true;
 
                     foreach (var i in Current.Notes)
                     {
-                        // if (i.RoomId == Current.RoomId// && i.Client == null
-                        //     )
-                        // {
+                        if (i.Client != null)
+                        {
+                            break;
+                        }
+
+                        if  (title)
+                        {
+                            Label PublicNotelab = new Label
+                            {
+                                Text = "Общие заметки:",
+                                Style = Device.Styles.BodyStyle,
+                                HorizontalOptions = LayoutOptions.Center
+                            };
+                            stackLayout.Children.Add(PublicNotelab);
+                            title = false;
+                        }
+
                         Grid grid = new Grid
                         {
                             RowDefinitions =     { new RowDefinition {   Height = new GridLength(30) },
-                                                       new RowDefinition {   Height = new GridLength(1, GridUnitType.Star) } },
+                                                   new RowDefinition {   Height = new GridLength(1, GridUnitType.Star) } },
 
                             ColumnDefinitions =  { new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
-                                                       new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Auto) }, },
+                                                   new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Auto) }, },
                             ColumnSpacing = 10,
                             RowSpacing = 10,
                         };
@@ -256,7 +265,6 @@ namespace Ecliptic.Views
                             FontSize = 14,
                             Style = Device.Styles.TitleStyle,
                         };
-
                         Clientlab.Text += i.ClientName == "" ? "Администратор" : i.ClientName;
 
                         Label Datalab = new Label
