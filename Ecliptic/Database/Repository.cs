@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Ecliptic.Database
 {
+    // реализация паттерна репозиторий
+    // в данный момент не приязано
+    // реализвать для более комфортного доступа к данным
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         DbContext _context;

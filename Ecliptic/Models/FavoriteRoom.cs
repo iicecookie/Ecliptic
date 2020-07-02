@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Ecliptic.Models
 {
+    // избранное помещения пользователя
+    // можно избавиться от этой сущьности реализовав связь много ко много между client и room (в core версии не так удобно)
     public class FavoriteRoom
     {
         public int FavoriteRoomId { get; set; }

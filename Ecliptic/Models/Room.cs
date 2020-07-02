@@ -11,15 +11,15 @@ namespace Ecliptic.Models
 
         public string Description { get;  set; } // описание
 
-        public string Timetable { get; set; } // расписание
+        public string Timetable { get; set; }   // расписание
         public string Phone     { get; set; }
         public string Site      { get; set; }
 
         public virtual int?  FloorId { get; set; }
         public virtual Floor Floor   { get; set; }
 
-        public virtual List<Worker> Workers { get; set; } // работники 
-        public virtual List<Note> Notes     { get; set; } // публичные заметки 
+        public virtual List<Worker> Workers { get; set; } // ответственные лица 
+        public virtual List<Note>   Notes   { get; set; } // публичные заметки о этом помещении 
 
         public Room()
         {
@@ -43,7 +43,7 @@ namespace Ecliptic.Models
             Site = site;
         }
 
-        // ПРОВЕРИТЬ ЭТУ ЧАСТИ
+        // Преобразовать помещение в избранное для пользователся
         public FavoriteRoom ToFavRoom(int Clientid)
         {
             return new FavoriteRoom(Name, Description, Floor.Building.Name, Clientid, RoomId);

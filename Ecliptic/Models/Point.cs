@@ -2,14 +2,15 @@
 
 namespace Ecliptic.Models
 {
+	// точки связывающие стены здания и ребра в маршруты
 	public class PointM
 	{
 		public int Id { get; set; }
 
 		public double X { get; set; }
-		public double Y { get; set; }
+		public double Y { get; set; } 
 
-		public bool  IsWaypoint { get; set; }
+		public bool  IsWaypoint { get; set; } // является ли точка маршрутной
 
 		public int?  FloorId { get; set; }
 		public Floor Floor   { get; set; }
@@ -17,8 +18,9 @@ namespace Ecliptic.Models
 		public int?  RoomId  { get; set; }
 		public Room  Room    { get; set; }
 
-		public virtual List<EdgeM> EdgesIn  { get; set; }
-		public virtual List<EdgeM> EdgesOut { get; set; }
+		public virtual List<EdgeM> EdgesIn  { get; set; } // связаные ребра
+		public virtual List<EdgeM> EdgesOut { get; set; } // списка 2 потому что иначе проблема с выгрузкой данных с базы
+		// нет разницы между первым и вторым списком т.к. граф неориентированый
 
 		public PointM()
 		{

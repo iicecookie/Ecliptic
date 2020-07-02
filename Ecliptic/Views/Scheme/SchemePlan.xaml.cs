@@ -28,19 +28,14 @@ namespace Ecliptic.Views
 
             this.bitmap = new TouchManipulationBitmap(bitmap);
             this.bitmap.TouchManager.Mode = TouchManipulationMode.ScaleRotate;
-
-            // if (PointData.Points.Count == 0)
-            // {
-            //     Shell.Current.GoToAsync($"buildings");
-            // }
         }
-        public SchemePlanPage(Room room) : this()
+        public SchemePlanPage(Room room) : this() // открытие схемы с фокусом на помещение
         {
             FloorPicker.ItemsSource = FloorData.Floors;
-            CurrentFloor = room.Floor;
-            FloorPicker.SelectedItem = CurrentFloor;
+            FloorData.CurrentFloor = room.Floor;
+            FloorPicker.SelectedItem = FloorData.CurrentFloor;
 
-            // селектнули - двинули  
+            // переместить матрицу на координаты помещения  
             PointM point = PointData.Find(room);
             float height = (float)DeviceDisplay.MainDisplayInfo.Height / 4;
             float width  = (float)DeviceDisplay.MainDisplayInfo.Width / 2;
@@ -49,62 +44,62 @@ namespace Ecliptic.Views
                                                      (float)(-point.Y + height));
         }
 
-        Floor CurrentFloor = null;
-
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            //  if (FloorPicker.ItemsSource == null)
             FloorPicker.ItemsSource = FloorData.Floors;
 
             if (BuildingPage.isUpdate && FloorPicker.ItemsSource.Count > 0)
             {
+                // если здание обновлено сбросить индекс до 1
                 FloorPicker.SelectedIndex = 1; 
                 BuildingPage.isUpdate = false;
             }
 
-            PointData.RoomPoints = PointData.Points.Where(p => p.Room != null).ToList();
-
             if (FloorPicker.SelectedItem == null && FloorData.Floors.Count > 0)
             {
-                CurrentFloor = FloorData.Floors.First();
-                FloorPicker.SelectedItem = CurrentFloor;
+                // загрузить этажи в селектор если там пусто
+                FloorData.CurrentFloor   = FloorData.Floors.First();
+                FloorPicker.SelectedItem = FloorData.CurrentFloor;
             }
 
             if (FloorPicker.SelectedItem != null)
             {
-                LoadFloorMap(CurrentFloor);
+                LoadFloorData(FloorData.CurrentFloor);
             }
+            PointData.RoomPoints = PointData.Points.Where(p => p.Room != null).ToList();
         }
 
-        private void LoadFloorMap(Floor floor)
+        // выборка стен и помещений для работы с меньшим объемом данных при отрисовки
+        private void LoadFloorData(Floor floor)
         {                
-            // загрузили стены
+            // загрузили стены этажа
             EdgeData.CurrentFloorWalls = EdgeData.Edges
                 .Where(e => e.PointFrom.IsWaypoint == false)
                 .Where(c => c.PointTo.Floor.Level == floor?.Level)
                 .ToList();
 
-            // 
+            // загрузили помещения этажа
             PointData.CurrentFloorRoomPoints = PointData.Points
                 .Where(p => p.Room != null)
                 .Where(p => p.Floor.Level == floor?.Level).ToList();
         }
 
         #region FloorChange
+        // событие выбора элемента в контроллере выбора этажа
         void OnFloorPickerSelected(object sender, EventArgs args)
         {
-            CurrentFloor = FloorPicker?.SelectedItem as Floor;
-            int? selectedfloor = CurrentFloor?.Level;
+            FloorData.CurrentFloor = FloorPicker?.SelectedItem as Floor;
+            int? selectedfloor = FloorData.CurrentFloor?.Level;
             if ( selectedfloor == null) return;
 
-            LoadFloorMap(CurrentFloor);
+            LoadFloorData(FloorData.CurrentFloor);
 
-            // селектнули - отрисовали  
+            // выбрали этаж - отрисовали  
             canvasView.InvalidateSurface();
         }
 
+        // нажатие кнопки переключения на предыдущий этаж
         private void OnStepedDown (object sender, EventArgs args)
         {
             if (FloorPicker.ItemsSource.Count == 0)
@@ -113,22 +108,23 @@ namespace Ecliptic.Views
                 return;
             }
 
-            int? prevlevel = CurrentFloor?.Level - 1;
+            int? prevlevel = FloorData.CurrentFloor?.Level - 1;
             if ( prevlevel == 0) prevlevel--;
 
             Floor Nextfloor = FloorData.GetFloor(prevlevel);
 
             if (Nextfloor != null)
             {
-                CurrentFloor = Nextfloor;
-                FloorPicker.SelectedItem = CurrentFloor;
+                FloorData.CurrentFloor = Nextfloor;
+                FloorPicker.SelectedItem = FloorData.CurrentFloor;
             }
             else
             {
                 DependencyService.Get<IToast>().Show("Вы на нижнем этаже");
             }
         }
-                                  
+          
+        // нажатие кнопки переключения на следующий этаж
         private void OnStepedUp   (object sender, EventArgs args)
         {
             if (FloorPicker.ItemsSource.Count == 0)
@@ -137,15 +133,15 @@ namespace Ecliptic.Views
                 return;
             }
 
-            int? nextlevel = CurrentFloor?.Level + 1;
+            int? nextlevel = FloorData.CurrentFloor?.Level + 1;
             if ( nextlevel == 0) nextlevel++;
 
             Floor Nextfloor = FloorData.GetFloor(nextlevel);
 
             if (Nextfloor != null)
             {
-                CurrentFloor = Nextfloor;
-                FloorPicker.SelectedItem = CurrentFloor;
+                FloorData.CurrentFloor = Nextfloor;
+                FloorPicker.SelectedItem = FloorData.CurrentFloor;
             }
             else
             {
@@ -196,6 +192,7 @@ namespace Ecliptic.Views
             }
         }
 
+        // вызов отрисовки схемы при взаимодействии со схемой
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             SKImageInfo info = args.Info;
@@ -205,8 +202,8 @@ namespace Ecliptic.Views
             canvas.Clear();
             
             // Отображение рисунка
-            if (CurrentFloor != null)
-                bitmap.Paint(canvas, CurrentFloor.Level);
+            if (FloorData.CurrentFloor != null)
+                bitmap.Paint(canvas, FloorData.CurrentFloor.Level);
 
             // Отрисовка матрицы преобразования
             // SKSize matrixSize = matrixDisplay.Measure(bitmap.Matrix);
@@ -217,9 +214,9 @@ namespace Ecliptic.Views
         }
 
         #region Toolbar
+        // возвращение в начальное положение схемы
         void RefrashMatrix(object sender, EventArgs args)
         {
-            // селектнули - отрисовали  
             bitmap.Matrix = SKMatrix.MakeIdentity();
 
             canvasView.InvalidateSurface();

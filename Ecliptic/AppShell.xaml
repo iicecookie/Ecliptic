@@ -8,8 +8,6 @@
        FlyoutBackgroundColor="#EAEAEA"
        FlyoutBackgroundImageAspect="AspectFill"
        FlyoutHeaderBehavior="CollapseOnScroll"
-       Navigating="OnNavigating"
-       Navigated ="OnNavigated"
        x:Class="Ecliptic.AppShell">
 
     <Shell.Resources>
@@ -135,12 +133,4 @@
                   Title="О приложении"
                   Icon="info.png"
                   ContentTemplate="{DataTemplate views:AboutPage}" />
-
-    <!-- 
-    <MenuItem     Text="Техподдержка"
-                  IconImageSource="help.png"
-                  Command="{Binding HelpCommand}"
-                  CommandParameter="https://vk.com/progksu" />
-    -->
-    
 </Shell>

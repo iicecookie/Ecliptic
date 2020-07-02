@@ -9,14 +9,11 @@ namespace Ecliptic.Models
 {
     public static class EdgeData
     {
-        // все
-        public static List<EdgeM> Edges { get; set; }
+        public static List<EdgeM> Edges { get; set; } // все ребра здания
 
-        // для стен
-        public static List<EdgeM> CurrentFloorWalls { get; set; }
+        public static List<EdgeM> CurrentFloorWalls { get; set; } // ребра стен текущего открытого этажа
 
-        // для маршрутов
-        public static List<EdgeM> Ways { get; set; }
+        public static List<EdgeM> Ways { get; set; } // список маршрутов здания
 
         static EdgeData()
         {
@@ -25,6 +22,12 @@ namespace Ecliptic.Models
             Ways = new List<EdgeM>();
         }
 
+       /// <summary>
+       /// Преобразование последовательности точек маршрута в последовательность ребер 
+       /// для отображения
+       /// и ее запись в текущий маршрут Ways
+       /// </summary>
+       /// <param name="path">Последовательность маршрутных точек в маршруте</param>
         static public void ConvertPathToWay(List<PointM> path)
         {
             Ways = new List<EdgeM>();

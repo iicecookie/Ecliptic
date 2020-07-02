@@ -23,6 +23,7 @@ namespace Ecliptic.Views.FavoriteRoomList
         {
             FavoriteRoom room = e.Item as FavoriteRoom;
 
+            // открыть данные помещения можно тлько если она есть в загруженом здании
             if (RoomData.isThatRoom(room))
             {
                 await Shell.Current.GoToAsync($"roomdetails?name={room.Name}");

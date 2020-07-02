@@ -77,6 +77,22 @@ namespace Ecliptic.Views.ClientInteraction
                     BorderColor = Color.Black,
                 };
             }
+
+            public StackLayout SetContent()
+            {
+                StackLayout stackLayout = new StackLayout();
+                stackLayout.Margin = 20;
+
+                stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
+                stackLayout.Children.Add(TitleLab);
+                stackLayout.Children.Add(LoginBox);
+                stackLayout.Children.Add(PasswBox);
+                stackLayout.Children.Add(LoginBtn);
+                stackLayout.Children.Add(RegisBtn);
+                stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
+
+                return stackLayout;
+            }
         }
 
         private LoginControls LoginPage;
@@ -90,18 +106,7 @@ namespace Ecliptic.Views.ClientInteraction
             LoginPage.LoginBtn.Clicked += LoginIn;
             LoginPage.RegisBtn.Clicked += ToRegistrationPage;
 
-            StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;
-
-            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
-            stackLayout.Children.Add(LoginPage.TitleLab);
-            stackLayout.Children.Add(LoginPage.LoginBox);
-            stackLayout.Children.Add(LoginPage.PasswBox);
-            stackLayout.Children.Add(LoginPage.LoginBtn);
-            stackLayout.Children.Add(LoginPage.RegisBtn);
-            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
-
-            this.Content = stackLayout;
+            this.Content = LoginPage.SetContent();
         }
 
         private bool isLoading = false;
@@ -131,8 +136,8 @@ namespace Ecliptic.Views.ClientInteraction
                 DbService.SaveClient(Client.CurrentClient); // сохранили пользователя
 
                 List<Note> clientnotes = await new NoteService().GetClient(Client.CurrentClient.ClientId);
-                RemoveDuplicateNote  (clientnotes);
-                RemoveNonLoadedRoomId(clientnotes);
+                RemoveDuplicateNote  (clientnotes); // если эта заметка уже загружена как публичная - удалить 
+                RemoveNonLoadedRoomId(clientnotes); // если заметка связаны с незагруженным помещением - отвязать
 
                 DbService.AddNote(clientnotes);
 

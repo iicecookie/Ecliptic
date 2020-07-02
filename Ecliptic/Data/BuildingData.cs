@@ -9,9 +9,9 @@ namespace Ecliptic.Models
 {
     public static class BuildingData
     {
-        public static List<Building> Buildings { get; set; }
+        public static List<Building> Buildings { get; set; } // список доступных в системе зданий 
 
-        public static Building CurrentBuilding { get; set; }
+        public static Building CurrentBuilding { get; set; } // текущее загруженое
  
         static BuildingData()
         {

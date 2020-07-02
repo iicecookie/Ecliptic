@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace Ecliptic.Database
 {
+    // интерфейс для работы в паттерне репозиторий
     public interface IRepository<TEntity> where TEntity : class
     {
         TEntity FindById(int id);

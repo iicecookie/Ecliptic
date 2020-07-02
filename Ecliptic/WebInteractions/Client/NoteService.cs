@@ -13,28 +13,21 @@ namespace Ecliptic.WebInteractions
     {
         const string Url = WebData.ADRESS + "api/Notes";
 
-        // настройка клиента
-        private HttpClient GetClient()
-        {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            return client;
-        }
-
-        // получаем все заметки здания
+        // получаем все публичные заметки о здании
         public async Task<List<Note>> GetPublic(int buildingid) // переделать
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             string result = await client.GetStringAsync(Url + "/" + buildingid);
             return JsonConvert.DeserializeObject<List<Note>>(result);
         }
 
+        // получить все заметки выбраного клиента
         public async Task<List<Note>> GetClient(int id)
         {
             Dictionary<string, int> req = new Dictionary<string, int>();
             req.Add("id", id);
 
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             var response = await client.PostAsync(Url + "/PostClientNote",
                 new StringContent(
                     JsonConvert.SerializeObject(req),
@@ -47,9 +40,10 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
+        // сохранить новую заметку
         public async Task<Note> Add(Note note)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             var response = await client.PostAsync(Url + "/PostAddNote",
                 new StringContent(
                     JsonConvert.SerializeObject(note),
@@ -62,10 +56,11 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
+        // обновить заметку
         public async Task<Note> Update(Note note)
         {
             note.Client = null;
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             var response = await client.PutAsync(Url + "/" + note.NoteId,
                 new StringContent(
                     JsonConvert.SerializeObject(note),
@@ -78,9 +73,10 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
+        // удалить заметку
         public async Task<Note> Delete(int id)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             var response = await client.DeleteAsync(Url + "/" + id);
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;

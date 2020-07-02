@@ -3,6 +3,7 @@ using SkiaSharp;
 
 namespace Ecliptic
 {
+    // класс отображения матрицы преобразования на схеме
     class MatrixDisplay
     {
         public SKPaint MatrixPaint { set; get; } = new SKPaint

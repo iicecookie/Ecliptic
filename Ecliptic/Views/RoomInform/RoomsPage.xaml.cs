@@ -30,7 +30,7 @@ namespace Ecliptic.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //  RoomGroup.UpdateList();
+
             allGroups = RoomGroup.All;
             UpdateListContent();
         }

@@ -13,7 +13,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace Ecliptic.Controls
 {
     public class BuildingSearchHandler : SearchHandler
-    {
+    {     
+        /// <summary>
+        /// При изменении текста панели ввода происходит обновление списка
+        /// </summary>
         protected override void OnQueryChanged(string oldValue, string newValue)
         {
             base.OnQueryChanged(oldValue, newValue);
@@ -31,6 +34,10 @@ namespace Ecliptic.Controls
             }
         }
 
+        /// <summary>
+        /// При выборе элемента в панели поиска происходит открытие страницы комнаты
+        /// </summary>
+        /// <param name="item">выбранный элемент</param>
         protected override async void OnItemSelected(object item)
         {
             base.OnItemSelected(item);

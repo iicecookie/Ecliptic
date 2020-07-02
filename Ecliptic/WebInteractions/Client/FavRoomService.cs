@@ -13,23 +13,18 @@ namespace Ecliptic.WebInteractions
     {
         const string Url = WebData.ADRESS + "/api/FavoriteRooms";
 
-        private HttpClient GetClient()
-        {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            return client;
-        }
-
+        // получить избраные помещения пользователя
         public async Task<List<FavoriteRoom>> Get(int id)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             string result = await client.GetStringAsync(Url + "/" + id);
             return JsonConvert.DeserializeObject<List<FavoriteRoom>>(result);
         }
 
+        // сохранить новое избраное помезение
         public async Task<FavoriteRoom> Add(FavoriteRoom room)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             var response = await client.PostAsync(Url,
                 new StringContent(
                     JsonConvert.SerializeObject(room),
@@ -42,18 +37,16 @@ namespace Ecliptic.WebInteractions
                 await response.Content.ReadAsStringAsync());
         }
 
+        // удалить избранное помещение 
         public async Task<bool> Delete(int id)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             var response = await client.DeleteAsync(Url + "/" + id);
 
             if (response.StatusCode == HttpStatusCode.OK)
                 return true;
 
             return false;
-
-            // return JsonConvert.DeserializeObject<FavoriteRoom>(
-            //   await response.Content.ReadAsStringAsync());  
         }
     }
 }

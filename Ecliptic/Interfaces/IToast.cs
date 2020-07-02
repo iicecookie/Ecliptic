@@ -6,6 +6,7 @@ namespace Ecliptic
 {
     public interface IToast
     {
+        // отображение всплывающего уведомления
         void Show(string message);
     }
 }

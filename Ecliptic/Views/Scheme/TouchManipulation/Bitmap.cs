@@ -32,6 +32,7 @@ namespace Ecliptic.Views
             TouchManager = new TouchManipulationManager { Mode = TouchManipulationMode.ScaleRotate };
         }
 
+        // кисти
         SKPaint wallpaint = new SKPaint
         {
             Color = SKColors.Black,
@@ -40,7 +41,7 @@ namespace Ecliptic.Views
             Style = SKPaintStyle.Stroke,
             StrokeCap = SKStrokeCap.Square,
             TextAlign = SKTextAlign.Center
-        };
+        }; // стен
         SKPaint textpaint = new SKPaint
         {
             TextSize = 36,
@@ -48,7 +49,7 @@ namespace Ecliptic.Views
             Color = SKColors.Blue,
             TextScaleX = 1.0f,
             TextAlign = SKTextAlign.Center,
-        };
+        }; // имен помещений
         SKPaint waypaint  = new SKPaint
         {
             TextSize = 64.0f,
@@ -57,7 +58,7 @@ namespace Ecliptic.Views
             TextScaleX = 1.0f,
             StrokeWidth = 5,
             TextAlign = SKTextAlign.Center,
-        };
+        }; // маршрутов
         SKPaint starpaint = new SKPaint
         {
             Typeface = SKFontManager.Default.MatchCharacter(StringUtilities.GetUnicodeCharacterCode("🚀", SKTextEncoding.Utf32)),
@@ -65,13 +66,13 @@ namespace Ecliptic.Views
             IsAntialias = true,
             TextScaleX = 1.0f,
             TextAlign = SKTextAlign.Center,
-        };
+        }; // спец эмоджи
 
+        // отрисока схемы этажа
         public void Paint(SKCanvas canvas, int floor)
         {
             canvas.Save();
             SKMatrix matrix = Matrix;
-
             canvas.Concat(ref matrix);
             canvas.DrawBitmap(bitmap, 0, 0);
 
@@ -90,7 +91,7 @@ namespace Ecliptic.Views
                                     (float)edge.PointTo.X,   (float)edge.PointTo.Y, waypaint);
             }
 
-            // рисуем имяна помещений
+            // рисуем имена помещений
             foreach (var point in PointData.CurrentFloorRoomPoints)
             {
                 if (point.Floor.Level == floor)
@@ -129,35 +130,9 @@ namespace Ecliptic.Views
                     if (Client.isRoomFavoit(point.Room) != null)
                         canvas.DrawText("⭐", (float)point.X, (float)point.Y + 42, starpaint);
 
-                    // canvas.DrawText(point.X.ToString() + " " + point.Y.ToString(),
-                    //                 (float)point.X, (float)point.Y + 42, textpaint);
-
                     canvas.Restore();
                 }
             }
-
-            // рисуем ст--------ены
-            // foreach (var edge in EdgeData.Edges)
-            // {
-            //     if (edge.PointFrom.Floor.Level == floor)
-            //     {
-            //         canvas.DrawLine((float)edge.PointFrom.X, (float)edge.PointFrom.Y,
-            //                         (float)edge.PointTo.X, (float)edge.PointTo.Y, starpaint);
-            // 
-            //         canvas.DrawText(edge.PointFrom.EdgesOut.Count.ToString(), 
-            //             (float)edge.PointFrom.X-23, (float)edge.PointFrom.Y, textpaint);
-            // 
-            //         canvas.DrawText(edge.PointFrom.EdgesIn.Count.ToString(),
-            //             (float)edge.PointFrom.X-23, (float)edge.PointFrom.Y+25, textpaint);
-            // 
-            // 
-            //         canvas.DrawText(edge.PointTo.EdgesOut.Count.ToString(),
-            //             (float)edge.PointTo.X, (float)edge.PointTo.Y, textpaint);
-            // 
-            //         canvas.DrawText(edge.PointTo.EdgesIn.Count.ToString(),
-            //             (float)edge.PointTo.X, (float)edge.PointTo.Y + 25, textpaint);
-            //     }
-            // }
 
             canvas.Restore();
         }
@@ -167,6 +142,11 @@ namespace Ecliptic.Views
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Проверка при нажатии на схему
+        /// </summary>
+        /// <param name="location">Точка прикосновения</param>
+        /// <returns>Помещение, если в месте нажатия было помещение</returns>
         public Room HitTest(SKPoint location)
         {
             SKMatrix inverseMatrix;
@@ -177,7 +157,6 @@ namespace Ecliptic.Views
 
                 foreach (var r in PointData.CurrentFloorRoomPoints)
                 {
-                    // сделать скелинг от матрицы, иначе при разных масштабах хер попадешь
                     SKRect rect = SKRect.Create((float)r.X - 25, (float)r.Y - 25, 50, 50);
 
                     if (rect.Contains(transformedPoint))

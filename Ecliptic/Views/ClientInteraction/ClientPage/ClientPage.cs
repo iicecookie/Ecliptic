@@ -83,100 +83,7 @@ namespace Ecliptic.Views.ClientInteraction
             // заметки пользователя
             foreach (var note in Client.CurrentClient.Notes)
             {
-                Grid grid = new Grid
-                {
-                    RowDefinitions    =  {
-                                     new RowDefinition { Height = new GridLength(30) },
-                                     new RowDefinition { Height = new GridLength(20) },
-                                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) } },
-                    ColumnDefinitions =  {
-                                     new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star) },
-                                     new ColumnDefinition { Width = new GridLength(50) },
-                                     new ColumnDefinition { Width = new GridLength(30) },
-                                     new ColumnDefinition { Width = new GridLength(30) } },
-                    ColumnSpacing = 10,
-                    RowSpacing = 10,
-                };
-
-                #region onenote
-                Switch switchaccses = new Switch
-                {
-                    IsToggled = note.isPublic,
-                    HorizontalOptions = LayoutOptions.End,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    AutomationId = note.NoteId.ToString(),
-                };
-
-                Label roomname     = new Label
-                {
-                    Text = note.RoomName.ToString(),
-                    FontSize = 14,
-                    Style = Device.Styles.TitleStyle,
-                };
-                Label buildingname = new Label
-                {
-                    Text = note.Building != "" ? "Здание " + note.Building.ToString() : "",
-                    FontSize = 14,
-                    Style = Device.Styles.TitleStyle,
-                };
-                Label datechanges  = new Label
-                {
-                    Text = " " + note.Date.ToString(),
-                    FontSize = 14,
-                    AutomationId = note.NoteId.ToString(),
-                    Style = Device.Styles.TitleStyle,
-                };
-
-                Editor text = new Editor
-                {
-                    AutoSize = EditorAutoSizeOption.TextChanges,
-                    Text = note.Text.ToString() ?? "wot",
-                    FontSize = 12,
-                    Style = Device.Styles.BodyStyle,
-                    AutomationId = note.NoteId.ToString(),
-                };
-
-                ImageButton SaveBut = new ImageButton
-                {
-                    Source = "save.png",
-                    AutomationId = note.NoteId.ToString(),
-                };
-                ImageButton DeleBut = new ImageButton
-                {
-                    Source = "delete.png",
-                    AutomationId = note.NoteId.ToString(),
-                };
-
-                ClientPage.Switches.Add(switchaccses);
-                ClientPage.Dates   .Add(datechanges);
-                ClientPage.Editors .Add(text);
-
-                switchaccses.Toggled += OnSwitched;
-                SaveBut.Clicked      += OnButtonSaveClicked;
-                DeleBut.Clicked      += OnButtonDeleteClicked;
-                #endregion
-
-                #region addingrid
-                grid.Children.Add (roomname,     0, 0);
-                if(note.RoomId!=null)
-                grid.Children.Add (switchaccses, 1, 0);
-                grid.Children.Add (SaveBut,      2, 0);
-                grid.Children.Add (DeleBut,      3, 0);
-                grid.Children.Add (datechanges,  1, 1);
-                Grid.SetColumnSpan(datechanges,  2);
-                grid.Children.Add (buildingname, 0, 1);
-                grid.Children.Add (text, 0, 2);
-                Grid.SetColumnSpan(text, 4);
-                #endregion
-
-                Frame frame = new Frame()
-                {
-                    BorderColor = Color.ForestGreen,
-                    AutomationId = note.NoteId.ToString(),
-                    Content = grid,
-                };
-
-                stackLayout.Children.Add(frame);
+                stackLayout.Children.Add(PaintNote(note));
             }
 
             stackLayout.Children.Add(ClientPage.LoginOutBtn);
@@ -217,6 +124,98 @@ namespace Ecliptic.Views.ClientInteraction
             #endregion
         }
 
+
+        private Frame PaintNote(Note note)
+        {
+            Label roomname     = new Label
+            {
+                Text = note.RoomName.ToString(),
+                FontSize = 14,
+                Style = Device.Styles.TitleStyle,
+            };
+            Label buildingname = new Label
+            {
+                Text = note.Building != "" ? "Здание " + note.Building.ToString() : "",
+                FontSize = 14,
+                Style = Device.Styles.TitleStyle,
+            };
+            Label lasuupdate  = new Label
+            {
+                Text = " " + note.Date.ToString(),
+                FontSize = 14,
+                AutomationId = note.NoteId.ToString(),
+                Style = Device.Styles.TitleStyle,
+            };
+
+            Switch ispublic = new Switch
+            {
+                IsToggled = note.isPublic,
+                HorizontalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                AutomationId = note.NoteId.ToString(),
+            };
+            ImageButton SaveBut = new ImageButton
+            {
+                Source = "save.png",
+                AutomationId = note.NoteId.ToString(),
+            };
+            ImageButton DeleBut = new ImageButton
+            {
+                Source = "delete.png",
+                AutomationId = note.NoteId.ToString(),
+            };
+
+            Editor text = new Editor
+            {
+                AutoSize = EditorAutoSizeOption.TextChanges,
+                Text = note.Text.ToString() ?? "wot",
+                FontSize = 12,
+                Style = Device.Styles.BodyStyle,
+                AutomationId = note.NoteId.ToString(),
+            };
+
+            ClientPage.Switches.Add(ispublic);
+            ClientPage.Dates   .Add(lasuupdate);
+            ClientPage.Editors .Add(text);
+
+            ispublic.Toggled += OnSwitched;
+            SaveBut.Clicked  += OnButtonSaveClicked;
+            DeleBut.Clicked  += OnButtonDeleteClicked;
+
+            Grid grid = new Grid
+            {
+                RowDefinitions =  {
+                                     new RowDefinition { Height = new GridLength(30) },
+                                     new RowDefinition { Height = new GridLength(20) },
+                                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) } },
+                ColumnDefinitions =  {
+                                     new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star) },
+                                     new ColumnDefinition { Width = new GridLength(50) },
+                                     new ColumnDefinition { Width = new GridLength(30) },
+                                     new ColumnDefinition { Width = new GridLength(30) } },
+                ColumnSpacing = 10,
+                RowSpacing = 10,
+            };
+
+            if (note.RoomId != null) grid.Children.Add(ispublic, 1, 0);
+            grid.Children.Add (buildingname, 0, 1);
+            grid.Children.Add (lasuupdate, 1, 1);
+            grid.Children.Add (roomname, 0, 0);
+            grid.Children.Add (SaveBut, 2, 0);
+            grid.Children.Add (DeleBut, 3, 0);
+            grid.Children.Add (text, 0, 2); 
+            Grid.SetColumnSpan(lasuupdate, 2);
+            Grid.SetColumnSpan(text, 4);
+
+            return new Frame()
+            {
+                BorderColor = Color.ForestGreen,
+                AutomationId = note.NoteId.ToString(),
+                Content = grid,
+            };
+        }
+
+
         public void GoLoginPage(object sender, EventArgs args)
         {
             this.ToolbarItems.Clear();
@@ -229,6 +228,8 @@ namespace Ecliptic.Views.ClientInteraction
             GetLoginPage();
         }
 
+
+        // Операции с заметкой
         public async void OnButtonSaveClicked(object sender, EventArgs args)
         {
             bool connect = await WebData.CheckConnection();

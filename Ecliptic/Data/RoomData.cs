@@ -11,23 +11,18 @@ namespace Ecliptic.Data
 {
     public static class RoomData
     {
-        public static List<Room> Rooms { get; set; }
+        public static List<Room> Rooms { get; set; } // помещения здания
 
         static RoomData()
         {
             Rooms = new List<Room>();
         }
 
-        public static bool isThatRoom(Room room)
-        {
-            foreach (var i in Rooms)
-            {
-                if (i.Equals(room))
-                    return true;
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Проверка, есть ли избранное помещение среди загруженных
+        /// </summary>
+        /// <param name="favorite">избранное помещение (со страницы избранных пользователя)</param>
+        /// <returns>статус избранности</returns>
         public static bool isThatRoom(FavoriteRoom favorite)
         {
             foreach (var room in Rooms)
@@ -40,6 +35,11 @@ namespace Ecliptic.Data
             return false;
         }
 
+        /// <summary>
+        /// Поиск помещения по его названию
+        /// </summary>
+        /// <param name="room">имя помещения</param>
+        /// <returns>ссылка на помещение</returns>
         public static Room isThatRoom(string room)
         {
             foreach (var i in Rooms)

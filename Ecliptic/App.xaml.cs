@@ -12,12 +12,15 @@ namespace Ecliptic
 {
     public partial class App : Application
     {
+        // выполняется при первом открытии приложения
         public App()
         {
             InitializeComponent();
 
+            // создать базу данных если ее еще нет
             DbService.RefrashDb(false);
          
+            // загрузить все данные из базы
             DbService.LoadAll();
 
             MainPage = new AppShell();

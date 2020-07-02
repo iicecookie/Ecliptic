@@ -13,18 +13,10 @@ namespace Ecliptic.WebInteractions
     {
         const string Url = WebData.ADRESS + "api/PointMs/";
 
-        // настройка клиента
-        private HttpClient GetClient()
-        {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            return client;
-        }
-
-        // получаем все точки здания
+        // получаем все точки выбраного здания
         public async Task<List<PointM>> GetPoints(int buildingid)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             string result = await client.GetStringAsync(Url + buildingid);
             return JsonConvert.DeserializeObject<List<PointM>>(result);
         }

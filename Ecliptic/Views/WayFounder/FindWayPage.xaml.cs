@@ -20,20 +20,21 @@ namespace Ecliptic.Views
             stackBar2.HeightRequest = 1;
         }
 
+        // установить начальные значения, если уже установлены помещения
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
             if (Way.Begin != null)
             {
-                taped = true;
+                taped = true; // установить, что бы установки имяни не произошел OnTextFromChanged
                 searchBar1.Text = Way.Begin.Name;
                 stackBar1.HeightRequest = 1;
                 searchResults1.ItemsSource = new List<Room>();
             }
             if (Way.End != null)
             {
-                taped = true;
+                taped = true; // установить, что бы установки имяни не произошел OnTextToChanged
                 searchBar2.Text = Way.End?.Name;
                 stackBar2.HeightRequest = 1;
                 searchResults2.ItemsSource = new List<Room>();
@@ -45,25 +46,27 @@ namespace Ecliptic.Views
         {
             if (taped == false)
             {
-                Way.Begin = null;
+                Way.Begin = null; // обнулить начало если изменение текста произошло не по выбору конкретного элемента
             }
-            SearchBar searchBar = (SearchBar)sender;
 
-            if (searchBar1.Text == "")
+            if (searchBar1.Text == "") // если текста нет - очистить список
             {
                 searchResults1.ItemsSource = new List<Room>();
                 stackBar1.HeightRequest = 1;
                 return;
             }
 
+            // иначе найти помещения, подходящие под описание
             var searchedrooms = RoomData.Rooms.Where(room => room.Name.ToLower().Contains(searchBar1.Text.ToLower()) ||
                                                      room .Description.ToLower().Contains(searchBar1.Text.ToLower())).ToList<Room>();
 
+            // если помещение одно, установить его как начало
             if (searchedrooms.Count == 1)
             {
                 Way.Begin = searchedrooms.First();
             }
 
+            // вывести результаты в список
             stackBar1.HeightRequest    = searchedrooms.Count() > 10 ? 200 : searchedrooms.Count() * 50;
             searchResults1.ItemsSource = searchedrooms;
             taped = false;
@@ -72,25 +75,27 @@ namespace Ecliptic.Views
         {
             if (taped == false)
             {
-                Way.End = null;
+                Way.End = null; // обнулить конец если изменение текста произошло не по выбору конкретного элемента
             }
-            SearchBar searchBar = (SearchBar)sender;
 
-            if (searchBar2.Text == "")
+            if (searchBar2.Text == "") // если текста нет - очистить список
             {
                 searchResults2.ItemsSource = new List<Room>();
                 stackBar2.HeightRequest = 1;
                 return;
             }
 
+            // иначе найти помещения, подходящие под описание
             var searchedrooms = RoomData.Rooms.Where(room => room.Name.ToLower().Contains(searchBar2.Text.ToLower()) ||
                                                      room.Description.ToLower().Contains(searchBar2.Text.ToLower())).ToList<Room>();
 
+            // если помещение одно, установить его как начало
             if (searchedrooms.Count == 1)
             {
                 Way.End = searchedrooms.First();
             }
 
+            // вывести результаты в список
             stackBar2.HeightRequest = searchedrooms.Count() > 10 ? 200 : searchedrooms.Count() * 50;
             searchResults2.ItemsSource = searchedrooms;
             taped = false;
@@ -98,7 +103,9 @@ namespace Ecliptic.Views
         #endregion
 
         #region ItemTapped
-        public bool taped   = false;
+        public bool taped   = false; // было ли последним действием выбор элемента из списка 
+
+        // выбор элемента из списка устанавливает его как начало/конец маршрута
         private void OnRoomFromTapped(object sender, ItemTappedEventArgs e)
         {
             taped = true;
@@ -136,9 +143,8 @@ namespace Ecliptic.Views
             List<PointM> path;
             try
             {
-                 path = new Dijkstra().
-                                                FindShortestPath(PointData.Find(Way.Begin),
-                                                                 PointData.Find(Way.End));
+                 path = new Dijkstra().FindShortestPath(PointData.Find(Way.Begin),
+                                                        PointData.Find(Way.End));
             }
             catch(NullReferenceException ex)
             {
@@ -146,16 +152,20 @@ namespace Ecliptic.Views
                 return;
             }
 
+            // преобразовать список точек в список ребер маршрута
             EdgeData.ConvertPathToWay(path);
 
+            // установить длину маршрута
             double way = 0;
             foreach(var w in EdgeData.Ways) { way += w.Weight; }
-            WayLarge.Text = "Длина пути " + way + " метов";
+            WayLarge.Text = "Длина пути " +   way + " метов";
             EndWayButton.IsVisible = true;
+
             taped = false;
             DependencyService.Get<IToast>().Show("Маршрут установлен");
         }
 
+        // очистить маршрут
         private void EndWay_Clicked(object sender, EventArgs e)
         {
             EdgeData.Ways= new List<EdgeM>();

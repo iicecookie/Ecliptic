@@ -11,19 +11,20 @@ namespace Ecliptic.Models
     {
         public int NoteId { get; set; }
 
-        public string Text { get; set; }
-        public string Date { get; set; }
-        public bool  isPublic { get; set; }
+        public string Text { get; set; } 
+        public string Date { get; set; }    // дата последнего изменения
+        public bool  isPublic { get; set; } // статус публичности
 
-        public string RoomName   { get; set; } // что бы знать если не загружено здание
-        public string Building   { get; set; } // нужна для прототы выборки заметок по зданию
+        public string RoomName   { get; set; } // имя помещения, для отображения, если не загружено здание
+        public string Building   { get; set; } // имя здания, для отображения, также для прототы выборки заметок по зданию на сервере в будущем
         public string ClientName { get; set; } // для публичных заметок, что бы знать чья она
 
         public virtual int? RoomId { get; set; }
-        public virtual Room Room   { get; set; }
+        public virtual Room Room   { get; set; } // связаное с заметкой помещение.
+        // нельзя сделать публичной несвязаное помещение и оно не будет отображаться на странице помещения
 
         public virtual int?   ClientId { get; set; }
-        public virtual Client Client   { get; set; }
+        public virtual Client Client   { get; set; } // автор заметки
 
         public Note() { }   
 
@@ -57,6 +58,7 @@ namespace Ecliptic.Models
                    ClientId == note.ClientId &&     // новые
                    Building == note.Building;
         }
+
         public object Clone()
         {
             return this.MemberwiseClone();

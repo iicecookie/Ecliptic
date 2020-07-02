@@ -14,22 +14,19 @@ namespace Ecliptic.WebInteractions
     { 
         const string Url = WebData.ADRESS + "api/Clients";
 
-        // настройка клиента
-        private HttpClient GetClient()
-        {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            return client;
-        }
-
-        // получаем пользователя
+        /// <summary>
+        /// Запрос на авторизацию пользователя в системе
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
+        /// <param name="pass"> Пароль</param>
+        /// <returns>Id,Login,Name пользователя в случае верных данных, иначе NULL</returns>
         public async Task<Dictionary<string, string>> Authrization(string login, string pass)
         {
             Dictionary<string, string> user = new Dictionary<string, string>();
             user.Add("Login", login);
             user.Add("Pass", pass);
 
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
 
             HttpResponseMessage response = await client.PostAsync(Url + "/PostAuthorization",
                                 new StringContent(
@@ -43,7 +40,13 @@ namespace Ecliptic.WebInteractions
                await response.Content.ReadAsStringAsync());
         }
 
-        // добавляем пользоваетля
+        /// <summary>
+        /// Запрос системе на регистрацию нового пользователя
+        /// </summary>
+        /// <param name="name">Имя</param>
+        /// <param name="login">Логин </param>
+        /// <param name="pass">Пароль</param>
+        /// <returns>Id,Login,Name пользователя в случае верных данных, иначе NULL</returns>
         public async Task<Dictionary<string, string>> Register(string name, string login, string pass)
         {
             Dictionary<string, string> user = new Dictionary<string, string>();
@@ -51,7 +54,7 @@ namespace Ecliptic.WebInteractions
             user.Add("Login", login);
             user.Add("Pass",  pass);
 
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             HttpResponseMessage response = await client.PostAsync(Url + "/PostRegister",
                                 new StringContent(
                                     JsonConvert.SerializeObject(user),

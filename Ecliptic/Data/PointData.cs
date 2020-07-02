@@ -10,10 +10,12 @@ namespace Ecliptic.Models
 {
     public static class PointData
     {
-        public static List<PointM> Points     { get; set; }
+        public static List<PointM> Points     { get; set; } // все точки стен здания
 
-        public static List<PointM> RoomPoints { get; set; }
-        public static List<PointM> CurrentFloorRoomPoints { get; set; }
+        public static List<PointM> RoomPoints { get; set; } // маршрутные точки, указывающие на помещения
+
+        public static List<PointM> CurrentFloorRoomPoints { get; set; } 
+        // маршрутные точки, указывающие на помещения текущего этажа (для производительности)
 
         static PointData()
         {
@@ -34,6 +36,11 @@ namespace Ecliptic.Models
             return null;
         }
 
+        /// <summary>
+        /// Поиск точки, к которому привязано помещение
+        /// </summary>
+        /// <param name="room">помещение для поиска</param>
+        /// <returns>маршрутная точка помещения</returns>
         static public PointM Find(Room room)
         {
             foreach (var i in RoomPoints)

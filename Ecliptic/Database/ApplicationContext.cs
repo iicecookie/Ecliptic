@@ -9,8 +9,9 @@ namespace Ecliptic.Repository
 {
     public class ApplicationContext : DbContext
     {
+        // списки подключенных таблиц
         public DbSet<Client>    Client     { get; set; }
-        public DbSet<Note>    Notes    { get; set; }
+        public DbSet<Note>      Notes    { get; set; }
         public DbSet<FavoriteRoom> FavoriteRooms { get; set; }
 
         public DbSet<Building> Buildings { get; set; }
@@ -18,9 +19,8 @@ namespace Ecliptic.Repository
         public DbSet<Room>     Rooms     { get; set; }
         public DbSet<Worker>   Workers   { get; set; }
 
-        public DbSet<PointM> Points { get; set; }
-        public DbSet<EdgeM>   Edges  { get; set; }
-
+        public DbSet<PointM>   Points { get; set; }
+        public DbSet<EdgeM>    Edges  { get; set; }
 
         private string databaseName;
 

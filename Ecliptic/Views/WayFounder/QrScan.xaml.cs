@@ -35,22 +35,21 @@ namespace Ecliptic.Views.RoomInform
 			zxing.OnScanResult += (result) =>
 				Device.BeginInvokeOnMainThread(async () =>
 				{
-					// Stop analysis until we navigate away so we don't keep reading barcodes
+					// Остановить анализ пока мы не вернемся на страницу
 					zxing.IsAnalyzing = false;
-					// zxing.IsScanning = false;
 
-					// Show an alert
 					if (result.Text != null)
 						if (RoomData.isThatRoom(result.Text) != null)
 						{
+							// если помещение с имянем на QR есть в системе - открыть его страницу
 							await Shell.Current.GoToAsync($"roomdetails?name={result.Text}"); zxing.IsAnalyzing = true;
 						}
 						else
 						{
-							await DisplayAlert("Scanned Barcode ", result.Text, "OK"); zxing.IsAnalyzing = true;
+							// иначе вывести содержимое кода
+							await DisplayAlert("Информация с кода: ", result.Text, "OK"); zxing.IsAnalyzing = true;
 						}
 
-					// zxing.IsScanning = true;
 					zxing.IsAnalyzing = true;
 				});
 
@@ -78,9 +77,7 @@ namespace Ecliptic.Views.RoomInform
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-
 			zxing.IsScanning = true;
-
 			var contentHolder = Content;
 			Content = null;
 			Content = contentHolder;
@@ -89,7 +86,6 @@ namespace Ecliptic.Views.RoomInform
 		protected override void OnDisappearing()
 		{
 			zxing.IsScanning = false;
-
 			base.OnDisappearing();
 		}
 	}

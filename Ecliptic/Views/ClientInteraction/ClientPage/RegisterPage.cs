@@ -30,8 +30,6 @@ namespace Ecliptic.Views.ClientInteraction
                 {
                     Text = "Заполните поля",
                     Style = Device.Styles.TitleStyle,
-                    //     FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                    //     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Center
                 };
 
@@ -43,7 +41,6 @@ namespace Ecliptic.Views.ClientInteraction
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                    //   FontAttributes = FontAttributes.Italic,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
@@ -55,7 +52,6 @@ namespace Ecliptic.Views.ClientInteraction
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                    // FontAttributes = FontAttributes.Italic,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
@@ -67,7 +63,6 @@ namespace Ecliptic.Views.ClientInteraction
                     TextColor = Color.Black,
                     PlaceholderColor = Color.Black,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                    // FontAttributes = FontAttributes.Italic,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
@@ -80,7 +75,6 @@ namespace Ecliptic.Views.ClientInteraction
                     PlaceholderColor = Color.Black,
                     IsPassword = true,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
-                    // FontAttributes = FontAttributes.Italic,
                     Style = Device.Styles.BodyStyle,
                     HorizontalOptions = LayoutOptions.Fill
                 };
@@ -100,6 +94,25 @@ namespace Ecliptic.Views.ClientInteraction
                     BorderColor = Color.Black,
                 };
             }
+
+            public ScrollView SetContent()
+            {
+                StackLayout stackLayout = new StackLayout();
+                stackLayout.Margin = 20;
+
+                stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
+                stackLayout.Children.Add(labelMessage);
+                stackLayout.Children.Add(NameBox);
+                stackLayout.Children.Add(LoginBox);
+                stackLayout.Children.Add(PasswBox);
+                stackLayout.Children.Add(PasswCheckBox);
+                stackLayout.Children.Add(RegisBtn);
+                stackLayout.Children.Add(LoginBtn);
+                stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
+
+                ScrollView scroll = new ScrollView { Content = stackLayout };
+                return scroll;
+            }
         }
 
         public RegisrationContrioolers RegisrationPage;
@@ -109,25 +122,11 @@ namespace Ecliptic.Views.ClientInteraction
             Title = "Зарегистрироваться";
 
             RegisrationPage = new RegisrationContrioolers();
-
-            StackLayout stackLayout = new StackLayout();
-            stackLayout.Margin = 20;
-
-
+            RegisrationPage.SetContent();
             RegisrationPage.RegisBtn.Clicked += RegistrClient;
             RegisrationPage.LoginBtn.Clicked += ToLoginPage;
 
-            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
-            stackLayout.Children.Add(RegisrationPage.labelMessage);
-            stackLayout.Children.Add(RegisrationPage.NameBox);
-            stackLayout.Children.Add(RegisrationPage.LoginBox);
-            stackLayout.Children.Add(RegisrationPage.PasswBox);
-            stackLayout.Children.Add(RegisrationPage.PasswCheckBox);
-            stackLayout.Children.Add(RegisrationPage.RegisBtn);
-            stackLayout.Children.Add(RegisrationPage.LoginBtn);
-            stackLayout.Children.Add(new BoxView { VerticalOptions = LayoutOptions.CenterAndExpand });
-
-            this.Content = new ScrollView { Content = stackLayout };
+            this.Content = new ScrollView { Content = RegisrationPage.SetContent() };
         }
 
         public async void RegistrClient(object sender, EventArgs e)
@@ -144,10 +143,11 @@ namespace Ecliptic.Views.ClientInteraction
             }
 
             bool connect = await WebData.CheckConnection();
-            if (connect == false) return;
+            if  (connect == false) return;
 
             ClientService clientService = new ClientService();
 
+            // отправка данных регистрации на сервер    
             var client = await clientService.
                 Register(RegisrationPage.NameBox.Text, RegisrationPage.LoginBox.Text, RegisrationPage.PasswBox.Text);
 

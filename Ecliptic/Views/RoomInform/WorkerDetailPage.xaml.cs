@@ -1,5 +1,6 @@
 ﻿using Ecliptic.Data;
 using Ecliptic.Models;
+using Ecliptic.Views.RoomInform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,6 @@ namespace Ecliptic.Views
 {
     public partial class WorkerDetailPage : ContentPage
     {
-        public string FirstName
-        {
-            set
-            {
-                BindingContext = WorkerData.Workers.FirstOrDefault(m => m.FirstName == "Celivans");//Uri.UnescapeDataString(value));
-            }
-        }
-
         Worker Current = null;
         
         public WorkerDetailPage()
@@ -39,7 +32,6 @@ namespace Ecliptic.Views
                 Current = WorkerData.GetWorker(words[0], words[1], words[2]);
 
             Title = Current.FirstName + " " + Current.SecondName;
-
             Color backcolor = Color.FromHex("#FAFAFA");
 
             if (Current != null)
@@ -124,70 +116,17 @@ namespace Ecliptic.Views
             this.Content = new ScrollView { Content = stackLayout };
         }
 
-        protected override void OnAppearing()
-        {
-
-
-        }
-
         void clickphone(object sender, EventArgs args)
         {
-            try
-            {
-                PhoneDialer.Open(Current.Phone);
-            }
-            catch (ArgumentNullException anEx)
-            {
-                // Number was null or white space
-                DependencyService.Get<IToast>().Show("Неверный номер " + anEx.Message);
-            }
-            catch (FeatureNotSupportedException ex)
-            {
-                // Phone Dialer is not supported on this device.
-                DependencyService.Get<IToast>().Show("Не потдерживается на вашем телефоне" + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                DependencyService.Get<IToast>().Show("Неизвесная ошибка " + ex.Message);
-            }
+            Essentials.CallPhone(Current.Phone);
         }
-
+        void clickSite(object sender, EventArgs args)
+        {
+            Essentials.OpenSite(Current.Site);
+        }
         async void clickmail(object sender, System.EventArgs e)
         {
-            List<string> toAddress = new List<string>();
-            toAddress.Add(Current.Email);
-
-            await SendEmail(toAddress);
+            await Essentials.SendEmail(Current.Email);
         }
-
-        public async Task SendEmail(List<string> recipients)
-        {
-            try
-            {
-                var message = new EmailMessage
-                {
-                    Subject = "",
-                    Body = "",
-                    To = recipients,
-                };
-                await Email.ComposeAsync(message);
-            }
-            catch (FeatureNotSupportedException fbsEx)
-            {
-                DependencyService.Get<IToast>().Show("не поддерживается на вашем устройстве");
-            }
-            catch (Exception ex)
-            {
-                DependencyService.Get<IToast>().Show("Произошла ошибка");
-            }
-        }
-        void clickSite (object sender, EventArgs args)
-        {
-            new System.Threading.Thread(() =>
-            {
-                Launcher.OpenAsync(new Uri(Current.Site));
-            }).Start();
-        }
-
     }
 }

@@ -12,7 +12,8 @@ namespace Ecliptic.Repository
     {
         private static ApplicationContext db = new ApplicationContext();
 
-        // реализация паттерна репозиторий
+        // при связывании паттерна раскоментировать
+        // и использовать эти интерфейсы для работы с базой данныъ
         // public static Repository<Building> buildings = new Repository<Building>(db);
         // public static Repository<Floor>    floors    = new Repository<Floor>   (db);
         // public static Repository<Room>     rooms     = new Repository<Room>    (db);
@@ -23,8 +24,10 @@ namespace Ecliptic.Repository
         // public static Repository<Note>     notes     = new Repository<Note>    (db);
         // public static Repository<FavoriteRoom> favorites = new Repository<FavoriteRoom>(db);
 
-        #region main
-
+        /// <summary>
+        /// Обновление базы данных
+        /// </summary>
+        /// <param name="delete">если true очитстить текущую базу</param>
         public static void RefrashDb(bool delete = false)
         {
             // Удаляем бд, если она существуеты
@@ -40,6 +43,9 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Загрузить все данные из базы в память (при запуске)
+        /// </summary>
         public static void LoadAll()
         {
             WorkerData.Workers = RelationsWorkersRoom();
@@ -61,6 +67,9 @@ namespace Ecliptic.Repository
                 LoadClientNotes(Client.CurrentClient);
             }
         }
+
+        #region building
+        // удалить все здания из списка доступных кроме текущего
         public static void RemoveUncurrentBuildings()
         {
             foreach (var building in BuildingData.Buildings)
@@ -71,13 +80,7 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
-        public static void UpdateCurrentBuilding(Building building)
-        {
-            if (building == null) return;
-            db.Buildings.Update(building);
-            db.SaveChanges();
-        }
-
+        // удалить данные текущего здания
         public static void RemoveCurrentBuilding()
         {
             if (db.Floors .Count() > 0) db.Floors .RemoveRange(db.Floors);  db.SaveChanges();
@@ -86,12 +89,7 @@ namespace Ecliptic.Repository
             if (db.Points .Count() > 0) db.Points .RemoveRange(db.Points);  db.SaveChanges();
             if (db.Edges  .Count() > 0) db.Edges  .RemoveRange(db.Edges);   db.SaveChanges();
             BuildingData.CurrentBuilding = null;
-
-          //  if (Client.CurrentClient == null) db.Notes.RemoveRange(db.Notes);
-          //  else db.Notes.RemoveRange(db.Notes.Where(n => n.ClientId != Client.CurrentClient.ClientId));
-
             db.Notes.RemoveRange(db.Notes);
-
             db.SaveChanges();
         }
 
@@ -203,6 +201,7 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
+        // явная загрузка связей между объектами
         public static List<Room> RelationsRoomsWorker()
         {
             return db.Rooms.Include(u => u.Workers).ToList();
@@ -259,6 +258,9 @@ namespace Ecliptic.Repository
             db.Points.Add(point);
             db.SaveChanges();
         }
+
+        // сохраняется после каждой 50й точки
+        // объем памяти для хранения не сохраненных данных ограничен, поетому нужно переодически сохранять данные
         public static void AddPoing(List<PointM> points)
         {
             if (points == null) return;
@@ -420,10 +422,7 @@ namespace Ecliptic.Repository
 
         public static List<Note> LoadAllPublicNotes()
         {
-            return db.Notes.Where(s => s.isPublic == true
-            && s.ClientId == null
-            )
-                .ToList();
+            return db.Notes.Where(s => s.isPublic == true&& s.ClientId == null).ToList();
         }
 
         #endregion
@@ -485,12 +484,12 @@ namespace Ecliptic.Repository
             db.SaveChanges();
         }
 
+        // подгрузка 
         public static List<Note> LoadClientNotes(Client client)
         {
             foreach (var i in db.Notes)
                 if (i.ClientId == client.ClientId)
-                {
-                }
+                {}
             return Client.CurrentClient.Notes;
         }
 

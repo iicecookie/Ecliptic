@@ -13,18 +13,10 @@ namespace Ecliptic.WebInteractions
     {
         const string Url = WebData.ADRESS + "api/Workers/";
 
-        // настройка клиента
-        private HttpClient GetClient()
-        {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            return client;
-        }
-
-        // получаем всех работников здания
+        // получаем всех работников выбраного здания
         public async Task<List<Worker>> GetWorkers(int buildingid)
         {
-            HttpClient client = GetClient();
+            HttpClient client = WebData.GetClient();
             string result = await client.GetStringAsync(Url + buildingid);
             return JsonConvert.DeserializeObject<List<Worker>>(result);
         }

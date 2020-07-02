@@ -34,9 +34,11 @@ namespace Ecliptic.Views.ClientNote
                 DependencyService.Get<IToast>().Show("Ну и зачем так делать?");
                 return;
             }
+
             bool connect = await WebData.CheckConnection();
             if (connect == false) return;
 
+            // если загружено здание и есть установленное помещение, создаем связь с помещением
             if (BuildingData.CurrentBuilding != null)
                 if (BuildingData.CurrentBuilding.Name == SearchBarBuilding.Text &&
                     RoomData.isThatRoom(SearchBarRoom.Text) != null)
@@ -45,6 +47,7 @@ namespace Ecliptic.Views.ClientNote
                 }
 
             NoteService noteService = new NoteService();
+            // посылаем заметку на сервер
             Note note = await noteService.Add(new Note(NoteText.Text,
                                                        SearchBarRoom.Text,
                                                        roomid: roomnote?.RoomId,
