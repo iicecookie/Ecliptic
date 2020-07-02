@@ -44,5 +44,5 @@
 
 ## Дополнительная информация
 
-[Полный отчет о разработке](https://drive.google.com/file/d/1k4RiyTx3p_kbIPJu56RMtnFqeJi88akx/view?usp=sharing)
-[Видео презентация проекта](https://youtu.be/fpVyglKXdBo)
++ [Полный отчет о разработке](https://drive.google.com/file/d/1k4RiyTx3p_kbIPJu56RMtnFqeJi88akx/view?usp=sharing)
++ [Видео презентация проекта](https://youtu.be/fpVyglKXdBo)
