@@ -42,5 +42,4 @@
 + Импортирование программы на Ios и Windows устройства
 + Релиз приложения в магазинах поддерживаемых платформ
 
-
-
+[Полный отчет о разработке](https://drive.google.com/file/d/1k4RiyTx3p_kbIPJu56RMtnFqeJi88akx/view?usp=sharing)
